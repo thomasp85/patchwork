@@ -1,0 +1,19 @@
+Package: patchwork
+Type: Package
+Title: The Composer of ggplots
+Version: 0.0.1
+Date: 2017-11-28
+Authors@R:
+    person(given = "Thomas Lin",
+           family = "Pedersen",
+           role = c("cre", "aut"),
+           email = "thomasp85@gmail.com")
+Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: ggplot2
+Remotes: tidyverse/ggplot2
+RoxygenNote: 6.0.1
