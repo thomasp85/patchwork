@@ -21,8 +21,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
 #' @importFrom stats na.omit
 assemble_grob <- function(x) {
-  pb <- lapply(x$plots, ggplot_build)
-  gt <- lapply(pb, ggplot_gtable)
+  gt <- lapply(x$plots, plot_table)
   gt <- lapply(gt, simplify_gt)
   dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   index_mat <- matrix(NA_integer_, ncol = dims[2], nrow = dims[1])
@@ -53,11 +52,23 @@ assemble_grob <- function(x) {
   gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
   gt_new
 }
+plot_table <- function(x) {
+  UseMethod('plot_table')
+}
+#' @importFrom ggplot2 ggplotGrob
+#' @export
+plot_table.ggplot <- function(x) {
+  gt <- ggplotGrob(x)
+  add_strips(gt)
+}
+#' @export
+plot_table.ggassemble <- function(x) {
+  assemble_grob(get_assemble(x))
+}
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols
 #' @importFrom ggplot2 find_panel
 #' @importFrom grid unit convertWidth convertHeight
 simplify_gt <- function(gt) {
-  gt <- add_strips(gt)
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)

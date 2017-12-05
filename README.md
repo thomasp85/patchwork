@@ -61,4 +61,25 @@ p1 + plot_spacer() + p2
 
 ![](man/figures/README-unnamed-chunk-4-1.png)
 
-This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, and nesting plots...
+You can make nested plots layout by wrapping part of the plots in parentheses - in these cases the layout is scoped to the different nesting levels
+
+``` r
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 <- ggplot(mtcars) + geom_bar(aes(carb))
+
+p4 + 
+  (
+    p1 + 
+      (
+        p2 + 
+          p3 + 
+          plot_layout(ncol = 1)
+      )
+  ) + 
+  plot_layout(ncol = 1)
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](man/figures/README-unnamed-chunk-5-1.png)
+
+This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...

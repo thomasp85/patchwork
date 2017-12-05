@@ -17,7 +17,10 @@
 #' p1 + plot_spacer() + p2
 #'
 plot_spacer <- function() {
-  ggplot() +
+  p <- ggplot() +
     theme_void() +
     theme(plot.background = element_rect(fill = NA, colour = NA))
+  class(p) <- c('spacer', class(p))
+  p
 }
+is.spacer <- function(x) inherits(x, 'spacer')

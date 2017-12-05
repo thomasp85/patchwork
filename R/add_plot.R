@@ -13,8 +13,9 @@ get_assemble <- function(plot) {
   } else {
     assemble <- new_assemble()
   }
-  assemble$plots[vapply(assemble$plots, is.filler, logical(1))] <- NULL
-  assemble$plots <- c(assemble$plots, list(plot))
+  if (!is.empty(plot)) {
+    assemble$plots <- c(assemble$plots, list(plot))
+  }
   assemble
 }
 is.ggassemble <- function(x) inherits(x, 'ggassemble')
@@ -28,11 +29,8 @@ as.ggassemble.ggplot <- function(plot, assemble) {
 }
 #' @importFrom ggplot2 ggplot
 as.ggassemble.ggassemble <- function(plot, assemble) {
-  assembles <- list(assemble, get_assemble(plot))
-  assemble <- new_assemble()
-  assemble$plots <- assembles
-  plot <- plot_filler()
-  as.ggassemble(plot, assemble)
+  assemble$plots <- c(assemble$plots, list(plot))
+  as.ggassemble(plot_filler(), assemble)
 }
 new_assemble <- function() {
   list(
@@ -42,8 +40,6 @@ new_assemble <- function() {
 }
 
 plot_filler <- function() {
-  p <- ggplot()
-  class(p) <- c('filler', class(p))
-  p
+  ggplot()
 }
-is.filler <- function(x) inherits(x, 'filler')
+is.empty <- function(x) !is.spacer(x) && length(x$layers) == 0
