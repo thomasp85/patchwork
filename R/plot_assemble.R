@@ -19,6 +19,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   invisible(x)
 }
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
+#' @importFrom stats na.omit
 assemble_grob <- function(x) {
   pb <- lapply(x$plots, ggplot_build)
   gt <- lapply(pb, ggplot_gtable)
@@ -94,6 +95,7 @@ simplify_gt <- function(gt) {
 }
 
 #' @importFrom grid convertHeight convertWidth unit unit.c
+#' @importFrom stats na.omit
 table_dims <- function(grobs, mat) {
   heights <- do.call(unit.c, lapply(seq_len(nrow(mat)), function(i) {
     ind <- na.omit(mat[i, ])
