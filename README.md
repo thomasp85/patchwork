@@ -53,4 +53,12 @@ p1 + p2 + plot_layout(ncol = 1, heights = c(3, 1))
 
 ![](man/figures/README-unnamed-chunk-3-1.png)
 
+If you need to add a bit of space between your plots you can use `plot_spacer()` to fill a cell in the grid with nothing
+
+``` r
+p1 + plot_spacer() + p2
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)
+
 This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, and nesting plots...
