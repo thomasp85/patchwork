@@ -23,7 +23,8 @@ A \code{plot_layout} object to be added to a \code{ggassmble} object
 }
 \description{
 In order to control how different plots are layed out, you need to add a
-layout specification.
+layout specification. If you are nesting grids, the layout is scoped to the
+current nesting level.
 }
 \examples{
 library(ggplot2)
@@ -43,5 +44,13 @@ p1 + p2 + p3 + p4 + p5 + plot_layout(byrow = FALSE)
 # Change the grid dimensions
 p1 + p2 + p3 + p4 + p5 + plot_layout(ncol = 2, widths = c(1, 2))
 
-
+# Define layout at different nesting levels
+p1 +
+  p2 +
+  (p3 +
+     p4 +
+     plot_layout(ncol = 1)
+  ) +
+  p5 +
+  plot_layout(widths = c(2, 1))
 }

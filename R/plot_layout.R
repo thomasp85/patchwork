@@ -1,7 +1,8 @@
 #' Define the grid to compose plots in
 #'
 #' In order to control how different plots are layed out, you need to add a
-#' layout specification.
+#' layout specification. If you are nesting grids, the layout is scoped to the
+#' current nesting level.
 #'
 #' @param ncol,nrow The dimensions of the grid to create - if both are `NULL` it
 #' will use the same logic as [facet_wrap()][ggplot2::facet_wrap] to set the
@@ -33,7 +34,15 @@
 #' # Change the grid dimensions
 #' p1 + p2 + p3 + p4 + p5 + plot_layout(ncol = 2, widths = c(1, 2))
 #'
-#'
+#' # Define layout at different nesting levels
+#' p1 +
+#'   p2 +
+#'   (p3 +
+#'      p4 +
+#'      plot_layout(ncol = 1)
+#'   ) +
+#'   p5 +
+#'   plot_layout(widths = c(2, 1))
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1) {
   structure(list(
     ncol = ncol,
