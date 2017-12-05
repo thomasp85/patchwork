@@ -19,5 +19,6 @@ Imports: ggplot2,
     grid
 Remotes: tidyverse/ggplot2
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues

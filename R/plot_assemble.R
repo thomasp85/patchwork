@@ -1,14 +1,37 @@
-#' @importFrom ggplot2 wrap_dims ggplot_build ggplot_gtable panel_rows panel_cols
+#' @importFrom ggplot2 wrap_dims
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @export
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   assemble <- get_assemble(x)
-  dims <- wrap_dims(length(assemble$plots))
-  pb <- lapply(assemble$plots, ggplot_build)
+  gtable <- assemble_grob(assemble)
+  if (newpage) grid.newpage()
+  if (is.null(vp)) {
+    grid.draw(gtable)
+  } else {
+    if (is.character(vp)) {
+      seekViewport(vp)
+    } else {
+      pushViewport(vp)
+    }
+    grid.draw(gtable)
+    upViewport()
+  }
+  invisible(x)
+}
+#' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
+assemble_grob <- function(x) {
+  pb <- lapply(x$plots, ggplot_build)
   gt <- lapply(pb, ggplot_gtable)
   gt <- lapply(gt, simplify_gt)
+  dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   index_mat <- matrix(NA_integer_, ncol = dims[2], nrow = dims[1])
-  index_mat[seq_along(gt)] <- seq_along(gt)
+  if (x$layout$byrow) {
+    index_mat <- t(index_mat)
+    index_mat[seq_along(gt)] <- seq_along(gt)
+    index_mat <- t(index_mat)
+  } else {
+    index_mat[seq_along(gt)] <- seq_along(gt)
+  }
   gt_new <- lapply(seq_len(nrow(index_mat)), function(i) {
     ind <- na.omit(index_mat[i, ])
     do.call(cbind, c(gt[ind], list(size = 'first')))
@@ -24,19 +47,10 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   p_rows <- panel_rows(gt_new)$t
   t_dims <- table_dims(gt, index_mat)
   gt_new$widths[-p_cols] <- t_dims$widths[-p_cols]
+  gt_new$widths[p_cols] <- unit(rep(x$layout$widths, lengths.out = dims[2]), 'null')
   gt_new$heights[-p_rows] <- t_dims$heights[-p_rows]
-  if (newpage) grid.newpage()
-  if (is.null(vp)) {
-    grid.draw(gt_new)
-  }
-  else {
-    if (is.character(vp))
-      seekViewport(vp)
-    else pushViewport(vp)
-    grid.draw(gt_new)
-    upViewport()
-  }
-  invisible(x)
+  gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
+  gt_new
 }
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols
 #' @importFrom ggplot2 find_panel

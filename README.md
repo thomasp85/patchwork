@@ -45,4 +45,12 @@ ggplot(mtcars) +
 
 ![](man/figures/README-unnamed-chunk-2-1.png)
 
-This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, defining layouts, and nesting plots...
+layouts can be specified by adding a `plot_layout()` call to the assemble. This lets you define the dimensions of the grid and how much space to allocate to the different rows and columns
+
+``` r
+p1 + p2 + plot_layout(ncol = 1, heights = c(3, 1))
+```
+
+![](man/figures/README-unnamed-chunk-3-1.png)
+
+This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, and nesting plots...
