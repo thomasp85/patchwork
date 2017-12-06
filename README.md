@@ -67,19 +67,57 @@ You can make nested plots layout by wrapping part of the plots in parentheses - 
 p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
 p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 
-p4 + 
-  (
-    p1 + 
-      (
-        p2 + 
-          p3 + 
-          plot_layout(ncol = 1)
-      )
-  ) + 
+p4 + {
+  p1 + {
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  }
+} +
   plot_layout(ncol = 1)
 #> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
 ![](man/figures/README-unnamed-chunk-5-1.png)
+
+### Advanced features
+
+In addition to adding plots and layouts together, `patchwork` defines some other operators that might be of interest. `/` will behave like `+` but put the left and right side in the same nesting level (as opposed to putting the right side into the left sides nesting level). Observe:
+
+``` r
+(p1 + p2) + p3 + plot_layout(ncol = 1)
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](man/figures/README-unnamed-chunk-6-1.png)
+
+this is basically the same as without braces (just like standard math arithmetic) - the plots are added sequentially to the same nesting level. Now look:
+
+``` r
+(p1 + p2) / p3 + plot_layout(ncol = 1)
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](man/figures/README-unnamed-chunk-7-1.png)
+
+Now `p1 + p2` and `p3` is on the same level...
+
+There are two additional operators that are used for a slightly different purpose, namely to reduce code repetition. Consider the case where you want to change the theme for all plots in an assemble. Instead of modifying all plots individually you can use `*` or `^` to add elements to all subplots. The two differ in that `*` will only affect the plots on the current nesting level:
+
+``` r
+(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](man/figures/README-unnamed-chunk-8-1.png)
+
+whereas `^` will recurse into nested levels:
+
+``` r
+(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) ^ theme_bw()
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](man/figures/README-unnamed-chunk-9-1.png)
 
 This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...
