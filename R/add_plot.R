@@ -6,6 +6,7 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
 }
 
 get_assemble <- function(plot) {
+  empty <- is.empty(plot)
   if (is.ggassemble(plot)) {
     assemble <- plot$assemble
     plot$assemble <- NULL
@@ -13,7 +14,7 @@ get_assemble <- function(plot) {
   } else {
     assemble <- new_assemble()
   }
-  if (!is.empty(plot)) {
+  if (!empty) {
     assemble$plots <- c(assemble$plots, list(plot))
   }
   assemble
