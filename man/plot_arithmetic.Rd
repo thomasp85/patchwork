@@ -7,15 +7,17 @@
 \alias{^.gg}
 \title{Plot arithmetic}
 \usage{
-p + p
-p / p
-p * gg
-p ^ gg
+\method{/}{ggplot}(e1, e2)
+
+\method{*}{gg}(e1, e2)
+
+\method{^}{gg}(e1, e2)
 }
 \arguments{
-\item{p}{A \code{ggplot} or \code{ggassemble} object}
+\item{e1}{A \code{ggplot} or \code{ggassemble} object}
 
-\item{gg}{A \code{gg} object such as a geom or theme specification}
+\item{e2}{A \code{ggplot} or \code{ggassemble} object in case of \code{/}, or a \code{gg} object
+such as a geom or theme specification in case of \code{*} and \code{^}}
 }
 \value{
 A \code{ggassemble} object

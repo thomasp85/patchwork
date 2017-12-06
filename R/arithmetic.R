@@ -20,14 +20,9 @@
 #' an assemble. `* ` will add the element to all plots in the current nesting
 #' level, while `^` will recurse into nested cells.
 #'
-#' @usage
-#' p + p
-#' p / p
-#' p * gg
-#' p ^ gg
-#'
-#' @param p A `ggplot` or `ggassemble` object
-#' @param gg A `gg` object such as a geom or theme specification
+#' @param e1 A `ggplot` or `ggassemble` object
+#' @param e2 A `ggplot` or `ggassemble` object in case of `/`, or a `gg` object
+#' such as a geom or theme specification in case of `*` and `^`
 #'
 #' @return A `ggassemble` object
 #'
@@ -55,7 +50,6 @@
 NULL
 
 #' @rdname plot_arithmetic
-#' @usage NULL
 #' @export
 "/.ggplot" <- function(e1, e2) {
   if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
@@ -70,7 +64,6 @@ NULL
   as.ggassemble(plot, assemble)
 }
 #' @rdname plot_arithmetic
-#' @usage NULL
 #' @export
 "*.gg" <- function(e1, e2) {
   if (is.ggassemble(e1)) {
@@ -82,7 +75,6 @@ NULL
   e1 + e2
 }
 #' @rdname plot_arithmetic
-#' @usage NULL
 #' @export
 "^.gg" <- function(e1, e2) {
   if (is.ggassemble(e1)) {
