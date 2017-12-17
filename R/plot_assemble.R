@@ -2,9 +2,11 @@
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @export
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
+  if (newpage) grid.newpage()
+
   assemble <- get_assemble(x)
   gtable <- assemble_grob(assemble)
-  if (newpage) grid.newpage()
+
   if (is.null(vp)) {
     grid.draw(gtable)
   } else {
