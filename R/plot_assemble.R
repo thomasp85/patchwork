@@ -65,10 +65,11 @@ plot_table.ggplot <- function(x) {
 plot_table.ggassemble <- function(x) {
   assemble_grob(get_assemble(x))
 }
-#' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols
+#' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols gtable_col gtable_row
 #' @importFrom ggplot2 find_panel
-#' @importFrom grid unit convertWidth convertHeight
+#' @importFrom grid unit convertWidth convertHeight grobWidth grobHeight
 simplify_gt <- function(gt) {
+  fixed_asp <- gt$respect
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)
@@ -90,7 +91,13 @@ simplify_gt <- function(gt) {
       ii <- i
     }
     table <- gt[i, p_cols]
-    if (length(table$grobs) != 0) gt_new <- gtable_add_grob(gt_new, table, ii, cols[1], clip = 'off', name = paste(table$layout$name, collapse = ', '))
+    if (length(table$grobs) != 0) {
+      grobname <- paste(table$layout$name, collapse = ', ')
+      if (fixed_asp) {
+        table <- gtable_col(grobname, list(table), grobWidth(panels$grobs[[1]]), unit(1, 'null'))
+      }
+      gt_new <- gtable_add_grob(gt_new, table, ii, cols[1], clip = 'off', name = grobname)
+    }
   }
   for (i in seq_len(ncol(gt))) {
     if (i >= cols[1]) {
@@ -100,7 +107,13 @@ simplify_gt <- function(gt) {
       ii <- i
     }
     table <- gt[p_rows, i]
-    if (length(table$grobs) != 0) gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = paste(table$layout$name, collapse = ', '))
+    if (length(table$grobs) != 0) {
+      grobname <- paste(table$layout$name, collapse = ', ')
+      if (fixed_asp) {
+        table <- gtable_row(grobname, list(table), unit(3, 'cm'), unit(1, 'null'))
+      }
+      gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = grobname)
+    }
   }
   gtable::gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels')
 }

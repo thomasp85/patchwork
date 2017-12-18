@@ -2,12 +2,18 @@
 % Please edit documentation in R/arithmetic.R
 \name{plot_arithmetic}
 \alias{plot_arithmetic}
+\alias{-.ggplot}
 \alias{/.ggplot}
+\alias{|.ggplot}
 \alias{*.gg}
 \alias{^.gg}
 \title{Plot arithmetic}
 \usage{
+\method{-}{ggplot}(e1, e2)
+
 \method{/}{ggplot}(e1, e2)
+
+\method{|}{ggplot}(e1, e2)
 
 \method{*}{gg}(e1, e2)
 
@@ -31,12 +37,19 @@ composition and reduce code-reuse.
 \code{patchwork} augment the \code{+} operator from \code{ggplot2} and allows the user to
 add full \code{ggplot} objects together in order to compose them into the same
 view. The last added plot is always the active one where new geoms etc. are
-added to. Another operator that is much like it, but no quite, is \code{/}. It
+added to. Another operator that is much like it, but no quite, is \code{-}. It
 also adds plots together but instead of adding the right hand side to the
 assemble defined in the left hand side, it puts the left hand side besides
 the right hand side in a new assemble. This might sound confusing, but in
-essence \code{/} ensures that the right and left side are put in the same nesting
-level (\code{+} puts the right side \emph{into} the left side).
+essence \code{-} ensures that the right and left side are put in the same nesting
+level (\code{+} puts the right side \emph{into} the left side). Using \code{-} might seem
+unintuitive if you think of the operator as "subtrack", but look at it as a
+hyphen instead (the underlying reason is that \code{-} is the only operator in the
+same precedence group as \code{+}).
+
+Often you are interested in creating single column or single row layouts.
+\code{patchwork} provides \code{|} (besides) and \code{/} (over) operators to support
+stacking and packing of plots. See the exampels for their use.
 
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
@@ -52,8 +65,12 @@ p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
 p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 
 # Standard addition vs division
-(p1 + p2) + p3 + plot_layout(ncol = 1) # same as p1 + p2 + p3...
-(p1 + p2) / p3 + plot_layout(ncol = 1)
+p1 + p2 + p3 + plot_layout(ncol = 1)
+p1 + p2 - p3 + plot_layout(ncol = 1)
+
+# Stacking and packing
+(p1 | p2 | p3) /
+      p4
 
 # Add elements to the same nesting level
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()

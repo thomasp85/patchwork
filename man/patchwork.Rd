@@ -4,7 +4,6 @@
 \name{patchwork}
 \alias{patchwork}
 \alias{patchwork-package}
-\alias{patchwork-package}
 \title{Add plots together}
 \description{
 The use and premise of \code{patchwork} is simple: Just add \code{ggplot2} plots
