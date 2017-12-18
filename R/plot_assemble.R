@@ -61,7 +61,8 @@ plot_table <- function(x) {
 #' @export
 plot_table.ggplot <- function(x) {
   gt <- ggplotGrob(x)
-  add_strips(gt)
+  gt <- add_strips(gt)
+  add_guides(gt)
 }
 #' @export
 plot_table.ggassemble <- function(x) {
@@ -128,10 +129,10 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
 simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
   p_rows <- seq(rows[1], rows[2])
   p_cols <- seq(cols[1], cols[2])
-  left <- gt$layout$l[grep('-l', gt$layout$name)]
-  right <- gt$layout$r[grep('-r', gt$layout$name)]
-  top <- gt$layout$t[grep('-t', gt$layout$name)]
-  bottom <- gt$layout$b[grep('-b', gt$layout$name)]
+  left <- gt$layout$l[grep('-l(-|$)', gt$layout$name)]
+  right <- gt$layout$r[grep('-r(-|$)', gt$layout$name)]
+  top <- gt$layout$t[grep('-t(-|$)', gt$layout$name)]
+  bottom <- gt$layout$b[grep('-b(-|$)', gt$layout$name)]
   # Add strips, axes and labels to panel grob
   if (length(left) != 0 && min(left) < cols[1]) {
     left_grob <- gt[p_rows, seq(min(left), cols[1] - 1)]
@@ -224,17 +225,77 @@ table_dims <- function(grobs, mat) {
 #' @importFrom ggplot2 find_panel
 add_strips <- function(gt) {
   panel_loc <- find_panel(gt)
+  strip_pos <- switch(
+    find_strip_pos(gt),
+    inside = 0,
+    outside = 2
+  )
   if (!any(grepl('strip-b', gt$layout$name))) {
-    gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$b)
+    gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$b + strip_pos)
   }
   if (!any(grepl('strip-t', gt$layout$name))) {
-    gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$t - 1)
+    gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$t - 1 - strip_pos)
   }
   if (!any(grepl('strip-r', gt$layout$name))) {
-    gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$r)
+    gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$r + strip_pos)
   }
   if (!any(grepl('strip-l', gt$layout$name))) {
-    gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$l - 1)
+    gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$l - 1 - strip_pos)
   }
   gt
+}
+
+add_guides <- function(gt) {
+  panel_loc <- find_panel(gt)
+  guide_loc <- gt$layout[gt$layout$name == 'guide-box', ]
+  guide_pos <- if (nrow(guide_loc) == 0) {
+    'none'
+  } else {
+    if (panel_loc$t == guide_loc$t) {
+      if (panel_loc$l > guide_loc$l) {
+        'left'
+      } else {
+        'right'
+      }
+    } else {
+      if (panel_loc$t > guide_loc$t) {
+        'top'
+      } else {
+        'bottom'
+      }
+    }
+  }
+  if (guide_pos != 'left') {
+    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$l - 5)
+  }
+  if (guide_pos != 'right') {
+    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$r + 6)
+  }
+  if (guide_pos != 'top') {
+    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$t - 5)
+  }
+  if (guide_pos != 'bottom') {
+    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$b + 6)
+  }
+  gt
+}
+find_strip_pos <- function(gt) {
+  panel_loc <- find_panel(gt)
+  ind <- grep('strip-t', gt$layout$name)
+  if (length(ind) != 0 && panel_loc$t - min(gt$layout$t[ind]) != 1) {
+    return('outside')
+  }
+  ind <- grep('strip-r', gt$layout$name)
+  if (length(ind) != 0 && max(gt$layout$r[ind]) - panel_loc$r != 1) {
+    return('outside')
+  }
+  ind <- grep('strip-b', gt$layout$name)
+  if (length(ind) != 0 &&  max(gt$layout$b[ind]) - panel_loc$b != 1) {
+    return('outside')
+  }
+  ind <- grep('strip-l', gt$layout$name)
+  if (length(ind) != 0 && panel_loc$l - min(gt$layout$l[ind]) != 1) {
+    return('outside')
+  }
+  'inside'
 }
