@@ -5,7 +5,7 @@ patchwork
 
 [![Travis-CI Build Status](https://travis-ci.org/thomasp85/patchwork.svg?branch=master)](https://travis-ci.org/thomasp85/patchwork) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/patchwork?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/patchwork) [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
 
-The goal of `patchwork` is to make it ridiculously simple to combine separate ggplots into the same graphic. As such it tries to solve the same problem as `gridExtra::grid.arrange()` but using an API that incites exploration and iteration.
+The goal of `patchwork` is to make it ridiculously simple to combine separate ggplots into the same graphic. As such it tries to solve the same problem as `gridExtra::grid.arrange()` and `cowplot::plot_grid` but using an API that incites exploration and iteration.
 
 Installation
 ------------
@@ -75,18 +75,16 @@ p4 + {
   }
 } +
   plot_layout(ncol = 1)
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
 ![](man/figures/README-unnamed-chunk-5-1.png)
 
 ### Advanced features
 
-In addition to adding plots and layouts together, `patchwork` defines some other operators that might be of interest. `/` will behave like `+` but put the left and right side in the same nesting level (as opposed to putting the right side into the left sides nesting level). Observe:
+In addition to adding plots and layouts together, `patchwork` defines some other operators that might be of interest. `-` will behave like `+` but put the left and right side in the same nesting level (as opposed to putting the right side into the left sides nesting level). Observe:
 
 ``` r
-(p1 + p2) + p3 + plot_layout(ncol = 1)
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+p1 + p2 + p3 + plot_layout(ncol = 1)
 ```
 
 ![](man/figures/README-unnamed-chunk-6-1.png)
@@ -94,30 +92,38 @@ In addition to adding plots and layouts together, `patchwork` defines some other
 this is basically the same as without braces (just like standard math arithmetic) - the plots are added sequentially to the same nesting level. Now look:
 
 ``` r
-(p1 + p2) / p3 + plot_layout(ncol = 1)
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+p1 + p2 - p3 + plot_layout(ncol = 1)
 ```
 
 ![](man/figures/README-unnamed-chunk-7-1.png)
 
 Now `p1 + p2` and `p3` is on the same level...
 
+> A note on semantics. If `-` is read as *subtrack* its use makes little sense as we are not removing plots. Think of it as a hyphen instead...
+
+Often you are interested in just putting plots besides or on top of each other. `patchwork` provides both `|` and `/` for horizontal and vertical layouts respectively. They can of course be combined for a very readable layout syntax:
+
+``` r
+(p1 | p2 | p3) /
+      p4
+```
+
+![](man/figures/README-unnamed-chunk-8-1.png)
+
 There are two additional operators that are used for a slightly different purpose, namely to reduce code repetition. Consider the case where you want to change the theme for all plots in an assemble. Instead of modifying all plots individually you can use `*` or `^` to add elements to all subplots. The two differ in that `*` will only affect the plots on the current nesting level:
 
 ``` r
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)
+![](man/figures/README-unnamed-chunk-9-1.png)
 
 whereas `^` will recurse into nested levels:
 
 ``` r
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) ^ theme_bw()
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)
+![](man/figures/README-unnamed-chunk-10-1.png)
 
 This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...
