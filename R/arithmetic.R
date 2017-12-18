@@ -24,8 +24,8 @@
 #'
 #' In order to reduce code repetition `patchwork` provides two operators for
 #' adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-#' an assemble. `* ` will add the element to all plots in the current nesting
-#' level, while `^` will recurse into nested cells.
+#' an assemble. `&& ` will add the element to all plots in the current nesting
+#' level, while `&` will recurse into nested cells.
 #'
 #' @param e1 A `ggplot` or `ggassemble` object
 #' @param e2 A `ggplot` or `ggassemble` object in case of `/`, or a `gg` object
@@ -98,7 +98,7 @@ NULL
 }
 #' @rdname plot_arithmetic
 #' @export
-"*.gg" <- function(e1, e2) {
+"&&.gg" <- function(e1, e2) {
   if (is.ggassemble(e1)) {
     e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
       if (!is.ggassemble(p)) p <- p + e2
@@ -109,11 +109,11 @@ NULL
 }
 #' @rdname plot_arithmetic
 #' @export
-"^.gg" <- function(e1, e2) {
+"&.gg" <- function(e1, e2) {
   if (is.ggassemble(e1)) {
     e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
       if (is.ggassemble(p)) {
-        p <- p ^ e2
+        p <- p & e2
       } else {
         p <- p + e2
       }

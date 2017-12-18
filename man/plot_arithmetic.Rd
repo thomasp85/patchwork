@@ -5,8 +5,8 @@
 \alias{-.ggplot}
 \alias{/.ggplot}
 \alias{|.ggplot}
-\alias{*.gg}
-\alias{^.gg}
+\alias{&&.gg}
+\alias{&.gg}
 \title{Plot arithmetic}
 \usage{
 \method{-}{ggplot}(e1, e2)
@@ -15,9 +15,9 @@
 
 \method{|}{ggplot}(e1, e2)
 
-\method{*}{gg}(e1, e2)
+"&&.gg"(e1, e2)
 
-\method{^}{gg}(e1, e2)
+\method{&}{gg}(e1, e2)
 }
 \arguments{
 \item{e1}{A \code{ggplot} or \code{ggassemble} object}
@@ -37,7 +37,7 @@ composition and reduce code-reuse.
 \code{patchwork} augment the \code{+} operator from \code{ggplot2} and allows the user to
 add full \code{ggplot} objects together in order to compose them into the same
 view. The last added plot is always the active one where new geoms etc. are
-added to. Another operator that is much like it, but no quite, is \code{-}. It
+added to. Another operator that is much like it, but not quite, is \code{-}. It
 also adds plots together but instead of adding the right hand side to the
 assemble defined in the left hand side, it puts the left hand side besides
 the right hand side in a new assemble. This might sound confusing, but in
@@ -53,8 +53,8 @@ stacking and packing of plots. See the exampels for their use.
 
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-an assemble. \code{*} will add the element to all plots in the current nesting
-level, while \code{^} will recurse into nested cells.
+an assemble. \code{&amp;&amp;} will add the element to all plots in the current nesting
+level, while \code{&amp;} will recurse into nested cells.
 }
 \examples{
 library(ggplot2)
