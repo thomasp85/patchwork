@@ -126,4 +126,6 @@ p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
 
 ![](man/figures/README-unnamed-chunk-10-1.png)
 
+> Note that parenthesis is required in the former case due to higher precedence of the `*` operator. The latter case is the most common so it has deserved the easiest use.
+
 This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...
