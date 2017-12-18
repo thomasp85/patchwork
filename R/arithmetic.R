@@ -8,7 +8,7 @@
 #' `patchwork` augment the `+` operator from `ggplot2` and allows the user to
 #' add full `ggplot` objects together in order to compose them into the same
 #' view. The last added plot is always the active one where new geoms etc. are
-#' added to. Another operator that is much like it, but no quite, is `-`. It
+#' added to. Another operator that is much like it, but not quite, is `-`. It
 #' also adds plots together but instead of adding the right hand side to the
 #' assemble defined in the left hand side, it puts the left hand side besides
 #' the right hand side in a new assemble. This might sound confusing, but in
