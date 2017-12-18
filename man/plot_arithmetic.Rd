@@ -37,7 +37,7 @@ composition and reduce code-reuse.
 \code{patchwork} augment the \code{+} operator from \code{ggplot2} and allows the user to
 add full \code{ggplot} objects together in order to compose them into the same
 view. The last added plot is always the active one where new geoms etc. are
-added to. Another operator that is much like it, but no quite, is \code{-}. It
+added to. Another operator that is much like it, but not quite, is \code{-}. It
 also adds plots together but instead of adding the right hand side to the
 assemble defined in the left hand side, it puts the left hand side besides
 the right hand side in a new assemble. This might sound confusing, but in
