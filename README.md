@@ -110,7 +110,7 @@ Often you are interested in just putting plots besides or on top of each other. 
 
 ![](man/figures/README-unnamed-chunk-8-1.png)
 
-There are two additional operators that are used for a slightly different purpose, namely to reduce code repetition. Consider the case where you want to change the theme for all plots in an assemble. Instead of modifying all plots individually you can use `*` or `^` to add elements to all subplots. The two differ in that `*` will only affect the plots on the current nesting level:
+There are two additional operators that are used for a slightly different purpose, namely to reduce code repetition. Consider the case where you want to change the theme for all plots in an assemble. Instead of modifying all plots individually you can use `&` or `*` to add elements to all subplots. The two differ in that `*` will only affect the plots on the current nesting level:
 
 ``` r
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
@@ -118,10 +118,10 @@ There are two additional operators that are used for a slightly different purpos
 
 ![](man/figures/README-unnamed-chunk-9-1.png)
 
-whereas `^` will recurse into nested levels:
+whereas `&` will recurse into nested levels:
 
 ``` r
-(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) ^ theme_bw()
+p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
 ```
 
 ![](man/figures/README-unnamed-chunk-10-1.png)

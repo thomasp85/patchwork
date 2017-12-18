@@ -125,17 +125,17 @@ respectively. They can of course be combined for a very readable layout syntax:
 There are two additional operators that are used for a slightly different 
 purpose, namely to reduce code repetition. Consider the case where you want to
 change the theme for all plots in an assemble. Instead of modifying all plots
-individually you can use `*` or `^` to add elements to all subplots. The two
+individually you can use `&` or `*` to add elements to all subplots. The two
 differ in that `*` will only affect the plots on the current nesting level:
 
 ```{r}
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
 ```
 
-whereas `^` will recurse into nested levels:
+whereas `&` will recurse into nested levels:
 
 ```{r}
-(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) ^ theme_bw()
+p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
 ```
 
 This is all it does for now, but stay tuned as more functionality is added, such

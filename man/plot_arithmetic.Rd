@@ -5,7 +5,7 @@
 \alias{-.ggplot}
 \alias{/.ggplot}
 \alias{|.ggplot}
-\alias{&&.gg}
+\alias{*.gg}
 \alias{&.gg}
 \title{Plot arithmetic}
 \usage{
@@ -15,7 +15,7 @@
 
 \method{|}{ggplot}(e1, e2)
 
-"&&.gg"(e1, e2)
+\method{*}{gg}(e1, e2)
 
 \method{&}{gg}(e1, e2)
 }
@@ -23,7 +23,7 @@
 \item{e1}{A \code{ggplot} or \code{ggassemble} object}
 
 \item{e2}{A \code{ggplot} or \code{ggassemble} object in case of \code{/}, or a \code{gg} object
-such as a geom or theme specification in case of \code{*} and \code{^}}
+such as a geom or theme specification in case of \code{*} and \code{&amp;}}
 }
 \value{
 A \code{ggassemble} object
@@ -53,7 +53,7 @@ stacking and packing of plots. See the exampels for their use.
 
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-an assemble. \code{&amp;&amp;} will add the element to all plots in the current nesting
+an assemble. \code{*} will add the element to all plots in the current nesting
 level, while \code{&amp;} will recurse into nested cells.
 }
 \examples{
@@ -76,6 +76,6 @@ p1 + p2 - p3 + plot_layout(ncol = 1)
 (p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
 
 # Recurse into nested plots as well
-(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) ^ theme_bw()
+(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) & theme_bw()
 
 }
