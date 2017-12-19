@@ -106,7 +106,7 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[i, p_cols]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, ii, cols[1], clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, ii, cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   for (i in seq_len(ncol(gt))) {
@@ -119,10 +119,10 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[p_rows, i]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
-  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels')
+  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels', z = 1)
 }
 #' @importFrom grid viewport unit convertWidth convertHeight
 #' @importFrom gtable gtable_add_grob
@@ -140,7 +140,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     left_grob$vp <- viewport(x = unit(0, 'npc') - h_width)
     panels <- gtable_add_grob(panels,  grobs = list(left_grob),
                               t = 1, l = 1, b = nrow(panels), r = ncol(panels),
-                              z = -Inf, clip = 'off', name = 'left-l')
+                              z = Inf, clip = 'off', name = 'left-l')
   }
   if (length(right) != 0 && max(right) > cols[2]) {
     right_grob <- gt[p_rows, seq(cols[2] + 1, max(right))]
@@ -148,7 +148,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     right_grob$vp <- viewport(x = unit(1, 'npc') + h_width)
     panels <- gtable_add_grob(panels,  grobs = list(right_grob),
                               t = 1, l = 1, b = nrow(panels), r = ncol(panels),
-                              z = -Inf, clip = 'off', name = 'right-r')
+                              z = Inf, clip = 'off', name = 'right-r')
   }
   if (length(top) != 0 && min(top) < rows[1]) {
     top_grob <- gt[seq(min(top), rows[1] - 1), p_cols]
@@ -156,7 +156,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     top_grob$vp <- viewport(y = unit(1, 'npc') + h_height)
     panels <- gtable_add_grob(panels,  grobs = list(top_grob),
                               t = 1, l = 1, b = nrow(panels), r = ncol(panels),
-                              z = -Inf, clip = 'off', name = 'top-t')
+                              z = Inf, clip = 'off', name = 'top-t')
   }
   if (length(bottom) != 0 && max(bottom) > rows[2]) {
     bottom_grob <- gt[seq(rows[2] + 1, max(bottom)), p_cols]
@@ -164,7 +164,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     bottom_grob$vp <- viewport(y = unit(0, 'npc') - h_height)
     panels <- gtable_add_grob(panels,  grobs = list(bottom_grob),
                               t = 1, l = 1, b = nrow(panels), r = ncol(panels),
-                              z = -Inf, clip = 'off', name = 'bottom-b')
+                              z = Inf, clip = 'off', name = 'bottom-b')
   }
   # Add remaining grobs to gt_new
   left <- if (length(left) != 0) min(left) else cols[1]
@@ -172,7 +172,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[p_rows, i]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, rows[1], i, clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, rows[1], i, clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   right <- if (length(right) != 0) max(right) else cols[2]
@@ -180,7 +180,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[p_rows, i + right]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, rows[1], i + cols[1] + right - cols[2], clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, rows[1], i + cols[1] + right - cols[2], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   top <- if (length(top) != 0) min(top) else rows[1]
@@ -188,7 +188,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[i, p_cols]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, i, cols[1], clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, i, cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   bottom <- if (length(bottom) != 0) max(bottom) else rows[2]
@@ -196,10 +196,10 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
     table <- gt[i + bottom, p_cols]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, i + rows[1] + bottom - rows[2], cols[1], clip = 'off', name = grobname)
+      gt_new <- gtable_add_grob(gt_new, table, i + rows[1] + bottom - rows[2], cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
-  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels')
+  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels', z = 1)
 }
 #' @importFrom grid convertHeight convertWidth unit unit.c
 #' @importFrom stats na.omit
