@@ -43,13 +43,15 @@
 #'   ) +
 #'   p5 +
 #'   plot_layout(widths = c(2, 1))
-plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1) {
+plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1, guides = 'auto') {
+  guides = match.arg(guides, c('auto', 'collect', 'keep'))
   structure(list(
     ncol = ncol,
     nrow = nrow,
     byrow = byrow,
     widths = widths,
-    heights = heights
+    heights = heights,
+    guides = guides
   ), class = 'plot_layout')
 }
 #' @export
