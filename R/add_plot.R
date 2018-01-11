@@ -43,4 +43,4 @@ new_assemble <- function() {
 plot_filler <- function() {
   ggplot()
 }
-is.empty <- function(x) !is.spacer(x) && length(x$layers) == 0
+is.empty <- function(x) !is.spacer(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
