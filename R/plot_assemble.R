@@ -22,8 +22,13 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 }
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
 #' @importFrom stats na.omit
-assemble_grob <- function(x) {
-  gt <- lapply(x$plots, plot_table)
+assemble_grob <- function(x, guides = 'auto') {
+  guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
+    'collect'
+  } else {
+    x$layout$guides
+  }
+  gt <- lapply(x$plots, plot_table, guides = guides)
   gt <- lapply(gt, simplify_gt)
   dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   index_mat <- matrix(NA_integer_, ncol = dims[2], nrow = dims[1])

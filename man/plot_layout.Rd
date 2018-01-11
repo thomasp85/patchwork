@@ -5,7 +5,7 @@
 \title{Define the grid to compose plots in}
 \usage{
 plot_layout(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1,
-  heights = 1)
+  heights = 1, guides = "auto")
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
