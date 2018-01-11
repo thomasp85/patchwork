@@ -17,6 +17,8 @@ plots will be filled in in column-major order}
 
 \item{widths, heights}{The relative widths and heights of each column and row
 in the grid. Will get repeated to match the dimensions of the grid.}
+
+\item{guides}{A string specifying how guides should be treated in the layout}
 }
 \value{
 A \code{plot_layout} object to be added to a \code{ggassmble} object
