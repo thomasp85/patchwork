@@ -4,6 +4,12 @@
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
 
+  grDevices::recordGraphics(
+    requireNamespace("patchwork", quietly = TRUE),
+    list(),
+    getNamespace("patchwork")
+  )
+
   assemble <- get_assemble(x)
   gtable <- assemble_grob(assemble)
 
@@ -20,6 +26,8 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   }
   invisible(x)
 }
+#' @export
+plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
 #' @importFrom stats na.omit
 assemble_grob <- function(x, guides = 'auto') {
