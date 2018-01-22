@@ -1,5 +1,4 @@
-#' Add plots together
-#'
+#' @section Overview:
 #' The use and premise of `patchwork` is simple: Just add `ggplot2` plots
 #' together to compose multiplot layouts. Because of this simplicity there is
 #' not much more to say. Still, a few functions allow you to modify the

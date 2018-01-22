@@ -5,7 +5,7 @@
 \title{Define the grid to compose plots in}
 \usage{
 plot_layout(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1,
-  heights = 1)
+  heights = 1, guides = "auto")
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
@@ -17,6 +17,8 @@ plots will be filled in in column-major order}
 
 \item{widths, heights}{The relative widths and heights of each column and row
 in the grid. Will get repeated to match the dimensions of the grid.}
+
+\item{guides}{A string specifying how guides should be treated in the layout}
 }
 \value{
 A \code{plot_layout} object to be added to a \code{ggassmble} object

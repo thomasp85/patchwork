@@ -4,6 +4,12 @@
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
 
+  grDevices::recordGraphics(
+    requireNamespace("patchwork", quietly = TRUE),
+    list(),
+    getNamespace("patchwork")
+  )
+
   assemble <- get_assemble(x)
   gtable <- assemble_grob(assemble)
 
@@ -20,10 +26,17 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   }
   invisible(x)
 }
+#' @export
+plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
 #' @importFrom stats na.omit
-assemble_grob <- function(x) {
-  gt <- lapply(x$plots, plot_table)
+assemble_grob <- function(x, guides = 'auto') {
+  guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
+    'collect'
+  } else {
+    x$layout$guides
+  }
+  gt <- lapply(x$plots, plot_table, guides = guides)
   gt <- lapply(gt, simplify_gt)
   dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   index_mat <- matrix(NA_integer_, ncol = dims[2], nrow = dims[1])
@@ -54,18 +67,18 @@ assemble_grob <- function(x) {
   gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
   gt_new
 }
-plot_table <- function(x) {
+plot_table <- function(x, guides) {
   UseMethod('plot_table')
 }
 #' @importFrom ggplot2 ggplotGrob
 #' @export
-plot_table.ggplot <- function(x) {
+plot_table.ggplot <- function(x, guides) {
   gt <- ggplotGrob(x)
   gt <- add_strips(gt)
   add_guides(gt)
 }
 #' @export
-plot_table.ggassemble <- function(x) {
+plot_table.ggassemble <- function(x, guides) {
   assemble_grob(get_assemble(x))
 }
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols gtable_col gtable_row

@@ -11,6 +11,7 @@
 #' plots will be filled in in column-major order
 #' @param widths,heights The relative widths and heights of each column and row
 #' in the grid. Will get repeated to match the dimensions of the grid.
+#' @param guides A string specifying how guides should be treated in the layout
 #'
 #' @return A `plot_layout` object to be added to a `ggassmble` object
 #'
@@ -43,13 +44,15 @@
 #'   ) +
 #'   p5 +
 #'   plot_layout(widths = c(2, 1))
-plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1) {
+plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1, guides = 'auto') {
+  guides = match.arg(guides, c('auto', 'collect', 'keep'))
   structure(list(
     ncol = ncol,
     nrow = nrow,
     byrow = byrow,
     widths = widths,
-    heights = heights
+    heights = heights,
+    guides = guides
   ), class = 'plot_layout')
 }
 #' @export

@@ -4,14 +4,23 @@
 \name{patchwork}
 \alias{patchwork}
 \alias{patchwork-package}
-\title{Add plots together}
+\title{patchwork: The Composer of ggplots}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
+The 'ggplot2' package provides a strong API for sequentially
+building up a plot, but does not concern itself with composition of multiple
+plots. 'patchwork' is a package that expands the API to allow for
+arbitrarily complex composition of plots by providing mathmatical operators
+for combining multiple plots. Other packages that addresses this need (but
+with a different approach) are 'gridExtra' and 'cowplot'.
+}
+\section{Overview}{
+
 The use and premise of \code{patchwork} is simple: Just add \code{ggplot2} plots
 together to compose multiplot layouts. Because of this simplicity there is
 not much more to say. Still, a few functions allow you to modify the
 behaviour:
-}
-\details{
 \itemize{
 \item \code{\link[=plot_layout]{plot_layout()}} allows you to define the grid that plots are put into
 \item \code{\link[=plot_spacer]{plot_spacer()}} inserts a completely empty plot thus pushing the subsequent
@@ -20,6 +29,7 @@ plots one cell.
 
 That's it...
 }
+
 \examples{
 library(ggplot2)
 # You can add plots saved to variables

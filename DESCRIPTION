@@ -9,15 +9,20 @@ Authors@R:
            role = c("cre", "aut"),
            email = "thomasp85@gmail.com")
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The 'ggplot2' package provides a strong API for sequentially 
+    building up a plot, but does not concern itself with composition of multiple
+    plots. 'patchwork' is a package that expands the API to allow for 
+    arbitrarily complex composition of plots by providing mathmatical operators
+    for combining multiple plots. Other packages that addresses this need (but
+    with a different approach) are 'gridExtra' and 'cowplot'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: ggplot2,
     gtable,
     grid,
-    stats
+    stats,
+    grDevices
 Remotes: tidyverse/ggplot2
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
