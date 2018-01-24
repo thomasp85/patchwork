@@ -106,6 +106,7 @@ simplify_gt <- function(gt) {
   }
 }
 #' @importFrom gtable gtable_add_grob
+#' @importFrom grid viewport
 simplify_free <- function(gt, gt_new, panels, rows, cols) {
   p_rows <- seq(rows[1], rows[2])
   p_cols <- seq(cols[1], cols[2])
@@ -113,12 +114,19 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (i >= rows[1]) {
       if (i <= rows[2]) next
       ii <- i - diff(rows)
+      pos <- 'bottom'
     } else {
       ii <- i
+      pos <- 'top'
     }
     table <- gt[i, p_cols]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
+      if (pos == 'top') {
+        table$vp <- viewport(y = 0, just = 'bottom', height = table$heights)
+      } else {
+        table$vp <- viewport(y = 1, just = 'top', height = table$heights)
+      }
       gt_new <- gtable_add_grob(gt_new, table, ii, cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
@@ -126,12 +134,19 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (i >= cols[1]) {
       if (i <= cols[2]) next
       ii <- i - diff(cols)
+      pos <- 'right'
     } else {
       ii <- i
+      pos <- 'left'
     }
     table <- gt[p_rows, i]
     if (length(table$grobs) != 0) {
       grobname <- paste(table$layout$name, collapse = ', ')
+      if (pos == 'left') {
+        table$vp <- viewport(x = 1, just = 'right', width = table$widths)
+      } else {
+        table$vp <- viewport(x = 0, just = 'left', width = table$widths)
+      }
       gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
