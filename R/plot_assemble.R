@@ -65,6 +65,7 @@ assemble_grob <- function(x, guides = 'auto') {
   gt_new$widths[p_cols] <- unit(rep(x$layout$widths, lengths.out = dims[2]), 'null')
   gt_new$heights[-p_rows] <- t_dims$heights[-p_rows]
   gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
+  gt_new$respect <- FALSE
   gt_new
 }
 plot_table <- function(x, guides) {
