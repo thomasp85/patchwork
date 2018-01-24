@@ -5,7 +5,6 @@
 #'
 #' @return A `ggplot` object containing an empty plot
 #'
-#' @importFrom ggplot2 ggplot theme_void theme element_rect
 #' @export
 #'
 #' @examples
@@ -17,10 +16,8 @@
 #' p1 + plot_spacer() + p2
 #'
 plot_spacer <- function() {
-  p <- ggplot() +
-    theme_void() +
-    theme(plot.background = element_rect(fill = NA, colour = NA))
-  class(p) <- c('spacer', class(p))
-  p
+  table <- make_cell()
+  class(table) <- c('spacer', class(table))
+  table
 }
 is.spacer <- function(x) inherits(x, 'spacer')

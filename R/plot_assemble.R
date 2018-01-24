@@ -82,10 +82,15 @@ plot_table.ggplot <- function(x, guides) {
 plot_table.ggassemble <- function(x, guides) {
   assemble_grob(get_assemble(x))
 }
+#' @export
+plot_table.assemble_cell <- function(x, guides) {
+  x
+}
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols gtable_col gtable_row
 #' @importFrom ggplot2 find_panel
 #' @importFrom grid unit convertWidth convertHeight grobWidth grobHeight
 simplify_gt <- function(gt) {
+  if (is.assemble_cell(gt)) return(gt)
   fixed_asp <- gt$respect
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
