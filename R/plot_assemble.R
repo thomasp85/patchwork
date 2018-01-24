@@ -11,7 +11,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   )
 
   assemble <- get_assemble(x)
-  gtable <- assemble_grob(assemble)
+  gtable <- build_assemble(assemble)
 
   if (is.null(vp)) {
     grid.draw(gtable)
@@ -30,7 +30,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
 #' @importFrom stats na.omit
-assemble_grob <- function(x, guides = 'auto') {
+build_assemble <- function(x, guides = 'auto') {
   guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
     'collect'
   } else {
@@ -68,6 +68,23 @@ assemble_grob <- function(x, guides = 'auto') {
   gt_new$respect <- FALSE
   gt_new
 }
+#' Convert a patchwork assemble to a gtable
+#'
+#' This function is the patchwork analogue of [ggplot2::ggplotGrob()] in that it
+#' takes an unevaluated patchwork plot object (a `ggassemble`) and fixate it
+#' into a gtable object to further manipulate directly.
+#'
+#' @param x A `ggassemble` object
+#'
+#' @return A `gtable` object
+#'
+#' @keywords internal
+#' @export
+#'
+patchworkGrob <- function(x) {
+  assemble <- get_assemble(x)
+  build_assemble(assemble)
+}
 plot_table <- function(x, guides) {
   UseMethod('plot_table')
 }
@@ -80,7 +97,7 @@ plot_table.ggplot <- function(x, guides) {
 }
 #' @export
 plot_table.ggassemble <- function(x, guides) {
-  assemble_grob(get_assemble(x))
+  build_assemble(get_assemble(x))
 }
 #' @export
 plot_table.assemble_cell <- function(x, guides) {
