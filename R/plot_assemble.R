@@ -317,16 +317,16 @@ add_guides <- function(gt) {
     }
   }
   if (guide_pos != 'left') {
-    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$l - 5)
+    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$l - 4)
   }
   if (guide_pos != 'right') {
-    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$r + 6)
+    gt <- gtable_add_cols(gt, unit(c(0, 0), 'mm'), panel_loc$r + 3)
   }
   if (guide_pos != 'top') {
-    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$t - 5)
+    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$t - 4)
   }
   if (guide_pos != 'bottom') {
-    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$b + 6)
+    gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$b + 5)
   }
   gt
 }
