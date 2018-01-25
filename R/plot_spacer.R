@@ -1,7 +1,9 @@
 #' Add a completely blank area
 #'
-#' This simple wrapper creates an empty transparant plot that can be added to
-#' push your other plots apart
+#' This simple wrapper creates an empty transparant cell that can be added to
+#' push your other plots apart. The cell responds to adding
+#' [theme()][ggplot2::theme] specifications, but only `plot.background` will
+#' have an effect.
 #'
 #' @return A `ggplot` object containing an empty plot
 #'

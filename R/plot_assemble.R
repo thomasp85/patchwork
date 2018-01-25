@@ -1,4 +1,3 @@
-#' @importFrom ggplot2 wrap_dims
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @export
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
@@ -28,7 +27,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 }
 #' @export
 plot.ggassemble <- print.ggassemble
-#' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols
+#' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
 #' @importFrom stats na.omit
 build_assemble <- function(x, guides = 'auto') {
   guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
@@ -101,13 +100,13 @@ plot_table.ggassemble <- function(x, guides) {
 }
 #' @export
 plot_table.assemble_cell <- function(x, guides) {
-  x
+  cellGrob(x)
 }
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols gtable_col gtable_row
 #' @importFrom ggplot2 find_panel
 #' @importFrom grid unit convertWidth convertHeight grobWidth grobHeight
 simplify_gt <- function(gt) {
-  if (is.assemble_cell(gt)) return(gt)
+  if (is.cellgrob(gt)) return(gt)
   fixed_asp <- gt$respect
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)

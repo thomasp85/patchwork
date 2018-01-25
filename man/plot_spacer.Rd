@@ -10,8 +10,10 @@ plot_spacer()
 A \code{ggplot} object containing an empty plot
 }
 \description{
-This simple wrapper creates an empty transparant plot that can be added to
-push your other plots apart
+This simple wrapper creates an empty transparant cell that can be added to
+push your other plots apart. The cell responds to adding
+\link[ggplot2:theme]{theme()} specifications, but only \code{plot.background} will
+have an effect.
 }
 \examples{
 library(ggplot2)

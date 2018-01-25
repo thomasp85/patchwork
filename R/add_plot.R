@@ -4,12 +4,6 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
   assemble <- get_assemble(plot)
   as.ggassemble(object, assemble)
 }
-#' @export
-ggplot_add.assemble_cell <- function(object, plot, object_name) {
-  plot <- plot + plot_filler()
-  plot$assemble$plots <- c(plot$assemble$plots, list(object))
-  plot
-}
 
 get_assemble <- function(plot) {
   empty <- is.empty(plot)

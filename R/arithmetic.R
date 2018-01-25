@@ -101,7 +101,7 @@ NULL
 "*.gg" <- function(e1, e2) {
   if (is.ggassemble(e1)) {
     e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
-      if (!is.ggassemble(p) && !is.assemble_cell(p)) p <- p + e2
+      if (!is.ggassemble(p)) p <- p + e2
       p
     })
   }
@@ -114,7 +114,7 @@ NULL
     e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
       if (is.ggassemble(p)) {
         p <- p & e2
-      } else if (!is.assemble_cell(p)) {
+      } else {
         p <- p + e2
       }
       p
