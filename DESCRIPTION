@@ -23,7 +23,7 @@ Imports: ggplot2,
     grid,
     stats,
     grDevices
-Remotes: tidyverse/ggplot2
+Remotes: thomasp85/ggplot2@label-tag
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork

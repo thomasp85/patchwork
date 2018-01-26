@@ -1,4 +1,5 @@
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
+#' @importFrom utils modifyList
 #' @export
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
@@ -8,7 +9,12 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
     list(),
     getNamespace("patchwork")
   )
-
+  annotation <- modifyList(
+    default_annotation,
+    x$assemble$annotation[!vapply(x$assemble$annotation, is.null, logical(1))]
+  )
+  x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
+                    annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
   gtable <- build_assemble(assemble)
 
@@ -28,8 +34,10 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @export
 plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
+#' @importFrom utils modifyList
 #' @importFrom stats na.omit
 build_assemble <- function(x, guides = 'auto') {
+  x$layout <- modifyList(default_layout, x$layout[!vapply(x$layout, is.null, logical(1))])
   guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
     'collect'
   } else {
@@ -81,6 +89,12 @@ build_assemble <- function(x, guides = 'auto') {
 #' @export
 #'
 patchworkGrob <- function(x) {
+  annotation <- modifyList(
+    default_annotation,
+    x$assemble$annotation[!vapply(x$assemble$annotation, is.null, logical(1))]
+  )
+  x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
+                    annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
   build_assemble(assemble)
 }

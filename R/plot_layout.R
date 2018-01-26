@@ -12,6 +12,8 @@
 #' @param widths,heights The relative widths and heights of each column and row
 #' in the grid. Will get repeated to match the dimensions of the grid.
 #' @param guides A string specifying how guides should be treated in the layout
+#' @param tag_level A string (`'keep'` or `'new'`) to indicate whether
+#' auto-tagging should behave. See [plot_annotation()].
 #'
 #' @return A `plot_layout` object to be added to a `ggassmble` object
 #'
@@ -44,20 +46,24 @@
 #'   ) +
 #'   p5 +
 #'   plot_layout(widths = c(2, 1))
-plot_layout <- function(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1, guides = 'auto') {
-  guides = match.arg(guides, c('auto', 'collect', 'keep'))
+plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL) {
+  if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
+  if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
   structure(list(
     ncol = ncol,
     nrow = nrow,
     byrow = byrow,
     widths = widths,
     heights = heights,
-    guides = guides
+    guides = guides,
+    tag_level = tag_level
   ), class = 'plot_layout')
 }
+default_layout <- plot_layout(byrow = TRUE, widths = 1, heights = 1, guides = 'auto', tag_level = 'keep')
+#' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_layout <- function(object, plot, object_name) {
   if (!is.ggassemble(plot)) stop('plot_layout must be added to an assemble of plots', call. = FALSE)
-  plot$assemble$layout <- object
+  plot$assemble$layout <- modifyList(plot$assemble$layout, object[!vapply(object, is.null, logical(1))])
   plot
 }

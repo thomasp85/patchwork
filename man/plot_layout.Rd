@@ -4,8 +4,8 @@
 \alias{plot_layout}
 \title{Define the grid to compose plots in}
 \usage{
-plot_layout(ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1,
-  heights = 1, guides = "auto")
+plot_layout(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
+  heights = NULL, guides = NULL, tag_level = NULL)
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
@@ -19,6 +19,9 @@ plots will be filled in in column-major order}
 in the grid. Will get repeated to match the dimensions of the grid.}
 
 \item{guides}{A string specifying how guides should be treated in the layout}
+
+\item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate whether
+auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
 }
 \value{
 A \code{plot_layout} object to be added to a \code{ggassmble} object

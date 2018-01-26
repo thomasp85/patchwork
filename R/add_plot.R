@@ -36,7 +36,8 @@ as.ggassemble.ggassemble <- function(plot, assemble) {
 new_assemble <- function() {
   list(
     plots = list(),
-    layout = plot_layout()
+    layout = plot_layout(),
+    annotation = plot_annotation()
   )
 }
 
