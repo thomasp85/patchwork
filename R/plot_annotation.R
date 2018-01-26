@@ -3,7 +3,32 @@
 #' The result of this function can be added to an assemble using `+` in the same
 #' way as [plot_layout()], but unlike [plot_layout()] it will only have an
 #' effect on the top level plot. As the name suggests it controls different
-#' aspects of the annotation of the final plot, such as
+#' aspects of the annotation of the final plot, such as titles and tags.
+#'
+#' @details
+#' Tagging of subplots is done automatically and following the order of the
+#' plots as they are added. When the plot contains nested layouts the
+#' `tag_level` argument in the nested [plot_layout] will define whether
+#' enumeration should continue as usual or add a new level. The format of the
+#' levels are defined with `tag_levels` argument in `plot_annotation`
+#'
+#' @param title,subtitle,caption Text strings to use for the various plot
+#' annotations.
+#'
+#' @param tag_levels A character vector defining the enumeration format to use
+#' at each level. Possible values are `'a'` for lowercase letters, `'A'` for
+#' uppercase letters, `'1'` for numbers, `'i'` for lowercase Roman numerals, and
+#' `'I'` for uppercase Roman numerals.
+#'
+#' @param tag_prefix,tag_suffix Strings that should appear before or after the
+#' tag.
+#'
+#' @param tag_sep A separator between different tag levels
+#'
+#' @param theme A ggplot theme specification to use for the plot. Only elements
+#' related to the titles as well as plot margin and background is used.
+#'
+#' @return A `plot_annotation` object
 #'
 #' @export
 plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
@@ -74,4 +99,15 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     assemble = x,
     tag_ind = tag_ind
   )
+}
+annotate_table <- function(table, annotation) {
+  p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
+  p <- ggplotGrob(p)
+  table <- gtable_add_rows(table, p$heights[c(1, 3, 4)], 0)
+  table <- gtable_add_rows(table, tail(p$heights, 3)[-2])
+  table <- gtable_add_grob(table, get_grob(p, 'title'), 2, 2, r = ncol(table) - 1, name = 'title')
+  table <- gtable_add_grob(table, get_grob(p, 'subtitle'), 3, 2, r = ncol(table) - 1, name = 'subtitle')
+  table <- gtable_add_grob(table, get_grob(p, 'caption'), nrow(table) - 1, 2, r = ncol(table) - 1, name = 'caption')
+  table <- gtable_add_grob(table, get_grob(p, 'background'), 1, 1, nrow(table), ncol(table), z = -Inf, name = 'background')
+  table
 }

@@ -8,9 +8,36 @@ plot_annotation(title = NULL, subtitle = NULL, caption = NULL,
   tag_levels = NULL, tag_prefix = NULL, tag_suffix = NULL,
   tag_sep = NULL, theme = NULL)
 }
+\arguments{
+\item{title, subtitle, caption}{Text strings to use for the various plot
+annotations.}
+
+\item{tag_levels}{A character vector defining the enumeration format to use
+at each level. Possible values are \code{'a'} for lowercase letters, \code{'A'} for
+uppercase letters, \code{'1'} for numbers, \code{'i'} for lowercase Roman numerals, and
+\code{'I'} for uppercase Roman numerals.}
+
+\item{tag_prefix, tag_suffix}{Strings that should appear before or after the
+tag.}
+
+\item{tag_sep}{A separator between different tag levels}
+
+\item{theme}{A ggplot theme specification to use for the plot. Only elements
+related to the titles as well as plot margin and background is used.}
+}
+\value{
+A \code{plot_annotation} object
+}
 \description{
 The result of this function can be added to an assemble using \code{+} in the same
 way as \code{\link[=plot_layout]{plot_layout()}}, but unlike \code{\link[=plot_layout]{plot_layout()}} it will only have an
 effect on the top level plot. As the name suggests it controls different
-aspects of the annotation of the final plot, such as
+aspects of the annotation of the final plot, such as titles and tags.
+}
+\details{
+Tagging of subplots is done automatically and following the order of the
+plots as they are added. When the plot contains nested layouts the
+\code{tag_level} argument in the nested \link{plot_layout} will define whether
+enumeration should continue as usual or add a new level. The format of the
+levels are defined with \code{tag_levels} argument in \code{plot_annotation}
 }

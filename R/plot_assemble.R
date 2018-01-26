@@ -17,6 +17,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
                     annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
   gtable <- build_assemble(assemble)
+  gtable <- annotate_table(gtable, annotation)
 
   if (is.null(vp)) {
     grid.draw(gtable)
@@ -96,7 +97,8 @@ patchworkGrob <- function(x) {
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
                     annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
-  build_assemble(assemble)
+  gtable <- build_assemble(assemble)
+  annotate_table(gtable, annotation)
 }
 plot_table <- function(x, guides) {
   UseMethod('plot_table')

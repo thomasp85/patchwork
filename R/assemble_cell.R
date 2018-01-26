@@ -22,7 +22,7 @@ cell_table <- function(x, grob = NULL) {
   table$widths[c(1, ncol(table))] <- grob$widths[c(1, ncol(grob))]
   table$heights[c(1, nrow(table))] <- grob$heights[c(1, nrow(grob))]
   gtable_add_grob(table, grob$grobs[grep('background', grob$layout$name)], 1, 1,
-                  nrow(table), ncol(table), z = -Inf, clip = 'on',
+                  nrow(table), ncol(table), z = -100, clip = 'on',
                   name = 'background')
 }
 #' @export
