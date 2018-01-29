@@ -137,11 +137,15 @@ simplify_gt <- function(gt) {
   gt_new <- gtable_add_cols(gt_new, unit(1, 'null'), cols[1] - 1)
   gt$grobs[gt$layout$name == 'background'] <- NULL
   gt$layout <- gt$layout[gt$layout$name != 'background', ]
-  if (gt$respect) {
+  gt <- if (gt$respect) {
     simplify_fixed(gt, gt_new, panels, rows, cols)
   } else {
     simplify_free(gt, gt_new, panels, rows, cols)
   }
+  keep <- gt$layout$name != 'background'
+  gt$grobs <- gt$grobs[keep]
+  gt$layout <- gt$layout[keep, , drop = FALSE]
+  gt
 }
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid viewport
