@@ -28,7 +28,21 @@ cell_table <- function(x, grob = NULL) {
                   nrow(table), ncol(table), z = -100, clip = 'on',
                   name = 'background')
 }
+#' Get a grob describing the content of an assemble_cell object
+#'
+#' Methods for this generic should be defined for all `assemble_cell` subclasses
+#' and should return a compliant `gtable` object ready to be combined with
+#' regular plot objects. In general it is best to call `cell_table()` on the
+#' object and add grobs to this as `cell_table()` will return a compliant
+#' `gtable`
+#'
+#' @param x An `assemble_cell` object
+#'
+#' @return A `gtable` object
+#'
 #' @export
+#' @keywords internal
+#'
 cellGrob <- function(x) {
   UseMethod('cellGrob')
 }

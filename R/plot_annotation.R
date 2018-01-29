@@ -101,9 +101,10 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     tag_ind = tag_ind
   )
 }
-#' @importFrom ggplot2 ggplot2 labs ggplotGrob
+#' @importFrom ggplot2 ggplot labs ggplotGrob
 #' @importFrom gtable gtable_add_rows
 #' @importFrom grid unit
+#' @importFrom utils tail
 annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
   p <- ggplotGrob(p)
