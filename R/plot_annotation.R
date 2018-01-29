@@ -103,11 +103,18 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
 annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
   p <- ggplotGrob(p)
+  if (is.null(annotation$title) && is.null(annotation$subtitle)) {
+    table$heights[1] <- unit(0, 'mm')
+  }
+  if (is.null(annotation$caption)) {
+    table$heights[nrow(table)] <- unit(0, 'mm')
+  }
   table <- gtable_add_rows(table, p$heights[c(1, 3, 4)], 0)
   table <- gtable_add_rows(table, tail(p$heights, 3)[-2])
   table <- gtable_add_grob(table, get_grob(p, 'title'), 2, 2, r = ncol(table) - 1, name = 'title')
   table <- gtable_add_grob(table, get_grob(p, 'subtitle'), 3, 2, r = ncol(table) - 1, name = 'subtitle')
   table <- gtable_add_grob(table, get_grob(p, 'caption'), nrow(table) - 1, 2, r = ncol(table) - 1, name = 'caption')
   table <- gtable_add_grob(table, get_grob(p, 'background'), 1, 1, nrow(table), ncol(table), z = -Inf, name = 'background')
+  table$widths[c(1, ncol(table))] <- p$widths[c(1, ncol(p))]
   table
 }
