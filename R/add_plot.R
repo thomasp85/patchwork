@@ -4,7 +4,8 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
   assemble <- get_assemble(plot)
   as.ggassemble(object, assemble)
 }
-
+# Convert a plot with a (possible) assemble into a selfcontained assemble to be
+# attached to another plot
 get_assemble <- function(plot) {
   empty <- is.empty(plot)
   if (is.ggassemble(plot)) {
@@ -28,7 +29,6 @@ as.ggassemble.ggplot <- function(plot, assemble) {
   plot$assemble <- assemble
   plot
 }
-#' @importFrom ggplot2 ggplot
 as.ggassemble.ggassemble <- function(plot, assemble) {
   assemble$plots <- c(assemble$plots, list(plot))
   as.ggassemble(plot_filler(), assemble)
@@ -40,7 +40,7 @@ new_assemble <- function() {
     annotation = plot_annotation()
   )
 }
-
+#' @importFrom ggplot2 ggplot
 plot_filler <- function() {
   ggplot()
 }

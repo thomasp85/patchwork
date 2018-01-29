@@ -4,8 +4,8 @@
 \alias{wrap_plots}
 \title{Wrap plots into an assemble}
 \usage{
-wrap_plots(..., ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1,
-  heights = 1)
+wrap_plots(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
+  heights = NULL, guides = NULL, tag_level = NULL)
 }
 \arguments{
 \item{...}{multiple \code{ggplot}s or a list containing \code{ggplot} objects}
@@ -26,6 +26,11 @@ in the grid. Will get repeated to match the dimensions of the grid.}
 
 \item{heights}{The relative widths and heights of each column and row
 in the grid. Will get repeated to match the dimensions of the grid.}
+
+\item{guides}{A string specifying how guides should be treated in the layout}
+
+\item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate whether
+auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
 }
 \value{
 A \code{ggassemble} object

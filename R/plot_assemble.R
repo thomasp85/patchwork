@@ -35,6 +35,8 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @export
 plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
+#' @importFrom gtable gtable_add_cols
+#' @importFrom grid unit
 #' @importFrom utils modifyList
 #' @importFrom stats na.omit
 build_assemble <- function(x, guides = 'auto') {
@@ -87,6 +89,7 @@ build_assemble <- function(x, guides = 'auto') {
 #' @return A `gtable` object
 #'
 #' @keywords internal
+#' @importFrom utils modifyList
 #' @export
 #'
 patchworkGrob <- function(x) {
@@ -314,7 +317,8 @@ add_strips <- function(gt) {
   }
   gt
 }
-
+#' @importFrom gtable gtable_add_rows gtable_add_cols
+#' @importFrom grid unit
 add_guides <- function(gt) {
   panel_loc <- find_panel(gt)
   guide_loc <- gt$layout[gt$layout$name == 'guide-box', ]

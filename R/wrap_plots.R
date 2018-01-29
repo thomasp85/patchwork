@@ -29,7 +29,7 @@
 #' plots <- list(p1, p2, p3, p4, p5)
 #' wrap_plots(plots)
 #'
-wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, heights = 1) {
+wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL) {
   if (is.ggplot(..1)) {
     plots <- list(...)
   } else if (is.list(..1)) {
@@ -39,5 +39,6 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = TRUE, widths = 1, 
   }
   if (!all(vapply(plots, is.ggplot, logical(1)))) stop('Only know how to add ggplots', call. = FALSE)
   Reduce(`+`, plots) + plot_layout(ncol = ncol, nrow = nrow, byrow = byrow,
-                                   widths = widths, heights = heights)
+                                   widths = widths, heights = heights,
+                                   guides = guides, tag_level = tag_level)
 }

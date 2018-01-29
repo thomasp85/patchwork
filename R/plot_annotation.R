@@ -56,6 +56,7 @@ ggplot_add.plot_annotation <- function(object, plot, object_name) {
   plot
 }
 #' @importFrom ggplot2 is.ggplot labs
+#' @importFrom utils as.roman
 recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   if (length(levels) == 0) return(list(assemble = x, tab_ind = offset))
   level <- switch(
@@ -100,6 +101,9 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     tag_ind = tag_ind
   )
 }
+#' @importFrom ggplot2 ggplot2 labs ggplotGrob
+#' @importFrom gtable gtable_add_rows
+#' @importFrom grid unit
 annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
   p <- ggplotGrob(p)

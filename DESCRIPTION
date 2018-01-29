@@ -22,7 +22,8 @@ Imports: ggplot2,
     gtable,
     grid,
     stats,
-    grDevices
+    grDevices,
+    utils
 Remotes: thomasp85/ggplot2@label-tag
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

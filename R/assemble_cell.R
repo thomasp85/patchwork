@@ -7,15 +7,18 @@ make_cell <- function() {
   heights <- unit(rep(0, 18), 'mm')
   heights[10] <- unit(1, 'null')
   table <- gtable(widths, heights)
+  # Mark the panel cell
   table <- gtable_add_grob(table, list(zeroGrob()), 10, 8, z = -Inf, name = 'panel_cell')
   class(table) <- c('cellgrob', class(table))
-  cell <- ggplot()
+  cell <- plot_filler()
   class(cell) <- c('assemble_cell', class(cell))
   attr(cell, 'table') <- table
   cell
 }
 is.assemble_cell <- function(x) inherits(x, 'assemble_cell')
 is.cellgrob <- function(x) inherits(x, 'cellgrob')
+#' @importFrom ggplot2 ggplotGrob
+#' @importFrom gtable gtable_add_grob
 cell_table <- function(x, grob = NULL) {
   table <- attr(x, 'table')
   if (is.null(grob)) grob <- ggplotGrob(x)

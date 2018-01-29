@@ -25,8 +25,6 @@
 #'
 #' @return An el_wrapper object
 #'
-#' @importFrom gtable gtable_add_grob
-#' @importFrom grid grobHeight convertHeight
 #' @export
 wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, ignore_tag = FALSE) {
   clip <- if (clip) 'on' else 'off'
@@ -37,7 +35,9 @@ wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, i
   table
 }
 is.el_wrapper <- function(x) inherits(x, 'el_wrapper')
-#' @importFrom ggplot2 theme_get
+#' @importFrom ggplot2 ggplotGrob theme_get
+#' @importFrom gtable gtable_add_grob
+#' @importFrom grid grobHeight convertHeight
 cellGrob.el_wrapper <- function(x) {
   gt <- ggplotGrob(x)
   table <- cell_table(x, gt)
