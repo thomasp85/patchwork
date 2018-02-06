@@ -82,6 +82,7 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
         assemble[[i]] <- recurse_tags(assemble[[i]], levels[-1],
                                             prefix = paste0(prefix, level[tag_ind], sep),
                                             suffix, sep)$assemble
+        tag_ind <- tag_ind + 1
       }
     } else {
       assemble[[i]] <- assemble[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
