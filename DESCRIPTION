@@ -24,7 +24,8 @@ Imports: ggplot2,
     stats,
     grDevices,
     utils
-Remotes: thomasp85/ggplot2@label-tag
+Remotes: r-lib/rlang
+    thomasp85/ggplot2@label-tag
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork
