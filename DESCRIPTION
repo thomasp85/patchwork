@@ -25,7 +25,7 @@ Imports: ggplot2,
     grDevices,
     utils
 Remotes: tidyverse/rlang
-    thomasp85/ggplot2:label-tag
+    https://github.com/thomasp85/ggplot2/tree/label-tag
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork
