@@ -24,8 +24,7 @@ Imports: ggplot2,
     stats,
     grDevices,
     utils
-Remotes: r-lib/rlang,
-    tidyverse/ggplot2#2405
+Remotes: tidyverse/ggplot2#2405
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork
