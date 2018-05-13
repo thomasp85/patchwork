@@ -1,5 +1,6 @@
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @importFrom utils modifyList
+#' @importFrom ggplot2 set_last_plot
 #' @export
 print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
@@ -18,6 +19,8 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   assemble <- get_assemble(x)
   gtable <- build_assemble(assemble)
   gtable <- annotate_table(gtable, annotation)
+
+  set_last_plot(x)
 
   if (is.null(vp)) {
     grid.draw(gtable)
