@@ -30,15 +30,20 @@
 #' wrap_plots(plots)
 #'
 wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL) {
-  if (is.ggplot(..1)) {
+  if (is.valid_plot(..1)) {
     plots <- list(...)
   } else if (is.list(..1)) {
     plots <- ..1
   } else {
-    stop('Can only wrap ggplot objects or a list of them', call. = FALSE)
+    stop('Can only wrap ggplot and/or grob objects or a list of them', call. = FALSE)
   }
-  if (!all(vapply(plots, is.ggplot, logical(1)))) stop('Only know how to add ggplots', call. = FALSE)
-  Reduce(`+`, plots) + plot_layout(ncol = ncol, nrow = nrow, byrow = byrow,
-                                   widths = widths, heights = heights,
-                                   guides = guides, tag_level = tag_level)
+  if (!all(vapply(plots, is.valid_plot, logical(1)))) stop('Only know how to add ggplots and/or grobs', call. = FALSE)
+  Reduce(`+`, plots, init = ggplot()) + plot_layout(
+    ncol = ncol, nrow = nrow, byrow = byrow, widths = widths, heights = heights,
+    guides = guides, tag_level = tag_level
+  )
 }
+
+#' @importFrom ggplot2 is.ggplot
+#' @importFrom grid is.grob
+is.valid_plot <- function(x) is.ggplot(x) || is.grob(x)

@@ -60,9 +60,11 @@
 #'
 NULL
 
+#' @importFrom grid is.grob
 #' @rdname plot_arithmetic
 #' @export
 "-.ggplot" <- function(e1, e2) {
+  if (is.grob(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
   assemble <- new_assemble()
   if (is.ggassemble(e2)) {
@@ -74,9 +76,11 @@ NULL
   }
   as.ggassemble(plot, assemble)
 }
+#' @importFrom grid is.grob
 #' @rdname plot_arithmetic
 #' @export
 "/.ggplot" <- function(e1, e2) {
+  if (is.grob(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggassemble(e1)) {
     e1 + e2 + plot_layout(ncol = 1)
   } else if (!is.null(e1$assemble$layout$ncol) && e1$assemble$layout$ncol == 1) {
@@ -85,9 +89,11 @@ NULL
     e1 - e2 + plot_layout(ncol = 1)
   }
 }
+#' @importFrom grid is.grob
 #' @rdname plot_arithmetic
 #' @export
 "|.ggplot" <- function(e1, e2) {
+  if (is.grob(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggassemble(e1)) {
     e1 + e2 + plot_layout(nrow = 1)
   } else if (!is.null(e1$assemble$layout$nrow) && e1$assemble$layout$nrow == 1) {
