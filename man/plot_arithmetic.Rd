@@ -23,7 +23,7 @@
 \item{e1}{A \code{ggplot} or \code{ggassemble} object}
 
 \item{e2}{A \code{ggplot} or \code{ggassemble} object in case of \code{/}, or a \code{gg} object
-such as a geom or theme specification in case of \code{*} and \code{&amp;}}
+such as a geom or theme specification in case of \code{*} and \code{&}}
 }
 \value{
 A \code{ggassemble} object
@@ -54,7 +54,7 @@ stacking and packing of plots. See the exampels for their use.
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
 an assemble. \code{*} will add the element to all plots in the current nesting
-level, while \code{&amp;} will recurse into nested cells.
+level, while \code{&} will recurse into nested cells.
 }
 \examples{
 library(ggplot2)

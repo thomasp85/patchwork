@@ -4,6 +4,11 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
   assemble <- get_assemble(plot)
   as.ggassemble(object, assemble)
 }
+#' @importFrom ggplot2 ggplot_add
+#' @export
+ggplot_add.grob <- function(object, plot, object_name) {
+  plot + wrap_elements(full = object)
+}
 # Convert a plot with a (possible) assemble into a selfcontained assemble to be
 # attached to another plot
 get_assemble <- function(plot) {
@@ -11,7 +16,7 @@ get_assemble <- function(plot) {
   if (is.ggassemble(plot)) {
     assemble <- plot$assemble
     plot$assemble <- NULL
-    class(plot) <- c('gg', 'ggplot')
+    class(plot) <- setdiff(class(plot), 'ggassemble')
   } else {
     assemble <- new_assemble()
   }
