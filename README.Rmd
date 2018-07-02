@@ -90,6 +90,17 @@ p4 + {
   plot_layout(ncol = 1)
 ```
 
+## Annotating Plots
+
+In many cases, one doesn't want to just assemble plots together, but also **label** them or `annotate` them
+enabling one to easily refer to each piece, as well as adding titles to the whole. Enter the
+`plot_annotation` function
+
+```{r}
+p1 + p2 + plot_annotation(title = "A great plot!", tag_levels = "A")
+```
+
+
 ### Advanced features
 In addition to adding plots and layouts together, `patchwork` defines some other
 operators that might be of interest. `-` will behave like `+` but put the left
