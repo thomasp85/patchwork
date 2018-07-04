@@ -18,14 +18,13 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    ggplot2,
+    ggplot2 (>= 3.0),
     gtable,
     grid,
     stats,
     grDevices,
     utils
-Remotes: tidyverse/ggplot2
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues
