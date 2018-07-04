@@ -8,7 +8,6 @@ Authors@R:
            family = "Pedersen",
            role = c("cre", "aut"),
            email = "thomasp85@gmail.com")
-Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
 Description: The 'ggplot2' package provides a strong API for sequentially 
     building up a plot, but does not concern itself with composition of multiple
     plots. 'patchwork' is a package that expands the API to allow for 
