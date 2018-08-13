@@ -64,7 +64,7 @@ p1 + plot_spacer() + p2
 You can make nested plots layout by wrapping part of the plots in parentheses - in these cases the layout is scoped to the different nesting levels
 
 ``` r
-p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec), method = "loess")
 p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 
 p4 + {
