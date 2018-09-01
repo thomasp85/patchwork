@@ -81,7 +81,7 @@ p4 + {
 
 ### Advanced features
 
-In addition to adding plots and layouts together, `patchwork` defines some other operators that might be of interest. `-` will behave like `+` but put the left and right side in the same nesting level (as opposed to putting the right side into the left sides nesting level). Observe:
+In addition to adding plots and layouts together, `patchwork` defines some other operators that might be of interest. `-`  behaves like `+` but puts the left and right side in the same nesting level (as opposed to putting the right side into the left sides nesting level). Observe:
 
 ``` r
 p1 + p2 + p3 + plot_layout(ncol = 1)
@@ -89,7 +89,7 @@ p1 + p2 + p3 + plot_layout(ncol = 1)
 
 ![](man/figures/README-unnamed-chunk-6-1.png)
 
-this is basically the same as without braces (just like standard math arithmetic) - the plots are added sequentially to the same nesting level. Now look:
+this is basically the same as without braces (just like standard math arithmetic) - the plots are added sequentially to the same nesting level. Now consider:
 
 ``` r
 p1 + p2 - p3 + plot_layout(ncol = 1)
@@ -97,9 +97,9 @@ p1 + p2 - p3 + plot_layout(ncol = 1)
 
 ![](man/figures/README-unnamed-chunk-7-1.png)
 
-Now `p1 + p2` and `p3` is on the same level...
+Now `p1 + p2` and `p3` are on the same level...
 
-> A note on semantics. If `-` is read as *subtrack* its use makes little sense as we are not removing plots. Think of it as a hyphen instead...
+> A note on semantics. If `-` is read as *minus* its use makes little sense as we are not removing plots. Think of it as a *hyphen* instead...
 
 Often you are interested in just putting plots besides or on top of each other. `patchwork` provides both `|` and `/` for horizontal and vertical layouts respectively. They can of course be combined for a very readable layout syntax:
 
@@ -126,6 +126,6 @@ p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
 
 ![](man/figures/README-unnamed-chunk-10-1.png)
 
-> Note that parenthesis is required in the former case due to higher precedence of the `*` operator. The latter case is the most common so it has deserved the easiest use.
+> Note that parentheses are required in the former case due to the higher precedence of the `*` operator. The latter case is the most common so it deserves the easiest use.
 
-This is all it does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...
+This is all `patchwork` does for now, but stay tuned as more functionality is added, such as collapsing guides, etc...
