@@ -4,6 +4,7 @@
 #' @param border_color The color of a border around the plot (default: "transparent")
 #' @param border_thickness The thickness of the border (default: NULL -> 0)
 #' @param border_linetype The line type of the border (default: NULL -> solid)
+#' @param padding Padding around the outer edge of the image. The order of the vaues is top, right, bottom, and left. (default: `unit(c(1,1,1,1), 'cm')`)
 #'
 #' @return A `plot_layout` object to be added to a `ggassmble` object
 #'
@@ -17,12 +18,13 @@
 #'
 #'p1 + p2 + plot_theme(background = "gray92")
 #'
-plot_theme <- function(background = NULL, border_color = "transparent", border_thickness = NULL, border_linetype = NULL) {
+plot_theme <- function(background = NULL, border_color = "transparent", border_thickness = NULL, border_linetype = NULL, padding = unit(c(1,1,1,1), 'cm')) {
   structure(list(
     background = background,
     border_color = border_color,
     border_thickness = border_thickness,
-    border_linetype = border_linetype
+    border_linetype = border_linetype,
+    padding = padding
   ), class = 'plot_theme')
 }
 default_theme <- plot_theme()

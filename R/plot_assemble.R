@@ -1,5 +1,5 @@
 #' @importFrom grid grid.newpage rectGrob gpar grid.draw seekViewport pushViewport upViewport
-#' @importFrom gtable gtable_add_grob
+#' @importFrom gtable gtable gtable_add_grob gtable_add_padding gtable_filter
 #' @importFrom utils modifyList
 #' @importFrom ggplot2 set_last_plot
 #' @export
@@ -28,21 +28,26 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
     lty = assemble$theme$border_linetype,
     lwd = assemble$theme$border_thickness
   ))
-  gtable <- gtable_add_grob(gtable, background_rectangle, 1, 1,
-                  nrow(gtable), ncol(gtable), z = -100, clip = 'on',
-                  name = 'background')
+  
+  # drop anything named "background"
+  not_background_names <- gtable$layout$name[gtable$layout$name != "background"]
+  gtable <- gtable_filter(gtable, paste(not_background_names, sep="", collapse="|"))
+  
+  # add padding
+  gtable <- gtable_add_padding(gtable, assemble$theme$padding)
+  padded_plots <- gList(background_rectangle, gtable)
 
   set_last_plot(x)
 
   if (is.null(vp)) {
-    grid.draw(gtable)
+    grid.draw(padded_plots)
   } else {
     if (is.character(vp)) {
       seekViewport(vp)
     } else {
       pushViewport(vp)
     }
-    grid.draw(gtable)
+    grid.draw(padded_plots)
     upViewport()
   }
   invisible(x)
