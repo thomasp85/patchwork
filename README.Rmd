@@ -142,5 +142,29 @@ p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
 of the `*` operator. The latter case is the most common so it has deserved the 
 easiest use.
 
+### Global theme options
+
+You can also adjust the aesthetics of the overall image via the `plot_theme()` function.
+
+Modify the background color:
+```{r}
+borderless_theme <- theme_bw() + theme(panel.border = element_blank())
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp)) + borderless_theme
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear)) + borderless_theme
+
+p1 + p2 + plot_theme(background = "gray92")
+```
+
+You can also add a border around the image and padding to each side:
+```{r}
+p1 + p2 + plot_theme(
+  background = "gray92", 
+  border_color = "black", 
+  border_thickness = 10, 
+  padding = unit(c(1, 1, 5, 1), "cm"))
+```
+
+----------
+
 This is all it does for now, but stay tuned as more functionality is added, such
 as collapsing guides, etc...
