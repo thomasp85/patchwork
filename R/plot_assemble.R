@@ -1,4 +1,4 @@
-#' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
+#' @importFrom grid grid.newpage rectGrob gpar grid.draw seekViewport pushViewport upViewport
 #' @importFrom utils modifyList
 #' @importFrom ggplot2 set_last_plot
 #' @export
@@ -19,6 +19,17 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   assemble <- get_assemble(x)
   gtable <- build_assemble(assemble)
   gtable <- annotate_table(gtable, annotation)
+  
+  # add a global background based on the theme of the first plot
+  background_rectangle <- rectGrob(gp = gpar(
+    col = assemble$plots[[1]]$theme$plot.background$colour,
+    fill = assemble$plots[[1]]$theme$plot.background$fill,
+    lty = assemble$plots[[1]]$theme$plot.background$linetype,
+    lwd = assemble$plots[[1]]$theme$plot.background$size
+  ))
+  gtable <- gtable_add_grob(gtable, background_rectangle, 1, 1,
+                  nrow(gtable), ncol(gtable), z = -100, clip = 'on',
+                  name = 'background')
 
   set_last_plot(x)
 
