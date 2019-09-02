@@ -1,4 +1,5 @@
 #' @importFrom grid grid.newpage rectGrob gpar grid.draw seekViewport pushViewport upViewport
+#' @importFrom gtable gtable_add_grob
 #' @importFrom utils modifyList
 #' @importFrom ggplot2 set_last_plot
 #' @export
