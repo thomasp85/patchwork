@@ -22,10 +22,10 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   
   # add a global background based on the theme of the first plot
   background_rectangle <- rectGrob(gp = gpar(
-    col = assemble$plots[[1]]$theme$plot.background$colour,
-    fill = assemble$plots[[1]]$theme$plot.background$fill,
-    lty = assemble$plots[[1]]$theme$plot.background$linetype,
-    lwd = assemble$plots[[1]]$theme$plot.background$size
+    col = assemble$theme$border_color,
+    fill = assemble$theme$background,
+    lty = assemble$theme$border_linetype,
+    lwd = assemble$theme$border_thickness
   ))
   gtable <- gtable_add_grob(gtable, background_rectangle, 1, 1,
                   nrow(gtable), ncol(gtable), z = -100, clip = 'on',

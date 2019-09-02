@@ -42,7 +42,8 @@ new_assemble <- function() {
   list(
     plots = list(),
     layout = plot_layout(),
-    annotation = plot_annotation()
+    annotation = plot_annotation(),
+    theme = plot_theme()
   )
 }
 #' @importFrom ggplot2 ggplot
