@@ -8,12 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right'}}
 
-The 'ggplot2' package provides a strong API for sequentially
-building up a plot, but does not concern itself with composition of multiple
-plots. 'patchwork' is a package that expands the API to allow for
-arbitrarily complex composition of plots by providing mathmatical operators
-for combining multiple plots. Other packages that addresses this need (but
-with a different approach) are 'gridExtra' and 'cowplot'.
+The 'ggplot2' package provides a strong API for sequentially 
+    building up a plot, but does not concern itself with composition of multiple
+    plots. 'patchwork' is a package that expands the API to allow for 
+    arbitrarily complex composition of plots by providing mathmatical operators
+    for combining multiple plots. Other packages that addresses this need (but
+    with a different approach) are 'gridExtra' and 'cowplot'.
 }
 \section{Overview}{
 
