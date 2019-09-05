@@ -34,7 +34,7 @@ You can install patchwork from github with:
 devtools::install_github("thomasp85/patchwork")
 ```
 
-## Example
+## Basic example
 
 The usage of `patchwork` is simple: just add plots together!
 
@@ -57,6 +57,8 @@ ggplot(mtcars) +
   ggplot(mtcars) + 
   geom_boxplot(aes(gear, disp, group = gear))
 ```
+
+## Layout and nesting
 
 Layouts can be specified by adding a `plot_layout()` call to the assemble. This
 lets you define the dimensions of the grid and how much space to allocate to the
