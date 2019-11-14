@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# patchwork <img src="man/figures/logo.png" align="right" />
+# patchwork <a href='https://patchwork.data-imaginist.com'><img src='man/figures/logo.png' align="right" height="131.5" /></a>
 
 [![Travis-CI Build Status](https://travis-ci.org/thomasp85/patchwork.svg?branch=master)](https://travis-ci.org/thomasp85/patchwork)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/patchwork?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/patchwork)
@@ -144,3 +144,7 @@ easiest use.
 
 This is all it does for now, but stay tuned as more functionality is added, such
 as collapsing guides, etc...
+
+## Code of Conduct
+
+Please note that the patchwork project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/1/0/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

@@ -18,6 +18,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
                     annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
   gtable <- build_assemble(assemble)
+  gtable <- resolve_background(gtable)
   gtable <- annotate_table(gtable, annotation)
 
   set_last_plot(x)
@@ -79,6 +80,7 @@ build_assemble <- function(x, guides = 'auto') {
   gt_new$heights[-p_rows] <- t_dims$heights[-p_rows]
   gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
   gt_new$respect <- FALSE
+  class(gt_new) <- c('gtable_assemble', class(gt_new))
   gt_new
 }
 #' Convert a patchwork assemble to a gtable
@@ -124,11 +126,29 @@ plot_table.ggassemble <- function(x, guides) {
 plot_table.assemble_cell <- function(x, guides) {
   cellGrob(x)
 }
+simplify_gt <- function(gt) {
+  UseMethod('simplify_gt')
+}
 #' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols gtable_col gtable_row
 #' @importFrom ggplot2 find_panel
 #' @importFrom grid unit convertWidth convertHeight grobWidth grobHeight
-simplify_gt <- function(gt) {
-  if (is.cellgrob(gt)) return(gt)
+#' @export
+simplify_gt.gtable <- function(gt) {
+  gt <- simplify_base(gt)
+  id <- sample.int(1e10, size = 1)
+  gt <- add_marker_rects(gt, id)
+  gt$layout[gt$layout$name == 'background', c('t', 'l','b', 'r')] <- 1
+  gt$layout$name[gt$layout$name == 'background'] <- paste0('background_', id)
+  gt
+}
+#' @export
+simplify_gt.gtable_assemble <- function(gt) {
+  simplify_base(gt)
+}
+#' @export
+simplify_gt.cellgrob <- function(gt) gt
+
+simplify_base <- function(gt) {
   fixed_asp <- gt$respect
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
@@ -141,16 +161,16 @@ simplify_gt <- function(gt) {
   gt_new$heights <- convertHeight(gt$heights, 'mm')[-p_rows]
   gt_new <- gtable_add_rows(gt_new, unit(1, 'null'), rows[1] - 1)
   gt_new <- gtable_add_cols(gt_new, unit(1, 'null'), cols[1] - 1)
-  gt$grobs[gt$layout$name == 'background'] <- NULL
-  gt$layout <- gt$layout[gt$layout$name != 'background', ]
+  # gt$grobs[gt$layout$name == 'background'] <- NULL
+  # gt$layout <- gt$layout[gt$layout$name != 'background', ]
   gt <- if (gt$respect) {
     simplify_fixed(gt, gt_new, panels, rows, cols)
   } else {
     simplify_free(gt, gt_new, panels, rows, cols)
   }
-  keep <- gt$layout$name != 'background'
-  gt$grobs <- gt$grobs[keep]
-  gt$layout <- gt$layout[keep, , drop = FALSE]
+  # keep <- gt$layout$name != 'background'
+  # gt$grobs <- gt$grobs[keep]
+  # gt$layout <- gt$layout[keep, , drop = FALSE]
   gt
 }
 #' @importFrom gtable gtable_add_grob
@@ -198,7 +218,8 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
       gt_new <- gtable_add_grob(gt_new, table, rows[1], ii, clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
-  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels', z = 1)
+  panel_name <- paste0('panel; ', paste(panels$layout$name, collapse = ', '))
+  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = panel_name, z = 1)
 }
 #' @importFrom grid viewport unit convertWidth convertHeight
 #' @importFrom gtable gtable_add_grob
@@ -275,7 +296,66 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
       gt_new <- gtable_add_grob(gt_new, table, i + rows[1] + bottom - rows[2], cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
-  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = 'panels', z = 1)
+  panel_name <- paste0('panel; ', paste(panels$layout$name, collapse = ', '))
+  gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = panel_name, z = 1)
+}
+#' @importFrom gtable gtable_add_grob
+#' @importFrom grid rectGrob gpar
+#' @importFrom ggplot2 find_panel
+add_marker_rects <- function(gt, id) {
+  panel_pos <- find_panel(gt)
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = 1, l = panel_pos$l, b = 1,
+                        r = panel_pos$r, z = 0, name = paste0('tm_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = nrow(gt), l = panel_pos$l, b = nrow(gt),
+                        r = panel_pos$r, z = 0, name = paste0('bm_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$t, l = 1, b = panel_pos$b,
+                        r = 1, z = 0, name = paste0('lm_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$t, l = ncol(gt), b = panel_pos$b,
+                        r = ncol(gt), z = 0, name = paste0('rm_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = 2, l = panel_pos$l, b = panel_pos$t - 1,
+                        r = panel_pos$r, z = 0, name = paste0('t_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$b + 1, l = panel_pos$l, b = nrow(gt) - 1,
+                        r = panel_pos$r, z = 0, name = paste0('b_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$t, l = 2, b = panel_pos$b,
+                        r = panel_pos$l - 1, z = 0, name = paste0('l_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$t, l = panel_pos$r + 1, b = panel_pos$b,
+                        r = ncol(gt) - 1, z = 0, name = paste0('r_marker_', id))
+  gt <- gtable_add_grob(gt, rectGrob(gp = gpar(fill = NA, col = NA)),
+                        t = panel_pos$t, l = panel_pos$l, b = panel_pos$b,
+                        r = panel_pos$r, z = 0, name = paste0('p_marker_', id))
+  gt
+}
+get_background_table <- function(gt) {
+  ncols <- round(ncol(gt) / 15)
+  nrows <- round(nrow(gt) / 18)
+  col <- if (ncols == 1) rep(1, length(gt)) else cut(gt$layout$l, ncols)
+  row <- if (nrows == 1) rep(1, length(gt)) else cut(gt$layout$t, nrows)
+  rows <- lapply(split(seq_along(gt), row), function(i) {
+    cols <- lapply(split(i, col[i]), function(ii) {
+      ii_m <- ii[grep('_marker$', gt$layout$name[ii])]
+      heights <- lapply(gt$grobs[ii_m[grep('^[tbp]', gt$layout$name[ii_m])]], grobHeight)
+      height <- do.call(sum, heights)
+      widths <- lapply(gt$grobs[ii_m[grep('^[lrp]', gt$layout$name[ii_m])]], grobWidth)
+      width <- do.call(sum, widths)
+      bg <- gt$grobs[[ii[grep('^background$', gt$layout$name[ii])]]]
+      bg$width <- width
+      bg$height <- height
+      gtable_add_grob(gtable(width, height), bg, 1, 1)
+    })
+    if (length(cols) < ncols) {
+      cols <- c(cols, rep(list(gtable(unit(0, 'mm'), unit(0, 'mm'))), ncols - length(cols)))
+    }
+    do.call(cbind, c(cols, list(size = 'first')))
+  })
+  do.call(rbind, c(rows, list(size = 'first')))
 }
 #' @importFrom grid convertHeight convertWidth unit unit.c
 #' @importFrom stats na.omit
@@ -375,4 +455,18 @@ find_strip_pos <- function(gt) {
     return('outside')
   }
   'inside'
+}
+resolve_background <- function(gt) {
+  gt
+}
+#' @importFrom gtable is.gtable
+find_markers <- function(gt, id) {
+  ind <- grep(paste0('marker_', id), gt$layout$name)
+  recurse <- vapply(gt$grobs[ind], is.gtable, logical(1))
+  markers <- gt$grobs[ind[!recurse]]
+  names(markers) <- gt$layout$name[ind[!recurse]]
+  for (i in ind[recurse]) {
+    markers <- c(markers, find_markers(gt$grobs[[i]], id))
+  }
+  markers
 }

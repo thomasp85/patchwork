@@ -4,3 +4,4 @@
 ^appveyor\.yml$
 ^README\.Rmd$
 ^README-.*\.png$
+^CODE_OF_CONDUCT\.md$

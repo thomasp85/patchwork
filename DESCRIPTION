@@ -1,13 +1,13 @@
 Package: patchwork
 Type: Package
 Title: The Composer of ggplots
-Version: 0.0.1
-Date: 2017-11-28
+Version: 0.0.1.9000
 Authors@R:
     person(given = "Thomas Lin",
            family = "Pedersen",
            role = c("cre", "aut"),
-           email = "thomasp85@gmail.com")
+           email = "thomasp85@gmail.com",
+           comment = c(ORCID = "0000-0002-5147-4711"))
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
 Description: The 'ggplot2' package provides a strong API for sequentially 
     building up a plot, but does not concern itself with composition of multiple
