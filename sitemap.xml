@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://patchwork.data-imaginist.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/cellGrob.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/patchwork.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/patchworkGrob.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/plot_annotation.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/plot_arithmetic.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/plot_layout.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/plot_spacer.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/wrap_elements.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/wrap_ggplot_grob.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/wrap_plots.html</loc>
+  </url>
+</urlset>
