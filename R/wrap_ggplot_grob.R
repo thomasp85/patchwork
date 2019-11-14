@@ -14,8 +14,8 @@
 #' @export
 wrap_ggplot_grob <- function(x) {
   stopifnot(inherits(x, 'gtable'))
-  stopifnot(length(x$widths) <= 15)
-  stopifnot(length(x$heights) <= 18)
+  stopifnot(length(x$widths) <= TABLE_COLS)
+  stopifnot(length(x$heights) <= TABLE_ROWS)
   cell <- make_cell()
   class(cell) <- c('table_cell', class(cell))
   attr(cell, 'table') <- x

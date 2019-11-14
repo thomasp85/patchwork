@@ -48,25 +48,26 @@ cellGrob.el_wrapper <- function(x) {
                              ncol(table), clip = settings$clip, name = 'full')
   }
   if (!is.null(grobs$plot)) {
-    table <- gtable_add_grob(table, list(as.grob(grobs$plot)), 7, 5, 13, 11,
+    table <- gtable_add_grob(table, list(as.grob(grobs$plot)), PLOT_TOP,
+                             PLOT_LEFT, PLOT_BOTTOM, PLOT_RIGHT,
                              clip =  settings$clip, name = 'plot')
   }
   if (!is.null(grobs$panel)) {
-    table <- gtable_add_grob(table, list(as.grob(grobs$panel)), 10, 8,
-                             clip = settings$clip, name = 'panel')
+    table <- gtable_add_grob(table, list(as.grob(grobs$panel)), PANEL_ROW,
+                             PANEL_COL, clip = settings$clip, name = 'panel')
   }
   title <- get_grob(gt, 'title')
-  table <- gtable_add_grob(table, list(title), 3, 8, clip = settings$clip,
-                           name = 'title')
-  table$heights[3] <- convertHeight(grobHeight(title), 'mm')
+  table <- gtable_add_grob(table, list(title), TITLE_ROW, PANEL_COL,
+                           clip = settings$clip, name = 'title')
+  table$heights[TITLE_ROW] <- convertHeight(grobHeight(title), 'mm')
   subtitle <- get_grob(gt, 'subtitle')
-  table <- gtable_add_grob(table, list(subtitle), 4, 8, clip = settings$clip,
-                           name = 'subtitle')
-  table$heights[4] <- convertHeight(grobHeight(subtitle), 'mm')
+  table <- gtable_add_grob(table, list(subtitle), SUBTITLE_ROW, PANEL_COL,
+                           clip = settings$clip, name = 'subtitle')
+  table$heights[SUBTITLE_ROW] <- convertHeight(grobHeight(subtitle), 'mm')
   caption <- get_grob(gt, 'caption')
-  table <- gtable_add_grob(table, list(caption), 16, 8, clip = settings$clip,
-                           name = 'title')
-  table$heights[16] <- convertHeight(grobHeight(caption), 'mm')
+  table <- gtable_add_grob(table, list(caption), CAPTION_ROW, PANEL_COL,
+                           clip = settings$clip, name = 'caption')
+  table$heights[CAPTION_ROW] <- convertHeight(grobHeight(caption), 'mm')
   if (!settings$ignore_tag) {
     table$widths[c(2, ncol(table)-1)] <- gt$widths[c(2, ncol(gt)-1)]
     table$heights[c(2, nrow(table)-1)] <- gt$heights[c(2, nrow(gt)-1)]

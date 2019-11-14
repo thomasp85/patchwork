@@ -2,13 +2,14 @@
 #' @importFrom grid unit
 #' @importFrom ggplot2 zeroGrob
 make_cell <- function() {
-  widths <- unit(rep(0, 15), 'mm')
-  widths[8] <- unit(1, 'null')
-  heights <- unit(rep(0, 18), 'mm')
-  heights[10] <- unit(1, 'null')
+  widths <- unit(rep(0, TABLE_COLS), 'mm')
+  widths[PANEL_COL] <- unit(1, 'null')
+  heights <- unit(rep(0, TABLE_ROWS), 'mm')
+  heights[PANEL_ROW] <- unit(1, 'null')
   table <- gtable(widths, heights)
   # Mark the panel cell
-  table <- gtable_add_grob(table, list(zeroGrob()), 10, 8, z = -Inf, name = 'panel_cell')
+  table <- gtable_add_grob(table, list(zeroGrob()), PANEL_ROW, PANEL_COL,
+                           z = -Inf, name = 'panel_cell')
   class(table) <- c('cellgrob', class(table))
   cell <- plot_filler()
   class(cell) <- c('assemble_cell', class(cell))

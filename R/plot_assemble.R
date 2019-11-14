@@ -334,8 +334,8 @@ add_marker_rects <- function(gt, id) {
   gt
 }
 get_background_table <- function(gt) {
-  ncols <- round(ncol(gt) / 15)
-  nrows <- round(nrow(gt) / 18)
+  ncols <- round(ncol(gt) / TABLE_COLS)
+  nrows <- round(nrow(gt) / TABLE_ROWS)
   col <- if (ncols == 1) rep(1, length(gt)) else cut(gt$layout$l, ncols)
   row <- if (nrows == 1) rep(1, length(gt)) else cut(gt$layout$t, nrows)
   rows <- lapply(split(seq_along(gt), row), function(i) {
