@@ -16,6 +16,13 @@
 #' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
 #'
 #' p1 + plot_spacer() + p2
+#' 
+#' 
+#' # To have more control over spacing, you can use the `plot.margin` 
+#' # parameter for `theme()` on each individual plot.
+#' 
+#' (p1 + theme(plot.margin = unit(c(0,30,0,0), "pt"))) + 
+#' (p2 + theme(plot.margin = unit(c(0,0,0,30), "pt")))
 #'
 plot_spacer <- function() {
   table <- make_cell()
