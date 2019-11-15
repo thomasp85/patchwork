@@ -440,7 +440,8 @@ add_strips <- function(gt) {
 add_guides <- function(gt) {
   panel_loc <- find_panel(gt)
   guide_loc <- gt$layout[gt$layout$name == 'guide-box', ]
-  guide_pos <- if (nrow(guide_loc) == 0) {
+  guide_pos <- if (nrow(guide_loc) == 0 ||
+                   all(unlist(guide_loc[, c('t', 'l', 'b', 'r')] == panel_loc))) {
     'none'
   } else {
     if (panel_loc$t == guide_loc$t) {
