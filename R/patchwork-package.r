@@ -25,6 +25,5 @@
 #'   ggplot(mtcars) +
 #'   geom_boxplot(aes(gear, disp, group = gear))
 #'
-#' @name patchwork
-#' @docType package
+#' @keywords internal
 '_PACKAGE'

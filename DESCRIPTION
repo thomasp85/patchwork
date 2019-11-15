@@ -26,5 +26,5 @@ Imports: ggplot2 (>= 3.0.0),
     utils
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/thomasp85/patchwork
+URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues

@@ -25,9 +25,29 @@ navbar:
     - icon: fa-github fa-lg
       href: https://github.com/thomasp85/patchwork
 
-#reference:
-#- title:
-#  desc: >
-#
-#  contents:
-#  -
+reference:
+- title: Plot Composition
+  desc: >
+    At the heart of patchwork lies a range of powerful functions for combining
+    plots into an assembly of plots that can be layed out in a grid. Patchwork
+    provides both an extension of ggplot2's `+` based API, along with a
+    functinal interface.
+  contents:
+  - /.ggplot
+  - wrap_plots
+- title: Layout Specifications
+  desc: >
+    While patchwork will automatically lay out the plots in a grid, additional
+    control is often needed, along with the possibility of adding annotations
+    etc.
+  contents:
+  - plot_layout
+  - plot_annotation
+- title: Alternative plot objects
+  desc: >
+    patchwork is build to work with ggplot2 but standard grobs can also be
+    included. Further, it is possible to define empty areas if needed.
+  contents:
+  - wrap_elements
+  - wrap_ggplot_grob
+  - plot_spacer
