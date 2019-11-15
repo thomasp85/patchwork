@@ -39,8 +39,8 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @export
 plot.ggassemble <- print.ggassemble
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
-#' @importFrom gtable gtable_add_cols
-#' @importFrom grid unit
+#' @importFrom gtable gtable
+#' @importFrom grid unit unit.pmax is.unit
 #' @importFrom utils modifyList
 #' @importFrom stats na.omit
 build_assemble <- function(x, guides = 'auto') {
@@ -52,34 +52,50 @@ build_assemble <- function(x, guides = 'auto') {
   }
   gt <- lapply(x$plots, plot_table, guides = guides)
   gt <- lapply(gt, simplify_gt)
-  dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
-  index_mat <- matrix(NA_integer_, ncol = dims[2], nrow = dims[1])
-  if (x$layout$byrow) {
-    index_mat <- t(index_mat)
-    index_mat[seq_along(gt)] <- seq_along(gt)
-    index_mat <- t(index_mat)
-  } else {
-    index_mat[seq_along(gt)] <- seq_along(gt)
+  if (!is.null(x$layout$cells)) {
+    if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$cells$r)
+    if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$cells$b)
   }
-  gt_new <- lapply(seq_len(nrow(index_mat)), function(i) {
-    ind <- na.omit(index_mat[i, ])
-    do.call(cbind, c(gt[ind], list(size = 'first')))
-  })
-  ncol_total <- max(vapply(gt_new, ncol, integer(1)))
-  gt_new <- lapply(gt_new, function(gt_tmp) {
-    extra_col <- ncol_total - ncol(gt_tmp)
-    if (extra_col == 0) return(gt_tmp)
-    gtable_add_cols(gt_tmp, unit(rep(0, extra_col), 'mm'))
-  })
-  gt_new <- do.call(rbind, c(gt_new, list(size = 'first')))
-  p_cols <- panel_cols(gt_new)$l
-  p_rows <- panel_rows(gt_new)$t
-  t_dims <- table_dims(gt, index_mat)
-  gt_new$widths[-p_cols] <- t_dims$widths[-p_cols]
-  gt_new$widths[p_cols] <- unit(rep(x$layout$widths, lengths.out = dims[2]), 'null')
-  gt_new$heights[-p_rows] <- t_dims$heights[-p_rows]
-  gt_new$heights[p_rows] <- unit(rep(x$layout$heights, lengths.out = dims[1]), 'null')
-  gt_new$respect <- FALSE
+  dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
+  gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
+                   unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
+  if (is.null(x$layout$cells)) {
+    x$layout$cells <- create_cells(dims[2], dims[1], x$layout$byrow)
+  } else {
+  }
+  cells <- as.data.frame(unclass(x$layout$cells))
+  if (nrow(cells) < length(gt)) {
+    warning('Too few cells to hold all plots. Dropping plots', call. = FALSE)
+    gt <- gt[seq_len(nrow(cells))]
+  } else {
+    cells <- cells[seq_along(gt), ]
+  }
+  if (any(cells$t < 1)) cells$t[cells$t < 1] <- 1
+  if (any(cells$l < 1)) cells$l[cells$l < 1] <- 1
+  if (any(cells$b > dims[1])) cells$b[cells$b > dims[1]] <- dims[1]
+  if (any(cells$r > dims[2])) cells$r[cells$r > dims[2]] <- dims[2]
+  gt_new$layout <- do.call(rbind, lapply(seq_along(gt), function(i) {
+    loc <- cells[i, ]
+    lay <- gt[[i]]$layout
+    lay$t <- lay$t + ifelse(lay$t <= PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
+    lay$l <- lay$l + ifelse(lay$l <= PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
+    lay$b <- lay$b + ifelse(lay$b < PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
+    lay$r <- lay$r + ifelse(lay$r < PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
+    lay
+  }))
+  table_dimensions <- table_dims(
+    lapply(gt, `[[`, 'widths'),
+    lapply(gt, `[[`, 'heights'),
+    cells
+  )
+  gt_new$grobs <- unlist(lapply(gt, `[[`, 'grobs'), recursive = FALSE)
+  gt_new$widths <- table_dimensions$widths
+  if (!is.unit(x$layout$widths)) x$layout$widths <- unit(x$layout$widths, 'null')
+  gt_new$widths[seq(PANEL_COL, by = TABLE_COLS, length.out = dims[2])] <- rep(x$layout$widths, length.out = dims[2])
+  gt_new$heights <- table_dimensions$heights
+  if (!is.unit(x$layout$heights)) x$layout$heights <- unit(x$layout$heights, 'null')
+  gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$widths, length.out = dims[1])
+
   class(gt_new) <- c('gtable_assemble', class(gt_new))
   gt_new
 }
@@ -357,24 +373,43 @@ get_background_table <- function(gt) {
   })
   do.call(rbind, c(rows, list(size = 'first')))
 }
-#' @importFrom grid convertHeight convertWidth unit unit.c
-#' @importFrom stats na.omit
-table_dims <- function(grobs, mat) {
-  heights <- do.call(unit.c, lapply(seq_len(nrow(mat)), function(i) {
-    ind <- na.omit(mat[i, ])
-    heights <- lapply(grobs[ind], function(x) {
-      convertHeight(x$heights, 'mm', TRUE)
-    })
-    unit(do.call(pmax, heights), 'mm')
-  }))
-  widths <- do.call(unit.c, lapply(seq_len(ncol(mat)), function(i) {
-    ind <- na.omit(mat[, i])
-    widths <- lapply(grobs[ind], function(x) {
-      convertWidth(x$widths, 'mm', TRUE)
-    })
-    unit(do.call(pmax, widths), 'mm')
-  }))
-  list(heights = heights, widths = widths)
+create_cells <- function(width, height, byrow) {
+  mat <- matrix(seq_len(width * height), nrow = height, ncol = width, byrow = byrow)
+  ind <- as.vector(mat)
+  cell(
+    t = row(mat)[ind],
+    l = col(mat)[ind]
+  )
+}
+#' @importFrom grid convertHeight convertWidth unit
+table_dims <- function(widths, heights, cells) {
+  widths <- lapply(widths, convertWidth, 'mm', valueOnly = TRUE)
+  widths <- vapply(seq_len(max(cells$r) * TABLE_COLS), function(i) {
+    cell <- (i - 1) %/% TABLE_COLS + 1
+    col_loc <- i %% TABLE_COLS
+    if (col_loc == 0) col_loc <- TABLE_COLS
+    cell_side <- if (col_loc <= PANEL_COL) 'l' else 'r'
+    tables <- which(cells[[cell_side]] == cell)
+    if (length(tables) == 0) {
+      0
+    } else {
+      max(vapply(widths[tables], `[[`, numeric(1), col_loc))
+    }
+  }, numeric(1))
+  heights <- lapply(heights, convertHeight, 'mm', valueOnly = TRUE)
+  heights <- vapply(seq_len(max(cells$b) * TABLE_ROWS), function(i) {
+    cell <- (i - 1) %/% TABLE_ROWS + 1
+    row_loc <- i %% TABLE_ROWS
+    if (row_loc == 0) row_loc <- TABLE_ROWS
+    cell_side <- if (row_loc <= PANEL_ROW) 't' else 'b'
+    tables <- which(cells[[cell_side]] == cell)
+    if (length(tables) == 0) {
+      0
+    } else {
+      max(vapply(heights[tables], `[[`, numeric(1), row_loc))
+    }
+  }, numeric(1))
+  list(widths = unit(widths, 'mm'), heights = unit(heights, 'mm'))
 }
 #' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit

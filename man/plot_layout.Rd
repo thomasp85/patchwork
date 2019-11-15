@@ -5,7 +5,7 @@
 \title{Define the grid to compose plots in}
 \usage{
 plot_layout(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
-  heights = NULL, guides = NULL, tag_level = NULL)
+  heights = NULL, guides = NULL, tag_level = NULL, cells = NULL)
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
@@ -22,6 +22,10 @@ in the grid. Will get repeated to match the dimensions of the grid.}
 
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate whether
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
+
+\item{cells}{Specification of the location of cells in the layout. Can either
+be specified as a text string or by concatenating calls to \code{\link[=cell]{cell()}} together.
+See the examples for further information on use.}
 }
 \value{
 A \code{plot_layout} object to be added to a \code{ggassmble} object
@@ -58,4 +62,32 @@ p1 +
   ) +
   p5 +
   plot_layout(widths = c(2, 1))
+
+# Complex layouts can be created with the `cells` argument
+cell_layout <- c(
+  cell(1, 1, 2),
+  cell(1, 2, 1, 3),
+  cell(2, 3, 3),
+  cell(3, 1, 3, 2),
+  cell(2, 2)
+)
+p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+
+# The same can be specified as a character string:
+cell_layout <- "
+  122
+  153
+  443
+"
+p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+
+# When using strings to define cell layout `#` can be used to denote empty
+# areas
+cell_layout <- "
+  1##
+  123
+  ##3
+"
+p1 + p2 + p3 + plot_layout(cells = cell_layout)
+
 }

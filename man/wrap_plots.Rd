@@ -5,7 +5,8 @@
 \title{Wrap plots into an assemble}
 \usage{
 wrap_plots(..., ncol = NULL, nrow = NULL, byrow = NULL,
-  widths = NULL, heights = NULL, guides = NULL, tag_level = NULL)
+  widths = NULL, heights = NULL, guides = NULL, tag_level = NULL,
+  cells = NULL)
 }
 \arguments{
 \item{...}{multiple \code{ggplot}s or a list containing \code{ggplot} objects}
@@ -31,6 +32,10 @@ in the grid. Will get repeated to match the dimensions of the grid.}
 
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate whether
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
+
+\item{cells}{Specification of the location of cells in the layout. Can either
+be specified as a text string or by concatenating calls to \code{\link[=cell]{cell()}} together.
+See the examples for further information on use.}
 }
 \value{
 A \code{ggassemble} object

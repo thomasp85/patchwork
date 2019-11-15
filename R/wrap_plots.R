@@ -29,7 +29,7 @@
 #' plots <- list(p1, p2, p3, p4, p5)
 #' wrap_plots(plots)
 #'
-wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL) {
+wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL, cells = NULL) {
   if (is.valid_plot(..1)) {
     plots <- list(...)
   } else if (is.list(..1)) {
@@ -38,9 +38,20 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL, widths = NUL
     stop('Can only wrap ggplot and/or grob objects or a list of them', call. = FALSE)
   }
   if (!all(vapply(plots, is.valid_plot, logical(1)))) stop('Only know how to add ggplots and/or grobs', call. = FALSE)
+  if (!is.null(names(plots)) && !is.null(cells) && is.character(cells)) {
+    cell_names <- unique(trimws(strsplit(cells, '')[[1]]))
+    cell_names <- sort(setdiff(cell_names, c('', '#')))
+    if (all(names(plots) %in% cell_names)) {
+      plot_list <- vector('list', length(cell_names))
+      names(plot_list) <- cell_names
+      plot_list[names(plots)] <- plots
+      plot_list[vapply(plot_list, is.null, logical(1))] <- list(plot_spacer())
+      plots <- plot_list
+    }
+  }
   Reduce(`+`, plots, init = ggplot()) + plot_layout(
     ncol = ncol, nrow = nrow, byrow = byrow, widths = widths, heights = heights,
-    guides = guides, tag_level = tag_level
+    guides = guides, tag_level = tag_level, cells = cells
   )
 }
 
