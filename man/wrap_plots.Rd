@@ -46,6 +46,14 @@ difficult to string together multiple plots programmatically if the number
 of plots is not known beforehand. \code{wrap_plots} makes it easy to take a list
 of plots and add them into one composition, along with layout specifications.
 }
+\details{
+If \code{cells} is specified as a text string \emph{and} the plots are named (e.g.
+\code{wrap_plots(A = p1, ...)}) \emph{and} all plot names are single characters
+represented in the cell layout string, the plots will be matched to their
+respective area by name. Otherwise the cell areas will be filled out
+sequentially in the same manner as using the \code{+} operator. See the examples
+for more.
+}
 \examples{
 library(ggplot2)
 
@@ -61,5 +69,13 @@ wrap_plots(p1, p2, p3, p4, p5)
 # Or add them as a list...
 plots <- list(p1, p2, p3, p4, p5)
 wrap_plots(plots)
+
+# Match plots to cells by name
+cell_layout <- "#BB
+                AA#"
+wrap_plots(B = p1, A = p2, cells = cell_layout)
+
+# Compare to not using named plot arguments
+wrap_plots(p1, p2, cells = cell_layout)
 
 }
