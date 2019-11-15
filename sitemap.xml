@@ -4,10 +4,13 @@
     <loc>https://patchwork.data-imaginist.com/index.html</loc>
   </url>
   <url>
+    <loc>https://patchwork.data-imaginist.com/reference/cell.html</loc>
+  </url>
+  <url>
     <loc>https://patchwork.data-imaginist.com/reference/cellGrob.html</loc>
   </url>
   <url>
-    <loc>https://patchwork.data-imaginist.com/reference/patchwork.html</loc>
+    <loc>https://patchwork.data-imaginist.com/reference/patchwork-package.html</loc>
   </url>
   <url>
     <loc>https://patchwork.data-imaginist.com/reference/patchworkGrob.html</loc>

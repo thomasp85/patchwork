@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap plots into an assemble — wrap_plots • patchwork</title>
+<title>patchwork: The Composer of ggplots — patchwork-package • patchwork</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,11 +42,14 @@
 
 
 
-<meta property="og:title" content="Wrap plots into an assemble — wrap_plots" />
-<meta property="og:description" content="While the use of + is a natural way to add plots together, it can be
-difficult to string together multiple plots programmatically if the number
-of plots is not known beforehand. wrap_plots makes it easy to take a list
-of plots and add them into one composition, along with layout specifications." />
+<meta property="og:title" content="patchwork: The Composer of ggplots — patchwork-package" />
+<meta property="og:description" content="
+The 'ggplot2' package provides a strong API for sequentially 
+    building up a plot, but does not concern itself with composition of multiple
+    plots. 'patchwork' is a package that expands the API to allow for 
+    arbitrarily complex composition of plots by providing mathmatical operators
+    for combining multiple plots. Other packages that addresses this need (but
+    with a different approach) are 'gridExtra' and 'cowplot'." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -130,101 +133,72 @@ of plots and add them into one composition, along with layout specifications." /
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap plots into an assemble</h1>
-    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/wrap_plots.R'><code>R/wrap_plots.R</code></a></small>
-    <div class="hidden name"><code>wrap_plots.Rd</code></div>
+    <h1>patchwork: The Composer of ggplots</h1>
+    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/patchwork-package.r'><code>R/patchwork-package.r</code></a></small>
+    <div class="hidden name"><code>patchwork-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>While the use of <code>+</code> is a natural way to add plots together, it can be
-difficult to string together multiple plots programmatically if the number
-of plots is not known beforehand. <code>wrap_plots</code> makes it easy to take a list
-of plots and add them into one composition, along with layout specifications.</p>
+    <p><img src='figures/logo.png' align='right' /></p>
+<p>The 'ggplot2' package provides a strong API for sequentially 
+    building up a plot, but does not concern itself with composition of multiple
+    plots. 'patchwork' is a package that expands the API to allow for 
+    arbitrarily complex composition of plots by providing mathmatical operators
+    for combining multiple plots. Other packages that addresses this need (but
+    with a different approach) are 'gridExtra' and 'cowplot'.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrap_plots</span>(<span class='no'>...</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>multiple <code>ggplot</code>s or a list containing <code>ggplot</code> objects</p></td>
-    </tr>
-    <tr>
-      <th>ncol</th>
-      <td><p>The dimensions of the grid to create - if both are <code>NULL</code> it
-will use the same logic as <a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap()</a> to set the
-dimensions</p></td>
-    </tr>
-    <tr>
-      <th>nrow</th>
-      <td><p>The dimensions of the grid to create - if both are <code>NULL</code> it
-will use the same logic as <a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap()</a> to set the
-dimensions</p></td>
-    </tr>
-    <tr>
-      <th>byrow</th>
-      <td><p>Analogous to <code>byrow</code> in <a href='https://rdrr.io/r/base/matrix.html'>matrix()</a>. If <code>FALSE</code> the
-plots will be filled in in column-major order</p></td>
-    </tr>
-    <tr>
-      <th>widths</th>
-      <td><p>The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.</p></td>
-    </tr>
-    <tr>
-      <th>heights</th>
-      <td><p>The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.</p></td>
-    </tr>
-    <tr>
-      <th>guides</th>
-      <td><p>A string specifying how guides should be treated in the layout</p></td>
-    </tr>
-    <tr>
-      <th>tag_level</th>
-      <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate whether
-auto-tagging should behave. See <code><a href='plot_annotation.html'>plot_annotation()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>cells</th>
-      <td><p>Specification of the location of cells in the layout. Can either
-be specified as a text string or by concatenating calls to <code><a href='cell.html'>cell()</a></code> together.
-See the examples for further information on use.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
 
-    <p>A <code>ggassemble</code> object</p>
+    
+
+<p>The use and premise of <code>patchwork</code> is simple: Just add <code>ggplot2</code> plots
+together to compose multiplot layouts. Because of this simplicity there is
+not much more to say. Still, a few functions allow you to modify the
+behaviour:</p><ul>
+<li><p><code><a href='plot_layout.html'>plot_layout()</a></code> allows you to define the grid that plots are put into</p></li>
+<li><p><code><a href='plot_spacer.html'>plot_spacer()</a></code> inserts a completely empty plot thus pushing the subsequent
+plots one cell.</p></li>
+</ul>
+
+<p>That's it...</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://patchwork.data-imaginist.com'>https://patchwork.data-imaginist.com</a></p></li>
+<li><p><a href='https://github.com/thomasp85/patchwork'>https://github.com/thomasp85/patchwork</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/thomasp85/patchwork/issues'>https://github.com/thomasp85/patchwork/issues</a></p></li>
+</ul>
+
+</div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='co'># You can add plots saved to variables</span>
 
 <span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
 <span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>disp</span>, <span class='no'>qsec</span>))
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>carb</span>))
-<span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>cyl</span>, <span class='no'>mpg</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>cyl</span>))
 
-<span class='co'># Either add the plots as single arguments</span>
-<span class='fu'>wrap_plots</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>, <span class='no'>p5</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='wrap_plots-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Or add them as a list...</span>
-<span class='no'>plots</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>, <span class='no'>p5</span>)
-<span class='fu'>wrap_plots</span>(<span class='no'>plots</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='wrap_plots-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span></div><div class='img'><img src='patchwork-package-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Or build it up in one step</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))</div><div class='img'><img src='patchwork-package-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Thomas Lin Pedersen <a href='mailto:thomasp85@gmail.com'>thomasp85@gmail.com</a> (0000-0002-5147-4711)</p>
   </div>
 </div>
 

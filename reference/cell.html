@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • patchwork</title>
+<title>Specify a plotting area in a layout — cell • patchwork</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Specify a plotting area in a layout — cell" />
+<meta property="og:description" content="This is a small helper used to specify a single area in a rectangular grid
+that should contain a plot. Objects constructed with cell() can be
+concatenated together with c() in order to specify multiple areas." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +66,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -124,96 +127,63 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Specify a plotting area in a layout</h1>
+    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/plot_layout.R'><code>R/plot_layout.R</code></a></small>
+    <div class="hidden name"><code>cell.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This is a small helper used to specify a single area in a rectangular grid
+that should contain a plot. Objects constructed with <code>cell()</code> can be
+concatenated together with <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> in order to specify multiple areas.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>cell</span>(<span class='no'>t</span>, <span class='no'>l</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>t</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='no'>l</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plot-composition" class="hasAnchor"><a href="#section-plot-composition" class="anchor"></a>Plot Composition</h2>
-          <p class="section-desc"><p>At the heart of patchwork lies a range of powerful functions for combining plots into an assembly of plots that can be layed out in a grid. Patchwork provides both an extension of ggplot2’s <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> based API, along with a functinal interface.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_arithmetic.html">`-`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`/`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`|`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`*`(<i>&lt;gg&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`&`(<i>&lt;gg&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot arithmetic</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrap_plots.html">wrap_plots()</a></code> </p>
-        </td>
-        <td><p>Wrap plots into an assemble</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-layout-specifications" class="hasAnchor"><a href="#section-layout-specifications" class="anchor"></a>Layout Specifications</h2>
-          <p class="section-desc"><p>While patchwork will automatically lay out the plots in a grid, additional control is often needed, along with the possibility of adding annotations etc.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_layout.html">plot_layout()</a></code> </p>
-        </td>
-        <td><p>Define the grid to compose plots in</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_annotation.html">plot_annotation()</a></code> </p>
-        </td>
-        <td><p>Annotate the final plot assemble</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-alternative-plot-objects" class="hasAnchor"><a href="#section-alternative-plot-objects" class="anchor"></a>Alternative plot objects</h2>
-          <p class="section-desc"><p>patchwork is build to work with ggplot2 but standard grobs can also be included. Further, it is possible to define empty areas if needed.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="wrap_elements.html">wrap_elements()</a></code> </p>
-        </td>
-        <td><p>Wrap arbitrary graphics in a patchwork-compliant cell</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrap_ggplot_grob.html">wrap_ggplot_grob()</a></code> </p>
-        </td>
-        <td><p>Make a gtable created from a ggplot object patchwork compliant</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_spacer.html">plot_spacer()</a></code> </p>
-        </td>
-        <td><p>Add a completely blank area</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>t, b</th>
+      <td><p>The top and bottom bounds of the area in the grid</p></td>
+    </tr>
+    <tr>
+      <th>l, r</th>
+      <td><p>The left and right bounds of the area int the grid</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>plot_cell</code> object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The grid that the cells are specified in reference to enumerate rows from top
+to bottom, and coloumns from left to right. This means that <code>t</code> and <code>l</code>
+should always be less or equal to <code>b</code> and <code>r</code> respectively. Instead of
+specifying cell placement with a combination of <code>cell()</code> calls, it is
+possible to instead pass in a single string</p><pre>cells &lt;- c(cell(1, 1, 2, 1),
+           cell(2, 3, 3, 3))
+</pre>
+
+<p>is equivalent to</p><pre>cells &lt; -"A##
+          A#B
+          ##B"
+</pre>
+
+<p>For an example of this, see the <code><a href='plot_layout.html'>plot_layout()</a></code> examples.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-plot-composition">Plot Composition</a></li>
-      <li><a href="#section-layout-specifications">Layout Specifications</a></li>
-      <li><a href="#section-alternative-plot-objects">Alternative plot objects</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
+
   </div>
 </div>
 
