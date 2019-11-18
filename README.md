@@ -3,12 +3,17 @@
 
 # patchwork <a href='https://patchwork.data-imaginist.com'><img src='man/figures/logo.png' align="right" height="131.5" /></a>
 
+<!-- badges: start -->
+
 [![Travis-CI Build
 Status](https://travis-ci.org/thomasp85/patchwork.svg?branch=master)](https://travis-ci.org/thomasp85/patchwork)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/patchwork?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/patchwork)
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
 The goal of `patchwork` is to make it ridiculously simple to combine
 separate ggplots into the same graphic. As such it tries to solve the
