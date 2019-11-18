@@ -164,11 +164,15 @@ in the grid. Will get repeated to match the dimensions of the grid.</p></td>
     </tr>
     <tr>
       <th>guides</th>
-      <td><p>A string specifying how guides should be treated in the layout</p></td>
+      <td><p>A string specifying how guides should be treated in the layout.
+<code>'collect'</code> will collect guides below to the given nesting level, removing
+duplicates. <code>'keep'</code> will stop collection at this level and let guides be
+placed alongside their plot. <code>auto</code> will allow guides to be collected if a
+upper level tries, but place them alongside the plot if not.</p></td>
     </tr>
     <tr>
       <th>tag_level</th>
-      <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate whether
+      <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
 auto-tagging should behave. See <code><a href='plot_annotation.html'>plot_annotation()</a></code>.</p></td>
     </tr>
     <tr>
