@@ -22,8 +22,8 @@ wrap_ggplot_grob <- function(x) {
   cell
 }
 #' @export
-cellGrob.table_cell <- function(x) {
+cellGrob.table_cell <- function(x, guides = 'auto') {
   gt <- attr(x, 'table')
   gt <- add_strips(gt)
-  add_guides(gt)
+  add_guides(gt, guides == 'collect')
 }

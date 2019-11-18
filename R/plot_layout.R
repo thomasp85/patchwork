@@ -11,8 +11,12 @@
 #' plots will be filled in in column-major order
 #' @param widths,heights The relative widths and heights of each column and row
 #' in the grid. Will get repeated to match the dimensions of the grid.
-#' @param guides A string specifying how guides should be treated in the layout
-#' @param tag_level A string (`'keep'` or `'new'`) to indicate whether
+#' @param guides A string specifying how guides should be treated in the layout.
+#' `'collect'` will collect guides below to the given nesting level, removing
+#' duplicates. `'keep'` will stop collection at this level and let guides be
+#' placed alongside their plot. `auto` will allow guides to be collected if a
+#' upper level tries, but place them alongside the plot if not.
+#' @param tag_level A string (`'keep'` or `'new'`) to indicate how
 #' auto-tagging should behave. See [plot_annotation()].
 #' @param cells Specification of the location of cells in the layout. Can either
 #' be specified as a text string or by concatenating calls to [cell()] together.

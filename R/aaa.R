@@ -10,3 +10,10 @@ PLOT_RIGHT <- 11
 TITLE_ROW <- 3
 SUBTITLE_ROW <- 4
 CAPTION_ROW <- 16
+
+GUIDE_RIGHT <- 13
+GUIDE_LEFT <- 3
+GUIDE_TOP <- 5
+GUIDE_BOTTOM <- 15
+
+`%||%` <- function(x, y) if (is.null(x)) y else x

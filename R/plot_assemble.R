@@ -17,7 +17,7 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
                     annotation$tag_suffix, annotation$tag_sep)$assemble
   assemble <- get_assemble(x)
-  gtable <- build_assemble(assemble)
+  gtable <- build_assemble(assemble, assemble$layout$guides %||% 'auto')
   gtable <- resolve_background(gtable)
   gtable <- annotate_table(gtable, annotation)
 
@@ -45,12 +45,14 @@ plot.ggassemble <- print.ggassemble
 #' @importFrom stats na.omit
 build_assemble <- function(x, guides = 'auto') {
   x$layout <- modifyList(default_layout, x$layout[!vapply(x$layout, is.null, logical(1))])
+
   guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
     'collect'
   } else {
     x$layout$guides
   }
   gt <- lapply(x$plots, plot_table, guides = guides)
+  guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
   if (!is.null(x$layout$cells)) {
     if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$cells$r)
@@ -96,6 +98,18 @@ build_assemble <- function(x, guides = 'auto') {
   if (!is.unit(x$layout$heights)) x$layout$heights <- unit(x$layout$heights, 'null')
   gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$widths, length.out = dims[1])
 
+  if (x$layout$guides == 'collect') {
+    guide_grobs <- collapse_guides(guide_grobs)
+    theme <- x$annotation$theme
+    if (!attr(theme, 'complete')) {
+      theme <- theme_get() + theme
+    }
+    guide_grobs <- assemble_guides(guide_grobs, theme)
+    gt_new <- attach_guides(gt_new, guide_grobs, theme)
+  } else {
+    gt_new$collected_guides <- guide_grobs
+  }
+
   class(gt_new) <- c('gtable_assemble', class(gt_new))
   gt_new
 }
@@ -132,15 +146,15 @@ plot_table <- function(x, guides) {
 plot_table.ggplot <- function(x, guides) {
   gt <- ggplotGrob(x)
   gt <- add_strips(gt)
-  add_guides(gt)
+  add_guides(gt, guides == 'collect')
 }
 #' @export
 plot_table.ggassemble <- function(x, guides) {
-  build_assemble(get_assemble(x))
+  build_assemble(get_assemble(x), guides)
 }
 #' @export
 plot_table.assemble_cell <- function(x, guides) {
-  cellGrob(x)
+  cellGrob(x, guides)
 }
 simplify_gt <- function(gt) {
   UseMethod('simplify_gt')
@@ -437,12 +451,14 @@ add_strips <- function(gt) {
 }
 #' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit
-add_guides <- function(gt) {
+add_guides <- function(gt, collect = FALSE) {
   panel_loc <- find_panel(gt)
-  guide_loc <- gt$layout[gt$layout$name == 'guide-box', ]
-  guide_pos <- if (nrow(guide_loc) == 0 ||
-                   all(unlist(guide_loc[, c('t', 'l', 'b', 'r')] == panel_loc))) {
+  guide_ind <- which(gt$layout$name == 'guide-box')
+  guide_loc <- gt$layout[guide_ind, ]
+  guide_pos <- if (nrow(guide_loc) == 0) {
     'none'
+  } else if (all(unlist(guide_loc[, c('t', 'l', 'b', 'r')] == panel_loc))) {
+    'inside'
   } else {
     if (panel_loc$t == guide_loc$t) {
       if (panel_loc$l > guide_loc$l) {
@@ -469,6 +485,19 @@ add_guides <- function(gt) {
   }
   if (guide_pos != 'top') {
     gt <- gtable_add_rows(gt, unit(c(0, 0), 'mm'), panel_loc$t - 4)
+  }
+  if (collect && guide_pos != 'none') {
+    guide_grob <- gt$grobs[[guide_ind]]
+    guide_loc <- gt$layout[guide_ind, ] # May have changed above
+    space_pos <- if (guide_pos %in% c('left', 'top')) 1 else -1
+    if (guide_pos %in% c('right', 'left')) {
+      gt$widths[c(guide_loc$l, guide_loc$l + space_pos)] <- unit(c(0, 0), 'mm')
+    } else if (guide_pos %in% c('bottom', 'top')) {
+      gt$widths[c(guide_loc$t, guide_loc$t + space_pos)] <- unit(c(0, 0), 'mm')
+    }
+    gt$grobs[guide_ind] <- NULL
+    gt$layout <- gt$layout[-guide_ind, ]
+    gt$collected_guides <- guide_grob$grobs[guide_grob$layout$name == 'guides']
   }
   gt
 }

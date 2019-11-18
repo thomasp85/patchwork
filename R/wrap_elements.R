@@ -38,7 +38,7 @@ is.el_wrapper <- function(x) inherits(x, 'el_wrapper')
 #' @importFrom ggplot2 ggplotGrob theme_get
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid grobHeight convertHeight
-cellGrob.el_wrapper <- function(x) {
+cellGrob.el_wrapper <- function(x, guides = 'auto') {
   gt <- ggplotGrob(x)
   table <- cell_table(x, gt)
   settings <- attr(x, 'settings')

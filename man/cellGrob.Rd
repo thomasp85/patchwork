@@ -4,7 +4,7 @@
 \alias{cellGrob}
 \title{Get a grob describing the content of an assemble_cell object}
 \usage{
-cellGrob(x)
+cellGrob(x, guides = "auto")
 }
 \arguments{
 \item{x}{An \code{assemble_cell} object}

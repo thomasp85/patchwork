@@ -44,11 +44,11 @@ cell_table <- function(x, grob = NULL) {
 #' @export
 #' @keywords internal
 #'
-cellGrob <- function(x) {
+cellGrob <- function(x, guides = 'auto') {
   UseMethod('cellGrob')
 }
 #' @export
-cellGrob.assemble_cell <- function(x) cell_table(x)
+cellGrob.assemble_cell <- function(x, guides = 'auto') cell_table(x)
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @export
 print.assemble_cell <- function(x, newpage = is.null(vp), vp = NULL, ...) {
