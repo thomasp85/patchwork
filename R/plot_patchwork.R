@@ -58,6 +58,12 @@ build_patchwork <- function(x, guides = 'auto') {
     if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$design$r)
     if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$design$b)
   }
+  if (is.null(x$layout$ncol) && !is.null(x$layout$widths) && length(x$layout$widths) > 1) {
+    x$layout$ncol <- length(x$layout$widths)
+  }
+  if (is.null(x$layout$nrow) && !is.null(x$layout$heights) && length(x$layout$heights) > 1) {
+    x$layout$nrow <- length(x$layout$heights)
+  }
   dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
                    unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
@@ -98,7 +104,7 @@ build_patchwork <- function(x, guides = 'auto') {
   gt_new$widths[seq(PANEL_COL, by = TABLE_COLS, length.out = dims[2])] <- rep(x$layout$widths, length.out = dims[2])
   gt_new$heights <- table_dimensions$heights
   if (!is.unit(x$layout$heights)) x$layout$heights <- unit(x$layout$heights, 'null')
-  gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$widths, length.out = dims[1])
+  gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$heights, length.out = dims[1])
 
   if (x$layout$guides == 'collect') {
     guide_grobs <- collapse_guides(guide_grobs)
