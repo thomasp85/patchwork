@@ -43,8 +43,8 @@
 
 
 <meta property="og:title" content="Add a completely blank area — plot_spacer" />
-<meta property="og:description" content="This simple wrapper creates an empty transparant cell that can be added to
-push your other plots apart. The cell responds to adding
+<meta property="og:description" content="This simple wrapper creates an empty transparant patch that can be added to
+push your other plots apart. The patch responds to adding
 theme() specifications, but only plot.background will
 have an effect." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
@@ -136,8 +136,8 @@ have an effect." />
     </div>
 
     <div class="ref-description">
-    <p>This simple wrapper creates an empty transparant cell that can be added to
-push your other plots apart. The cell responds to adding
+    <p>This simple wrapper creates an empty transparant patch that can be added to
+push your other plots apart. The patch responds to adding
 <a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme()</a> specifications, but only <code>plot.background</code> will
 have an effect.</p>
     </div>
@@ -157,7 +157,7 @@ have an effect.</p>
 
 <span class='no'>p1</span> + <span class='fu'>plot_spacer</span>() + <span class='no'>p2</span></div><div class='img'><img src='plot_spacer-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
-<span class='co'># To have more control over spacing, you can use the `plot.margin` </span>
+<span class='co'># To have more control over spacing, you can use the `plot.margin`</span>
 <span class='co'># parameter for `theme()` on each individual plot.</span>
 
 (<span class='no'>p1</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>plot.margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/reexports.html'>unit</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>30</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='st'>"pt"</span>))) +

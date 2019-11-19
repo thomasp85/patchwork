@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap arbitrary graphics in a patchwork-compliant cell — wrap_elements • patchwork</title>
+<title>Wrap arbitrary graphics in a patchwork-compliant patch — wrap_elements • patchwork</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,10 +42,10 @@
 
 
 
-<meta property="og:title" content="Wrap arbitrary graphics in a patchwork-compliant cell — wrap_elements" />
-<meta property="og:description" content="In order to add non-ggplot2 element to a patchwork assemble they can be
+<meta property="og:title" content="Wrap arbitrary graphics in a patchwork-compliant patch — wrap_elements" />
+<meta property="og:description" content="In order to add non-ggplot2 element to a patchwork they can be
 converted to a compliant representation using the wrap_elements() function.
-This allows you to position either grobs, ggplot objects, or ggassemble
+This allows you to position either grobs, ggplot objects, or patchwork
 objects in either the full area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
@@ -53,7 +53,7 @@ the same approach as with normal ggplots (using
 ggtitle() and labs()) as well as styling
 using theme(). For the latter, only the theme elements
 targeting plot margins and background as well as title, subtitle, etc styling
-will have an effect. If a ggassemble or ggplot object is wrapped, it will be
+will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
 geoms, etc.." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
@@ -139,15 +139,15 @@ geoms, etc.." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap arbitrary graphics in a patchwork-compliant cell</h1>
+    <h1>Wrap arbitrary graphics in a patchwork-compliant patch</h1>
     <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/wrap_elements.R'><code>R/wrap_elements.R</code></a></small>
     <div class="hidden name"><code>wrap_elements.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>In order to add non-ggplot2 element to a patchwork assemble they can be
+    <p>In order to add non-ggplot2 element to a patchwork they can be
 converted to a compliant representation using the <code>wrap_elements()</code> function.
-This allows you to position either grobs, ggplot objects, or ggassemble
+This allows you to position either grobs, ggplot objects, or patchwork
 objects in either the full area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
@@ -155,7 +155,7 @@ the same approach as with normal ggplots (using
 <a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle()</a> and <a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs()</a>) as well as styling
 using <a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme()</a>. For the latter, only the theme elements
 targeting plot margins and background as well as title, subtitle, etc styling
-will have an effect. If a ggassemble or ggplot object is wrapped, it will be
+will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
 geoms, etc..</p>
     </div>
@@ -168,7 +168,7 @@ geoms, etc..</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>panel, plot, full</th>
-      <td><p>A grob, ggplot, or ggassemble object to add to the
+      <td><p>A grob, ggplot, or patchwork object to add to the
 respective area.</p></td>
     </tr>
     <tr>
@@ -177,15 +177,15 @@ respective area.</p></td>
     </tr>
     <tr>
       <th>ignore_tag</th>
-      <td><p>Should tags be ignored for this cell. This is relevant when
-using automatic tagging of plots and the content of the cell does not qualify
-for a tag.</p></td>
+      <td><p>Should tags be ignored for this patch. This is relevant
+when using automatic tagging of plots and the content of the patch does not
+qualify for a tag.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An el_wrapper object</p>
+    <p>A wrapped_patch object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

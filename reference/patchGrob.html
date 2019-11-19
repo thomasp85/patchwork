@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a gtable created from a ggplot object patchwork compliant — wrap_ggplot_grob • patchwork</title>
+<title>Get a grob describing the content of a patch object — patchGrob • patchwork</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,13 +42,12 @@
 
 
 
-<meta property="og:title" content="Make a gtable created from a ggplot object patchwork compliant — wrap_ggplot_grob" />
-<meta property="og:description" content="This function converts a gtable, as produced by ggplot2::ggplotGrob() and
-makes it ready to be added to a patchwork. In contrast to passing
-the gtable to wrap_elements(), wrap_ggplot_grob() ensures proper
-alignment as expected. On the other hand major restructuring of the gtable
-will result in an object that doesn't work properly with
-wrap_ggplot_grob()." />
+<meta property="og:title" content="Get a grob describing the content of a patch object — patchGrob" />
+<meta property="og:description" content="Methods for this generic should be defined for all patch subclasses
+and should return a compliant gtable object ready to be combined with
+regular plot objects. In general it is best to call patch_table() on the
+object and add grobs to this as patch_table() will return a compliant
+gtable" />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -132,34 +131,33 @@ wrap_ggplot_grob()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a gtable created from a ggplot object patchwork compliant</h1>
-    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/wrap_ggplot_grob.R'><code>R/wrap_ggplot_grob.R</code></a></small>
-    <div class="hidden name"><code>wrap_ggplot_grob.Rd</code></div>
+    <h1>Get a grob describing the content of a patch object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/patch.R'><code>R/patch.R</code></a></small>
+    <div class="hidden name"><code>patchGrob.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function converts a gtable, as produced by <code><a href='https://ggplot2.tidyverse.org/reference/ggplotGrob.html'>ggplot2::ggplotGrob()</a></code> and
-makes it ready to be added to a patchwork. In contrast to passing
-the gtable to <code><a href='wrap_elements.html'>wrap_elements()</a></code>, <code>wrap_ggplot_grob()</code> ensures proper
-alignment as expected. On the other hand major restructuring of the gtable
-will result in an object that doesn't work properly with
-<code>wrap_ggplot_grob()</code>.</p>
+    <p>Methods for this generic should be defined for all <code>patch</code> subclasses
+and should return a compliant <code>gtable</code> object ready to be combined with
+regular plot objects. In general it is best to call <code>patch_table()</code> on the
+object and add grobs to this as <code>patch_table()</code> will return a compliant
+<code>gtable</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrap_ggplot_grob</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>patchGrob</span>(<span class='no'>x</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A gtable as produced by <code><a href='https://ggplot2.tidyverse.org/reference/ggplotGrob.html'>ggplot2::ggplotGrob()</a></code></p></td>
+      <td><p>An <code>patch</code> object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>table_patch</code> object to be added to a patchwork</p>
+    <p>A <code>gtable</code> object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -160,18 +160,18 @@ composition and reduce code-reuse.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>e1</th>
-      <td><p>A <code>ggplot</code> or <code>ggassemble</code> object</p></td>
+      <td><p>A <code>ggplot</code> or <code>patchwork</code> object</p></td>
     </tr>
     <tr>
       <th>e2</th>
-      <td><p>A <code>ggplot</code> or <code>ggassemble</code> object in case of <code>/</code>, or a <code>gg</code> object
+      <td><p>A <code>ggplot</code> or <code>patchwork</code> object in case of <code>/</code>, or a <code>gg</code> object
 such as a geom or theme specification in case of <code>*</code> and <code>&amp;</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>ggassemble</code> object</p>
+    <p>A <code>patchwork</code> object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>patchwork</code> augment the <code>+</code> operator from <code>ggplot2</code> and allows the user to
@@ -179,8 +179,8 @@ add full <code>ggplot</code> objects together in order to compose them into the 
 view. The last added plot is always the active one where new geoms etc. are
 added to. Another operator that is much like it, but not quite, is <code>-</code>. It
 also adds plots together but instead of adding the right hand side to the
-assemble defined in the left hand side, it puts the left hand side besides
-the right hand side in a new assemble. This might sound confusing, but in
+patchwork defined in the left hand side, it puts the left hand side besides
+the right hand side in a patchwork. This might sound confusing, but in
 essence <code>-</code> ensures that the right and left side are put in the same nesting
 level (<code>+</code> puts the right side <em>into</em> the left side). Using <code>-</code> might seem
 unintuitive if you think of the operator as "subtrack", but look at it as a
@@ -191,8 +191,8 @@ same precedence group as <code>+</code>).</p>
 stacking and packing of plots. See the exampels for their use.</p>
 <p>In order to reduce code repetition <code>patchwork</code> provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-an assemble. <code>*</code> will add the element to all plots in the current nesting
-level, while <code>&amp;</code> will recurse into nested cells.</p>
+a patchwork. <code>*</code> will add the element to all plots in the current nesting
+level, while <code>&amp;</code> will recurse into nested patches.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
