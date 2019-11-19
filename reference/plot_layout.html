@@ -141,7 +141,7 @@ current nesting level.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,9 +176,9 @@ upper level tries, but place them alongside the plot if not.</p></td>
 auto-tagging should behave. See <code><a href='plot_annotation.html'>plot_annotation()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>cells</th>
-      <td><p>Specification of the location of cells in the layout. Can either
-be specified as a text string or by concatenating calls to <code><a href='cell.html'>cell()</a></code> together.
+      <th>design</th>
+      <td><p>Specification of the location of areas in the layout. Can either
+be specified as a text string or by concatenating calls to <code><a href='area.html'>area()</a></code> together.
 See the examples for further information on use.</p></td>
     </tr>
     </table>
@@ -211,30 +211,30 @@ See the examples for further information on use.</p></td>
   ) +
   <span class='no'>p5</span> +
   <span class='fu'>plot_layout</span>(<span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Complex layouts can be created with the `cells` argument</span>
-<span class='no'>cell_layout</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-  <span class='fu'><a href='cell.html'>cell</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
-  <span class='fu'><a href='cell.html'>cell</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>3</span>),
-  <span class='fu'><a href='cell.html'>cell</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>),
-  <span class='fu'><a href='cell.html'>cell</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>),
-  <span class='fu'><a href='cell.html'>cell</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>)
+<span class='co'># Complex layouts can be created with the `design` argument</span>
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
+  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>3</span>),
+  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>),
+  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>),
+  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>)
 )
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>cells</span> <span class='kw'>=</span> <span class='no'>cell_layout</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># The same can be specified as a character string:</span>
-<span class='no'>cell_layout</span> <span class='kw'>&lt;-</span> <span class='st'>"
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
   122
   153
   443
 "</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>cells</span> <span class='kw'>=</span> <span class='no'>cell_layout</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># When using strings to define cell layout `#` can be used to denote empty</span>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># When using strings to define the design `#` can be used to denote empty</span>
 <span class='co'># areas</span>
-<span class='no'>cell_layout</span> <span class='kw'>&lt;-</span> <span class='st'>"
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
   1##
   123
   ##3
 "</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'>plot_layout</span>(<span class='kw'>cells</span> <span class='kw'>=</span> <span class='no'>cell_layout</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
