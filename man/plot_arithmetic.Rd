@@ -20,13 +20,13 @@
 \method{&}{gg}(e1, e2)
 }
 \arguments{
-\item{e1}{A \code{ggplot} or \code{ggassemble} object}
+\item{e1}{A \code{ggplot} or \code{patchwork} object}
 
-\item{e2}{A \code{ggplot} or \code{ggassemble} object in case of \code{/}, or a \code{gg} object
+\item{e2}{A \code{ggplot} or \code{patchwork} object in case of \code{/}, or a \code{gg} object
 such as a geom or theme specification in case of \code{*} and \code{&}}
 }
 \value{
-A \code{ggassemble} object
+A \code{patchwork} object
 }
 \description{
 In addition to the \code{+} operator known in \code{ggplot2}, \code{patchwork} defines logic
@@ -39,8 +39,8 @@ add full \code{ggplot} objects together in order to compose them into the same
 view. The last added plot is always the active one where new geoms etc. are
 added to. Another operator that is much like it, but not quite, is \code{-}. It
 also adds plots together but instead of adding the right hand side to the
-assemble defined in the left hand side, it puts the left hand side besides
-the right hand side in a new assemble. This might sound confusing, but in
+patchwork defined in the left hand side, it puts the left hand side besides
+the right hand side in a patchwork. This might sound confusing, but in
 essence \code{-} ensures that the right and left side are put in the same nesting
 level (\code{+} puts the right side \emph{into} the left side). Using \code{-} might seem
 unintuitive if you think of the operator as "subtrack", but look at it as a
@@ -53,8 +53,8 @@ stacking and packing of plots. See the exampels for their use.
 
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-an assemble. \code{*} will add the element to all plots in the current nesting
-level, while \code{&} will recurse into nested cells.
+a patchwork. \code{*} will add the element to all plots in the current nesting
+level, while \code{&} will recurse into nested patches.
 }
 \examples{
 library(ggplot2)

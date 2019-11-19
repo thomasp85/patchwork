@@ -9,12 +9,12 @@
 #'
 #' @export
 guide_area <- function() {
-  table <- make_cell()
+  table <- make_patch()
   class(table) <- c('guide_area', class(table))
   table
 }
 #' @importFrom gtable gtable_add_grob
-cellGrob.guide_area <- function(x, guides = 'auto') {
+patchGrob.guide_area <- function(x, guides = 'auto') {
   table <- NextMethod()
   gtable_add_grob(table, zeroGrob(), PANEL_ROW, PANEL_COL, name = 'panel-guide_area')
 }

@@ -2,28 +2,28 @@
 % Please edit documentation in R/wrap_elements.R
 \name{wrap_elements}
 \alias{wrap_elements}
-\title{Wrap arbitrary graphics in a patchwork-compliant cell}
+\title{Wrap arbitrary graphics in a patchwork-compliant patch}
 \usage{
 wrap_elements(panel = NULL, plot = NULL, full = NULL, clip = TRUE,
   ignore_tag = FALSE)
 }
 \arguments{
-\item{panel, plot, full}{A grob, ggplot, or ggassemble object to add to the
+\item{panel, plot, full}{A grob, ggplot, or patchwork object to add to the
 respective area.}
 
 \item{clip}{Should the grobs be clipped if expanding outside its area}
 
-\item{ignore_tag}{Should tags be ignored for this cell. This is relevant when
-using automatic tagging of plots and the content of the cell does not qualify
-for a tag.}
+\item{ignore_tag}{Should tags be ignored for this patch. This is relevant
+when using automatic tagging of plots and the content of the patch does not
+qualify for a tag.}
 }
 \value{
-An el_wrapper object
+A wrapped_patch object
 }
 \description{
-In order to add non-ggplot2 element to a patchwork assemble they can be
+In order to add non-ggplot2 element to a patchwork they can be
 converted to a compliant representation using the \code{wrap_elements()} function.
-This allows you to position either grobs, ggplot objects, or ggassemble
+This allows you to position either grobs, ggplot objects, or patchwork
 objects in either the full area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
@@ -31,7 +31,7 @@ the same approach as with normal ggplots (using
 \link[ggplot2:ggtitle]{ggtitle()} and \link[ggplot2:labs]{labs()}) as well as styling
 using \link[ggplot2:theme]{theme()}. For the latter, only the theme elements
 targeting plot margins and background as well as title, subtitle, etc styling
-will have an effect. If a ggassemble or ggplot object is wrapped, it will be
+will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
 geoms, etc..
 }

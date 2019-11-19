@@ -24,7 +24,7 @@ behaviour:
 \itemize{
 \item \code{\link[=plot_layout]{plot_layout()}} allows you to define the grid that plots are put into
 \item \code{\link[=plot_spacer]{plot_spacer()}} inserts a completely empty plot thus pushing the subsequent
-plots one cell.
+plots one patch.
 }
 
 That's it...

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_annotation.R
 \name{plot_annotation}
 \alias{plot_annotation}
-\title{Annotate the final plot assemble}
+\title{Annotate the final patchwork}
 \usage{
 plot_annotation(title = NULL, subtitle = NULL, caption = NULL,
   tag_levels = NULL, tag_prefix = NULL, tag_suffix = NULL,
@@ -29,7 +29,7 @@ related to the titles as well as plot margin and background is used.}
 A \code{plot_annotation} object
 }
 \description{
-The result of this function can be added to an assemble using \code{+} in the same
+The result of this function can be added to a patchwork using \code{+} in the same
 way as \code{\link[=plot_layout]{plot_layout()}}, but unlike \code{\link[=plot_layout]{plot_layout()}} it will only have an
 effect on the top level plot. As the name suggests it controls different
 aspects of the annotation of the final plot, such as titles and tags.

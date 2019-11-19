@@ -6,7 +6,7 @@
 #'
 #' - [plot_layout()] allows you to define the grid that plots are put into
 #' - [plot_spacer()] inserts a completely empty plot thus pushing the subsequent
-#'   plots one cell.
+#'   plots one patch.
 #'
 #' That's it...
 #'

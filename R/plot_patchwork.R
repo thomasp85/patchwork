@@ -2,7 +2,7 @@
 #' @importFrom utils modifyList
 #' @importFrom ggplot2 set_last_plot
 #' @export
-print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
+print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
 
   grDevices::recordGraphics(
@@ -12,12 +12,12 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   )
   annotation <- modifyList(
     default_annotation,
-    x$assemble$annotation[!vapply(x$assemble$annotation, is.null, logical(1))]
+    x$patches$annotation[!vapply(x$patches$annotation, is.null, logical(1))]
   )
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
-                    annotation$tag_suffix, annotation$tag_sep)$assemble
-  assemble <- get_assemble(x)
-  gtable <- build_assemble(assemble, assemble$layout$guides %||% 'auto')
+                    annotation$tag_suffix, annotation$tag_sep)$patches
+  plot <- get_patchwork(x)
+  gtable <- build_patchwork(plot, plot$layout$guides %||% 'auto')
   gtable <- resolve_background(gtable)
   gtable <- annotate_table(gtable, annotation)
 
@@ -37,13 +37,13 @@ print.ggassemble <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   invisible(x)
 }
 #' @export
-plot.ggassemble <- print.ggassemble
+plot.patchwork <- print.patchwork
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
 #' @importFrom gtable gtable
 #' @importFrom grid unit unit.pmax is.unit
 #' @importFrom utils modifyList
 #' @importFrom stats na.omit
-build_assemble <- function(x, guides = 'auto') {
+build_patchwork <- function(x, guides = 'auto') {
   x$layout <- modifyList(default_layout, x$layout[!vapply(x$layout, is.null, logical(1))])
 
   guides <- if (guides == 'collect' && x$layout$guides != 'keep') {
@@ -110,16 +110,16 @@ build_assemble <- function(x, guides = 'auto') {
     gt_new$collected_guides <- guide_grobs
   }
 
-  class(gt_new) <- c('gtable_assemble', class(gt_new))
+  class(gt_new) <- c('gtable_patchwork', class(gt_new))
   gt_new
 }
-#' Convert a patchwork assemble to a gtable
+#' Convert a patchwork to a gtable
 #'
 #' This function is the patchwork analogue of [ggplot2::ggplotGrob()] in that it
-#' takes an unevaluated patchwork plot object (a `ggassemble`) and fixate it
-#' into a gtable object to further manipulate directly.
+#' takes an unevaluated patchwork object and fixate it into a gtable object to
+#' further manipulate directly.
 #'
-#' @param x A `ggassemble` object
+#' @param x A `patchwork` object
 #'
 #' @return A `gtable` object
 #'
@@ -130,12 +130,12 @@ build_assemble <- function(x, guides = 'auto') {
 patchworkGrob <- function(x) {
   annotation <- modifyList(
     default_annotation,
-    x$assemble$annotation[!vapply(x$assemble$annotation, is.null, logical(1))]
+    x$patches$annotation[!vapply(x$patches$annotation, is.null, logical(1))]
   )
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
-                    annotation$tag_suffix, annotation$tag_sep)$assemble
-  assemble <- get_assemble(x)
-  gtable <- build_assemble(assemble)
+                    annotation$tag_suffix, annotation$tag_sep)$patches
+  plot <- get_patchwork(x)
+  gtable <- build_patchwork(plot)
   annotate_table(gtable, annotation)
 }
 plot_table <- function(x, guides) {
@@ -149,12 +149,12 @@ plot_table.ggplot <- function(x, guides) {
   add_guides(gt, guides == 'collect')
 }
 #' @export
-plot_table.ggassemble <- function(x, guides) {
-  build_assemble(get_assemble(x), guides)
+plot_table.patchwork <- function(x, guides) {
+  build_patchwork(get_patchwork(x), guides)
 }
 #' @export
-plot_table.assemble_cell <- function(x, guides) {
-  cellGrob(x, guides)
+plot_table.patch <- function(x, guides) {
+  patchGrob(x, guides)
 }
 simplify_gt <- function(gt) {
   UseMethod('simplify_gt')
@@ -172,14 +172,13 @@ simplify_gt.gtable <- function(gt) {
   gt
 }
 #' @export
-simplify_gt.gtable_assemble <- function(gt) {
+simplify_gt.gtable_patchwork <- function(gt) {
   simplify_base(gt)
 }
 #' @export
-simplify_gt.cellgrob <- function(gt) gt
+simplify_gt.patchgrob <- function(gt) gt
 
 simplify_base <- function(gt) {
-  fixed_asp <- gt$respect
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)

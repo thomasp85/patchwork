@@ -1,6 +1,6 @@
-#' Annotate the final plot assemble
+#' Annotate the final patchwork
 #'
-#' The result of this function can be added to an assemble using `+` in the same
+#' The result of this function can be added to a patchwork using `+` in the same
 #' way as [plot_layout()], but unlike [plot_layout()] it will only have an
 #' effect on the top level plot. As the name suggests it controls different
 #' aspects of the annotation of the final plot, such as titles and tags.
@@ -50,15 +50,15 @@ default_annotation <- plot_annotation(tag_levels = character(), tag_prefix = '',
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_annotation <- function(object, plot, object_name) {
-  if (!is.ggassemble(plot)) stop('plot_annotation must be added to an assemble of plots', call. = FALSE)
-  theme <- plot$assemble$annotation$theme + object$theme
-  plot$assemble$annotation <- modifyList(plot$assemble$annotation, object[!vapply(object, is.null, logical(1))])
+  if (!is.patchwork(plot)) stop('plot_annotation must be added to a patchwork of plots', call. = FALSE)
+  theme <- plot$patches$annotation$theme + object$theme
+  plot$patches$annotation <- modifyList(plot$patches$annotation, object[!vapply(object, is.null, logical(1))])
   plot
 }
 #' @importFrom ggplot2 is.ggplot labs
 #' @importFrom utils as.roman
 recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
-  if (length(levels) == 0) return(list(assemble = x, tab_ind = offset))
+  if (length(levels) == 0) return(list(patches = x, tab_ind = offset))
   level <- switch(
     as.character(levels[1]),
     a = letters,
@@ -68,37 +68,37 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     I = as.roman(1:100),
     stop('Unknown tag type: ', levels[1], call. = FALSE)
   )
-  assemble <- x$assemble$plots
+  patches <- x$patches$plots
   tag_ind <- offset
-  for (i in seq_along(assemble)) {
-    if (is.ggassemble(assemble[[i]])) {
-      tag_level <- assemble[[i]]$assemble$layout$tag_level
+  for (i in seq_along(patches)) {
+    if (is.patchwork(patches[[i]])) {
+      tag_level <- patches[[i]]$patches$layout$tag_level
       tag_level <- if (is.null(tag_level)) default_layout$tag_level else tag_level
       if (tag_level == 'keep') {
-        new_plots <- recurse_tags(assemble[[i]], levels, prefix, suffix, sep, tag_ind)
-        assemble[[i]] <- new_plots$assemble
+        new_plots <- recurse_tags(patches[[i]], levels, prefix, suffix, sep, tag_ind)
+        patches[[i]] <- new_plots$patches
         tag_ind <- new_plots$tag_ind
       } else {
-        assemble[[i]] <- recurse_tags(assemble[[i]], levels[-1],
-                                            prefix = paste0(prefix, level[tag_ind], sep),
-                                            suffix, sep)$assemble
+        patches[[i]] <- recurse_tags(patches[[i]], levels[-1],
+                                     prefix = paste0(prefix, level[tag_ind], sep),
+                                     suffix, sep)$patches
         tag_ind <- tag_ind + 1
       }
     } else {
-      assemble[[i]] <- assemble[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
-      if ((is.ggplot(assemble[[i]]) && !is.empty(assemble[[i]])) ||
-          (is.el_wrapper(assemble[[i]]) && !attr(assemble[[i]], 'settings')$ignore_tag)) {
+      patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
+      if ((is.ggplot(patches[[i]]) && !is.empty(patches[[i]])) ||
+          (is.wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag)) {
         tag_ind <- tag_ind + 1
       }
     }
   }
-  x$assemble$plots <- assemble
+  x$patches$plots <- patches
   x <- x + labs(tag = paste0(prefix, level[tag_ind], suffix))
-  if ((is.ggplot(x) && !is.empty(x)) || (is.el_wrapper(x) && !attr(x, 'settings')$ignore_tag)) {
+  if ((is.ggplot(x) && !is.empty(x)) || (is.wrapped_patch(x) && !attr(x, 'settings')$ignore_tag)) {
     tag_ind <- tag_ind + 1
   }
   list(
-    assemble = x,
+    patches = x,
     tag_ind = tag_ind
   )
 }

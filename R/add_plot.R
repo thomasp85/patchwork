@@ -1,44 +1,44 @@
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.ggplot <- function(object, plot, object_name) {
-  assemble <- get_assemble(plot)
-  as.ggassemble(object, assemble)
+  patchwork <- get_patchwork(plot)
+  as.patchwork(object, patchwork)
 }
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.grob <- function(object, plot, object_name) {
   plot + wrap_elements(full = object)
 }
-# Convert a plot with a (possible) assemble into a selfcontained assemble to be
-# attached to another plot
-get_assemble <- function(plot) {
+# Convert a plot with a (possible) list of patches into a selfcontained
+# patchwork to be attached to another plot
+get_patchwork <- function(plot) {
   empty <- is.empty(plot)
-  if (is.ggassemble(plot)) {
-    assemble <- plot$assemble
-    plot$assemble <- NULL
-    class(plot) <- setdiff(class(plot), 'ggassemble')
+  if (is.patchwork(plot)) {
+    patches <- plot$patches
+    plot$patches <- NULL
+    class(plot) <- setdiff(class(plot), 'patchwork')
   } else {
-    assemble <- new_assemble()
+    patches <- new_patchwork()
   }
   if (!empty) {
-    assemble$plots <- c(assemble$plots, list(plot))
+    patches$plots <- c(patches$plots, list(plot))
   }
-  assemble
+  patches
 }
-is.ggassemble <- function(x) inherits(x, 'ggassemble')
-as.ggassemble <- function(plot, assemble) {
-  UseMethod('as.ggassemble')
+is.patchwork <- function(x) inherits(x, 'patchwork')
+as.patchwork <- function(plot, patches) {
+  UseMethod('as.patchwork')
 }
-as.ggassemble.ggplot <- function(plot, assemble) {
-  class(plot) <- c('ggassemble', class(plot))
-  plot$assemble <- assemble
+as.patchwork.ggplot <- function(plot, patches) {
+  class(plot) <- c('patchwork', class(plot))
+  plot$patches <- patches
   plot
 }
-as.ggassemble.ggassemble <- function(plot, assemble) {
-  assemble$plots <- c(assemble$plots, list(plot))
-  as.ggassemble(plot_filler(), assemble)
+as.patchwork.patchwork <- function(plot, patches) {
+  patches$plots <- c(patches$plots, list(plot))
+  as.patchwork(plot_filler(), patches)
 }
-new_assemble <- function() {
+new_patchwork <- function() {
   list(
     plots = list(),
     layout = plot_layout(),
@@ -49,5 +49,5 @@ new_assemble <- function() {
 plot_filler <- function() {
   ggplot()
 }
-is.empty <- function(x) !is.assemble_cell(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
+is.empty <- function(x) !is.patch(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
 

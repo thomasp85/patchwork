@@ -2,7 +2,7 @@
 % Please edit documentation in R/wrap_plots.R
 \name{wrap_plots}
 \alias{wrap_plots}
-\title{Wrap plots into an assemble}
+\title{Wrap plots into a patchwork}
 \usage{
 wrap_plots(..., ncol = NULL, nrow = NULL, byrow = NULL,
   widths = NULL, heights = NULL, guides = NULL, tag_level = NULL,
@@ -42,7 +42,7 @@ be specified as a text string or by concatenating calls to \code{\link[=cell]{ce
 See the examples for further information on use.}
 }
 \value{
-A \code{ggassemble} object
+A \code{patchwork} object
 }
 \description{
 While the use of \code{+} is a natural way to add plots together, it can be

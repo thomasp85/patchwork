@@ -10,8 +10,8 @@
 #' view. The last added plot is always the active one where new geoms etc. are
 #' added to. Another operator that is much like it, but not quite, is `-`. It
 #' also adds plots together but instead of adding the right hand side to the
-#' assemble defined in the left hand side, it puts the left hand side besides
-#' the right hand side in a new assemble. This might sound confusing, but in
+#' patchwork defined in the left hand side, it puts the left hand side besides
+#' the right hand side in a patchwork. This might sound confusing, but in
 #' essence `-` ensures that the right and left side are put in the same nesting
 #' level (`+` puts the right side *into* the left side). Using `-` might seem
 #' unintuitive if you think of the operator as "subtrack", but look at it as a
@@ -24,14 +24,14 @@
 #'
 #' In order to reduce code repetition `patchwork` provides two operators for
 #' adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-#' an assemble. `*` will add the element to all plots in the current nesting
-#' level, while `&` will recurse into nested cells.
+#' a patchwork. `*` will add the element to all plots in the current nesting
+#' level, while `&` will recurse into nested patches.
 #'
-#' @param e1 A `ggplot` or `ggassemble` object
-#' @param e2 A `ggplot` or `ggassemble` object in case of `/`, or a `gg` object
+#' @param e1 A `ggplot` or `patchwork` object
+#' @param e2 A `ggplot` or `patchwork` object in case of `/`, or a `gg` object
 #' such as a geom or theme specification in case of `*` and `&`
 #'
-#' @return A `ggassemble` object
+#' @return A `patchwork` object
 #'
 #' @name plot_arithmetic
 #' @rdname plot_arithmetic
@@ -66,24 +66,24 @@ NULL
 "-.ggplot" <- function(e1, e2) {
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
-  assemble <- new_assemble()
-  if (is.ggassemble(e2)) {
+  patchwork <- new_patchwork()
+  if (is.patchwork(e2)) {
     plot <- plot_filler()
-    assemble$plots <- list(e1, e2)
+    patchwork$plots <- list(e1, e2)
   } else {
     plot <- e2
-    assemble$plots <- list(e1)
+    patchwork$plots <- list(e1)
   }
-  as.ggassemble(plot, assemble)
+  as.patchwork(plot, patchwork)
 }
 #' @importFrom grid is.grob
 #' @rdname plot_arithmetic
 #' @export
 "/.ggplot" <- function(e1, e2) {
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
-  if (!is.ggassemble(e1)) {
+  if (!is.patchwork(e1)) {
     e1 + e2 + plot_layout(ncol = 1)
-  } else if (!is.null(e1$assemble$layout$ncol) && e1$assemble$layout$ncol == 1) {
+  } else if (!is.null(e1$patches$layout$ncol) && e1$patches$layout$ncol == 1) {
     e1 + e2
   } else {
     e1 - e2 + plot_layout(ncol = 1)
@@ -94,9 +94,9 @@ NULL
 #' @export
 "|.ggplot" <- function(e1, e2) {
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
-  if (!is.ggassemble(e1)) {
+  if (!is.patchwork(e1)) {
     e1 + e2 + plot_layout(nrow = 1)
-  } else if (!is.null(e1$assemble$layout$nrow) && e1$assemble$layout$nrow == 1) {
+  } else if (!is.null(e1$patches$layout$nrow) && e1$patches$layout$nrow == 1) {
     e1 + e2
   } else {
     e1 - e2 + plot_layout(nrow = 1)
@@ -105,9 +105,9 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "*.gg" <- function(e1, e2) {
-  if (is.ggassemble(e1)) {
-    e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
-      if (!is.ggassemble(p)) p <- p + e2
+  if (is.patchwork(e1)) {
+    e1$patches$plots <- lapply(e1$patches$plots, function(p) {
+      if (!is.patchwork(p)) p <- p + e2
       p
     })
   }
@@ -116,9 +116,9 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "&.gg" <- function(e1, e2) {
-  if (is.ggassemble(e1)) {
-    e1$assemble$plots <- lapply(e1$assemble$plots, function(p) {
-      if (is.ggassemble(p)) {
+  if (is.patchwork(e1)) {
+    e1$patches$plots <- lapply(e1$patches$plots, function(p) {
+      if (is.patchwork(p)) {
         p <- p & e2
       } else {
         p <- p + e2

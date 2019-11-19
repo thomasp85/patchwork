@@ -1,8 +1,8 @@
-#' Wrap arbitrary graphics in a patchwork-compliant cell
+#' Wrap arbitrary graphics in a patchwork-compliant patch
 #'
-#' In order to add non-ggplot2 element to a patchwork assemble they can be
+#' In order to add non-ggplot2 element to a patchwork they can be
 #' converted to a compliant representation using the `wrap_elements()` function.
-#' This allows you to position either grobs, ggplot objects, or ggassemble
+#' This allows you to position either grobs, ggplot objects, or patchwork
 #' objects in either the full area, the full plotting area (anything between and
 #' including the axis label), or the panel area (only the actual area where data
 #' is drawn). Further you can still add title, subtitle, tag, and caption using
@@ -10,37 +10,37 @@
 #' [ggtitle()][ggplot2::ggtitle] and [labs()][ggplot2::labs]) as well as styling
 #' using [theme()][ggplot2::theme]. For the latter, only the theme elements
 #' targeting plot margins and background as well as title, subtitle, etc styling
-#' will have an effect. If a ggassemble or ggplot object is wrapped, it will be
+#' will have an effect. If a patchwork or ggplot object is wrapped, it will be
 #' fixated in its state and will no longer respond to addition of styling,
 #' geoms, etc..
 #'
-#' @param panel,plot,full A grob, ggplot, or ggassemble object to add to the
+#' @param panel,plot,full A grob, ggplot, or patchwork object to add to the
 #' respective area.
 #'
 #' @param clip Should the grobs be clipped if expanding outside its area
 #'
-#' @param ignore_tag Should tags be ignored for this cell. This is relevant when
-#' using automatic tagging of plots and the content of the cell does not qualify
-#' for a tag.
+#' @param ignore_tag Should tags be ignored for this patch. This is relevant
+#' when using automatic tagging of plots and the content of the patch does not
+#' qualify for a tag.
 #'
-#' @return An el_wrapper object
+#' @return A wrapped_patch object
 #'
 #' @export
 wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, ignore_tag = FALSE) {
   clip <- if (clip) 'on' else 'off'
-  table <- make_cell()
+  table <- make_patch()
   attr(table, 'grobs') <- list(panel = panel, plot = plot, full = full)
   attr(table, 'settings') <- list(clip = clip, ignore_tag = ignore_tag)
-  class(table) <- c('el_wrapper', class(table))
+  class(table) <- c('wrapped_patch', class(table))
   table
 }
-is.el_wrapper <- function(x) inherits(x, 'el_wrapper')
+is.wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
 #' @importFrom ggplot2 ggplotGrob theme_get
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid grobHeight convertHeight
-cellGrob.el_wrapper <- function(x, guides = 'auto') {
+patchGrob.wrapped_patch <- function(x, guides = 'auto') {
   gt <- ggplotGrob(x)
-  table <- cell_table(x, gt)
+  table <- patch_table(x, gt)
   settings <- attr(x, 'settings')
   grobs <- attr(x, 'grobs')
   if (!is.null(grobs$full)) {
@@ -101,7 +101,7 @@ as.grob.grob <- function(x, ...) {
 as.grob.ggplot <- function(x, ...) {
   ggplotGrob(x)
 }
-as.grob.ggassemble <- function(x, ...) {
+as.grob.patchwork <- function(x, ...) {
   patchworkGrob(x)
 }
 #' @importFrom ggplot2 ggplotGrob

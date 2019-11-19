@@ -1,26 +1,26 @@
 #' @importFrom gtable gtable gtable_add_grob
 #' @importFrom grid unit
 #' @importFrom ggplot2 zeroGrob
-make_cell <- function() {
+make_patch <- function() {
   widths <- unit(rep(0, TABLE_COLS), 'mm')
   widths[PANEL_COL] <- unit(1, 'null')
   heights <- unit(rep(0, TABLE_ROWS), 'mm')
   heights[PANEL_ROW] <- unit(1, 'null')
   table <- gtable(widths, heights)
-  # Mark the panel cell
+  # Mark the panel patch
   table <- gtable_add_grob(table, list(zeroGrob()), PANEL_ROW, PANEL_COL,
-                           z = -Inf, name = 'panel_cell')
-  class(table) <- c('cellgrob', class(table))
-  cell <- plot_filler()
-  class(cell) <- c('assemble_cell', class(cell))
-  attr(cell, 'table') <- table
-  cell
+                           z = -Inf, name = 'panel_patch')
+  class(table) <- c('patchgrob', class(table))
+  patch <- plot_filler()
+  class(patch) <- c('patch', class(patch))
+  attr(patch, 'table') <- table
+  patch
 }
-is.assemble_cell <- function(x) inherits(x, 'assemble_cell')
-is.cellgrob <- function(x) inherits(x, 'cellgrob')
+is.patch <- function(x) inherits(x, 'patch')
+is.patchgrob <- function(x) inherits(x, 'patchgrob')
 #' @importFrom ggplot2 ggplotGrob
 #' @importFrom gtable gtable_add_grob
-cell_table <- function(x, grob = NULL) {
+patch_table <- function(x, grob = NULL) {
   table <- attr(x, 'table')
   if (is.null(grob)) grob <- ggplotGrob(x)
   table$widths[c(1, ncol(table))] <- grob$widths[c(1, ncol(grob))]
@@ -29,29 +29,29 @@ cell_table <- function(x, grob = NULL) {
                   nrow(table), ncol(table), z = -100, clip = 'on',
                   name = 'background')
 }
-#' Get a grob describing the content of an assemble_cell object
+#' Get a grob describing the content of a patch object
 #'
-#' Methods for this generic should be defined for all `assemble_cell` subclasses
+#' Methods for this generic should be defined for all `patch` subclasses
 #' and should return a compliant `gtable` object ready to be combined with
-#' regular plot objects. In general it is best to call `cell_table()` on the
-#' object and add grobs to this as `cell_table()` will return a compliant
+#' regular plot objects. In general it is best to call `patch_table()` on the
+#' object and add grobs to this as `patch_table()` will return a compliant
 #' `gtable`
 #'
-#' @param x An `assemble_cell` object
+#' @param x An `patch` object
 #'
 #' @return A `gtable` object
 #'
 #' @export
 #' @keywords internal
 #'
-cellGrob <- function(x, guides = 'auto') {
-  UseMethod('cellGrob')
+patchGrob <- function(x, guides = 'auto') {
+  UseMethod('patchGrob')
 }
 #' @export
-cellGrob.assemble_cell <- function(x, guides = 'auto') cell_table(x)
+patchGrob.patch <- function(x, guides = 'auto') patch_table(x)
 #' @importFrom grid grid.newpage grid.draw seekViewport pushViewport upViewport
 #' @export
-print.assemble_cell <- function(x, newpage = is.null(vp), vp = NULL, ...) {
+print.patch <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   if (newpage) grid.newpage()
 
   grDevices::recordGraphics(
@@ -59,7 +59,7 @@ print.assemble_cell <- function(x, newpage = is.null(vp), vp = NULL, ...) {
     list(),
     getNamespace("patchwork")
   )
-  gt <- cellGrob(x)
+  gt <- patchGrob(x)
   if (is.null(vp)) {
     grid.draw(gt)
   } else {
@@ -74,4 +74,4 @@ print.assemble_cell <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   invisible(x)
 }
 #' @export
-plot.assemble_cell <- print.assemble_cell
+plot.patch <- print.patch

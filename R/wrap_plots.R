@@ -1,4 +1,4 @@
-#' Wrap plots into an assemble
+#' Wrap plots into a patchwork
 #'
 #' While the use of `+` is a natural way to add plots together, it can be
 #' difficult to string together multiple plots programmatically if the number
@@ -15,7 +15,7 @@
 #' @param ... multiple `ggplot`s or a list containing `ggplot` objects
 #' @inheritParams plot_layout
 #'
-#' @return A `ggassemble` object
+#' @return A `patchwork` object
 #'
 #' @importFrom ggplot2 is.ggplot
 #' @export
