@@ -16,8 +16,8 @@ make_patch <- function() {
   attr(patch, 'table') <- table
   patch
 }
-is.patch <- function(x) inherits(x, 'patch')
-is.patchgrob <- function(x) inherits(x, 'patchgrob')
+is_patch <- function(x) inherits(x, 'patch')
+is_patchgrob <- function(x) inherits(x, 'patchgrob')
 #' @importFrom ggplot2 ggplotGrob
 #' @importFrom gtable gtable_add_grob
 patch_table <- function(x, grob = NULL) {

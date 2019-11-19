@@ -29,4 +29,4 @@ plot_spacer <- function() {
   class(table) <- c('spacer', class(table))
   table
 }
-is.spacer <- function(x) inherits(x, 'spacer')
+is_spacer <- function(x) inherits(x, 'spacer')

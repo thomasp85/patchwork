@@ -34,7 +34,7 @@ wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, i
   class(table) <- c('wrapped_patch', class(table))
   table
 }
-is.wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
+is_wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
 #' @importFrom ggplot2 ggplotGrob theme_get
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid grobHeight convertHeight

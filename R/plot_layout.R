@@ -215,7 +215,7 @@ default_layout <- plot_layout(byrow = TRUE, widths = 1, heights = 1, guides = 'a
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_layout <- function(object, plot, object_name) {
-  if (!is.patchwork(plot)) stop('plot_layout must be added to a patchwork of plots', call. = FALSE)
+  plot <- as_patchwork(plot)
   plot$patches$layout <- modifyList(plot$patches$layout, object[!vapply(object, is.null, logical(1))])
   plot
 }

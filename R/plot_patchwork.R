@@ -16,7 +16,7 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   )
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
                     annotation$tag_suffix, annotation$tag_sep)$patches
-  plot <- get_patchwork(x)
+  plot <- get_patches(x)
   gtable <- build_patchwork(plot, plot$layout$guides %||% 'auto')
   gtable <- resolve_background(gtable)
   gtable <- annotate_table(gtable, annotation)
@@ -88,7 +88,9 @@ build_patchwork <- function(x, guides = 'auto') {
   table_dimensions <- table_dims(
     lapply(gt, `[[`, 'widths'),
     lapply(gt, `[[`, 'heights'),
-    design
+    design,
+    dims[2],
+    dims[1]
   )
   gt_new$grobs <- unlist(lapply(gt, `[[`, 'grobs'), recursive = FALSE)
   gt_new$widths <- table_dimensions$widths
@@ -134,7 +136,7 @@ patchworkGrob <- function(x) {
   )
   x <- recurse_tags(x, annotation$tag_levels, annotation$tag_prefix,
                     annotation$tag_suffix, annotation$tag_sep)$patches
-  plot <- get_patchwork(x)
+  plot <- get_patches(x)
   gtable <- build_patchwork(plot)
   annotate_table(gtable, annotation)
 }
@@ -150,7 +152,7 @@ plot_table.ggplot <- function(x, guides) {
 }
 #' @export
 plot_table.patchwork <- function(x, guides) {
-  build_patchwork(get_patchwork(x), guides)
+  build_patchwork(get_patches(x), guides)
 }
 #' @export
 plot_table.patch <- function(x, guides) {
@@ -395,9 +397,9 @@ create_design <- function(width, height, byrow) {
   )
 }
 #' @importFrom grid convertHeight convertWidth unit
-table_dims <- function(widths, heights, areas) {
+table_dims <- function(widths, heights, areas, ncol, nrow) {
   widths <- lapply(widths, convertWidth, 'mm', valueOnly = TRUE)
-  widths <- vapply(seq_len(max(areas$r) * TABLE_COLS), function(i) {
+  widths <- vapply(seq_len(ncol * TABLE_COLS), function(i) {
     area <- (i - 1) %/% TABLE_COLS + 1
     col_loc <- i %% TABLE_COLS
     if (col_loc == 0) col_loc <- TABLE_COLS
@@ -410,7 +412,7 @@ table_dims <- function(widths, heights, areas) {
     }
   }, numeric(1))
   heights <- lapply(heights, convertHeight, 'mm', valueOnly = TRUE)
-  heights <- vapply(seq_len(max(areas$b) * TABLE_ROWS), function(i) {
+  heights <- vapply(seq_len(nrow * TABLE_ROWS), function(i) {
     area <- (i - 1) %/% TABLE_ROWS + 1
     row_loc <- i %% TABLE_ROWS
     if (row_loc == 0) row_loc <- TABLE_ROWS

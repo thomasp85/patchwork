@@ -1,8 +1,8 @@
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.ggplot <- function(object, plot, object_name) {
-  patchwork <- get_patchwork(plot)
-  as.patchwork(object, patchwork)
+  patches <- get_patches(plot)
+  add_patches(object, patches)
 }
 #' @importFrom ggplot2 ggplot_add
 #' @export
@@ -11,9 +11,9 @@ ggplot_add.grob <- function(object, plot, object_name) {
 }
 # Convert a plot with a (possible) list of patches into a selfcontained
 # patchwork to be attached to another plot
-get_patchwork <- function(plot) {
-  empty <- is.empty(plot)
-  if (is.patchwork(plot)) {
+get_patches <- function(plot) {
+  empty <- is_empty(plot)
+  if (is_patchwork(plot)) {
     patches <- plot$patches
     plot$patches <- NULL
     class(plot) <- setdiff(class(plot), 'patchwork')
@@ -25,18 +25,31 @@ get_patchwork <- function(plot) {
   }
   patches
 }
-is.patchwork <- function(x) inherits(x, 'patchwork')
-as.patchwork <- function(plot, patches) {
-  UseMethod('as.patchwork')
+is_patchwork <- function(x) inherits(x, 'patchwork')
+as_patchwork <- function(x) {
+  UseMethod('as_patchwork')
 }
-as.patchwork.ggplot <- function(plot, patches) {
-  class(plot) <- c('patchwork', class(plot))
+as_patchwork.default <- function(x) {
+  stop('Don\'t know how to convert an object of class <', paste(class(x), collapse = ', '),'> to a patchwork', call. = FALSE)
+}
+as_patchwork.ggplot <- function(x) {
+  class(x) <- c('patchwork', class(x))
+  x$patches <- new_patchwork()
+  x
+}
+as_patchwork.patchwork <- function(x) x
+
+add_patches <- function(plot, patches) {
+  UseMethod('add_patches')
+}
+add_patches.ggplot <- function(plot, patches) {
+  plot <- as_patchwork(plot)
   plot$patches <- patches
   plot
 }
-as.patchwork.patchwork <- function(plot, patches) {
+add_patches.patchwork <- function(plot, patches) {
   patches$plots <- c(patches$plots, list(plot))
-  as.patchwork(plot_filler(), patches)
+  add_patches(plot_filler(), patches)
 }
 new_patchwork <- function() {
   list(
@@ -49,5 +62,5 @@ new_patchwork <- function() {
 plot_filler <- function() {
   ggplot()
 }
-is.empty <- function(x) !is.patch(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
+is_empty <- function(x) !is_patch(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
 

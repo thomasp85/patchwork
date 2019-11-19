@@ -67,21 +67,21 @@ NULL
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
   patchwork <- new_patchwork()
-  if (is.patchwork(e2)) {
+  if (is_patchwork(e2)) {
     plot <- plot_filler()
     patchwork$plots <- list(e1, e2)
   } else {
     plot <- e2
     patchwork$plots <- list(e1)
   }
-  as.patchwork(plot, patchwork)
+  add_patches(plot, patchwork)
 }
 #' @importFrom grid is.grob
 #' @rdname plot_arithmetic
 #' @export
 "/.ggplot" <- function(e1, e2) {
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
-  if (!is.patchwork(e1)) {
+  if (!is_patchwork(e1)) {
     e1 + e2 + plot_layout(ncol = 1)
   } else if (!is.null(e1$patches$layout$ncol) && e1$patches$layout$ncol == 1) {
     e1 + e2
@@ -94,7 +94,7 @@ NULL
 #' @export
 "|.ggplot" <- function(e1, e2) {
   if (is.grob(e2)) e2 <- wrap_elements(full = e2)
-  if (!is.patchwork(e1)) {
+  if (!is_patchwork(e1)) {
     e1 + e2 + plot_layout(nrow = 1)
   } else if (!is.null(e1$patches$layout$nrow) && e1$patches$layout$nrow == 1) {
     e1 + e2
@@ -105,9 +105,9 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "*.gg" <- function(e1, e2) {
-  if (is.patchwork(e1)) {
+  if (is_patchwork(e1)) {
     e1$patches$plots <- lapply(e1$patches$plots, function(p) {
-      if (!is.patchwork(p)) p <- p + e2
+      if (!is_patchwork(p)) p <- p + e2
       p
     })
   }
@@ -116,9 +116,9 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "&.gg" <- function(e1, e2) {
-  if (is.patchwork(e1)) {
+  if (is_patchwork(e1)) {
     e1$patches$plots <- lapply(e1$patches$plots, function(p) {
-      if (is.patchwork(p)) {
+      if (is_patchwork(p)) {
         p <- p & e2
       } else {
         p <- p + e2

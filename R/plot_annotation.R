@@ -50,8 +50,8 @@ default_annotation <- plot_annotation(tag_levels = character(), tag_prefix = '',
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_annotation <- function(object, plot, object_name) {
-  if (!is.patchwork(plot)) stop('plot_annotation must be added to a patchwork of plots', call. = FALSE)
-  theme <- plot$patches$annotation$theme + object$theme
+  plot <- as_patchwork(plot)
+  object$theme <- plot$patches$annotation$theme + object$theme
   plot$patches$annotation <- modifyList(plot$patches$annotation, object[!vapply(object, is.null, logical(1))])
   plot
 }
@@ -71,7 +71,7 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   patches <- x$patches$plots
   tag_ind <- offset
   for (i in seq_along(patches)) {
-    if (is.patchwork(patches[[i]])) {
+    if (is_patchwork(patches[[i]])) {
       tag_level <- patches[[i]]$patches$layout$tag_level
       tag_level <- if (is.null(tag_level)) default_layout$tag_level else tag_level
       if (tag_level == 'keep') {
@@ -86,15 +86,15 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
       }
     } else {
       patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
-      if ((is.ggplot(patches[[i]]) && !is.empty(patches[[i]])) ||
-          (is.wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag)) {
+      if ((is.ggplot(patches[[i]]) && !is_empty(patches[[i]])) ||
+          (is_wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag)) {
         tag_ind <- tag_ind + 1
       }
     }
   }
   x$patches$plots <- patches
   x <- x + labs(tag = paste0(prefix, level[tag_ind], suffix))
-  if ((is.ggplot(x) && !is.empty(x)) || (is.wrapped_patch(x) && !attr(x, 'settings')$ignore_tag)) {
+  if ((is.ggplot(x) && !is_empty(x)) || (is_wrapped_patch(x) && !attr(x, 'settings')$ignore_tag)) {
     tag_ind <- tag_ind + 1
   }
   list(
