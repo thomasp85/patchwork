@@ -54,30 +54,30 @@ build_patchwork <- function(x, guides = 'auto') {
   gt <- lapply(x$plots, plot_table, guides = guides)
   guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
-  if (!is.null(x$layout$cells)) {
-    if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$cells$r)
-    if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$cells$b)
+  if (!is.null(x$layout$design)) {
+    if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$design$r)
+    if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$design$b)
   }
   dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
   gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
                    unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
-  if (is.null(x$layout$cells)) {
-    x$layout$cells <- create_cells(dims[2], dims[1], x$layout$byrow)
+  if (is.null(x$layout$design)) {
+    x$layout$design <- create_design(dims[2], dims[1], x$layout$byrow)
   } else {
   }
-  cells <- as.data.frame(unclass(x$layout$cells))
-  if (nrow(cells) < length(gt)) {
-    warning('Too few cells to hold all plots. Dropping plots', call. = FALSE)
-    gt <- gt[seq_len(nrow(cells))]
+  design <- as.data.frame(unclass(x$layout$design))
+  if (nrow(design) < length(gt)) {
+    warning('Too few patch areas to hold all plots. Dropping plots', call. = FALSE)
+    gt <- gt[seq_len(nrow(design))]
   } else {
-    cells <- cells[seq_along(gt), ]
+    design <- design[seq_along(gt), ]
   }
-  if (any(cells$t < 1)) cells$t[cells$t < 1] <- 1
-  if (any(cells$l < 1)) cells$l[cells$l < 1] <- 1
-  if (any(cells$b > dims[1])) cells$b[cells$b > dims[1]] <- dims[1]
-  if (any(cells$r > dims[2])) cells$r[cells$r > dims[2]] <- dims[2]
+  if (any(design$t < 1)) design$t[design$t < 1] <- 1
+  if (any(design$l < 1)) design$l[design$l < 1] <- 1
+  if (any(design$b > dims[1])) design$b[design$b > dims[1]] <- dims[1]
+  if (any(design$r > dims[2])) design$r[design$r > dims[2]] <- dims[2]
   gt_new$layout <- do.call(rbind, lapply(seq_along(gt), function(i) {
-    loc <- cells[i, ]
+    loc <- design[i, ]
     lay <- gt[[i]]$layout
     lay$t <- lay$t + ifelse(lay$t <= PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
     lay$l <- lay$l + ifelse(lay$l <= PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
@@ -88,7 +88,7 @@ build_patchwork <- function(x, guides = 'auto') {
   table_dimensions <- table_dims(
     lapply(gt, `[[`, 'widths'),
     lapply(gt, `[[`, 'heights'),
-    cells
+    design
   )
   gt_new$grobs <- unlist(lapply(gt, `[[`, 'grobs'), recursive = FALSE)
   gt_new$widths <- table_dimensions$widths
@@ -386,23 +386,23 @@ get_background_table <- function(gt) {
   })
   do.call(rbind, c(rows, list(size = 'first')))
 }
-create_cells <- function(width, height, byrow) {
+create_design <- function(width, height, byrow) {
   mat <- matrix(seq_len(width * height), nrow = height, ncol = width, byrow = byrow)
   ind <- as.vector(mat)
-  cell(
+  area(
     t = row(mat)[ind],
     l = col(mat)[ind]
   )
 }
 #' @importFrom grid convertHeight convertWidth unit
-table_dims <- function(widths, heights, cells) {
+table_dims <- function(widths, heights, areas) {
   widths <- lapply(widths, convertWidth, 'mm', valueOnly = TRUE)
-  widths <- vapply(seq_len(max(cells$r) * TABLE_COLS), function(i) {
-    cell <- (i - 1) %/% TABLE_COLS + 1
+  widths <- vapply(seq_len(max(areas$r) * TABLE_COLS), function(i) {
+    area <- (i - 1) %/% TABLE_COLS + 1
     col_loc <- i %% TABLE_COLS
     if (col_loc == 0) col_loc <- TABLE_COLS
-    cell_side <- if (col_loc <= PANEL_COL) 'l' else 'r'
-    tables <- which(cells[[cell_side]] == cell)
+    area_side <- if (col_loc <= PANEL_COL) 'l' else 'r'
+    tables <- which(areas[[area_side]] == area)
     if (length(tables) == 0) {
       0
     } else {
@@ -410,12 +410,12 @@ table_dims <- function(widths, heights, cells) {
     }
   }, numeric(1))
   heights <- lapply(heights, convertHeight, 'mm', valueOnly = TRUE)
-  heights <- vapply(seq_len(max(cells$b) * TABLE_ROWS), function(i) {
-    cell <- (i - 1) %/% TABLE_ROWS + 1
+  heights <- vapply(seq_len(max(areas$b) * TABLE_ROWS), function(i) {
+    area <- (i - 1) %/% TABLE_ROWS + 1
     row_loc <- i %% TABLE_ROWS
     if (row_loc == 0) row_loc <- TABLE_ROWS
-    cell_side <- if (row_loc <= PANEL_ROW) 't' else 'b'
-    tables <- which(cells[[cell_side]] == cell)
+    area_side <- if (row_loc <= PANEL_ROW) 't' else 'b'
+    tables <- which(areas[[area_side]] == area)
     if (length(tables) == 0) {
       0
     } else {

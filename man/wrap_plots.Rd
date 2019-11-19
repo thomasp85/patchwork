@@ -6,7 +6,7 @@
 \usage{
 wrap_plots(..., ncol = NULL, nrow = NULL, byrow = NULL,
   widths = NULL, heights = NULL, guides = NULL, tag_level = NULL,
-  cells = NULL)
+  design = NULL)
 }
 \arguments{
 \item{...}{multiple \code{ggplot}s or a list containing \code{ggplot} objects}
@@ -37,8 +37,8 @@ upper level tries, but place them alongside the plot if not.}
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate how
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
 
-\item{cells}{Specification of the location of cells in the layout. Can either
-be specified as a text string or by concatenating calls to \code{\link[=cell]{cell()}} together.
+\item{design}{Specification of the location of areas in the layout. Can either
+be specified as a text string or by concatenating calls to \code{\link[=area]{area()}} together.
 See the examples for further information on use.}
 }
 \value{
@@ -51,10 +51,10 @@ of plots is not known beforehand. \code{wrap_plots} makes it easy to take a list
 of plots and add them into one composition, along with layout specifications.
 }
 \details{
-If \code{cells} is specified as a text string \emph{and} the plots are named (e.g.
+If \code{design} is specified as a text string \emph{and} the plots are named (e.g.
 \code{wrap_plots(A = p1, ...)}) \emph{and} all plot names are single characters
-represented in the cell layout string, the plots will be matched to their
-respective area by name. Otherwise the cell areas will be filled out
+represented in the design layout string, the plots will be matched to their
+respective area by name. Otherwise the areas will be filled out
 sequentially in the same manner as using the \code{+} operator. See the examples
 for more.
 }
@@ -74,12 +74,12 @@ wrap_plots(p1, p2, p3, p4, p5)
 plots <- list(p1, p2, p3, p4, p5)
 wrap_plots(plots)
 
-# Match plots to cells by name
-cell_layout <- "#BB
-                AA#"
-wrap_plots(B = p1, A = p2, cells = cell_layout)
+# Match plots to areas by name
+design <- "#BB
+           AA#"
+wrap_plots(B = p1, A = p2, design = design)
 
 # Compare to not using named plot arguments
-wrap_plots(p1, p2, cells = cell_layout)
+wrap_plots(p1, p2, design = design)
 
 }

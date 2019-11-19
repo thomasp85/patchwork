@@ -5,7 +5,7 @@
 \title{Define the grid to compose plots in}
 \usage{
 plot_layout(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
-  heights = NULL, guides = NULL, tag_level = NULL, cells = NULL)
+  heights = NULL, guides = NULL, tag_level = NULL, design = NULL)
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
@@ -27,8 +27,8 @@ upper level tries, but place them alongside the plot if not.}
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate how
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
 
-\item{cells}{Specification of the location of cells in the layout. Can either
-be specified as a text string or by concatenating calls to \code{\link[=cell]{cell()}} together.
+\item{design}{Specification of the location of areas in the layout. Can either
+be specified as a text string or by concatenating calls to \code{\link[=area]{area()}} together.
 See the examples for further information on use.}
 }
 \value{
@@ -67,31 +67,31 @@ p1 +
   p5 +
   plot_layout(widths = c(2, 1))
 
-# Complex layouts can be created with the `cells` argument
-cell_layout <- c(
-  cell(1, 1, 2),
-  cell(1, 2, 1, 3),
-  cell(2, 3, 3),
-  cell(3, 1, 3, 2),
-  cell(2, 2)
+# Complex layouts can be created with the `design` argument
+design <- c(
+  area(1, 1, 2),
+  area(1, 2, 1, 3),
+  area(2, 3, 3),
+  area(3, 1, 3, 2),
+  area(2, 2)
 )
-p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
 
 # The same can be specified as a character string:
-cell_layout <- "
+design <- "
   122
   153
   443
 "
-p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
 
-# When using strings to define cell layout `#` can be used to denote empty
+# When using strings to define the design `#` can be used to denote empty
 # areas
-cell_layout <- "
+design <- "
   1##
   123
   ##3
 "
-p1 + p2 + p3 + plot_layout(cells = cell_layout)
+p1 + p2 + p3 + plot_layout(design = design)
 
 }

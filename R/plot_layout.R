@@ -18,8 +18,8 @@
 #' upper level tries, but place them alongside the plot if not.
 #' @param tag_level A string (`'keep'` or `'new'`) to indicate how
 #' auto-tagging should behave. See [plot_annotation()].
-#' @param cells Specification of the location of cells in the layout. Can either
-#' be specified as a text string or by concatenating calls to [cell()] together.
+#' @param design Specification of the location of areas in the layout. Can either
+#' be specified as a text string or by concatenating calls to [area()] together.
 #' See the examples for further information on use.
 #'
 #' @return A `plot_layout` object to be added to a `ggassmble` object
@@ -54,34 +54,36 @@
 #'   p5 +
 #'   plot_layout(widths = c(2, 1))
 #'
-#' # Complex layouts can be created with the `cells` argument
-#' cell_layout <- c(
-#'   cell(1, 1, 2),
-#'   cell(1, 2, 1, 3),
-#'   cell(2, 3, 3),
-#'   cell(3, 1, 3, 2),
-#'   cell(2, 2)
+#' # Complex layouts can be created with the `design` argument
+#' design <- c(
+#'   area(1, 1, 2),
+#'   area(1, 2, 1, 3),
+#'   area(2, 3, 3),
+#'   area(3, 1, 3, 2),
+#'   area(2, 2)
 #' )
-#' p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+#' p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
 #'
 #' # The same can be specified as a character string:
-#' cell_layout <- "
+#' design <- "
 #'   122
 #'   153
 #'   443
 #' "
-#' p1 + p2 + p3 + p4 + p5 + plot_layout(cells = cell_layout)
+#' p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
 #'
-#' # When using strings to define cell layout `#` can be used to denote empty
+#' # When using strings to define the design `#` can be used to denote empty
 #' # areas
-#' cell_layout <- "
+#' design <- "
 #'   1##
 #'   123
 #'   ##3
 #' "
-#' p1 + p2 + p3 + plot_layout(cells = cell_layout)
+#' p1 + p2 + p3 + plot_layout(design = design)
 #'
-plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, heights = NULL, guides = NULL, tag_level = NULL, cells = NULL) {
+plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
+                        heights = NULL, guides = NULL, tag_level = NULL,
+                        design = NULL) {
   if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
   if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
   structure(list(
@@ -92,30 +94,30 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, h
     heights = heights,
     guides = guides,
     tag_level = tag_level,
-    cells = as_cells(cells)
+    design = as_areas(design)
   ), class = 'plot_layout')
 }
 #' Specify a plotting area in a layout
 #'
 #' This is a small helper used to specify a single area in a rectangular grid
-#' that should contain a plot. Objects constructed with `cell()` can be
+#' that should contain a plot. Objects constructed with `area()` can be
 #' concatenated together with `c()` in order to specify multiple areas.
 #'
-#' The grid that the cells are specified in reference to enumerate rows from top
+#' The grid that the areas are specified in reference to enumerate rows from top
 #' to bottom, and coloumns from left to right. This means that `t` and `l`
 #' should always be less or equal to `b` and `r` respectively. Instead of
-#' specifying cell placement with a combination of `cell()` calls, it is
+#' specifying area placement with a combination of `area()` calls, it is
 #' possible to instead pass in a single string
 #'
 #' ```
-#' cells <- c(cell(1, 1, 2, 1),
-#'            cell(2, 3, 3, 3))
+#' areas <- c(area(1, 1, 2, 1),
+#'            area(2, 3, 3, 3))
 #' ```
 #'
 #' is equivalent to
 #'
 #' ```
-#' cells < -"A##
+#' areas < -"A##
 #'           A#B
 #'           ##B"
 #' ```
@@ -125,12 +127,12 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL, h
 #' @param t,b The top and bottom bounds of the area in the grid
 #' @param l,r The left and right bounds of the area int the grid
 #'
-#' @return A `plot_cell` object
+#' @return A `patch_area` object
 #'
 #' @export
-cell <- function(t, l, b = t, r = l) {
+area <- function(t, l, b = t, r = l) {
   if (missing(t) || missing(l)) {
-    one_cell <- list(
+    one_area <- list(
       t = integer(0),
       l = integer(0),
       b = integer(0),
@@ -138,7 +140,7 @@ cell <- function(t, l, b = t, r = l) {
     )
   } else {
     len <- max(length(t), length(l), length(b), length(r))
-    one_cell <- list(
+    one_area <- list(
       t = rep_len(as.integer(t), len),
       l = rep_len(as.integer(l), len),
       b = rep_len(as.integer(b), len),
@@ -151,14 +153,14 @@ cell <- function(t, l, b = t, r = l) {
       stop('`l` must be less than `r`', call. = FALSE)
     }
   }
-  class(one_cell) <- 'plot_cell'
-  one_cell
+  class(one_area) <- 'patch_area'
+  one_area
 }
-as_cells <- function(x) {
+as_areas <- function(x) {
   if (is.null(x)) return(NULL)
-  if (is_cell(x)) return(x)
+  if (is_area(x)) return(x)
   if (!is.character(x)) {
-    stop("Don't know how to convert ", class(x)[1], " into cell positions", call. = FALSE)
+    stop("Don't know how to convert ", class(x)[1], " into area positions", call. = FALSE)
   }
   x <- strsplit(x, split = '\n')[[1]]
   x <- lapply(x, trimws)
@@ -172,42 +174,42 @@ as_cells <- function(x) {
   row <- rep(seq_along(x), each = ncols[1])
   col <- rep(seq_len(ncols[1]), length(x))
   x <- unlist(x)
-  cell_names <- unique(sort(x))
-  cell_names[cell_names == '#'] <- NA
-  x <- match(x, cell_names)
+  area_names <- unique(sort(x))
+  area_names[area_names == '#'] <- NA
+  x <- match(x, area_names)
   do.call(c, lapply(split(seq_along(x), x), function(i) {
-    if (is.na(x[i[1]])) return(cell())
-    cell_rows <- range(row[i])
-    cell_cols <- range(col[i])
-    if (!all(x[row >= cell_rows[1] & row <= cell_rows[2] & col >= cell_cols[1] & col <= cell_cols[2]] == x[i[1]])) {
-      stop('Cell areas must be rectangular', call. = FALSE)
+    if (is.na(x[i[1]])) return(area())
+    area_rows <- range(row[i])
+    area_cols <- range(col[i])
+    if (!all(x[row >= area_rows[1] & row <= area_rows[2] & col >= area_cols[1] & col <= area_cols[2]] == x[i[1]])) {
+      stop('Patch areas must be rectangular', call. = FALSE)
     }
-    cell(cell_rows[1], cell_cols[1], cell_rows[2], cell_cols[2])
+    area(area_rows[1], area_cols[1], area_rows[2], area_cols[2])
   }))
 }
-is_cell <- function(x) inherits(x, 'plot_cell')
+is_area <- function(x) inherits(x, 'patch_area')
 #' @export
-length.plot_cell <- function(x) length(x$t)
+length.patch_area <- function(x) length(x$t)
 #' @export
-print.plot_cell <- function(x, ...) {
-  cat(length(x), 'plot cells, spanning', max(x$r), 'columns and', max(x$b), 'rows\n\n')
+print.patch_area <- function(x, ...) {
+  cat(length(x), 'patch areas, spanning', max(x$r), 'columns and', max(x$b), 'rows\n\n')
   print(as.data.frame(unclass(x), row.names = paste0(seq_along(x), ': ')))
 }
 #' @export
-c.plot_cell <- function(..., recursive = FALSE) {
-  all_cells <- list(...)
+c.patch_area <- function(..., recursive = FALSE) {
+  all_areas <- list(...)
 
-  if (length(all_cells) == 0) return(cell())
+  if (length(all_areas) == 0) return(area())
 
-  if (any(!vapply(all_cells, is_cell, logical(1)))) {
-    stop('Cells can only be combined with each other', call. = FALSE)
+  if (any(!vapply(all_areas, is_area, logical(1)))) {
+    stop('Areas can only be combined with each other', call. = FALSE)
   }
-  cell <- all_cells[[1]]
-  cell$t <- unlist(lapply(all_cells, `[[`, 't'))
-  cell$l <- unlist(lapply(all_cells, `[[`, 'l'))
-  cell$b <- unlist(lapply(all_cells, `[[`, 'b'))
-  cell$r <- unlist(lapply(all_cells, `[[`, 'r'))
-  cell
+  area <- all_areas[[1]]
+  area$t <- unlist(lapply(all_areas, `[[`, 't'))
+  area$l <- unlist(lapply(all_areas, `[[`, 'l'))
+  area$b <- unlist(lapply(all_areas, `[[`, 'b'))
+  area$r <- unlist(lapply(all_areas, `[[`, 'r'))
+  area
 }
 default_layout <- plot_layout(byrow = TRUE, widths = 1, heights = 1, guides = 'auto', tag_level = 'keep')
 #' @importFrom utils modifyList
