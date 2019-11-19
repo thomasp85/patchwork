@@ -60,7 +60,9 @@ new_patchwork <- function() {
 }
 #' @importFrom ggplot2 ggplot
 plot_filler <- function() {
-  ggplot()
+  p <- ggplot()
+  class(p) <- c('plot_filler', class(p))
+  p
 }
-is_empty <- function(x) !is_patch(x) && length(x$layers) == 0 && inherits(x$data, 'waiver')
+is_empty <- function(x) inherits(x, 'plot_filler')
 

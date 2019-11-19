@@ -11,7 +11,7 @@ make_patch <- function() {
   table <- gtable_add_grob(table, list(zeroGrob()), PANEL_ROW, PANEL_COL,
                            z = -Inf, name = 'panel_patch')
   class(table) <- c('patchgrob', class(table))
-  patch <- plot_filler()
+  patch <- ggplot()
   class(patch) <- c('patch', class(patch))
   attr(patch, 'table') <- table
   patch
