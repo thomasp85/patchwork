@@ -44,16 +44,16 @@ patchGrob.wrapped_patch <- function(x, guides = 'auto') {
   settings <- attr(x, 'settings')
   grobs <- attr(x, 'grobs')
   if (!is.null(grobs$full)) {
-    table <- gtable_add_grob(table, list(as.grob(grobs$full)), 1, 1, nrow(table),
+    table <- gtable_add_grob(table, list(as_grob(grobs$full)), 1, 1, nrow(table),
                              ncol(table), clip = settings$clip, name = 'full')
   }
   if (!is.null(grobs$plot)) {
-    table <- gtable_add_grob(table, list(as.grob(grobs$plot)), PLOT_TOP,
+    table <- gtable_add_grob(table, list(as_grob(grobs$plot)), PLOT_TOP,
                              PLOT_LEFT, PLOT_BOTTOM, PLOT_RIGHT,
                              clip =  settings$clip, name = 'plot')
   }
   if (!is.null(grobs$panel)) {
-    table <- gtable_add_grob(table, list(as.grob(grobs$panel)), PANEL_ROW,
+    table <- gtable_add_grob(table, list(as_grob(grobs$panel)), PANEL_ROW,
                              PANEL_COL, clip = settings$clip, name = 'panel')
   }
   title <- get_grob(gt, 'title')
@@ -91,17 +91,21 @@ patchGrob.wrapped_patch <- function(x, guides = 'auto') {
   table
 }
 
-as.grob <- function(x, ...) {
-  UseMethod('as.grob')
+as_grob <- function(x, ...) {
+  UseMethod('as_grob')
 }
-as.grob.grob <- function(x, ...) {
+as_grob.grob <- function(x, ...) {
   x
 }
+#' @importFrom grid gTree
+as_grob.gList <- function(x, ...) {
+  gTree(children = x)
+}
 #' @importFrom ggplot2 ggplotGrob
-as.grob.ggplot <- function(x, ...) {
+as_grob.ggplot <- function(x, ...) {
   ggplotGrob(x)
 }
-as.grob.patchwork <- function(x, ...) {
+as_grob.patchwork <- function(x, ...) {
   patchworkGrob(x)
 }
 #' @importFrom ggplot2 ggplotGrob
