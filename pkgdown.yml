@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  layout: layout.html
   patchwork: patchwork.html
 urls:
   reference: https://patchwork.data-imaginist.com/reference
