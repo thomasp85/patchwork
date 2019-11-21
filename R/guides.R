@@ -134,19 +134,19 @@ attach_guides <- function(table, guides, theme) {
   if (position == "left") {
     table <- gtable_add_grob(table, guides, clip = "off", t = p_loc$t,
                              l = p_loc$l - 5, b = p_loc$b, name = "guide-box")
-    table$widths[c(p_loc$l - 5, p_loc$l - 4)] <- unit.c(legend_width, spacing)
+    table <- set_border_sizes(table, l = unit.c(table$widths[seq_len(p_loc$l - 6)], legend_width, spacing))
   } else if (position == "right") {
     table <- gtable_add_grob(table, guides, clip = "off", t = p_loc$t,
                              l = p_loc$r + 5, b = p_loc$b, name = "guide-box")
-    table$widths[c(p_loc$r + 4, p_loc$r + 5)] <- unit.c(spacing, legend_width)
+    table <- set_border_sizes(table, r = unit.c(spacing, legend_width, table$widths[seq(p_loc$r + 6, ncol(table))]))
   } else if (position == "bottom") {
     table <- gtable_add_grob(table, guides, clip = "off", t = p_loc$b + 5,
                              l = p_loc$l, r = p_loc$r, name = "guide-box")
-    table$heights[c(p_loc$b + 4, p_loc$b + 5)] <- unit.c(spacing, legend_height)
+    table <- set_border_sizes(table, b = unit.c(spacing, legend_height, table$heights[seq(p_loc$b + 6, nrow(table))]))
   } else if (position == "top") {
     table <- gtable_add_grob(table, guides, clip = "off", t = p_loc$t - 5,
                              l = p_loc$l, r = p_loc$r, name = "guide-box")
-    table$heights[c(p_loc$t - 5, p_loc$t - 4)] <- unit.c(legend_height, spacing)
+    table <- set_border_sizes(table, t = unit.c(table$heights[seq_len(p_loc$t - 6)], legend_height, spacing))
   }
 
   table
