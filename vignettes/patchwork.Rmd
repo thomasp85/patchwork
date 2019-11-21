@@ -128,4 +128,4 @@ vignette for more information.
 ## Want more?
 This is all for this vignette, but we have only scratched the surface of what
 patchwork is capable of. Look into the other vignettes to find out more, e.g.
-how to collect all legends in one place and remove duplicates \U0001f62e. 
+how to collect all legends in one place and remove duplicates. 
