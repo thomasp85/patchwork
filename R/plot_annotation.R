@@ -103,29 +103,33 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   )
 }
 #' @importFrom ggplot2 ggplot labs ggplotGrob
-#' @importFrom gtable gtable_add_rows
+#' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit
 #' @importFrom utils tail
 annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
   p <- ggplotGrob(p)
-  if (is.null(annotation$title) && is.null(annotation$subtitle)) {
-    table$heights[1] <- unit(0, 'mm')
-  }
-  if (is.null(annotation$caption)) {
-    table$heights[nrow(table)] <- unit(0, 'mm')
-  }
   max_z <- max(table$layout$z)
-  table <- gtable_add_rows(table, p$heights[c(1, 3, 4)], 0)
-  table <- gtable_add_rows(table, tail(p$heights, 3)[-2])
-  table <- gtable_add_grob(table, get_grob(p, 'title'), 2, 2, r = ncol(table) - 1,
-                           z = max_z + 3, name = 'title', clip = 'off')
-  table <- gtable_add_grob(table, get_grob(p, 'subtitle'), 3, 2, r = ncol(table) - 1,
-                           z = max_z + 2, name = 'subtitle', clip = 'off')
-  table <- gtable_add_grob(table, get_grob(p, 'caption'), nrow(table) - 1, 2, r = ncol(table) - 1,
-                           z = max_z + 1, name = 'caption', clip = 'off')
+  if (!is.null(annotation$title) || !is.null(annotation$subtitle)) {
+    table <- gtable_add_rows(table, p$heights[c(1, 3, 4)], 0)
+    table <- gtable_add_grob(table, get_grob(p, 'title'), 2, 2, r = ncol(table) - 1,
+                             z = max_z + 3, name = 'title', clip = 'off')
+    table <- gtable_add_grob(table, get_grob(p, 'subtitle'), 3, 2, r = ncol(table) - 1,
+                             z = max_z + 2, name = 'subtitle', clip = 'off')
+  } else {
+    table <- gtable_add_rows(table, p$heights[1], 0)
+  }
+  if (!is.null(annotation$caption)) {
+    table <- gtable_add_rows(table, tail(p$heights, 3)[-2])
+    table <- gtable_add_grob(table, get_grob(p, 'caption'), nrow(table) - 1, 2,
+                             r = ncol(table) - 1, z = max_z + 1, name = 'caption',
+                             clip = 'off')
+  } else {
+    table <- gtable_add_rows(table, tail(p$heights, 1))
+  }
+  table <- gtable_add_cols(table, p$widths[1], 0)
+  table <- gtable_add_cols(table, tail(p$widths, 1))
   table <- gtable_add_grob(table, get_grob(p, 'background'), 1, 1, nrow(table), ncol(table),
                            z = -Inf, name = 'background')
-  table$widths[c(1, ncol(table))] <- p$widths[c(1, ncol(p))]
   table
 }
