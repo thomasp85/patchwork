@@ -81,6 +81,8 @@ build_patchwork <- function(x, guides = 'auto') {
   if (any(design$l < 1)) design$l[design$l < 1] <- 1
   if (any(design$b > dims[1])) design$b[design$b > dims[1]] <- dims[1]
   if (any(design$r > dims[2])) design$r[design$r > dims[2]] <- dims[2]
+  max_z <- lapply(gt, function(x) max(x$layout$z))
+  max_z <- c(0, cumsum(max_z))
   gt_new$layout <- do.call(rbind, lapply(seq_along(gt), function(i) {
     loc <- design[i, ]
     lay <- gt[[i]]$layout
@@ -88,6 +90,7 @@ build_patchwork <- function(x, guides = 'auto') {
     lay$l <- lay$l + ifelse(lay$l <= PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
     lay$b <- lay$b + ifelse(lay$b < PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
     lay$r <- lay$r + ifelse(lay$r < PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
+    lay$z <- lay$z + max_z[i]
     lay
   }))
   table_dimensions <- table_dims(
@@ -516,7 +519,7 @@ add_guides <- function(gt, collect = FALSE) {
     if (guide_pos %in% c('right', 'left')) {
       gt$widths[c(guide_loc$l, guide_loc$l + space_pos)] <- unit(c(0, 0), 'mm')
     } else if (guide_pos %in% c('bottom', 'top')) {
-      gt$widths[c(guide_loc$t, guide_loc$t + space_pos)] <- unit(c(0, 0), 'mm')
+      gt$heights[c(guide_loc$t, guide_loc$t + space_pos)] <- unit(c(0, 0), 'mm')
     }
     gt$grobs[guide_ind] <- NULL
     gt$layout <- gt$layout[-guide_ind, ]
