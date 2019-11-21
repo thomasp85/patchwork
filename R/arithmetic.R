@@ -114,9 +114,13 @@ NULL
   e1 + e2
 }
 #' @rdname plot_arithmetic
+#' @importFrom ggplot2 is.theme
 #' @export
 "&.gg" <- function(e1, e2) {
   if (is_patchwork(e1)) {
+    if (is.theme(e2)) {
+      e1$patches$annotation$theme <- e1$patches$annotation$theme + e2
+    }
     e1$patches$plots <- lapply(e1$patches$plots, function(p) {
       if (is_patchwork(p)) {
         p <- p & e2
