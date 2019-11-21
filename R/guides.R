@@ -7,6 +7,8 @@ unname_vp <- function(x) {
   }
   x
 }
+#' @importFrom grid is.grob
+#' @importFrom gtable is.gtable
 unname_grob <- function(x) {
   if (is.gtable(x)) {
     x$name <- ''
