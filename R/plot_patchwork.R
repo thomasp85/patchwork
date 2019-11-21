@@ -368,6 +368,7 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
 create_design <- function(width, height, byrow) {
   mat <- matrix(seq_len(width * height), nrow = height, ncol = width, byrow = byrow)
   ind <- as.vector(mat)
+  ind <- match(seq_along(ind), ind)
   area(
     t = row(mat)[ind],
     l = col(mat)[ind]
