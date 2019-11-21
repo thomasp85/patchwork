@@ -177,8 +177,8 @@ simplify_gt.gtable <- function(gt) {
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)
   if (!gt$respect && rows[1] == rows[2] && cols[1] == cols[2]) {
-    gt$widths[-cols[1]] <- convertWidth(gt$widths[-cols[1]], 'mm')
-    gt$heights[-rows[1]] <- convertHeight(gt$heights[-rows[1]], 'mm')
+    gt$widths <- convertWidth(gt$widths, 'mm')
+    gt$heights <- convertHeight(gt$heights, 'mm')
     return(gt)
   }
   p_rows <- seq(rows[1], rows[2])
