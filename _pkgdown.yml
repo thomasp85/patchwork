@@ -13,6 +13,8 @@ navbar:
   left:
     - icon: fa-home fa-lg
       href: index.html
+    - text: Getting Started
+      href: articles/patchwork.html
     - text: Reference
       href: reference/index.html
     - text: News
