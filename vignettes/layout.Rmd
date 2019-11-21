@@ -167,7 +167,7 @@ the same guide, you don't want to have it show up multiple times. When
 collecting guides it will compare them with each other and remove duplicates.
 
 ```{r}
-p1a <- p1 <- ggplot(mtcars) + 
+p1a <- ggplot(mtcars) + 
   geom_point(aes(mpg, disp, colour = mpg, size = wt)) + 
   ggtitle('Plot 1a')
 
