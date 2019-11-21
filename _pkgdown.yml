@@ -15,6 +15,10 @@ navbar:
       href: index.html
     - text: Getting Started
       href: articles/patchwork.html
+    - text: Guides
+      menu:
+      - text: Controlling Layout
+        href: articles/layout.html
     - text: Reference
       href: reference/index.html
     - text: News
