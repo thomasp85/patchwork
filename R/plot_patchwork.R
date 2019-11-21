@@ -110,12 +110,14 @@ build_patchwork <- function(x, guides = 'auto') {
 
   if (x$layout$guides == 'collect') {
     guide_grobs <- collapse_guides(guide_grobs)
-    theme <- x$annotation$theme
-    if (!attr(theme, 'complete')) {
-      theme <- theme_get() + theme
+    if (length(guide_grobs) != 0) {
+      theme <- x$annotation$theme
+      if (!attr(theme, 'complete')) {
+        theme <- theme_get() + theme
+      }
+      guide_grobs <- assemble_guides(guide_grobs, theme)
+      gt_new <- attach_guides(gt_new, guide_grobs, theme)
     }
-    guide_grobs <- assemble_guides(guide_grobs, theme)
-    gt_new <- attach_guides(gt_new, guide_grobs, theme)
   } else {
     gt_new$collected_guides <- guide_grobs
   }
