@@ -130,6 +130,22 @@ p1 + p2 +
 The design specification can of course also be used with `widths` and `heights`
 to specify the size of the columns and rows in the design.
 
+A small additional feature of the `design` argument exists if used in 
+conjunction with `wrap_plots()` function (See the *Plot Assembly* tutorial). If
+the design is given as a textual representation, you can name the plots to match
+them to the different areas, instead of letting them be filled in in the order
+they appear:
+
+```{r}
+layout <- '
+A#B
+#C#
+D#E
+'
+wrap_plots(D = p1, C = p2, B = p3, design = layout)
+```
+
+
 # Controlling guides
 Plots often have guides to help viewers deduce the aesthetic mapping. When 
 composing plots we need to think about what to do about these. The default 
