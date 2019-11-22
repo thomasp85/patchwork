@@ -66,7 +66,7 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL,
       plots <- plot_list
     }
   }
-  Reduce(`+`, plots, init = ggplot()) + plot_layout(
+  Reduce(`+`, plots, init = plot_filler()) + plot_layout(
     ncol = ncol, nrow = nrow, byrow = byrow, widths = widths, heights = heights,
     guides = guides, tag_level = tag_level, design = design
   )
