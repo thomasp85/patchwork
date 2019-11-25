@@ -68,7 +68,7 @@ when adding plots together, the last added plot will be the active one, and will
 receive any addition of new ggplot2 objects such as geoms, labels, etc:
 
 ```{r}
-p1 + p2 + labs(subtitle = 'This will appear at in the last plot')
+p1 + p2 + labs(subtitle = 'This will appear in the last plot')
 ```
 
 ## Controlling layout
