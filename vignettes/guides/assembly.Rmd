@@ -131,7 +131,7 @@ par(old_par)
 
 Another use case for  `wrap_elements()` is when you need the first plot to not
 be a ggplot. Patchwork is not able to change the `+` behaviour for miscellaneous 
-objects, and so, if they appear as the first element though must be wrapped in 
+objects, and so, if they appear as the first element they must be wrapped in 
 an object patchwork understands:
 
 ```{r}
