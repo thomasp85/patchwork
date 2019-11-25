@@ -18,9 +18,9 @@ navbar:
     - text: Guides
       menu:
       - text: Plot Assembly
-        href: articles/assembly.html
+        href: articles/guides/assembly.html
       - text: Controlling Layout
-        href: articles/layout.html
+        href: articles/guides/layout.html
     - text: Reference
       href: reference/index.html
     - text: News
