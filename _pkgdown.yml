@@ -17,6 +17,8 @@ navbar:
       href: articles/patchwork.html
     - text: Guides
       menu:
+      - text: Plot Assembly
+        href: articles/assembly.html
       - text: Controlling Layout
         href: articles/layout.html
     - text: Reference
