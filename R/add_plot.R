@@ -9,6 +9,9 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
 ggplot_add.grob <- function(object, plot, object_name) {
   plot + wrap_elements(full = object)
 }
+#' @importFrom ggplot2 ggplot_add
+#' @export
+ggplot_add.formula <- ggplot_add.grob
 # Convert a plot with a (possible) list of patches into a selfcontained
 # patchwork to be attached to another plot
 get_patches <- function(plot) {

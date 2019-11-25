@@ -108,7 +108,36 @@ as_grob.ggplot <- function(x, ...) {
 as_grob.patchwork <- function(x, ...) {
   patchworkGrob(x)
 }
+as_grob.formula <- function(x) {
+  if (!requireNamespace('gridGraphics', quietly = TRUE)) {
+    stop('The gridGraphics package is required for this functionality', call. = FALSE)
+  }
+  gp <- graphics::par(no.readonly = TRUE)
+  plot_call <- function() {
+    old_gp <- graphics::par(no.readonly = TRUE)
+    graphics::par(gp)
+    on.exit(try(graphics::par(old_gp)))
+    res <- suppressMessages(eval(x[[2]], attr(t, '.Environment')))
+    invisible(NULL)
+  }
+  gridGraphics::echoGrob(plot_call, name = 'patchwork_base', device = offscreen_dev())
+}
+
 #' @importFrom ggplot2 ggplotGrob
 get_grob <- function(x, name) {
   x$grobs[[grep(paste0('^', name, '$'), x$layout$name)]]
 }
+offscreen_dev <- function() {
+  if (requireNamespace('ragg', quietly = TRUE)) {
+    function(width, height) {
+      ragg::agg_capture(width = width, height = height, units = 'in')
+      grDevices::dev.control("enable")
+    }
+  } else {
+    function(width, height) {
+      grDevices::pdf(NULL, width = width, height = height)
+      grDevices::dev.control("enable")
+    }
+  }
+}
+

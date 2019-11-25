@@ -18,17 +18,22 @@ Description: The 'ggplot2' package provides a strong API for sequentially
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2 (>= 3.0.0),
+Imports: 
+    ggplot2 (>= 3.0.0),
     gtable,
     grid,
     stats,
     grDevices,
-    utils
+    utils,
+    graphics
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    gridGraphics,
+    gridExtra,
+    ragg
 VignetteBuilder: knitr
