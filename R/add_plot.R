@@ -68,4 +68,4 @@ plot_filler <- function() {
   p
 }
 is_empty <- function(x) inherits(x, 'plot_filler')
-
+has_tag.plot_filler <- function(x) FALSE
