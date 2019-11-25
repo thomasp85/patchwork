@@ -9,3 +9,4 @@
 ^docs$
 ^pkgdown$
 ^\.github/workflows/R-CMD-check\.yaml$
+^vignettes/guides$
