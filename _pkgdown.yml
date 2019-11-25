@@ -51,6 +51,9 @@ reference:
   contents:
   - plot_layout
   - plot_annotation
+  - plot_spacer
+  - guide_area
+  - area
 - title: Alternative plot objects
   desc: >
     patchwork is build to work with ggplot2 but standard grobs can also be
@@ -58,4 +61,3 @@ reference:
   contents:
   - wrap_elements
   - wrap_ggplot_grob
-  - plot_spacer

@@ -95,7 +95,7 @@ Notice that the standard alignment you'd expect when adding ggplots together no
 longer works. In general, there is no way to get consistent alignment between 
 ggplots and base graphics, but experiment with the different `par()` settings
 until you get something that works for your particular use-case. The 
-(ggplotify)[https://cran.r-project.org/package=ggplotify/vignettes/ggplotify.html]
+[ggplotify](https://cran.r-project.org/package=ggplotify/vignettes/ggplotify.html)
 package provides even more functionality for converting different graphics to 
 grobs so if the standard formula interface in patchwork doesn't work for you, do 
 check it out.
@@ -107,7 +107,7 @@ in `wrap_elements()`. Here you can define if the object should be aligned to the
 full area, or to the plot area. Combining that with setting margins to zero and 
 not clipping the grob, you can almost get a perfect alignment:
 
-```{r}
+```{r, fig.show='hold'}
 old_par <- par(mar = c(0, 2, 0, 0), bg = NA)
 p1 + wrap_elements(panel = ~plot(mtcars$mpg, mtcars$disp), clip = FALSE)
 par(old_par)
@@ -119,7 +119,7 @@ All in all you can come pretty close to an aligned base plot, but this will
 always be a bit fidly and ad hoc. In general it is simply recommended to use
 ggplot2 if at all possible.
 
-```{r}
+```{r, fig.show='hold'}
 old_par <- par(mar = c(0, 0, 0, 0), mgp = c(1, 0.25, 0), 
                bg = NA, cex.axis = 0.75, las = 1, tcl = -0.25)
 p1 + 
