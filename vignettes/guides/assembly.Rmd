@@ -22,7 +22,7 @@ library(patchwork)
 ```
 
 Before plots can be layed out, they have to be assembled. Arguably one of 
-patchworks biggest selling point is that it expands on the use of `+` in ggplot2
+patchwork's biggest selling point is that it expands on the use of `+` in ggplot2
 to allow plots to be added together and composed, creating a natural extension
 of the ggplot2 API. There is more to it than that, and this tutorial will teach
 you all about the different operators and functions available for plot assembly.
@@ -116,7 +116,7 @@ par(old_par)
 An interesting side effect of this setup is that it is possible to add labels 
 and styling to a wrapped element (though most theme settings will be ignored). 
 All in all you can come pretty close to an aligned base plot, but this will 
-always be a bit fidly and ad hoc. In general it is simply recommended to use
+always be a bit fiddly and ad hoc. In general it is simply recommended to use
 ggplot2 if at all possible.
 
 ```{r, fig.show='hold'}
