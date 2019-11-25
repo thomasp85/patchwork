@@ -89,7 +89,7 @@ p1 + p2 + p3 + p4 + plot_layout(nrow = 3, byrow = FALSE)
 your composition. See the *Layout* vignette for a full rundown of all its 
 options.
 
-## Stacking and queuing plots
+## Stacking and packing plots
 Often you want to place plots on top of each other, or beside each other, rather
 than fill out a grid. While this can be accomplished by adding a one-row or 
 one-column layout, patchwork also provides two operators that does this directly
