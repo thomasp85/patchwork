@@ -37,6 +37,59 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 }
 #' @export
 plot.patchwork <- print.patchwork
+#' @export
+`[[.patchwork` <- function(x, ..., exact = TRUE) {
+  ind <- ..1
+  if (!is.numeric(ind)) {
+    stop('Patchworks can only be indexed with numeric indices', call. = FALSE)
+  }
+
+  n_patches <- length(x$patches)
+  if (!is_empty(x) && ind[1] == n_patches + 1) {
+    plot <- x
+    plot$patches <- NULL
+    class(plot) <- setdiff(class(plot), 'patchwork')
+  } else {
+    if (ind > n_patches) {
+      stop('Index out of bounds', call. = FALSE)
+    }
+    plot <- x$patches$plots[[ind[1]]]
+  }
+  if (length(ind) > 1) {
+    if (!is_patchwork(plot)) {
+      stop('Can only do nested indexing into patchworks', call. = FALSE)
+    }
+    plot <- plot[[ind[-1]]]
+  }
+  plot
+}
+#' @export
+`[[<-.patchwork` <- function(x, ..., value) {
+  ind <- ..1
+  if (!is.numeric(ind)) {
+    stop('Patchworks can only be indexed with numeric indices', call. = FALSE)
+  }
+
+  if (!is.ggplot(value)) {
+    value <- wrap_elements(value)
+  }
+  n_patches <- length(x$patches)
+  if (!is_empty(x) && ind == n_patches + 1) {
+    if (length(ind) != 1) {
+      stop('Can only do nested indexing into patchworks', call. = FALSE)
+    }
+    return(add_patches(value, x$patches))
+  }
+  if (length(ind) > 1) {
+    if (!is_patchwork(x$patches$plots[[ind[1]]])) {
+      stop('Can only do nested indexing into patchworks', call. = FALSE)
+    }
+    x$patches$plots[[ind[1]]][[ind[-1]]] <- value
+  } else {
+    x$patches$plots[[ind]] <- value
+  }
+  x
+}
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
 #' @importFrom gtable gtable
 #' @importFrom grid unit unit.pmax is.unit
@@ -102,9 +155,9 @@ build_patchwork <- function(x, guides = 'auto') {
   )
   gt_new$grobs <- set_grob_sizes(gt, table_dimensions$widths, table_dimensions$heights, design)
   gt_new$widths <- table_dimensions$widths
+  gt_new$heights <- table_dimensions$heights
   if (!is.unit(x$layout$widths)) x$layout$widths <- unit(x$layout$widths, 'null')
   gt_new$widths[seq(PANEL_COL, by = TABLE_COLS, length.out = dims[2])] <- rep(x$layout$widths, length.out = dims[2])
-  gt_new$heights <- table_dimensions$heights
   if (!is.unit(x$layout$heights)) x$layout$heights <- unit(x$layout$heights, 'null')
   gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$heights, length.out = dims[1])
 
