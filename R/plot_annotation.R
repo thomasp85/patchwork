@@ -1,3 +1,7 @@
+has_tag <- function(x) {
+    UseMethod('has_tag')
+}
+
 #' Annotate the final patchwork
 #'
 #' The result of this function can be added to a patchwork using `+` in the same
@@ -86,15 +90,14 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
       }
     } else {
       patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
-      if ((is.ggplot(patches[[i]]) && !is_empty(patches[[i]])) ||
-          (is_wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag)) {
+      if (has_tag(patches[[i]])) {
         tag_ind <- tag_ind + 1
       }
     }
   }
   x$patches$plots <- patches
   x <- x + labs(tag = paste0(prefix, level[tag_ind], suffix))
-  if ((is.ggplot(x) && !is_empty(x)) || (is_wrapped_patch(x) && !attr(x, 'settings')$ignore_tag)) {
+  if (has_tag(x)) {
     tag_ind <- tag_ind + 1
   }
   list(

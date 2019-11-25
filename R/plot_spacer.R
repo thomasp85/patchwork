@@ -30,3 +30,4 @@ plot_spacer <- function() {
   table
 }
 is_spacer <- function(x) inherits(x, 'spacer')
+has_tag.spacer <- function(x) FALSE

@@ -141,3 +141,4 @@ offscreen_dev <- function() {
   }
 }
 
+has_tag.wrapped_patch <- function(x) !attr(x, 'settings')$ignore_tag
