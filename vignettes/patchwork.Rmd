@@ -1,6 +1,9 @@
 ---
 title: "Getting Started"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 4
 vignette: >
   %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
