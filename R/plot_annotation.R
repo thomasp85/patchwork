@@ -86,15 +86,15 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
       }
     } else {
       patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
-      if ((is.ggplot(patches[[i]]) && !is_empty(patches[[i]])) ||
-          (is_wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag)) {
+      if (!is_guide_area(patches[[i]]) && ((is.ggplot(patches[[i]]) && !is_empty(patches[[i]])) ||
+          (is_wrapped_patch(patches[[i]]) && !attr(patches[[i]], 'settings')$ignore_tag))) {
         tag_ind <- tag_ind + 1
       }
     }
   }
   x$patches$plots <- patches
   x <- x + labs(tag = paste0(prefix, level[tag_ind], suffix))
-  if ((is.ggplot(x) && !is_empty(x)) || (is_wrapped_patch(x) && !attr(x, 'settings')$ignore_tag)) {
+  if (!is_guide_area(x) && ((is.ggplot(x) && !is_empty(x)) || (is_wrapped_patch(x) && !attr(x, 'settings')$ignore_tag))) {
     tag_ind <- tag_ind + 1
   }
   list(

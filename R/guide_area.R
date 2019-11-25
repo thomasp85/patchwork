@@ -18,3 +18,4 @@ patchGrob.guide_area <- function(x, guides = 'auto') {
   table <- NextMethod()
   gtable_add_grob(table, zeroGrob(), PANEL_ROW, PANEL_COL, name = 'panel-guide_area')
 }
+is_guide_area <- function(x) inherits(x, 'guide_area')
