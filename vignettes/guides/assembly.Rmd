@@ -170,6 +170,44 @@ braces to avoid any surprises
 p1 / (p2 | p3)
 ```
 
+## Nesting the left-hand side
+As plots will always be added to the patchwork on the left-hand side, it is not
+possible to nest the left-hand side beside the right-hand side with the standard
+operators shown above. This can lead to surprising behaviour:
+
+```{r}
+patch <- p1 + p2
+p3 + patch
+```
+
+will nest the right-hand side, while the same is not true for the left-hand side
+below
+
+```{r}
+patch + p3
+```
+
+This behaviour is necessary to allow patchworks to be build up gradually, but
+will get in the way if the left-hand side have to nested. patchwork provides the
+`-` operator for this exact situation. It should conceptually be understood as a 
+hyphen and not a minus, in that it keeps each side from each other (it puts both
+on the same nesting level)
+
+```{r}
+patch - p3
+```
+
+There are currently no version of `/` and `|` that has this behaviour, so it is
+necessary to specify `ncol = 1`/`nrow = 1` explicitly in `plot_layout()` to get
+this behaviour with left-hand side nesting.
+
+Another way to solve this is with `wrap_plots()`, which will put all its input 
+on the same nesting level, irrespective of order:
+
+```{r}
+wrap_plots(patch, p3)
+```
+
 ## Modifying patches
 When creating a patchwork, the resulting object remain a ggplot object 
 referencing the last added plot. This means that you can continue to add ggplot
