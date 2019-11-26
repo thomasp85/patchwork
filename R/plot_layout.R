@@ -211,7 +211,7 @@ c.patch_area <- function(..., recursive = FALSE) {
   area$r <- unlist(lapply(all_areas, `[[`, 'r'))
   area
 }
-default_layout <- plot_layout(byrow = TRUE, widths = 1, heights = 1, guides = 'auto', tag_level = 'keep')
+default_layout <- plot_layout(byrow = TRUE, widths = NA, heights = NA, guides = 'auto', tag_level = 'keep')
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_layout <- function(object, plot, object_name) {

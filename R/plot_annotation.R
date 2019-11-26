@@ -113,25 +113,32 @@ annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
   p <- ggplotGrob(p)
   max_z <- max(table$layout$z)
+  fix_respect <- is.matrix(table$respect)
   if (!is.null(annotation$title) || !is.null(annotation$subtitle)) {
     table <- gtable_add_rows(table, p$heights[c(1, 3, 4)], 0)
+
     table <- gtable_add_grob(table, get_grob(p, 'title'), 2, 2, r = ncol(table) - 1,
                              z = max_z + 3, name = 'title', clip = 'off')
     table <- gtable_add_grob(table, get_grob(p, 'subtitle'), 3, 2, r = ncol(table) - 1,
                              z = max_z + 2, name = 'subtitle', clip = 'off')
+    if (fix_respect) table$respect <- rbind(matrix(0, nrow = 3, ncol = ncol(table$respect)), table$respect)
   } else {
     table <- gtable_add_rows(table, p$heights[1], 0)
+    if (fix_respect) table$respect <- rbind(0, table$respect)
   }
   if (!is.null(annotation$caption)) {
     table <- gtable_add_rows(table, tail(p$heights, 3)[-2])
     table <- gtable_add_grob(table, get_grob(p, 'caption'), nrow(table) - 1, 2,
                              r = ncol(table) - 1, z = max_z + 1, name = 'caption',
                              clip = 'off')
+    if (fix_respect) table$respect <- rbind(table$respect, matrix(0, nrow = 2, ncol = ncol(table$respect)))
   } else {
     table <- gtable_add_rows(table, tail(p$heights, 1))
+    if (fix_respect) table$respect <- rbind(table$respect, 0)
   }
   table <- gtable_add_cols(table, p$widths[1], 0)
   table <- gtable_add_cols(table, tail(p$widths, 1))
+  if (fix_respect) table$respect <- cbind(0, table$respect, 0)
   table <- gtable_add_grob(table, get_grob(p, 'background'), 1, 1, nrow(table), ncol(table),
                            z = -Inf, name = 'background')
   table

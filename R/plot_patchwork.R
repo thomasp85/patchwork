@@ -44,7 +44,7 @@ plot.patchwork <- print.patchwork
     stop('Patchworks can only be indexed with numeric indices', call. = FALSE)
   }
 
-  n_patches <- length(x$patches)
+  n_patches <- length(x$patches$plots)
   if (!is_empty(x) && ind[1] == n_patches + 1) {
     plot <- x
     plot$patches <- NULL
@@ -73,7 +73,7 @@ plot.patchwork <- print.patchwork
   if (!is.ggplot(value)) {
     value <- wrap_elements(value)
   }
-  n_patches <- length(x$patches)
+  n_patches <- length(x$patches$plots)
   if (!is_empty(x) && ind == n_patches + 1) {
     if (length(ind) != 1) {
       stop('Can only do nested indexing into patchworks', call. = FALSE)
@@ -104,6 +104,7 @@ build_patchwork <- function(x, guides = 'auto') {
     x$layout$guides
   }
   gt <- lapply(x$plots, plot_table, guides = guides)
+  fixed_asp <- vapply(gt, function(x) isTRUE(x$respect), logical(1))
   guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
   if (!is.null(x$layout$design)) {
@@ -127,6 +128,7 @@ build_patchwork <- function(x, guides = 'auto') {
   if (nrow(design) < length(gt)) {
     warning('Too few patch areas to hold all plots. Dropping plots', call. = FALSE)
     gt <- gt[seq_len(nrow(design))]
+    fixed_asp <- fixed_asp[seq_len(nrow(design))]
   } else {
     design <- design[seq_along(gt), ]
   }
@@ -156,11 +158,9 @@ build_patchwork <- function(x, guides = 'auto') {
   gt_new$grobs <- set_grob_sizes(gt, table_dimensions$widths, table_dimensions$heights, design)
   gt_new$widths <- table_dimensions$widths
   gt_new$heights <- table_dimensions$heights
-  if (!is.unit(x$layout$widths)) x$layout$widths <- unit(x$layout$widths, 'null')
-  gt_new$widths[seq(PANEL_COL, by = TABLE_COLS, length.out = dims[2])] <- rep(x$layout$widths, length.out = dims[2])
-  if (!is.unit(x$layout$heights)) x$layout$heights <- unit(x$layout$heights, 'null')
-  gt_new$heights[seq(PANEL_ROW, by = TABLE_ROWS, length.out = dims[1])] <- rep(x$layout$heights, length.out = dims[1])
-
+  widths <- rep(x$layout$widths, length.out = dims[2])
+  heights <- rep(x$layout$heights, length.out = dims[1])
+  gt_new <- set_panel_dimensions(gt_new, gt, widths, heights, fixed_asp, design)
   if (x$layout$guides == 'collect') {
     guide_grobs <- collapse_guides(guide_grobs)
     if (length(guide_grobs) != 0) {
@@ -601,4 +601,52 @@ find_strip_pos <- function(gt) {
     return('outside')
   }
   'inside'
+}
+set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
+  width_ind <- seq(PANEL_COL, by = TABLE_COLS, length.out = length(widths))
+  height_ind <- seq(PANEL_ROW, by = TABLE_ROWS, length.out = length(heights))
+  if (anyNA(widths) || anyNA(heights)) {
+    respect <- matrix(0, nrow = length(gt$heights), ncol = length(gt$widths))
+    fixed_areas <- lapply(which(fixed_asp), function(i) {
+      list(
+        rows = seq(design$t[i], design$b[i]),
+        cols = seq(design$l[i], design$r[i])
+      )
+    })
+    can_fix <- vapply(fixed_areas, function(x) length(x$rows) == 1 && length(x$cols), logical(1))
+    can_fix_row <- vapply(fixed_areas, function(x) all(is.na(heights[x$rows])), logical(1))
+    can_fix_col <- vapply(fixed_areas, function(x) all(is.na(widths[x$cols])), logical(1))
+    fixed_areas <- fixed_areas[can_fix & (can_fix_row | can_fix_col)]
+    fixed_gt <- which(fixed_asp)[can_fix & (can_fix_row | can_fix_col)]
+    for (i in seq_along(fixed_areas)) {
+      panel_ind <- grep('panel', panels[[fixed_gt[i]]]$layout$name)[1]
+      w <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$widths
+      h <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$heights
+      can_set_width <- is.na(widths[fixed_areas[[i]]$cols])
+      can_set_height <- is.na(heights[fixed_areas[[i]]$rows])
+      will_be_fixed <- TRUE
+      if (can_set_width && can_set_height) {
+        widths[fixed_areas[[i]]$cols] <- as.numeric(w)
+        heights[fixed_areas[[i]]$rows] <- as.numeric(h)
+      } else if (can_set_width) {
+        widths[fixed_areas[[i]]$cols] <- heights[fixed_areas[[i]]$rows] * as.numeric(w) / as.numeric(h)
+      } else if (can_set_height) {
+        heights[fixed_areas[[i]]$rows] <- widths[fixed_areas[[i]]$cols] * as.numeric(h) / as.numeric(w)
+      } else {
+        will_be_fixed <- FALSE
+      }
+      if (will_be_fixed) {
+        respect[height_ind[fixed_areas[[i]]$rows], width_ind[fixed_areas[[i]]$cols]] <- 1
+      }
+    }
+    if (all(respect == 0)) respect <- FALSE
+    gt$respect <- respect
+    widths[is.na(widths)] <- 1
+    heights[is.na(heights)] <- 1
+  }
+  if (!is.unit(widths)) widths <- unit(widths, 'null')
+  gt$widths[width_ind] <- widths
+  if (!is.unit(heights)) heights <- unit(heights, 'null')
+  gt$heights[height_ind] <- heights
+  gt
 }
