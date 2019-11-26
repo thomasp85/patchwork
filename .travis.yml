@@ -5,6 +5,12 @@ cache: packages
 
 r_packages: gifski
 
+addons:
+  apt:
+    update: true
+    packages:
+      - cargo
+
 before_cache:
 - Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
