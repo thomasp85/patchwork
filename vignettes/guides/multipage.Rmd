@@ -52,9 +52,9 @@ p4 <- ggplot(mtcars) +
 
 Notice how `p1` and `p3` does not align when rendered at the same size:
 
-```{r, fig.show='animate'}
+```{r, animation.hook='gifski'}
 plot(p1)
-plot(p2)
+plot(p3)
 ```
 
 We can make one of the plots align with the other by extracting the dimensions
@@ -100,7 +100,7 @@ Usually you will have a list of plots and simply want to align all of these
 before rendering them to a file. All of the operations above have been wrapped
 in the `align_plots()` function:
 
-```{r, fig.show='animate'}
+```{r, animation.hook='gifski'}
 plots_aligned <- align_plots(list(p1, p2, p3, p4))
 for (p in plots_aligned) {
   plot(p)
