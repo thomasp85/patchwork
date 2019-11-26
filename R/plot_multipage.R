@@ -70,12 +70,13 @@ print.plot_dimension <- function(x, ...) {
 #' @export
 get_dim.ggplot <- function(plot) {
   table <- plot_table(plot, 'auto')
+  panel_pos <- find_panel(table)
   widths <- convertWidth(table$widths, 'mm', TRUE)
   heights <- convertHeight(table$heights, 'mm', TRUE)
-  dims <- list(l = widths[seq_len(PANEL_COL - 1)],
-               r = widths[seq(PANEL_COL + 1, TABLE_COLS)],
-               t = heights[seq_len(PANEL_ROW - 1)],
-               b = heights[seq(PANEL_ROW + 1, TABLE_ROWS)])
+  dims <- list(l = widths[seq_len(panel_pos$l - 1)],
+               r = widths[seq(panel_pos$r + 1, ncol(table))],
+               t = heights[seq_len(panel_pos$t - 1)],
+               b = heights[seq(panel_pos$b + 1, nrow(table))])
   class(dims) <- c('ggplot_dimension', 'plot_dimension')
   dims
 }
@@ -109,10 +110,11 @@ ggplot_gtable.fixed_dim_build <- function(data) {
   table <- NextMethod()
   table <- add_strips(table)
   table <- add_guides(table, FALSE)
-  table$widths[seq_len(PANEL_COL - 1)] <- unit(dim$l, 'mm')
-  table$widths[seq(PANEL_COL + 1, TABLE_COLS)] <- unit(dim$r, 'mm')
-  table$heights[seq_len(PANEL_ROW - 1)] <- unit(dim$t, 'mm')
-  table$heights[seq(PANEL_ROW + 1, TABLE_ROWS)] <- unit(dim$b, 'mm')
+  panel_pos <- find_panel(table)
+  table$widths[seq_len(panel_pos$l - 1)] <- unit(dim$l, 'mm')
+  table$widths[seq(panel_pos$r + 1, ncol(table))] <- unit(dim$r, 'mm')
+  table$heights[seq_len(panel_pos$t - 1)] <- unit(dim$t, 'mm')
+  table$heights[seq(panel_pos$b + 1, nrow(table))] <- unit(dim$b, 'mm')
   table
 }
 #' @rdname multipage_align

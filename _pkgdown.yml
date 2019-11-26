@@ -21,6 +21,8 @@ navbar:
         href: articles/guides/assembly.html
       - text: Controlling Layout
         href: articles/guides/layout.html
+      - text: Multipage Alignment
+        href: articles/guides/multipage.html
     - text: Reference
       href: reference/index.html
     - text: News
