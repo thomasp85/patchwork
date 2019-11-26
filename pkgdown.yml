@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   assembly: guides/assembly.html
   layout: guides/layout.html
+  multipage: guides/multipage.html
   patchwork: patchwork.html
 urls:
   reference: https://patchwork.data-imaginist.com/reference
