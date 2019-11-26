@@ -39,7 +39,7 @@ jobs:
 
       - if: contains(matrix.config.args, 'no-manual') == false
         run: |
-          Rscript -e "tinytex::tlmgr_install('pdftexcmds')"
+          Rscript -e "install.packages('tinytex')" -e "tinytex::tlmgr_install('pdftexcmds')"
 
       - name: Cache R packages
         uses: actions/cache@v1
