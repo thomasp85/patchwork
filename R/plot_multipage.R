@@ -1,0 +1,135 @@
+#' Align plots across multiple pages
+#'
+#' Sometimes it is necessary to make sure that separate plots are aligned, with
+#' each other, but still exists as separate plots. That could e.g. be if they
+#' need to be part of a slideshow and you don't want titles and panels jumping
+#' around as you switch between slides. patchwork provides a range of utilities
+#' to achieve that. Currently it is only possible to align ggplots, but aligning
+#' patchworks will be supported in the future.
+#'
+#' @param plot A ggplot object
+#' @param dim A plot_dimension object as created by `get_dim()`
+#' @param plots A list of ggplot objects
+#'
+#' @return `get_dim()` and `get_max_dim()` return a plot_dimension object.
+#' `set_dim()` returns a modified ggplot object with fixed outer dimensions and
+#' `align_plots()` return a list of such. The modified ggplots still behaves
+#' like a standard ggplot and new layers, scales, etc can be added to them.
+#'
+#' @name multipage_aling
+#' @rdname multipage_align
+#'
+#' @examples
+#' library(ggplot2)
+#' p1 <- ggplot(mtcars) +
+#'   geom_point(aes(mpg, disp)) +
+#'   ggtitle('Plot 1')
+#'
+#' p2 <- ggplot(mtcars) +
+#'   geom_boxplot(aes(gear, disp, group = gear)) +
+#'   ggtitle('Plot 2')
+#'
+#' p3 <- ggplot(mtcars) +
+#'   geom_point(aes(hp, wt, colour = mpg)) +
+#'   ggtitle('Plot 3')
+#'
+#' p4 <- ggplot(mtcars) +
+#'   geom_bar(aes(gear)) +
+#'   facet_wrap(~cyl) +
+#'   ggtitle('Plot 4')
+#'
+#' # Align a plot to p4
+#' p4_dim <- get_dim(p4)
+#' set_dim(p1, p4_dim)
+#'
+#' # Align a plot to the maximum dimensions of a list of plots
+#' max_dims <- get_max_dim(list(p1, p2, p3, p4))
+#' set_dim(p2, max_dims)
+#'
+#' # Align a list of plots with each other
+#' aligned_plots <- align_plots(list(p1, p2, p3, p4))
+#' aligned_plots[[3]]
+#'
+#' # Aligned plots still behave like regular ggplots
+#' aligned_plots[[3]] + theme_bw()
+#'
+NULL
+
+#' @rdname multipage_align
+#' @export
+get_dim <- function(plot) {
+  UseMethod('get_dim')
+}
+is_plot_dimension <- function(x) inherits(x, 'plot_dimension')
+#' @export
+print.plot_dimension <- function(x, ...) {
+  cat('A plot dimension object to be applied to a ggplot or patchwork with `set_dim()`')
+  invisible(x)
+}
+#' @importFrom ggplot2 ggplot_build ggplot_gtable geom_blank
+#' @export
+get_dim.ggplot <- function(plot) {
+  table <- plot_table(plot, 'auto')
+  widths <- convertWidth(table$widths, 'mm', TRUE)
+  heights <- convertHeight(table$heights, 'mm', TRUE)
+  dims <- list(l = widths[seq_len(PANEL_COL - 1)],
+               r = widths[seq(PANEL_COL + 1, TABLE_COLS)],
+               t = heights[seq_len(PANEL_ROW - 1)],
+               b = heights[seq(PANEL_ROW + 1, TABLE_ROWS)])
+  class(dims) <- c('ggplot_dimension', 'plot_dimension')
+  dims
+}
+is_ggplot_dimension <- function(x) inherits(x, 'ggplot_dimension')
+
+#' @rdname multipage_align
+#' @export
+set_dim <- function(plot, dim) {
+  if (!is_plot_dimension(dim)) {
+    stop('`dim` must be a plot_dimension object created with `get_dim()`', call. = FALSE)
+  }
+  UseMethod('set_dim')
+}
+#' @export
+set_dim.ggplot <- function(plot, dim) {
+  plot$fixed_dimensions <- dim
+  class(plot) <- c('fixed_dim_ggplot', class(plot))
+  plot
+}
+#' @importFrom ggplot2 ggplot_build
+#' @export
+ggplot_build.fixed_dim_ggplot <- function(plot) {
+  plot <- NextMethod()
+  class(plot) <- c('fixed_dim_build', class(plot))
+  plot
+}
+#' @importFrom ggplot2 ggplot_gtable
+#' @export
+ggplot_gtable.fixed_dim_build <- function(data) {
+  dim <- data$plot$fixed_dimensions
+  table <- NextMethod()
+  table <- add_strips(table)
+  table <- add_guides(table, FALSE)
+  table$widths[seq_len(PANEL_COL - 1)] <- unit(dim$l, 'mm')
+  table$widths[seq(PANEL_COL + 1, TABLE_COLS)] <- unit(dim$r, 'mm')
+  table$heights[seq_len(PANEL_ROW - 1)] <- unit(dim$t, 'mm')
+  table$heights[seq(PANEL_ROW + 1, TABLE_ROWS)] <- unit(dim$b, 'mm')
+  table
+}
+#' @rdname multipage_align
+#' @export
+get_max_dim <- function(plots) {
+  dims <- lapply(plots, get_dim)
+  dims <- list(
+    l = do.call(pmax, lapply(dims, `[[`, 'l')),
+    r = do.call(pmax, lapply(dims, `[[`, 'r')),
+    t = do.call(pmax, lapply(dims, `[[`, 't')),
+    b = do.call(pmax, lapply(dims, `[[`, 'b'))
+  )
+  class(dims) <- c('ggplot_dimension', 'plot_dimension')
+  dims
+}
+#' @rdname multipage_align
+#' @export
+align_plots <- function(plots) {
+  lapply(plots, set_dim, get_max_dim(plots))
+}
