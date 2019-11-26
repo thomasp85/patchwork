@@ -148,8 +148,38 @@ D#E
 wrap_plots(D = p1, C = p2, B = p3, design = layout)
 ```
 
+## Fixed aspect plots
+A special case when it comes to assembling plots are when dealing with fixed 
+aspect plots, such as those created with `coord_fixed()`, `coord_polar()`, and
+`coord_sf()`. It is not possible to simulatneausly assign even dimensions and 
+align fixed aspect plots. The default value for the `widths` and `heights` 
+arguments in `plot_layout()` is `NA`, which is treated special. In general it
+will behave just as `1null`, but if the row/column is occupied by a fixed aspect 
+plot it will expand and contract in order to keep the aspect of the plot.
 
-# Controlling guides
+```{r}
+p_fixed <- ggplot(mtcars) + 
+  geom_point(aes(hp, disp)) + 
+  ggtitle('Plot F') + 
+  coord_fixed()
+p_fixed + p1 + p2 + p3
+```
+
+Contrast this with setting the widths to a non-NA value:
+
+```{r}
+p_fixed + p1 + p2 + p3 + plot_layout(widths = 1, heights = 1)
+```
+
+As you can see, the fixed aspect plot keeps its aspect ratio, but looses the 
+axis alignment in one of the directions. Which solution is needed is probably 
+dependent on the specific use case. The default optimises the use of space.
+
+There are some restrictions to the space optimisation. The fixed aspect plot ¨
+cannot take up multiple rows or columns, and if one fixed aspect plot conflicts
+with another one, one of them will and up not using the full space.
+
+## Controlling guides
 Plots often have guides to help viewers deduce the aesthetic mapping. When 
 composing plots we need to think about what to do about these. The default 
 behaviour is to leave these alone and simply let them follow the plot around. 
