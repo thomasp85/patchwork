@@ -16,7 +16,7 @@
 #' `align_plots()` return a list of such. The modified ggplots still behaves
 #' like a standard ggplot and new layers, scales, etc can be added to them.
 #'
-#' @name multipage_aling
+#' @name multipage_align
 #' @rdname multipage_align
 #'
 #' @examples
