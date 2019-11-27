@@ -207,6 +207,13 @@ plot.patch_area <- function(x, y, ...) {
       plot.margin = margin(10, 10, 10, 10)
     )
 }
+utils::globalVariables(c(
+  'l',
+  'r',
+  't',
+  'b',
+  'name'
+))
 as_areas <- function(x) {
   if (is.null(x)) return(NULL)
   if (is_area(x)) return(x)

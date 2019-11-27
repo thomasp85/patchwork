@@ -12,7 +12,7 @@ test_that("`+` works", {
   })
 
   expect_doppelganger('Add grob: p1 + textGrob("test")', {
-    p1 + textGrob("test")
+    p1 + grid::textGrob("test")
   })
 
   expect_doppelganger('Add base graphics: p1 + ~plot(1:10, 1:10)', {
