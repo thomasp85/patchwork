@@ -605,7 +605,7 @@ find_strip_pos <- function(gt) {
 set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
   width_ind <- seq(PANEL_COL, by = TABLE_COLS, length.out = length(widths))
   height_ind <- seq(PANEL_ROW, by = TABLE_ROWS, length.out = length(heights))
-  if (anyNA(widths) || anyNA(heights)) {
+  if (anyNA(widths) && anyNA(heights)) {
     respect <- matrix(0, nrow = length(gt$heights), ncol = length(gt$widths))
     fixed_areas <- lapply(which(fixed_asp), function(i) {
       list(
@@ -643,6 +643,9 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
     gt$respect <- respect
     widths[is.na(widths)] <- 1
     heights[is.na(heights)] <- 1
+  } else {
+    if (!is.unit(widths)) widths[is.na(widths)] <- 1
+    if (!is.unit(heights)) heights[is.na(heights)] <- 1
   }
   if (!is.unit(widths)) widths <- unit(widths, 'null')
   gt$widths[width_ind] <- widths
