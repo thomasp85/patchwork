@@ -23,3 +23,26 @@ test_that("The grid can be controlled", {
     p1 + p2 + p3 + p4 + plot_layout(heights = grid::unit(3, "cm"))
   })
 })
+
+test_that("Fixed aspect plots behave", {
+  p_f <- ggplot(mtcars) +
+    geom_point(aes(hp, disp)) +
+    coord_fixed() +
+    ggtitle('Fixed Aspect')
+
+  expect_doppelganger('FAR optimise space by default: p1 + p_f + p3 + p4', {
+    p1 + p_f + p3 + p4
+  })
+  expect_doppelganger('FAR optimise space by default: p1 + p_f + p_f + p4', {
+    p1 + p_f + p_f + p4
+  })
+  expect_doppelganger('FAR optimise space by default: p_f + p_f + p3 + p4', {
+    p_f + p_f + p3 + p4
+  })
+  expect_doppelganger('FAR space optimisation can be turned off: p1 + p2 + p_f + p4 + plot_layout(widths = 1)', {
+    p1 + p2 + p_f + p4 + plot_layout(widths = 1)
+  })
+  expect_doppelganger('FAR dimensions can be set with units: p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c("null", "cm", "null")))', {
+    p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c('null', 'cm', 'null')))
+  })
+})
