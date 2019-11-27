@@ -67,6 +67,9 @@
       <a href="../../articles/guides/layout.html">Controlling Layout</a>
     </li>
     <li>
+      <a href="../../articles/guides/annotation.html">Adding annotation to a patchwork</a>
+    </li>
+    <li>
       <a href="../../articles/guides/multipage.html">Multipage Alignment</a>
     </li>
   </ul>
@@ -151,24 +154,24 @@
 <div id="controlling-the-grid" class="section level2">
 <h2 class="hasAnchor">
 <a href="#controlling-the-grid" class="anchor"></a>Controlling the grid</h2>
-<p>If nothing is given, patchwork will try to make a grid as square as possible, erring to the side of a horizontal grid if a square is not possible (it uses the same heuristic as <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code>). Further, each column and row in the grid will take up the same space. Both of these can be controlled with <code><a href="../../reference/plot_layout.html">plot_layout()</a></code></p>
+<p>If nothing is given, patchwork will try to make a grid as square as possible, erring to the side of a horizontal grid if a square is not possible (it uses the same heuristic as <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> in ggplot2). Further, each column and row in the grid will take up the same space. Both of these can be controlled with <code><a href="../../reference/plot_layout.html">plot_layout()</a></code></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">widths =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>when grid sizes are given as numerics, it will define the relative sizing of the panels. In the above, the panel area of the first column is twice that of the second column. It is also possible to supply a unit vector instead:</p>
+<p>when grid sizes are given as a numeric, it will define the relative sizing of the panels. In the above, the panel area of the first column is twice that of the second column. It is also possible to supply a unit vector instead:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">widths =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">heights =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/reexports.html">unit</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">5</span>, <span class="dv">1</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'cm'</span>, <span class="st">'null'</span>)))</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>In the last example the first row will always occupy 5cm, while the second will expand to fill the remaining area.</p>
-<p>It is important to remember that sizing only affects the plotting region (<em>panel area</em>). If a plot have e.g. very wide y-axis text it will not be penalized and get a smaller overall plotting region.</p>
+<p>It is important to remember that sizing only affects the plotting region (<em>panel area</em>). If a plot have e.g. very wide y-axis text it will <em>not</em> be penalized and get a smaller overall plotting region.</p>
 </div>
 <div id="moving-beyond-the-grid" class="section level2">
 <h2 class="hasAnchor">
 <a href="#moving-beyond-the-grid" class="anchor"></a>Moving beyond the grid</h2>
-<p>Earlier, when we’ve wanted to create non-grid compositions, we’ve used nesting. While this is often enough, you end up loosing the alignement between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:</p>
+<p>Earlier, when we’ve wanted to create non-grid compositions, we’ve used nesting. While this is often enough, you end up loosing the alignment between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">layout &lt;-<span class="st"> "</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">##BBBB</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">AACCDD</span></a>
@@ -187,7 +190,7 @@
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">design =</span> layout)</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>The design specification can of course also be used with <code>widths</code> and <code>heights</code> to specify the size of the columns and rows in the design.</p>
-<p>A small additional feature of the <code>design</code> argument exists if used in conjunction with <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code> function (See the <em>Plot Assembly</em> tutorial). If the design is given as a textual representation, you can name the plots to match them to the different areas, instead of letting them be filled in in the order they appear:</p>
+<p>A small additional feature of the <code>design</code> argument exists if used in conjunction with <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code> function (See the <a href="assembly.html">Plot Assembly</a> guide). If the design is given as a textual representation, you can name the plots to match them to the different areas, instead of letting them be filled in in the order they appear:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">layout &lt;-<span class="st"> '</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">A#B</span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">#C#</span></a>
@@ -199,7 +202,7 @@
 <div id="fixed-aspect-plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fixed-aspect-plots" class="anchor"></a>Fixed aspect plots</h2>
-<p>A special case when it comes to assembling plots are when dealing with fixed aspect plots, such as those created with <code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html">coord_polar()</a></code>, and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code>. It is not possible to simulatneausly assign even dimensions and align fixed aspect plots. The default value for the <code>widths</code> and <code>heights</code> arguments in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> is <code>NA</code>, which is treated special. In general it will behave just as <code>1null</code>, but if the row/column is occupied by a fixed aspect plot it will expand and contract in order to keep the aspect of the plot.</p>
+<p>A special case when it comes to assembling plots are when dealing with fixed aspect plots, such as those created with <code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html">coord_polar()</a></code>, and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code>. It is not possible to simultaneously assign even dimensions and align fixed aspect plots. The default value for the <code>widths</code> and <code>heights</code> arguments in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> is <code>NA</code>, which is treated special. In general it will behave just as <code>1null</code> (i.e. expand to fill available space but share evenly with other <code>1null</code> panels), but if the row/column is occupied by a fixed aspect plot it will expand and contract in order to keep the aspect of the plot and may thus not have the same dimension as grid width/heights containing plots without fixed aspect plots.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">p_fixed &lt;-<span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(mtcars) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(hp, disp)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot F'</span>) <span class="op">+</span><span class="st"> </span></a>
@@ -207,15 +210,15 @@
 <a class="sourceLine" id="cb11-5" data-line-number="5">p_fixed <span class="op">+</span><span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>Contrast this with setting the widths to a non-NA value:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">p_fixed <span class="op">+</span><span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">widths =</span> <span class="dv">1</span>, <span class="dt">heights =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">p_fixed <span class="op">+</span><span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">widths =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<p>As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimises the use of space.</p>
-<p>There are some restrictions to the space optimisation. The fixed aspect plot ¨ cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.</p>
+<p>As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.</p>
+<p>There are some restrictions to the space optimization. The fixed aspect plot ¨ cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.</p>
 </div>
 <div id="controlling-guides" class="section level2">
 <h2 class="hasAnchor">
 <a href="#controlling-guides" class="anchor"></a>Controlling guides</h2>
-<p>Plots often have guides to help viewers deduce the aesthetic mapping. When composing plots we need to think about what to do about these. The default behaviour is to leave these alone and simply let them follow the plot around. Examples of this can be seen above where the colour guide is always positioned beside Plot 3. Such behaviour is fine if the purpose is simply to position a bunch of otherwise unrelated plots next to each other. If the purpose of the composition is to create a new tightly coupled visualisation, the presence of guides in between the plots can be jarring, though. The <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> function provides a <code>guides</code> argument that controls how guides should be treated. To show how it works, let’s see what happens if we set it to <code>'collect'</code>:</p>
+<p>Plots often have guides to help viewers deduce the aesthetic mapping. When composing plots we need to think about what to do about these. The default behavior is to leave these alone and simply let them follow the plot around. Examples of this can be seen above where the color guide is always positioned beside Plot 3. Such behavior is fine if the purpose is simply to position a bunch of otherwise unrelated plots next to each other. If the purpose of the composition is to create a new tightly coupled visualization, the presence of guides in between the plots can be jarring, though. The <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> function provides a <code>guides</code> argument that controls how guides should be treated. To show how it works, let’s see what happens if we set it to <code>'collect'</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/plot_layout.html">plot_layout</a></span>(<span class="dt">guides =</span> <span class="st">'collect'</span>)</a></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
@@ -243,7 +246,7 @@
 <div id="want-more" class="section level2">
 <h2 class="hasAnchor">
 <a href="#want-more" class="anchor"></a>Want more?</h2>
-<p>This is all for layouts. THere is still more to patchwork. Explore the other vignettes to learn about annotations, special operators and elements.</p>
+<p>This is all for layouts. There is still more to patchwork. Explore the other guides to learn about <a href="annotation.html">annotations</a>, <a href="assembly.html">special operators</a> and <a href="multipage.html">multipage alignment</a>.</p>
 </div>
   </div>
 

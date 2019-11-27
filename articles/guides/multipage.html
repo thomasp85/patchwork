@@ -67,6 +67,9 @@
       <a href="../../articles/guides/layout.html">Controlling Layout</a>
     </li>
     <li>
+      <a href="../../articles/guides/annotation.html">Adding annotation to a patchwork</a>
+    </li>
+    <li>
       <a href="../../articles/guides/multipage.html">Multipage Alignment</a>
     </li>
   </ul>
@@ -121,7 +124,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(patchwork)</a></code></pre></div>
 <p>While patchwork is mainly a package for creating plot compositions, it also contains infrastructure for a related, but distinct task: Aligning plots across pages.</p>
-<p>Consider the task where you are preparing a slideshow containing a range of figures. Optimally you’d want plots that don’t <em>“jump around”</em> as you switch between slides, but different axes texts, legends, strips can make that difficult. Will illustrate this with our standard plots:</p>
+<p>Consider the task where you are preparing a slideshow containing a range of figures. Optimally you’d want plots that don’t <em>“jump around”</em> as you switch between slides, but different axis text, legends, strips, etc. can make that difficult. We’ll illustrate this with our standard plots:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">p1 &lt;-<span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(mtcars) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(mpg, disp)) <span class="op">+</span><span class="st"> </span></a>
@@ -139,37 +142,51 @@
 <a class="sourceLine" id="cb2-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(gear)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>cyl) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 4'</span>)</a></code></pre></div>
-<p>Notice how <code>p1</code> and <code>p3</code> does not align when rendered at the same size:</p>
+<p>Notice how <code>p1</code> and <code>p3</code> doesn’t align when rendered at the same size:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p1)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p3)</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-3-.gif" width="700"></p>
 <p>We can make one of the plots align with the other by extracting the dimensions from one plot, and applying it to the other:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">p3_dims &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">get_dim</a></span>(p3)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p1, p3_dims)</a></code></pre></div>
-<p><img src="multipage_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>A nice thing about the implementation is that it retains the ggplot nature after the dimensions have been applied, and can thus continue to be added to:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p1, p3_dims) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2">p1_aligned &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p1, p3_dims)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p1_aligned)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p3)</a></code></pre></div>
+<p><img src="multipage_files/figure-html/unnamed-chunk-4-.gif" width="700"></p>
+<p>A nice thing about the implementation is that aligned plots retain the ggplot nature after the dimensions have been applied, and can thus continue to be added to:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">p1_aligned <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>Often we don’t have a single plot that everything else should be aligned to. Notice the havock we wreck when we try to align <code>p4</code> to <code>p3</code>:</p>
+<p>Often we don’t have a single plot that everything else should be aligned to. Notice the havoc we wreck when we try to align <code>p4</code> to <code>p3</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p4, p3_dims)</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Because <code>p3</code> doesn’t have any strips the title on <code>p4</code> will placed too close to them in order to be aligned with the title of <code>p3</code>. What we want is to extract some dimensions that are large enough to accomodate all the different features in a set of plots. We can do just that with <code><a href="../../reference/multipage_align.html">get_max_dim()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">max_dims &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">get_max_dim</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(p1, p2, p3, p4))</a>
+<p>Because <code>p3</code> doesn’t have any strips the title on <code>p4</code> will be placed too close to them in order to be aligned with the title of <code>p3</code>. What we want is to extract some dimensions that are large enough to accommodate all the different features in a set of plots. We can do just that with <code><a href="../../reference/multipage_align.html">get_max_dim()</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">max_dims &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">get_max_dim</a></span>(p1, p2, p3, p4)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p4, max_dims)</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>We can now see that the title in the other plots have been raised to make room for the strips present in <code>p4</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p2, max_dims)</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<p>Usually you will have a list of plots and simply want to align all of these before rendering them to a file. All of the operations above have been wrapped in the <code><a href="../../reference/multipage_align.html">align_plots()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plots_aligned &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">align_plots</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(p1, p2, p3, p4))</a>
+<p>Usually you’ll have a list of plots and simply want to align all of these before rendering them to a file. All of the operations above have been wrapped in the <code><a href="../../reference/multipage_align.html">align_plots()</a></code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plots_aligned &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">align_plots</a></span>(p1, p2, p3, p4)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="cf">for</span> (p <span class="cf">in</span> plots_aligned) {</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p)</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">}</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-9-.gif" width="700"></p>
+<div id="want-more" class="section level2">
+<h2 class="hasAnchor">
+<a href="#want-more" class="anchor"></a>Want more?</h2>
+<p>Multipage alignment is just a small part of patchwork. Check out the other guides to learn about <a href="assembly.html">assembling plots</a>, <a href="layout.html">specifying layouts</a>, and <a href="annotation.html">annotating the results</a>.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#want-more">Want more?</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
