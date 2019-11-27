@@ -27,8 +27,8 @@ pages.
 
 Consider the task where you are preparing a slideshow containing a range of 
 figures. Optimally you'd want plots that don't *"jump around"* as you switch 
-between slides, but different axes texts, legends, strips can make that 
-difficult. Will illustrate this with our standard plots:
+between slides, but different axis text, legends, strips, etc. can make that 
+difficult. We'll illustrate this with our standard plots:
 
 ```{r}
 library(ggplot2)
@@ -50,7 +50,7 @@ p4 <- ggplot(mtcars) +
   ggtitle('Plot 4')
 ```
 
-Notice how `p1` and `p3` does not align when rendered at the same size:
+Notice how `p1` and `p3` doesn't align when rendered at the same size:
 
 ```{r, animation.hook='gifski'}
 plot(p1)
@@ -60,32 +60,34 @@ plot(p3)
 We can make one of the plots align with the other by extracting the dimensions
 from one plot, and applying it to the other:
 
-```{r}
+```{r, animation.hook='gifski'}
 p3_dims <- get_dim(p3)
-set_dim(p1, p3_dims)
+p1_aligned <- set_dim(p1, p3_dims)
+plot(p1_aligned)
+plot(p3)
 ```
 
-A nice thing about the implementation is that it retains the ggplot nature after
-the dimensions have been applied, and can thus continue to be added to:
+A nice thing about the implementation is that aligned plots retain the ggplot 
+nature after the dimensions have been applied, and can thus continue to be added to:
 
 ```{r}
-set_dim(p1, p3_dims) + theme_minimal()
+p1_aligned + theme_minimal()
 ```
 
 Often we don't have a single plot that everything else should be aligned to. 
-Notice the havock we wreck when we try to align `p4` to `p3`:
+Notice the havoc we wreck when we try to align `p4` to `p3`:
 
 ```{r}
 set_dim(p4, p3_dims)
 ```
 
-Because `p3` doesn't have any strips the title on `p4` will placed too close to
-them in order to be aligned with the title of `p3`. What we want is to extract 
-some dimensions that are large enough to accomodate all the different features
-in a set of plots. We can do just that with `get_max_dim()`:
+Because `p3` doesn't have any strips the title on `p4` will be placed too close 
+to them in order to be aligned with the title of `p3`. What we want is to 
+extract some dimensions that are large enough to accommodate all the different 
+features in a set of plots. We can do just that with `get_max_dim()`:
 
 ```{r}
-max_dims <- get_max_dim(list(p1, p2, p3, p4))
+max_dims <- get_max_dim(p1, p2, p3, p4)
 set_dim(p4, max_dims)
 ```
 
@@ -96,14 +98,19 @@ for the strips present in `p4`:
 set_dim(p2, max_dims)
 ```
 
-Usually you will have a list of plots and simply want to align all of these 
+Usually you'll have a list of plots and simply want to align all of these 
 before rendering them to a file. All of the operations above have been wrapped
 in the `align_plots()` function:
 
 ```{r, animation.hook='gifski'}
-plots_aligned <- align_plots(list(p1, p2, p3, p4))
+plots_aligned <- align_plots(p1, p2, p3, p4)
 for (p in plots_aligned) {
   plot(p)
 }
 ```
 
+## Want more?
+Multipage alignment is just a small part of patchwork. Check out the other 
+guides to learn about [assembling plots](assembly.html), 
+[specifying layouts](layout.html), and 
+[annotating the results](annotation.html).

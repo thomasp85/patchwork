@@ -67,8 +67,9 @@ different dimensions:
 ## Controlling the grid
 If nothing is given, patchwork will try to make a grid as square as possible, 
 erring to the side of a horizontal grid if a square is not possible (it uses the
-same heuristic as `facet_wrap()`). Further, each column and row in the grid will 
-take up the same space. Both of these can be controlled with `plot_layout()`
+same heuristic as `facet_wrap()` in ggplot2). Further, each column and row in 
+the grid will take up the same space. Both of these can be controlled with 
+`plot_layout()`
 
 ```{r}
 p1 + p2 + p3 + p4 + 
@@ -80,9 +81,9 @@ p1 + p2 + p3 + p4 +
   plot_layout(widths = c(2, 1))
 ```
 
-when grid sizes are given as numerics, it will define the relative sizing of the
-panels. In the above, the panel area of the first column is twice that of the 
-second column. It is also possible to supply a unit vector instead:
+when grid sizes are given as a numeric, it will define the relative sizing of 
+the panels. In the above, the panel area of the first column is twice that of 
+the second column. It is also possible to supply a unit vector instead:
 
 ```{r}
 p1 + p2 + p3 + p4 + 
@@ -93,12 +94,12 @@ In the last example the first row will always occupy 5cm, while the second will
 expand to fill the remaining area.
 
 It is important to remember that sizing only affects the plotting region 
-(*panel area*). If a plot have e.g. very wide y-axis text it will not be 
+(*panel area*). If a plot have e.g. very wide y-axis text it will *not* be 
 penalized and get a smaller overall plotting region.
 
 ## Moving beyond the grid
 Earlier, when we've wanted to create non-grid compositions, we've used nesting.
-While this is often enough, you end up loosing the alignement between subplots 
+While this is often enough, you end up loosing the alignment between subplots 
 from different nested areas. An alternative is to define a layout design to fill
 the plots into. Such a design can be defined in two different ways. The easiest
 is to use a textual representation:
@@ -134,10 +135,10 @@ The design specification can of course also be used with `widths` and `heights`
 to specify the size of the columns and rows in the design.
 
 A small additional feature of the `design` argument exists if used in 
-conjunction with `wrap_plots()` function (See the *Plot Assembly* tutorial). If
-the design is given as a textual representation, you can name the plots to match
-them to the different areas, instead of letting them be filled in in the order
-they appear:
+conjunction with `wrap_plots()` function (See the [Plot Assembly](assembly.html) 
+guide). If the design is given as a textual representation, you can name the 
+plots to match them to the different areas, instead of letting them be filled in 
+in the order they appear:
 
 ```{r}
 layout <- '
@@ -151,11 +152,14 @@ wrap_plots(D = p1, C = p2, B = p3, design = layout)
 ## Fixed aspect plots
 A special case when it comes to assembling plots are when dealing with fixed 
 aspect plots, such as those created with `coord_fixed()`, `coord_polar()`, and
-`coord_sf()`. It is not possible to simulatneausly assign even dimensions and 
+`coord_sf()`. It is not possible to simultaneously assign even dimensions and 
 align fixed aspect plots. The default value for the `widths` and `heights` 
 arguments in `plot_layout()` is `NA`, which is treated special. In general it
-will behave just as `1null`, but if the row/column is occupied by a fixed aspect 
-plot it will expand and contract in order to keep the aspect of the plot.
+will behave just as `1null` (i.e. expand to fill available space but share
+evenly with other `1null` panels), but if the row/column is occupied by a fixed 
+aspect plot it will expand and contract in order to keep the aspect of the plot
+and may thus not have the same dimension as grid width/heights containing plots
+without fixed aspect plots.
 
 ```{r}
 p_fixed <- ggplot(mtcars) + 
@@ -168,25 +172,25 @@ p_fixed + p1 + p2 + p3
 Contrast this with setting the widths to a non-NA value:
 
 ```{r}
-p_fixed + p1 + p2 + p3 + plot_layout(widths = 1, heights = 1)
+p_fixed + p1 + p2 + p3 + plot_layout(widths = 1)
 ```
 
 As you can see, the fixed aspect plot keeps its aspect ratio, but looses the 
 axis alignment in one of the directions. Which solution is needed is probably 
-dependent on the specific use case. The default optimises the use of space.
+dependent on the specific use case. The default optimizes the use of space.
 
-There are some restrictions to the space optimisation. The fixed aspect plot ¨
+There are some restrictions to the space optimization. The fixed aspect plot ¨
 cannot take up multiple rows or columns, and if one fixed aspect plot conflicts
 with another one, one of them will and up not using the full space.
 
 ## Controlling guides
 Plots often have guides to help viewers deduce the aesthetic mapping. When 
 composing plots we need to think about what to do about these. The default 
-behaviour is to leave these alone and simply let them follow the plot around. 
-Examples of this can be seen above where the colour guide is always positioned
-beside Plot 3. Such behaviour is fine if the purpose is simply to position a 
+behavior is to leave these alone and simply let them follow the plot around. 
+Examples of this can be seen above where the color guide is always positioned
+beside Plot 3. Such behavior is fine if the purpose is simply to position a 
 bunch of otherwise unrelated plots next to each other. If the purpose of the
-composition is to create a new tightly coupled visualisation, the presence of
+composition is to create a new tightly coupled visualization, the presence of
 guides in between the plots can be jarring, though. The `plot_layout()` function
 provides a `guides` argument that controls how guides should be treated. To show
 how it works, let's see what happens if we set it to `'collect'`:
@@ -247,5 +251,6 @@ has a guide area it will not be possible to place guides collected at a higher
 level there.
 
 ## Want more?
-This is all for layouts. THere is still more to patchwork. Explore the other
-vignettes to learn about annotations, special operators and elements.
+This is all for layouts. There is still more to patchwork. Explore the other
+guides to learn about [annotations](annotation.html), 
+[special operators](assembly.html) and [multipage alignment](multipage.html).

@@ -21,13 +21,14 @@ knitr::opts_chunk$set(
 library(patchwork)
 ```
 
-Before plots can be layed out, they have to be assembled. Arguably one of 
-patchwork's biggest selling point is that it expands on the use of `+` in ggplot2
-to allow plots to be added together and composed, creating a natural extension
-of the ggplot2 API. There is more to it than that, and this tutorial will teach
-you all about the different operators and functions available for plot assembly.
+Before plots can be laid out, they have to be assembled. Arguably one of 
+patchwork's biggest selling point is that it expands on the use of `+` in 
+ggplot2 to allow plots to be added together and composed, creating a natural 
+extension of the ggplot2 API. There is more to it than that though, and this 
+tutorial will teach you all about the different operators and functions 
+available for plot assembly.
 
-As always, we start with a few well example plots:
+As always, we'll start with a few well-known example plots:
 
 ```{r}
 library(ggplot2)
@@ -51,9 +52,9 @@ p4 <- ggplot(mtcars) +
 
 ## Adding plots to the patchwork
 At this point, it shouldn't come as a surprise that you can use `+` to add plots
-together to form a patchwork. If so, I'd suggest you start out with the 
-*Getting Started* guide, and come back once you've gone through that. But, just
-to recap, you can add plots together, like so:
+together to form a patchwork. If it does, I'd suggest you start out with the 
+[Getting Started](../patchwork.html) guide, and come back once you've gone 
+through that. But, just to recap: you can add plots together, like so:
 
 ```{r}
 p1 + p2
@@ -69,7 +70,7 @@ p3 + patch
 ```
 
 ### Adding non-ggplot content
-Sometimes you need to have other content than ggplot2 in your composition. 
+Sometimes you need to have other content than ggplot2 in your patchwork. 
 Standard grid grobs can be added to your plot as well:
 
 ```{r}
@@ -83,7 +84,7 @@ gridExtra:
 p1 + gridExtra::tableGrob(mtcars[1:10, c('mpg', 'disp')])
 ```
 
-Now and then, it is necessary to work with graphics from the graphics package 
+Now and then, it is necessary to work with plots from the graphics package 
 (*base graphics*). These can be added to patchwork by providing them as a
 one-sided formula:
 
@@ -98,7 +99,7 @@ until you get something that works for your particular use-case. The
 [ggplotify](https://cran.r-project.org/package=ggplotify/vignettes/ggplotify.html)
 package provides even more functionality for converting different graphics to 
 grobs so if the standard formula interface in patchwork doesn't work for you, do 
-check it out.
+check that out.
 
 The workhorse underneath the ability to add non-ggplot objects to a patchwork is
 `wrap_elements()` which is called implicitly when adding non-ggplot objects. To
@@ -130,7 +131,7 @@ par(old_par)
 ```
 
 Another use case for  `wrap_elements()` is when you need the first plot to not
-be a ggplot. Patchwork is not able to change the `+` behaviour for miscellaneous 
+be a ggplot. Patchwork is not able to change the `+` behavior for miscellaneous 
 objects, and so, if they appear as the first element they must be wrapped in 
 an object patchwork understands:
 
@@ -146,11 +147,11 @@ wrap_elements(grid::textGrob('Text on left side')) + p1
 ### Stacking and packing
 The `+` operator simply combines plots without telling patchwork anything about
 the desired layout. The layout, unless changed with `plot_layout()` (See the 
-*Controlling Layout* vignette), will simply be a grid with enoug rows and 
-columns to contain the number of plots, and being as square as possible. For the
-special cases of putting plots besides each other or on top of each other 
-patchwork provides 2 shortcut operators. `|` will place plots next to each other
-while `/` will place them on top of each other.
+[Controlling Layout](layout.html) guide), will simply be a grid with enough rows 
+and columns to contain the number of plots, while being as square as possible. 
+For the special case of putting plots besides each other or on top of each 
+other patchwork provides 2 shortcut operators. `|` will place plots next to each 
+other while `/` will place them on top of each other.
 
 ```{r}
 p1 / p2
@@ -170,10 +171,25 @@ braces to avoid any surprises
 p1 / (p2 | p3)
 ```
 
+### Functional assembly
+While using the different operators provides a clean API for assembly, it is 
+less suited for situations where you are not in control of the plot-generation
+process. If you are handed a list of plot objects and want to assemble them to
+a patchwork it is a bit clumsy using the `+` operator (but doable with a loop or
+`Reduce()`). patchwork provides `wrap_plots()` for a more functional approach to
+assembly. It takes either separate plots or a list of them and adds them to a 
+single patchwork. On top of that it also accepts the same arguments as 
+`plot_layout()` (see the [Controlling Layouts](layout.html) guide) so it can be 
+used as a single solution for most assembly needs:
+
+```{r}
+wrap_plots(p1, p2, p3, p4)
+```
+
 ## Nesting the left-hand side
 As plots will always be added to the patchwork on the left-hand side, it is not
 possible to nest the left-hand side beside the right-hand side with the standard
-operators shown above. This can lead to surprising behaviour:
+operators shown above. This can lead to surprising behavior:
 
 ```{r}
 patch <- p1 + p2
@@ -187,7 +203,7 @@ below
 patch + p3
 ```
 
-This behaviour is necessary to allow patchworks to be build up gradually, but
+This behavior is necessary to allow patchworks to be build up gradually, but
 will get in the way if the left-hand side have to nested. patchwork provides the
 `-` operator for this exact situation. It should conceptually be understood as a 
 hyphen and not a minus, in that it keeps each side from each other (it puts both
@@ -197,9 +213,9 @@ on the same nesting level)
 patch - p3
 ```
 
-There are currently no version of `/` and `|` that has this behaviour, so it is
+There are currently no version of `/` and `|` that has this behavior, so it is
 necessary to specify `ncol = 1`/`nrow = 1` explicitly in `plot_layout()` to get
-this behaviour with left-hand side nesting.
+this behavior with left-hand side nesting.
 
 Another way to solve this is with `wrap_plots()`, which will put all its input 
 on the same nesting level, irrespective of order:
@@ -210,8 +226,8 @@ wrap_plots(patch, p3)
 
 ## Modifying patches
 When creating a patchwork, the resulting object remain a ggplot object 
-referencing the last added plot. This means that you can continue to add ggplot
-objects to it as you would a normal object:
+referencing the last added plot. This means that you can continue to add objects 
+such as geoms, scales, etc. to it as you would a normal ggplot:
 
 ```{r}
 p1 + p2 + geom_jitter(aes(gear, disp))
@@ -244,5 +260,5 @@ patchwork * theme_minimal()
 
 ## Want more?
 This is everything there is to know about combining and modifying patches in a
-patchwork. Be sure to check out the other tutorials for more about controlling 
-layouts and annotations.
+patchwork. Be sure to check out the other guides for more about controlling 
+[layouts](layout.html) and [annotations](annotation.html).
