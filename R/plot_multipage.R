@@ -9,7 +9,7 @@
 #'
 #' @param plot A ggplot object
 #' @param dim A plot_dimension object as created by `get_dim()`
-#' @param plots A list of ggplot objects
+#' @param ... ggplot objects or a single list of them
 #'
 #' @return `get_dim()` and `get_max_dim()` return a plot_dimension object.
 #' `set_dim()` returns a modified ggplot object with fixed outer dimensions and
@@ -43,11 +43,11 @@
 #' set_dim(p1, p4_dim)
 #'
 #' # Align a plot to the maximum dimensions of a list of plots
-#' max_dims <- get_max_dim(list(p1, p2, p3, p4))
+#' max_dims <- get_max_dim(p1, p2, p3, p4)
 #' set_dim(p2, max_dims)
 #'
 #' # Align a list of plots with each other
-#' aligned_plots <- align_plots(list(p1, p2, p3, p4))
+#' aligned_plots <- align_plots(p1, p2, p3, p4)
 #' aligned_plots[[3]]
 #'
 #' # Aligned plots still behave like regular ggplots
@@ -81,6 +81,10 @@ get_dim.ggplot <- function(plot) {
   dims
 }
 is_ggplot_dimension <- function(x) inherits(x, 'ggplot_dimension')
+#' @export
+get_dim.patchwork <- function(plot) {
+  stop('Getting dimensions on patchworks are currently unsupported', call. = FALSE)
+}
 
 #' @rdname multipage_align
 #' @export
@@ -95,6 +99,10 @@ set_dim.ggplot <- function(plot, dim) {
   plot$fixed_dimensions <- dim
   class(plot) <- c('fixed_dim_ggplot', class(plot))
   plot
+}
+#' @export
+set_dim.patchwork <- function(plot, dim) {
+  stop('Setting dimensions on patchworks are currently unsupported', call. = FALSE)
 }
 #' @importFrom ggplot2 ggplot_build
 #' @export
@@ -119,7 +127,14 @@ ggplot_gtable.fixed_dim_build <- function(data) {
 }
 #' @rdname multipage_align
 #' @export
-get_max_dim <- function(plots) {
+get_max_dim <- function(...) {
+  if (is.ggplot(..1)) {
+    plots <- list(...)
+  } else if (is.list(..1)) {
+    plots <- ..1
+  } else {
+    stop('Can only get dimensions from ggplot objects or a list of them', call. = FALSE)
+  }
   dims <- lapply(plots, get_dim)
   dims <- list(
     l = do.call(pmax, lapply(dims, `[[`, 'l')),
@@ -132,6 +147,13 @@ get_max_dim <- function(plots) {
 }
 #' @rdname multipage_align
 #' @export
-align_plots <- function(plots) {
+align_plots <- function(...) {
+  if (is.ggplot(..1)) {
+    plots <- list(...)
+  } else if (is.list(..1)) {
+    plots <- ..1
+  } else {
+    stop('Can only align ggplot objects or a list of them', call. = FALSE)
+  }
   lapply(plots, set_dim, get_max_dim(plots))
 }

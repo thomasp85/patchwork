@@ -12,16 +12,16 @@ get_dim(plot)
 
 set_dim(plot, dim)
 
-get_max_dim(plots)
+get_max_dim(...)
 
-align_plots(plots)
+align_plots(...)
 }
 \arguments{
 \item{plot}{A ggplot object}
 
 \item{dim}{A plot_dimension object as created by \code{get_dim()}}
 
-\item{plots}{A list of ggplot objects}
+\item{...}{ggplot objects or a single list of them}
 }
 \value{
 \code{get_dim()} and \code{get_max_dim()} return a plot_dimension object.
@@ -61,11 +61,11 @@ p4_dim <- get_dim(p4)
 set_dim(p1, p4_dim)
 
 # Align a plot to the maximum dimensions of a list of plots
-max_dims <- get_max_dim(list(p1, p2, p3, p4))
+max_dims <- get_max_dim(p1, p2, p3, p4)
 set_dim(p2, max_dims)
 
 # Align a list of plots with each other
-aligned_plots <- align_plots(list(p1, p2, p3, p4))
+aligned_plots <- align_plots(p1, p2, p3, p4)
 aligned_plots[[3]]
 
 # Aligned plots still behave like regular ggplots
