@@ -45,8 +45,9 @@
 <meta property="og:title" content="Wrap arbitrary graphics in a patchwork-compliant patch — wrap_elements" />
 <meta property="og:description" content="In order to add non-ggplot2 element to a patchwork they can be
 converted to a compliant representation using the wrap_elements() function.
-This allows you to position either grobs, ggplot objects, or patchwork
-objects in either the full area, the full plotting area (anything between and
+This allows you to position either grobs, ggplot objects, patchwork
+objects, or even base graphics (if passed as a formula) in either the full
+area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
 the same approach as with normal ggplots (using
@@ -55,7 +56,8 @@ using theme(). For the latter, only the theme elements
 targeting plot margins and background as well as title, subtitle, etc styling
 will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
-geoms, etc.." />
+geoms, etc.. When grobs and formulas are added directly, they will implicitly
+be converted to wrap_elements(full = x)." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -171,8 +173,9 @@ geoms, etc.." />
     <div class="ref-description">
     <p>In order to add non-ggplot2 element to a patchwork they can be
 converted to a compliant representation using the <code>wrap_elements()</code> function.
-This allows you to position either grobs, ggplot objects, or patchwork
-objects in either the full area, the full plotting area (anything between and
+This allows you to position either grobs, ggplot objects, patchwork
+objects, or even base graphics (if passed as a formula) in either the full
+area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
 the same approach as with normal ggplots (using
@@ -181,7 +184,8 @@ using <a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme()</a>. 
 targeting plot margins and background as well as title, subtitle, etc styling
 will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
-geoms, etc..</p>
+geoms, etc.. When grobs and formulas are added directly, they will implicitly
+be converted to <code>wrap_elements(full = x)</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>wrap_elements</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -192,8 +196,8 @@ geoms, etc..</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>panel, plot, full</th>
-      <td><p>A grob, ggplot, or patchwork object to add to the
-respective area.</p></td>
+      <td><p>A grob, ggplot, patchwork, or formula object to add to
+the respective area.</p></td>
     </tr>
     <tr>
       <th>clip</th>
@@ -211,12 +215,39 @@ qualify for a tag.</p></td>
 
     <p>A wrapped_patch object</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>grid</span>)
+
+<span class='co'># Combine grobs with each other</span>
+<span class='fu'>wrap_elements</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span>(<span class='st'>'Here are some text'</span>)) +
+  <span class='fu'>wrap_elements</span>(
+    <span class='kw'>panel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(<span class='kw'>gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>'steelblue'</span>)),
+    <span class='kw'>full</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(<span class='kw'>gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>'goldenrod'</span>))
+  )</div><div class='img'><img src='wrap_elements-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># wrapped elements can still get titles etc like ggplots</span>
+<span class='fu'>wrap_elements</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span>(<span class='st'>'Here are some text'</span>)) +
+  <span class='fu'>wrap_elements</span>(
+    <span class='kw'>panel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(<span class='kw'>gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>'steelblue'</span>)),
+    <span class='kw'>full</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(<span class='kw'>gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>'goldenrod'</span>))
+  ) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Title for the amazing rectangles'</span>)</div><div class='img'><img src='wrap_elements-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># You can also pass in ggplots or patchworks to e.g. have it fill out the</span>
+<span class='co'># panel area</span>
+<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
+<span class='no'>p1</span> + <span class='fu'>wrap_elements</span>(<span class='kw'>panel</span> <span class='kw'>=</span> <span class='no'>p1</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Look at me shrink'</span>))</div><div class='img'><img src='wrap_elements-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># You can even add base graphics if you pass it as a formula</span>
+<span class='no'>p1</span> + <span class='fu'>wrap_elements</span>(<span class='kw'>full</span> <span class='kw'>=</span> ~ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>disp</span>))</div><div class='img'><img src='wrap_elements-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Adding a grob or formula directly is equivalent to placing it in `full`</span>
+<span class='no'>p1</span> + ~ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>disp</span>)</div><div class='img'><img src='wrap_elements-5.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -212,6 +212,29 @@ plots as they are added. When the plot contains nested layouts the
 enumeration should continue as usual or add a new level. The format of the
 levels are defined with <code>tag_levels</code> argument in <code>plot_annotation</code></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
+<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
+<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
+
+<span class='co'># Add title, etc. to a patchwork</span>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='fu'>plot_annotation</span>(<span class='st'>'This is a title'</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>'made with patchwork'</span>)</div><div class='img'><img src='plot_annotation-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Change styling of patchwork elements</span>
+<span class='no'>p1</span> + <span class='no'>p2</span> +
+  <span class='fu'>plot_annotation</span>(
+    <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>'This is a title'</span>,
+    <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>'made with patchwork'</span>,
+    <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>plot.title</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>16</span>))
+  )</div><div class='img'><img src='plot_annotation-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Add tags to plots</span>
+<span class='no'>p1</span> / (<span class='no'>p2</span> <span class='kw'>|</span> <span class='no'>p3</span>) +
+  <span class='fu'>plot_annotation</span>(<span class='kw'>tag_levels</span> <span class='kw'>=</span> <span class='st'>'A'</span>)</div><div class='img'><img src='plot_annotation-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Add multilevel tagging to nested layouts</span>
+<span class='no'>p1</span> / (<span class='no'>p2</span> <span class='kw'>|</span> <span class='no'>p3</span> + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='st'>'new'</span>)) +
+  <span class='fu'>plot_annotation</span>(<span class='kw'>tag_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'A'</span>, <span class='st'>'1'</span>))</div><div class='img'><img src='plot_annotation-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -219,6 +242,7 @@ levels are defined with <code>tag_levels</code> argument in <code>plot_annotatio
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

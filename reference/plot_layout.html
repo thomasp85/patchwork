@@ -216,16 +216,16 @@ See the examples for further information on use.</p></td>
 
 <span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
 <span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>disp</span>, <span class='no'>qsec</span>))
+<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
 <span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>carb</span>))
 <span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>cyl</span>, <span class='no'>mpg</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>cyl</span>))
 
 <span class='co'># The plots are layed out automatically by default</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span></div><div class='img'><img src='plot_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Use byrow to change how the grid is filled out</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Change the grid dimensions</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))</div><div class='img'><img src='plot_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Define layout at different nesting levels</span>
 <span class='no'>p1</span> +
   <span class='no'>p2</span> +
@@ -234,7 +234,7 @@ See the examples for further information on use.</p></td>
      <span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)
   ) +
   <span class='no'>p5</span> +
-  <span class='fu'>plot_layout</span>(<span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-4.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'>plot_layout</span>(<span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>))</div><div class='img'><img src='plot_layout-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Complex layouts can be created with the `design` argument</span>
 <span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
@@ -243,14 +243,14 @@ See the examples for further information on use.</p></td>
   <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>),
   <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>)
 )
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># The same can be specified as a character string:</span>
 <span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
   122
   153
   443
 "</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># When using strings to define the design `#` can be used to denote empty</span>
 <span class='co'># areas</span>
 <span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
@@ -258,7 +258,7 @@ See the examples for further information on use.</p></td>
   123
   ##3
 "</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
