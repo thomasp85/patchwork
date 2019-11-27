@@ -82,7 +82,8 @@ default_annotation <- plot_annotation(tag_levels = character(), tag_prefix = '',
 #' @export
 ggplot_add.plot_annotation <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
-  object$theme <- plot$patches$annotation$theme + object$theme
+  plot$patches$annotation$theme <- plot$patches$annotation$theme + object$theme
+  object$theme <- NULL
   plot$patches$annotation <- modifyList(plot$patches$annotation, object[!vapply(object, is.null, logical(1))])
   plot
 }
