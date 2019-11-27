@@ -11,6 +11,8 @@ status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)]
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/thomasp85/patchwork/branch/master/graph/badge.svg)](https://codecov.io/gh/thomasp85/patchwork?branch=master)
 <!-- badges: end -->
 
 The goal of `patchwork` is to make it ridiculously simple to combine

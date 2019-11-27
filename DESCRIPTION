@@ -37,5 +37,6 @@ Suggests:
     gridExtra,
     ragg,
     testthat (>= 2.1.0),
-    vdiffr
+    vdiffr,
+    covr
 VignetteBuilder: knitr
