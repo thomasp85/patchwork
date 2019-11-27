@@ -25,11 +25,3 @@ p4 <- ggplot(mtcars) +
   geom_bar(aes(gear)) +
   facet_wrap(~cyl) +
   ggtitle('Plot 4')
-
-
-print_plot.patchwork <- function(p, title = '') {
-  if (is.null(p$patches$annotation$title)) {
-    p <- p + plot_annotation(title = title)
-  }
-  print(p)
-}
