@@ -605,7 +605,17 @@ find_strip_pos <- function(gt) {
 set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
   width_ind <- seq(PANEL_COL, by = TABLE_COLS, length.out = length(widths))
   height_ind <- seq(PANEL_ROW, by = TABLE_ROWS, length.out = length(heights))
-  if (anyNA(widths) && anyNA(heights)) {
+  if (!is.unit(widths)) {
+    widths[is.na(widths)] <- -1
+    widths <- unit(widths, 'null')
+  }
+  width_strings <- as.character(widths)
+  if (!is.unit(heights)) {
+    heights[is.na(heights)] <- -1
+    heights <- unit(heights, 'null')
+  }
+  height_strings <- as.character(heights)
+  if (any(width_strings == '-1null') && any(height_strings == '-1null')) {
     respect <- matrix(0, nrow = length(gt$heights), ncol = length(gt$widths))
     fixed_areas <- lapply(which(fixed_asp), function(i) {
       list(
@@ -614,24 +624,28 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
       )
     })
     can_fix <- vapply(fixed_areas, function(x) length(x$rows) == 1 && length(x$cols), logical(1))
-    can_fix_row <- vapply(fixed_areas, function(x) all(is.na(heights[x$rows])), logical(1))
-    can_fix_col <- vapply(fixed_areas, function(x) all(is.na(widths[x$cols])), logical(1))
+    can_fix_row <- vapply(fixed_areas, function(x) all(height_strings[x$rows] == '-1null'), logical(1))
+    can_fix_col <- vapply(fixed_areas, function(x) all(width_strings[x$cols] == '-1null'), logical(1))
     fixed_areas <- fixed_areas[can_fix & (can_fix_row & can_fix_col)]
     fixed_gt <- which(fixed_asp)[can_fix & (can_fix_row & can_fix_col)]
     for (i in seq_along(fixed_areas)) {
       panel_ind <- grep('panel', panels[[fixed_gt[i]]]$layout$name)[1]
       w <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$widths
       h <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$heights
-      can_set_width <- is.na(widths[fixed_areas[[i]]$cols])
-      can_set_height <- is.na(heights[fixed_areas[[i]]$rows])
+      can_set_width <- width_strings[fixed_areas[[i]]$cols] == '-1null'
+      can_set_height <- height_strings[fixed_areas[[i]]$rows] == '-1null'
       will_be_fixed <- TRUE
       if (can_set_width && can_set_height) {
-        widths[fixed_areas[[i]]$cols] <- as.numeric(w)
-        heights[fixed_areas[[i]]$rows] <- as.numeric(h)
+        widths[fixed_areas[[i]]$cols] <- w
+        width_strings[fixed_areas[[i]]$cols] <- ''
+        heights[fixed_areas[[i]]$rows] <- h
+        height_strings[fixed_areas[[i]]$rows] <- ''
       } else if (can_set_width) {
-        widths[fixed_areas[[i]]$cols] <- heights[fixed_areas[[i]]$rows] * as.numeric(w) / as.numeric(h)
+        widths[fixed_areas[[i]]$cols] <- heights[fixed_areas[[i]]$rows] * (as.numeric(w) / as.numeric(h))
+        width_strings[fixed_areas[[i]]$cols] <- ''
       } else if (can_set_height) {
-        heights[fixed_areas[[i]]$rows] <- widths[fixed_areas[[i]]$cols] * as.numeric(h) / as.numeric(w)
+        heights[fixed_areas[[i]]$rows] <- widths[fixed_areas[[i]]$cols] * (as.numeric(h) / as.numeric(w))
+        height_strings[fixed_areas[[i]]$rows] <- ''
       } else {
         will_be_fixed <- FALSE
       }
@@ -641,15 +655,10 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
     }
     if (all(respect == 0)) respect <- FALSE
     gt$respect <- respect
-    widths[is.na(widths)] <- 1
-    heights[is.na(heights)] <- 1
-  } else {
-    if (!is.unit(widths)) widths[is.na(widths)] <- 1
-    if (!is.unit(heights)) heights[is.na(heights)] <- 1
   }
-  if (!is.unit(widths)) widths <- unit(widths, 'null')
+  widths[width_strings == '-1null'] <- unit(1, 'null')
+  heights[height_strings == '-1null'] <- unit(1, 'null')
   gt$widths[width_ind] <- widths
-  if (!is.unit(heights)) heights <- unit(heights, 'null')
   gt$heights[height_ind] <- heights
   gt
 }
