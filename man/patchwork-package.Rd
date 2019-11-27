@@ -20,14 +20,23 @@ The 'ggplot2' package provides a strong API for sequentially
 The use and premise of \code{patchwork} is simple: Just add \code{ggplot2} plots
 together to compose multiplot layouts. Because of this simplicity there is
 not much more to say. Still, a few functions allow you to modify the
-behaviour:
+behaviour, e.g.:
 \itemize{
 \item \code{\link[=plot_layout]{plot_layout()}} allows you to define the grid that plots are put into
-\item \code{\link[=plot_spacer]{plot_spacer()}} inserts a completely empty plot thus pushing the subsequent
-plots one patch.
+\item \code{\link[=plot_annotation]{plot_annotation()}} allows you to add titles, tags etc.
+}
 }
 
-That's it...
+\section{Learn more}{
+
+The guides below will teach you all about what you can do with patchwork.
+\itemize{
+\item \href{https://patchwork.data-imaginist.com/articles/patchwork.html}{Getting Started}
+\item \href{https://patchwork.data-imaginist.com/articles/guides/assembly.html}{Assembling Plots}
+\item \href{https://patchwork.data-imaginist.com/articles/guides/layout.html}{Defining Layouts}
+\item \href{https://patchwork.data-imaginist.com/articles/guides/annotation.html}{Adding Annotation}
+\item \href{https://patchwork.data-imaginist.com/articles/guides/multipage.html}{Aligning across pages}
+}
 }
 
 \examples{

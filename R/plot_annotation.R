@@ -35,6 +35,33 @@ has_tag <- function(x) {
 #' @return A `plot_annotation` object
 #'
 #' @export
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+#' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+#' p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
+#'
+#' # Add title, etc. to a patchwork
+#' p1 + p2 + plot_annotation('This is a title', caption = 'made with patchwork')
+#'
+#' # Change styling of patchwork elements
+#' p1 + p2 +
+#'   plot_annotation(
+#'     title = 'This is a title',
+#'     caption = 'made with patchwork',
+#'     theme = theme(plot.title = element_text(size = 16))
+#'   )
+#'
+#' # Add tags to plots
+#' p1 / (p2 | p3) +
+#'   plot_annotation(tag_levels = 'A')
+#'
+#' # Add multilevel tagging to nested layouts
+#' p1 / (p2 | p3 + plot_layout(tag_level = 'new')) +
+#'   plot_annotation(tag_levels = c('A', '1'))
+#'
 plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
                             tag_levels = NULL, tag_prefix = NULL, tag_suffix = NULL,
                             tag_sep = NULL, theme = NULL) {

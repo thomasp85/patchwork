@@ -41,7 +41,7 @@
 #'
 #' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
 #' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
-#' p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+#' p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
 #' p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 #'
 #' # Standard addition vs division

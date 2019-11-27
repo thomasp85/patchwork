@@ -31,7 +31,7 @@
 #'
 #' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
 #' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
-#' p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+#' p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
 #' p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 #' p5 <- ggplot(mtcars) + geom_violin(aes(cyl, mpg, group = cyl))
 #'
@@ -130,6 +130,26 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
 #' @return A `patch_area` object
 #'
 #' @export
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+#' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+#' p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
+#'
+#' layout <- c(
+#'   area(1, 1),
+#'   area(1, 3, 3),
+#'   area(3, 1, 3, 2)
+#' )
+#'
+#' # Show the layout to make sure it looks as it should
+#' plot(layout)
+#'
+#' # Apply it to a patchwork
+#' p1 + p2 + p3 + plot_layout(design = layout)
+#'
 area <- function(t, l, b = t, r = l) {
   if (missing(t) || missing(l)) {
     one_area <- list(
@@ -155,6 +175,37 @@ area <- function(t, l, b = t, r = l) {
   }
   class(one_area) <- 'patch_area'
   one_area
+}
+#' @importFrom ggplot2 ggplot geom_rect aes scale_y_reverse scale_x_continuous labs theme_void theme element_line element_text margin
+#' @importFrom grid unit
+#' @export
+plot.patch_area <- function(x, y, ...) {
+  area <- as.data.frame(unclass(x))
+  area$l <- area$l - 0.45
+  area$r <- area$r + 0.45
+  area$t <- area$t - 0.45
+  area$b <- area$b + 0.45
+  area$name <- as.factor(seq_len(nrow(area)))
+  b_fun <- function(lim) {
+    if (lim[1] < lim[2]) {
+      lim <- seq(floor(lim[1]), ceiling(lim[2]), by = 1)
+    } else {
+      lim <- seq(ceiling(lim[1]), floor(lim[2]), by = -1)
+    }
+    lim[-c(1, length(lim))]
+  }
+  ggplot(area) +
+    geom_rect(aes(xmin = l, xmax = r, ymin = t, ymax = b, fill = name), alpha = 0.3) +
+    scale_y_reverse(breaks = b_fun, expand = c(0, 0.04)) +
+    scale_x_continuous(breaks = b_fun, expand = c(0, 0.04)) +
+    labs(fill = 'Patch') +
+    theme_void() +
+    theme(
+      panel.grid.minor = element_line(size = 0.5, colour = 'grey'),
+      axis.text = element_text(),
+      axis.ticks.length = unit(3, 'mm'),
+      plot.margin = margin(10, 10, 10, 10)
+    )
 }
 as_areas <- function(x) {
   if (is.null(x)) return(NULL)

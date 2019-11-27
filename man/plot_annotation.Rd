@@ -41,3 +41,30 @@ plots as they are added. When the plot contains nested layouts the
 enumeration should continue as usual or add a new level. The format of the
 levels are defined with \code{tag_levels} argument in \code{plot_annotation}
 }
+\examples{
+library(ggplot2)
+
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
+
+# Add title, etc. to a patchwork
+p1 + p2 + plot_annotation('This is a title', caption = 'made with patchwork')
+
+# Change styling of patchwork elements
+p1 + p2 +
+  plot_annotation(
+    title = 'This is a title',
+    caption = 'made with patchwork',
+    theme = theme(plot.title = element_text(size = 16))
+  )
+
+# Add tags to plots
+p1 / (p2 | p3) +
+  plot_annotation(tag_levels = 'A')
+
+# Add multilevel tagging to nested layouts
+p1 / (p2 | p3 + plot_layout(tag_level = 'new')) +
+  plot_annotation(tag_levels = c('A', '1'))
+
+}

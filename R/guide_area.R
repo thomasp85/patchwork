@@ -8,6 +8,23 @@
 #' [plot_spacer()] instead.
 #'
 #' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp, colour = factor(gear)))
+#' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+#' p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+#'
+#' # Guides are by default kept beeside their plot
+#' p1 + p2 + p3
+#'
+#' # They can be collected and placed on the side (according to the patchwork
+#' # theme)
+#' p1 + p2 + p3 + plot_layout(guides = 'collect', ncol = 2)
+#'
+#' # Using guide_area() you can also designate an empty area for this
+#' p1 + p2 + p3 + guide_area() + plot_layout(guides = 'collect')
+#'
 guide_area <- function() {
   table <- make_patch()
   class(table) <- c('guide_area', class(table))

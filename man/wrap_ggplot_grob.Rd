@@ -20,3 +20,27 @@ alignment as expected. On the other hand major restructuring of the gtable
 will result in an object that doesn't work properly with
 \code{wrap_ggplot_grob()}.
 }
+\examples{
+library(grid)
+library(gtable)
+library(ggplot2)
+
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp)) + ggtitle('disp and mpg seems connected')
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+
+# Convert p2 so we can add new stuff to it
+p2_table <- ggplotGrob(p2)
+stamp <- textGrob('TOP SECRET', rot = 35,
+  gp = gpar(fontsize = 72, fontface = 'bold')
+)
+p2_table <- gtable_add_grob(p2_table, stamp,
+  t = 1, l = 1, b = nrow(p2_table), r = ncol(p2_table)
+)
+
+# Adding it directly will loose alignment
+p1 + p2_table
+
+# Use wrap_ggplot_grob to keep alignment
+p1 + wrap_ggplot_grob(p2_table)
+
+}
