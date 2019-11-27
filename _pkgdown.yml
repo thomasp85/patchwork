@@ -21,6 +21,8 @@ navbar:
         href: articles/guides/assembly.html
       - text: Controlling Layout
         href: articles/guides/layout.html
+      - text: Adding annotation to a patchwork
+        href: articles/guides/annotation.html
       - text: Multipage Alignment
         href: articles/guides/multipage.html
     - text: Reference
