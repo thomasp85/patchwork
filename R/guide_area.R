@@ -13,7 +13,7 @@
 #' library(ggplot2)
 #' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp, colour = factor(gear)))
 #' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
-#' p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+#' p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
 #'
 #' # Guides are by default kept beeside their plot
 #' p1 + p2 + p3
