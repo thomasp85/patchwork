@@ -35,5 +35,7 @@ Suggests:
     rmarkdown,
     gridGraphics,
     gridExtra,
-    ragg
+    ragg,
+    testthat (>= 2.1.0),
+    vdiffr
 VignetteBuilder: knitr

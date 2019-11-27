@@ -12,18 +12,19 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: windows-latest, r: '3.6', args: "--no-manual"}
-        - { os: macOS-latest, r: '3.6'}
-        - { os: macOS-latest, r: 'devel', args: "--no-manual"}
-        - { os: ubuntu-16.04, r: '3.3', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.4', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.5', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.6', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" }
+        - { os: windows-latest, r: '3.6', args: "--no-manual", run_vdiffr: false}
+        - { os: macOS-latest, r: '3.6', run_vdiffr: true}
+        - { os: macOS-latest, r: 'devel', args: "--no-manual", run_vdiffr: false}
+        - { os: ubuntu-16.04, r: '3.3', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" , run_vdiffr: false}
+        - { os: ubuntu-16.04, r: '3.4', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" , run_vdiffr: false}
+        - { os: ubuntu-16.04, r: '3.5', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" , run_vdiffr: false}
+        - { os: ubuntu-16.04, r: '3.6', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual" , run_vdiffr: false}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       _R_CHECK_FORCE_SUGGESTS_: false
       CRAN: ${{ matrix.config.cran }}
+      VDIFFR_RUN_TESTS: ${{ matrix.config.run_vdiffr }}
 
     steps:
       - uses: actions/checkout@v1
