@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # patchwork <a href='https://patchwork.data-imaginist.com'><img src='man/figures/logo.png' align="right" height="131.5" /></a>
 
 <!-- badges: start -->
-[![R build status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/patchwork/actions?workflow=R-CMD-check)
+[![R build status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/patchwork)
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 The goal of `patchwork` is to make it ridiculously simple to combine separate
 ggplots into the same graphic. As such it tries to solve the same problem as
 `gridExtra::grid.arrange()` and `cowplot::plot_grid` but using an API that 
-incites exploration and iteration.
+incites exploration and iteration, and scales to arbitrily complex layouts.
 
 ## Installation
 
@@ -75,4 +75,4 @@ there is to know about all the different features:
 
 ## Code of Conduct
 
-Please note that the patchwork project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/1/0/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the patchwork project is released with a [Contributor Code of Conduct](https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

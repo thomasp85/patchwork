@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/patchwork/actions?workflow=R-CMD-check)
+status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/patchwork)
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![Lifecycle:
@@ -18,7 +18,8 @@ coverage](https://codecov.io/gh/thomasp85/patchwork/branch/master/graph/badge.sv
 The goal of `patchwork` is to make it ridiculously simple to combine
 separate ggplots into the same graphic. As such it tries to solve the
 same problem as `gridExtra::grid.arrange()` and `cowplot::plot_grid` but
-using an API that incites exploration and iteration.
+using an API that incites exploration and iteration, and scales to
+arbitrily complex layouts.
 
 ## Installation
 
@@ -79,5 +80,5 @@ everything there is to know about all the different features:
 
 Please note that the patchwork project is released with a [Contributor
 Code of
-Conduct](https://contributor-covenant.org/version/1/0/0/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+Conduct](https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
