@@ -1,3 +1,5 @@
 # patchwork 1.0.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* First CRAN release. Provide utility and operators for assembling and nesting
+  plots into a composition, tag subplots, collect guides and remove duplicates,
+  and align plots across pages.
