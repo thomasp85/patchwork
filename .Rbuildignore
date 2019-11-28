@@ -11,3 +11,4 @@
 ^\.github/workflows/R-CMD-check\.yaml$
 ^vignettes/guides$
 ^codecov\.yml$
+^cran-comments\.md$
