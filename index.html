@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Composer of ggplots • patchwork</title>
+<title>The Composer of Plots • patchwork</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -16,13 +16,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="The Composer of ggplots">
+<script src="pkgdown.js"></script><meta property="og:title" content="The Composer of Plots">
 <meta property="og:description" content="The ggplot2 package provides a strong API for sequentially 
     building up a plot, but does not concern itself with composition of multiple
     plots. patchwork is a package that expands the API to allow for 
-    arbitrarily complex composition of plots by providing mathmatical operators
-    for combining multiple plots. Other packages that addresses this need (but
-    with a different approach) are gridExtra and cowplot.">
+    arbitrarily complex composition of plots by, among others, providing 
+    mathematical operators for combining multiple plots. Other packages that try 
+    to address this need (but with a different approach) are gridExtra and 
+    cowplot.">
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -122,7 +123,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>patchwork</code> is to make it ridiculously simple to combine separate ggplots into the same graphic. As such it tries to solve the same problem as <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">gridExtra::grid.arrange()</a></code> and <code>cowplot::plot_grid</code> but using an API that incites exploration and iteration.</p>
+<p>The goal of <code>patchwork</code> is to make it ridiculously simple to combine separate ggplots into the same graphic. As such it tries to solve the same problem as <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">gridExtra::grid.arrange()</a></code> and <code>cowplot::plot_grid</code> but using an API that incites exploration and iteration, and scales to arbitrily complex layouts.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -165,7 +166,7 @@
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the patchwork project is released with a <a href="https://contributor-covenant.org/version/1/0/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the patchwork project is released with a <a href="https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
@@ -205,7 +206,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/thomasp85/patchwork/actions?workflow=R-CMD-check"><img src="https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/thomasp85/patchwork"><img src="https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=patchwork"><img src="http://www.r-pkg.org/badges/version-ago/patchwork" alt="CRAN_Release_Badge"></a></li>
 <li><a href="https://CRAN.R-project.org/package=patchwork"><img src="http://cranlogs.r-pkg.org/badges/patchwork" alt="CRAN_Download_Badge"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
