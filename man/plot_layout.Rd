@@ -76,7 +76,7 @@ design <- c(
   area(2, 2)
 )
 p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
-
+\donttest{
 # The same can be specified as a character string:
 design <- "
   122
@@ -93,5 +93,6 @@ design <- "
   ##3
 "
 p1 + p2 + p3 + plot_layout(design = design)
+}
 
 }

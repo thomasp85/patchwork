@@ -63,7 +63,7 @@
 #'   area(2, 2)
 #' )
 #' p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
-#'
+#' \donttest{
 #' # The same can be specified as a character string:
 #' design <- "
 #'   122
@@ -80,6 +80,7 @@
 #'   ##3
 #' "
 #' p1 + p2 + p3 + plot_layout(design = design)
+#' }
 #'
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
