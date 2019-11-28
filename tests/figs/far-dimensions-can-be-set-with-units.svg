@@ -233,5 +233,5 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='662.66' y='478.73' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='14.67px' lengthAdjust='spacingAndGlyphs'>300</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='579.27' y='490.86' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='12.25px' lengthAdjust='spacingAndGlyphs'>hp</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='461.76' y='109.23' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='75.47px' lengthAdjust='spacingAndGlyphs'>Fixed Aspect</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='10.96' y='86.46' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='654.45px' lengthAdjust='spacingAndGlyphs'>FAR dimensions can be set with units: p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c("null", "cm", "null")))</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='10.96' y='86.46' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='233.69px' lengthAdjust='spacingAndGlyphs'>FAR dimensions can be set with units:...</text></g>
 </svg>

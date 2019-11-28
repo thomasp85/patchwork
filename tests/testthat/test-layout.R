@@ -42,7 +42,7 @@ test_that("Fixed aspect plots behave", {
   expect_doppelganger('FAR space optimisation can be turned off: p1 + p2 + p_f + p4 + plot_layout(widths = 1)', {
     p1 + p2 + p_f + p4 + plot_layout(widths = 1)
   })
-  expect_doppelganger('FAR dimensions can be set with units: p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c("null", "cm", "null")))', {
+  expect_doppelganger('FAR dimensions can be set with units:...', {
     p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c('null', 'cm', 'null')))
   })
 })
