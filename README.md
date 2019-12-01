@@ -23,7 +23,9 @@ arbitrily complex layouts.
 
 ## Installation
 
-You can install patchwork from github with:
+You can install patchwork from CRAN using
+`install.packages('patchwork')`. Alternatively you can grab the
+development version from github using devtools:
 
 ``` r
 # install.packages("devtools")

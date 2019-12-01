@@ -30,6 +30,8 @@ navbar:
     - text: News
       menu:
       - text: "Release notes"
+      - text: "Version 1.0.0"
+        href: https://www.data-imaginist.com/2019/patch-it-up-and-send-it-out/
       - text: "------------------"
       - text: "Change log"
         href: news/index.html
