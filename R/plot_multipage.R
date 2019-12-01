@@ -13,7 +13,7 @@
 #'
 #' @return `get_dim()` and `get_max_dim()` return a plot_dimension object.
 #' `set_dim()` returns a modified ggplot object with fixed outer dimensions and
-#' `align_plots()` return a list of such. The modified ggplots still behaves
+#' `align_patches()` return a list of such. The modified ggplots still behaves
 #' like a standard ggplot and new layers, scales, etc can be added to them.
 #'
 #' @name multipage_align
@@ -47,7 +47,7 @@
 #' set_dim(p2, max_dims)
 #'
 #' # Align a list of plots with each other
-#' aligned_plots <- align_plots(p1, p2, p3, p4)
+#' aligned_plots <- align_patches(p1, p2, p3, p4)
 #' aligned_plots[[3]]
 #'
 #' # Aligned plots still behave like regular ggplots
@@ -147,7 +147,7 @@ get_max_dim <- function(...) {
 }
 #' @rdname multipage_align
 #' @export
-align_plots <- function(...) {
+align_patches <- function(...) {
   if (is.ggplot(..1)) {
     plots <- list(...)
   } else if (is.list(..1)) {
@@ -156,4 +156,10 @@ align_plots <- function(...) {
     stop('Can only align ggplot objects or a list of them', call. = FALSE)
   }
   lapply(plots, set_dim, get_max_dim(plots))
+}
+#' @export
+#' @keywords internal
+align_plots <- function(...) {
+  .Deprecated('align_patches')
+  align_patches(...)
 }

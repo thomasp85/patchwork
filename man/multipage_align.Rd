@@ -5,7 +5,7 @@
 \alias{get_dim}
 \alias{set_dim}
 \alias{get_max_dim}
-\alias{align_plots}
+\alias{align_patches}
 \title{Align plots across multiple pages}
 \usage{
 get_dim(plot)
@@ -14,7 +14,7 @@ set_dim(plot, dim)
 
 get_max_dim(...)
 
-align_plots(...)
+align_patches(...)
 }
 \arguments{
 \item{plot}{A ggplot object}
@@ -26,7 +26,7 @@ align_plots(...)
 \value{
 \code{get_dim()} and \code{get_max_dim()} return a plot_dimension object.
 \code{set_dim()} returns a modified ggplot object with fixed outer dimensions and
-\code{align_plots()} return a list of such. The modified ggplots still behaves
+\code{align_patches()} return a list of such. The modified ggplots still behaves
 like a standard ggplot and new layers, scales, etc can be added to them.
 }
 \description{
@@ -65,7 +65,7 @@ max_dims <- get_max_dim(p1, p2, p3, p4)
 set_dim(p2, max_dims)
 
 # Align a list of plots with each other
-aligned_plots <- align_plots(p1, p2, p3, p4)
+aligned_plots <- align_patches(p1, p2, p3, p4)
 aligned_plots[[3]]
 
 # Aligned plots still behave like regular ggplots

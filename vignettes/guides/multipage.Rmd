@@ -100,10 +100,10 @@ set_dim(p2, max_dims)
 
 Usually you'll have a list of plots and simply want to align all of these 
 before rendering them to a file. All of the operations above have been wrapped
-in the `align_plots()` function:
+in the `align_patches()` function:
 
 ```{r, animation.hook='gifski'}
-plots_aligned <- align_plots(p1, p2, p3, p4)
+plots_aligned <- align_patches(p1, p2, p3, p4)
 for (p in plots_aligned) {
   plot(p)
 }
