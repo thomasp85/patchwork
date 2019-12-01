@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • patchwork</title>
+<title>Deprecated functions — align_plots • patchwork</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Deprecated functions — align_plots" />
+<meta property="og:description" content="These functions are deprecated and should not be used." />
 <meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +64,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -151,123 +152,26 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Deprecated functions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/thomasp85/patchwork/blob/master/R/plot_multipage.R'><code>R/plot_multipage.R</code></a></small>
+    <div class="hidden name"><code>align_plots.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>These functions are deprecated and should not be used.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plot-composition" class="hasAnchor"><a href="#section-plot-composition" class="anchor"></a>Plot Composition</h2>
-          <p class="section-desc"><p>At the heart of patchwork lies a range of powerful functions for combining plots into an assembly of plots that can be layed out in a grid. Patchwork provides both an extension of ggplot2’s <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> based API, along with a functinal interface.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_arithmetic.html">`-`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`/`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`|`(<i>&lt;ggplot&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`*`(<i>&lt;gg&gt;</i>)</a></code> <code><a href="plot_arithmetic.html">`&`(<i>&lt;gg&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot arithmetic</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrap_plots.html">wrap_plots()</a></code> </p>
-        </td>
-        <td><p>Wrap plots into a patchwork</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-layout-specifications" class="hasAnchor"><a href="#section-layout-specifications" class="anchor"></a>Layout Specifications</h2>
-          <p class="section-desc"><p>While patchwork will automatically lay out the plots in a grid, additional control is often needed, along with the possibility of adding annotations etc.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_layout.html">plot_layout()</a></code> </p>
-        </td>
-        <td><p>Define the grid to compose plots in</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_annotation.html">plot_annotation()</a></code> </p>
-        </td>
-        <td><p>Annotate the final patchwork</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_spacer.html">plot_spacer()</a></code> </p>
-        </td>
-        <td><p>Add a completely blank area</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="guide_area.html">guide_area()</a></code> </p>
-        </td>
-        <td><p>Add an area to hold collected guides</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="area.html">area()</a></code> </p>
-        </td>
-        <td><p>Specify a plotting area in a layout</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-alternative-plot-objects" class="hasAnchor"><a href="#section-alternative-plot-objects" class="anchor"></a>Alternative plot objects</h2>
-          <p class="section-desc"><p>patchwork is build to work with ggplot2 but standard grobs can also be included. Further, it is possible to define empty areas if needed.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="wrap_elements.html">wrap_elements()</a></code> </p>
-        </td>
-        <td><p>Wrap arbitrary graphics in a patchwork-compliant patch</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrap_ggplot_grob.html">wrap_ggplot_grob()</a></code> </p>
-        </td>
-        <td><p>Make a gtable created from a ggplot object patchwork compliant</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-align-across-pages" class="hasAnchor"><a href="#section-align-across-pages" class="anchor"></a>Align across pages</h2>
-          <p class="section-desc"><p>Sometimes it is necessary to align plots across pages, not within a composition, e.g. when creating figures for presentations. While not the main focus of patchwork, it still contains the necessary infrastructure to achieve this.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="multipage_align.html">get_dim()</a></code> <code><a href="multipage_align.html">set_dim()</a></code> <code><a href="multipage_align.html">get_max_dim()</a></code> <code><a href="multipage_align.html">align_patches()</a></code> </p>
-        </td>
-        <td><p>Align plots across multiple pages</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-plot-composition">Plot Composition</a></li>
-      <li><a href="#section-layout-specifications">Layout Specifications</a></li>
-      <li><a href="#section-alternative-plot-objects">Alternative plot objects</a></li>
-      <li><a href="#section-align-across-pages">Align across pages</a></li>
     </ul>
+
   </div>
 </div>
 

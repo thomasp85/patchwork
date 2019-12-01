@@ -168,8 +168,8 @@
 <p>We can now see that the title in the other plots have been raised to make room for the strips present in <code>p4</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../../reference/multipage_align.html">set_dim</a></span>(p2, max_dims)</a></code></pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<p>Usually you’ll have a list of plots and simply want to align all of these before rendering them to a file. All of the operations above have been wrapped in the <code><a href="../../reference/multipage_align.html">align_plots()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plots_aligned &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">align_plots</a></span>(p1, p2, p3, p4)</a>
+<p>Usually you’ll have a list of plots and simply want to align all of these before rendering them to a file. All of the operations above have been wrapped in the <code><a href="../../reference/multipage_align.html">align_patches()</a></code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plots_aligned &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/multipage_align.html">align_patches</a></span>(p1, p2, p3, p4)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="cf">for</span> (p <span class="cf">in</span> plots_aligned) {</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(p)</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">}</a></code></pre></div>

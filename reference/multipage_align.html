@@ -179,7 +179,7 @@ patchworks will be supported in the future.</p>
 
 <span class='fu'>get_max_dim</span>(<span class='no'>...</span>)
 
-<span class='fu'>align_plots</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>align_patches</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,7 +202,7 @@ patchworks will be supported in the future.</p>
 
     <p><code>get_dim()</code> and <code>get_max_dim()</code> return a plot_dimension object.
 <code>set_dim()</code> returns a modified ggplot object with fixed outer dimensions and
-<code>align_plots()</code> return a list of such. The modified ggplots still behaves
+<code>align_patches()</code> return a list of such. The modified ggplots still behaves
 like a standard ggplot and new layers, scales, etc can be added to them.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -231,7 +231,7 @@ like a standard ggplot and new layers, scales, etc can be added to them.</p>
 <span class='no'>max_dims</span> <span class='kw'>&lt;-</span> <span class='fu'>get_max_dim</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>)
 <span class='fu'>set_dim</span>(<span class='no'>p2</span>, <span class='no'>max_dims</span>)</div><div class='img'><img src='multipage_align-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Align a list of plots with each other</span>
-<span class='no'>aligned_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>align_plots</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>)
+<span class='no'>aligned_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>align_patches</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>)
 <span class='no'>aligned_plots</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='multipage_align-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Aligned plots still behave like regular ggplots</span>
 <span class='no'>aligned_plots</span><span class='kw'>[[</span><span class='fl'>3</span>]] + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='multipage_align-4.png' alt='' width='700' height='433' /></div><div class='input'>
