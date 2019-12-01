@@ -157,8 +157,13 @@ align_patches <- function(...) {
   }
   lapply(plots, set_dim, get_max_dim(plots))
 }
+#' Deprecated functions
+#'
+#' These functions are deprecated and should not be used.
+#'
 #' @export
 #' @keywords internal
+#' @usage NULL
 align_plots <- function(...) {
   .Deprecated('align_patches')
   align_patches(...)
