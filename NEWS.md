@@ -1,3 +1,5 @@
+# patchwork (development version)
+
 # patchwork 1.0.0
 
 * First CRAN release. Provide utility and operators for assembling and nesting
