@@ -518,15 +518,27 @@ add_strips <- function(gt) {
   )
   if (!any(grepl('strip-b', gt$layout$name))) {
     gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$b + strip_pos)
+  } else if (strip_pos == 2) {
+    gt$heights[panel_loc$b + 1] <- sum(gt$heights[panel_loc$b + c(1, 2)])
+    gt <- gt[-(panel_loc$b + 2), ]
   }
   if (!any(grepl('strip-t', gt$layout$name))) {
     gt <- gtable_add_rows(gt, unit(0, 'mm'), panel_loc$t - 1 - strip_pos)
+  } else if (strip_pos == 2) {
+    gt$heights[panel_loc$t - 1] <- sum(gt$heights[panel_loc$t - c(1, 2)])
+    gt <- gt[-(panel_loc$t - 2), ]
   }
   if (!any(grepl('strip-r', gt$layout$name))) {
     gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$r + strip_pos)
+  } else if (strip_pos == 2) {
+    gt$widths[panel_loc$r + 1] <- sum(gt$widths[panel_loc$r + c(1, 2)])
+    gt <- gt[, -(panel_loc$r + 2)]
   }
   if (!any(grepl('strip-l', gt$layout$name))) {
     gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$l - 1 - strip_pos)
+  } else if (strip_pos == 2) {
+    gt$widths[panel_loc$l - 1] <- sum(gt$widths[panel_loc$l - c(1, 2)])
+    gt <- gt[-(panel_loc$l - 2), ]
   }
   gt
 }
