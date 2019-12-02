@@ -161,6 +161,11 @@
 <h1 class="page-header">
 <a href="#patchwork-development-version" class="anchor"></a>patchwork (development version)<small> Unreleased </small>
 </h1>
+<ul>
+<li>Renaming of <code><a href="../reference/align_plots.html">align_plots()</a></code> to <code><a href="../reference/multipage_align.html">align_patches()</a></code> to avoid namespace clash with cowplot (<a href='https://github.com/thomasp85/patchwork/issues/130'>#130</a>)</li>
+<li>Renaming of <code>as_grob()</code> (unexported) to <code>as_patch()</code> to avoid potential future namespace clash with cowplot (<a href='https://github.com/thomasp85/patchwork/issues/131'>#131</a>)</li>
+<li>Fix bug in plot simplification with <code>theme(strip.placement = 'outside')</code> (<a href='https://github.com/thomasp85/patchwork/issues/132'>#132</a>)</li>
+</ul>
 </div>
     <div id="patchwork-1-0-0" class="section level1">
 <h1 class="page-header">
