@@ -4,8 +4,13 @@
 \alias{wrap_elements}
 \title{Wrap arbitrary graphics in a patchwork-compliant patch}
 \usage{
-wrap_elements(panel = NULL, plot = NULL, full = NULL, clip = TRUE,
-  ignore_tag = FALSE)
+wrap_elements(
+  panel = NULL,
+  plot = NULL,
+  full = NULL,
+  clip = TRUE,
+  ignore_tag = FALSE
+)
 }
 \arguments{
 \item{panel, plot, full}{A grob, ggplot, patchwork, or formula object to add to
