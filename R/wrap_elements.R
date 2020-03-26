@@ -68,11 +68,11 @@ wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, i
   table
 }
 is_wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
-#' @importFrom ggplot2 ggplotGrob theme_get
+#' @importFrom ggplot2 theme_get
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid grobHeight convertHeight
 patchGrob.wrapped_patch <- function(x, guides = 'auto') {
-  gt <- ggplotGrob(x)
+  gt <- ggplot2::ggplotGrob(x)
   table <- patch_table(x, gt)
   settings <- attr(x, 'settings')
   grobs <- attr(x, 'grobs')
@@ -134,9 +134,8 @@ as_patch.grob <- function(x, ...) {
 as_patch.gList <- function(x, ...) {
   gTree(children = x)
 }
-#' @importFrom ggplot2 ggplotGrob
 as_patch.ggplot <- function(x, ...) {
-  ggplotGrob(x)
+  ggplot2::ggplotGrob(x)
 }
 as_patch.patchwork <- function(x, ...) {
   patchworkGrob(x)
@@ -156,7 +155,6 @@ as_patch.formula <- function(x) {
   gridGraphics::echoGrob(plot_call, name = 'patchwork_base', device = offscreen_dev())
 }
 
-#' @importFrom ggplot2 ggplotGrob
 get_grob <- function(x, name) {
   x$grobs[[grep(paste0('^', name, '$'), x$layout$name)]]
 }

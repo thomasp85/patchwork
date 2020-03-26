@@ -133,13 +133,13 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     tag_ind = tag_ind
   )
 }
-#' @importFrom ggplot2 ggplot labs ggplotGrob
+#' @importFrom ggplot2 ggplot labs
 #' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit
 #' @importFrom utils tail
 annotate_table <- function(table, annotation) {
   p <- ggplot() + annotation$theme + do.call(labs, annotation[c('title', 'subtitle', 'caption')])
-  p <- ggplotGrob(p)
+  p <- ggplot2::ggplotGrob(p)
   max_z <- max(table$layout$z)
   fix_respect <- is.matrix(table$respect)
   if (!is.null(annotation$title) || !is.null(annotation$subtitle)) {

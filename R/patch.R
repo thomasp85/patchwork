@@ -18,11 +18,10 @@ make_patch <- function() {
 }
 is_patch <- function(x) inherits(x, 'patch')
 is_patchgrob <- function(x) inherits(x, 'patchgrob')
-#' @importFrom ggplot2 ggplotGrob
 #' @importFrom gtable gtable_add_grob
 patch_table <- function(x, grob = NULL) {
   table <- attr(x, 'table')
-  if (is.null(grob)) grob <- ggplotGrob(x)
+  if (is.null(grob)) grob <- ggplot2::ggplotGrob(x)
   table$widths[c(1, ncol(table))] <- grob$widths[c(1, ncol(grob))]
   table$heights[c(1, nrow(table))] <- grob$heights[c(1, nrow(grob))]
   gtable_add_grob(table, grob$grobs[grep('background', grob$layout$name)], 1, 1,

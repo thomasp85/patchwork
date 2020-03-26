@@ -208,10 +208,9 @@ patchworkGrob <- function(x) {
 plot_table <- function(x, guides) {
   UseMethod('plot_table')
 }
-#' @importFrom ggplot2 ggplotGrob
 #' @export
 plot_table.ggplot <- function(x, guides) {
-  gt <- ggplotGrob(x)
+  gt <- ggplot2::ggplotGrob(x)
   gt <- add_strips(gt)
   add_guides(gt, guides == 'collect')
 }
