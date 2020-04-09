@@ -30,30 +30,27 @@ A \code{patchwork} object
 }
 \description{
 In addition to the \code{+} operator known in \code{ggplot2}, \code{patchwork} defines logic
-for some of the other operators that aids in building up your plot
-composition and reduce code-reuse.
+for some of the other operators that aid in constructing plot composition and
+reduce code-reuse.
 }
 \details{
-\code{patchwork} augment the \code{+} operator from \code{ggplot2} and allows the user to
-add full \code{ggplot} objects together in order to compose them into the same
-view. The last added plot is always the active one where new geoms etc. are
-added to. Another operator that is much like it, but not quite, is \code{-}. It
-also adds plots together but instead of adding the right hand side to the
-patchwork defined in the left hand side, it puts the left hand side besides
-the right hand side in a patchwork. This might sound confusing, but in
-essence \code{-} ensures that the right and left side are put in the same nesting
-level (\code{+} puts the right side \emph{into} the left side). Using \code{-} might seem
-unintuitive if you think of the operator as "subtrack", but look at it as a
-hyphen instead (the underlying reason is that \code{-} is the only operator in the
-same precedence group as \code{+}).
+\code{patchwork} augments the \code{+} operator from \code{ggplot2} and allows the user to
+add full \code{ggplot} objects together to compose them into the same view. The
+related \code{-} operator also adds plots together, but instead of adding the
+right-hand side to the patchwork defined in the left-hand side, it puts the
+left-hand side beside the right-hand side in a patchwork. The \code{-} should be
+more intuitively thought of "hyphen" rather than "subtract" (the technical
+reason is that \code{-} is the only operator in the same precedence group as \code{+}).
+Adding elements such as geoms to composed objects will add them to the final
+\code{ggplot} object in the composition.
 
-Often you are interested in creating single column or single row layouts.
+Often you are interested in creating single-column or single-row layouts.
 \code{patchwork} provides \code{|} (besides) and \code{/} (over) operators to support
-stacking and packing of plots. See the exampels for their use.
+stacking and packing of plots. See the examples for their use.
 
-In order to reduce code repetition \code{patchwork} provides two operators for
-adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-a patchwork. \code{*} will add the element to all plots in the current nesting
+To reduce code repetition, \code{patchwork} provides two operators for adding
+ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in a
+patchwork. \code{*} will add the element to all plots in the current nesting
 level, while \code{&} will recurse into nested patches.
 }
 \examples{

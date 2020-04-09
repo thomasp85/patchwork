@@ -15,13 +15,13 @@
 #' Adding elements such as geoms to composed objects will add them to the final
 #' `ggplot` object in the composition.
 #'
-#' Often you are interested in creating single column or single row layouts.
+#' Often you are interested in creating single-column or single-row layouts.
 #' `patchwork` provides `|` (besides) and `/` (over) operators to support
-#' stacking and packing of plots. See the exampels for their use.
+#' stacking and packing of plots. See the examples for their use.
 #'
-#' In order to reduce code repetition `patchwork` provides two operators for
-#' adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-#' a patchwork. `*` will add the element to all plots in the current nesting
+#' To reduce code repetition, `patchwork` provides two operators for adding
+#' ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in a
+#' patchwork. `*` will add the element to all plots in the current nesting
 #' level, while `&` will recurse into nested patches.
 #'
 #' @param e1 A `ggplot` or `patchwork` object
