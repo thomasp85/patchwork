@@ -1,22 +1,19 @@
 #' Plot arithmetic
 #'
 #' In addition to the `+` operator known in `ggplot2`, `patchwork` defines logic
-#' for some of the other operators that aids in building up your plot
-#' composition and reduce code-reuse.
+#' for some of the other operators that aid in constructing plot composition and
+#' reduce code-reuse.
 #'
 #' @details
-#' `patchwork` augment the `+` operator from `ggplot2` and allows the user to
-#' add full `ggplot` objects together in order to compose them into the same
-#' view. The last added plot is always the active one where new geoms etc. are
-#' added to. Another operator that is much like it, but not quite, is `-`. It
-#' also adds plots together but instead of adding the right hand side to the
-#' patchwork defined in the left hand side, it puts the left hand side besides
-#' the right hand side in a patchwork. This might sound confusing, but in
-#' essence `-` ensures that the right and left side are put in the same nesting
-#' level (`+` puts the right side *into* the left side). Using `-` might seem
-#' unintuitive if you think of the operator as "subtrack", but look at it as a
-#' hyphen instead (the underlying reason is that `-` is the only operator in the
-#' same precedence group as `+`).
+#' `patchwork` augments the `+` operator from `ggplot2` and allows the user to
+#' add full `ggplot` objects together to compose them into the same view. The
+#' related `-` operator also adds plots together, but instead of adding the
+#' right-hand side to the patchwork defined in the left-hand side, it puts the
+#' left-hand side beside the right-hand side in a patchwork. The `-` should be
+#' more intuitively thought of "hyphen" rather than "subtract" (the technical
+#' reason is that `-` is the only operator in the same precedence group as `+`).
+#' Adding elements such as geoms to composed objects will add them to the final
+#' `ggplot` object in the composition.
 #'
 #' Often you are interested in creating single column or single row layouts.
 #' `patchwork` provides `|` (besides) and `/` (over) operators to support
