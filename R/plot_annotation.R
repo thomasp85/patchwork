@@ -91,15 +91,36 @@ ggplot_add.plot_annotation <- function(object, plot, object_name) {
 #' @importFrom utils as.roman
 recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   if (length(levels) == 0) return(list(patches = x, tab_ind = offset))
-  level <- switch(
-    as.character(levels[1]),
-    a = letters,
-    A = LETTERS,
-    "1" = 1:100,
-    i = tolower(as.roman(1:100)),
-    I = as.roman(1:100),
+
+  levels <- as.character(levels[1])
+  if (grepl("a", levels)) {
+    level <- letters
+  } else if (grepl("A", levels)) {
+    level <- LETTERS
+  } else if (grepl("1", levels)) {
+    level <- 1:100
+  } else if (grepl("i", levels)) {
+    level <- tolower(as.roman(1:100))
+  } else if (grepl("I", levels)) {
+    level <- as.roman(1:100)
+  } else {
     stop('Unknown tag type: ', levels[1], call. = FALSE)
-  )
+  }
+
+  if (prefix == "" && nchar(levels > 1)) {
+    index <- gregexpr(pattern = as.character(levels), levels)[[1]][1]
+    if (index > 1) {
+      prefix <- substr(levels, 1, index - 1)
+    }
+  }
+
+  if (suffix == "" && nchar(levels > 1)) {
+    index <- gregexpr(pattern = as.character(levels), levels)[[1]][1]
+    if (index > 1) {
+      suffix <- substr(levels, index + 1, nchar(levels))
+    }
+  }
+
   patches <- x$patches$plots
   tag_ind <- offset
   for (i in seq_along(patches)) {
