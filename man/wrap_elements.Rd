@@ -4,8 +4,13 @@
 \alias{wrap_elements}
 \title{Wrap arbitrary graphics in a patchwork-compliant patch}
 \usage{
-wrap_elements(panel = NULL, plot = NULL, full = NULL, clip = TRUE,
-  ignore_tag = FALSE)
+wrap_elements(
+  panel = NULL,
+  plot = NULL,
+  full = NULL,
+  clip = TRUE,
+  ignore_tag = FALSE
+)
 }
 \arguments{
 \item{panel, plot, full}{A grob, ggplot, patchwork, or formula object to add to
@@ -29,7 +34,7 @@ area, the full plotting area (anything between and
 including the axis label), or the panel area (only the actual area where data
 is drawn). Further you can still add title, subtitle, tag, and caption using
 the same approach as with normal ggplots (using
-\link[ggplot2:ggtitle]{ggtitle()} and \link[ggplot2:labs]{labs()}) as well as styling
+\link[ggplot2:labs]{ggtitle()} and \link[ggplot2:labs]{labs()}) as well as styling
 using \link[ggplot2:theme]{theme()}. For the latter, only the theme elements
 targeting plot margins and background as well as title, subtitle, etc styling
 will have an effect. If a patchwork or ggplot object is wrapped, it will be

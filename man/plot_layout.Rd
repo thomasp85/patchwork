@@ -4,8 +4,16 @@
 \alias{plot_layout}
 \title{Define the grid to compose plots in}
 \usage{
-plot_layout(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
-  heights = NULL, guides = NULL, tag_level = NULL, design = NULL)
+plot_layout(
+  ncol = NULL,
+  nrow = NULL,
+  byrow = NULL,
+  widths = NULL,
+  heights = NULL,
+  guides = NULL,
+  tag_level = NULL,
+  design = NULL
+)
 }
 \arguments{
 \item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it

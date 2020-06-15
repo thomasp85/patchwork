@@ -6,7 +6,7 @@
 \alias{patchwork-package}
 \title{patchwork: The Composer of Plots}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 The 'ggplot2' package provides a strong API for sequentially 
     building up a plot, but does not concern itself with composition of multiple
@@ -66,7 +66,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Thomas Lin Pedersen \email{thomasp85@gmail.com} (0000-0002-5147-4711)
+\strong{Maintainer}: Thomas Lin Pedersen \email{thomasp85@gmail.com} (\href{https://orcid.org/0000-0002-5147-4711}{ORCID})
 
 }
 \keyword{internal}

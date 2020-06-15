@@ -4,9 +4,17 @@
 \alias{wrap_plots}
 \title{Wrap plots into a patchwork}
 \usage{
-wrap_plots(..., ncol = NULL, nrow = NULL, byrow = NULL,
-  widths = NULL, heights = NULL, guides = NULL, tag_level = NULL,
-  design = NULL)
+wrap_plots(
+  ...,
+  ncol = NULL,
+  nrow = NULL,
+  byrow = NULL,
+  widths = NULL,
+  heights = NULL,
+  guides = NULL,
+  tag_level = NULL,
+  design = NULL
+)
 }
 \arguments{
 \item{...}{multiple \code{ggplot}s or a list containing \code{ggplot} objects}

@@ -1,13 +1,21 @@
 unname_vp <- function(x) {
   if (inherits(x, 'vpTree')) {
-    x$parent$name <- ''
+    x$parent <- unname_vp(x$parent)
     x$children <- lapply(x$children, unname_vp)
   } else if (inherits(x, 'viewport')) {
     x$name <- ''
+    if (!is.null(x$layout$widths)) {
+      x$layout$widths <- absolute.size(x$layout$widths)
+    }
+    if (!is.null(x$layout$heights)) {
+      x$layout$heights <- absolute.size(x$layout$heights)
+    }
   }
+  unit_elements <- vapply(x, is.unit, logical(1))
+  x[unit_elements] <- lapply(.subset(x, unit_elements), absolute.size)
   x
 }
-#' @importFrom grid is.grob
+#' @importFrom grid is.grob is.unit absolute.size
 #' @importFrom gtable is.gtable
 unname_grob <- function(x) {
   if (is.gtable(x)) {
@@ -22,6 +30,8 @@ unname_grob <- function(x) {
     x$children <- lapply(x$children, unname_grob)
     x$childrenOrder <- rep_len('', length(x$childrenOrder))
   }
+  unit_elements <- vapply(x, is.unit, logical(1))
+  x[unit_elements] <- lapply(.subset(x, unit_elements), absolute.size)
   x
 }
 collapse_guides <- function(guides) {
