@@ -6,6 +6,8 @@
   future namespace clash with cowplot (#131)
 * Fix bug in plot simplification with `theme(strip.placement = 'outside')` 
   (#132)
+* Fix a bug in guide collection in R >= 4.0 due to the new unit implementation
+  in grid (#170)
 
 # patchwork 1.0.0
 
