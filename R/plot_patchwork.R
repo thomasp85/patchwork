@@ -545,12 +545,12 @@ add_strips <- function(gt) {
 #' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit
 add_guides <- function(gt, collect = FALSE) {
-  panel_loc <- find_panel(gt)
+  panel_loc <- find_panel(gt)[, c('t', 'l', 'b', 'r')]
   guide_ind <- which(gt$layout$name == 'guide-box')
-  guide_loc <- gt$layout[guide_ind, ]
+  guide_loc <- gt$layout[guide_ind, c('t', 'l', 'b', 'r')]
   guide_pos <- if (nrow(guide_loc) == 0) {
     'none'
-  } else if (all(unlist(guide_loc[, c('t', 'l', 'b', 'r')] == panel_loc))) {
+  } else if (all(unlist(guide_loc == panel_loc))) {
     'inside'
   } else {
     if (panel_loc$t == guide_loc$t) {

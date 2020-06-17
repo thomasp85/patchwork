@@ -12,6 +12,8 @@
   (#137)
 * Fix a bug in base graphic support where the environment of the plot was not
   captured (#138)
+* Fix a bug when combining plots having guides placed manually in combination 
+  with faceting (#144)
 
 # patchwork 1.0.0
 
