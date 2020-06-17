@@ -103,8 +103,27 @@ guides_build <- function(guides, theme) {
     z = -Inf, clip = "off", name = "legend.box.background"
   )
 }
+complete_guide_theme <- function(theme) {
+  position <- theme$legend.position %||% "right"
+  if (length(position) == 2) {
+    warning("Manual legend position not possible for collected guides. Defaulting to 'right'", call. = FALSE)
+    position <- "right"
+  }
+  theme$legend.position <- position
+  if (position %in% c("top", "bottom")) {
+    theme$legend.box <- theme$legend.box %||% "horizontal"
+    theme$legend.direction <- theme$legend.direction %||% "horizontal"
+    theme$legend.box.just <- theme$legend.box.just %||% c("center", "top")
+  } else {
+    theme$legend.box <- theme$legend.box %||% "vertical"
+    theme$legend.direction <- theme$legend.direction %||% "vertical"
+    theme$legend.box.just <- theme$legend.box.just %||% c("left", "top")
+  }
+  theme
+}
 #' @importFrom grid valid.just
 assemble_guides <- function(guides, theme) {
+  theme <- complete_guide_theme(theme)
   guides <- guides_build(guides, theme)
 
   # Set the justification of the legend box
