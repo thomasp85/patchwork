@@ -234,7 +234,7 @@ simplify_gt.gtable <- function(gt) {
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)
-  if (!gt$respect && rows[1] == rows[2] && cols[1] == cols[2]) {
+  if (!gt$respect && rows[1] == rows[2] && cols[1] == cols[2] && !any(grepl('^strip-', gt$layout$name))) {
     gt$widths <- convertWidth(gt$widths, 'mm')
     gt$heights <- convertHeight(gt$heights, 'mm')
     return(gt)
@@ -284,6 +284,20 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     gt_new <- gtable_add_grob(gt_new, gt$grobs[bottom], gt$layout$t[bottom] - b_mod,
                               p_cols, gt$layout$b[bottom] - b_mod, z = gt$layout$z[bottom],
                               clip = gt$layout$clip[bottom], name = gt$layout$name[bottom])
+    t_strips <- grepl('^strip-t-', gt_new$layout$name)
+    if (any(t_strips)) {
+      gt_new$grobs[t_strips] <- lapply(gt_new$grobs[t_strips], function(g) {
+        g$vp <- viewport(y = 0, just = 'bottom', height = g$heights)
+        g
+      })
+    }
+    b_strips <- grepl('^strip-b-', gt_new$layout$name)
+    if (any(b_strips)) {
+      gt_new$grobs[b_strips] <- lapply(gt_new$grobs[b_strips], function(g) {
+        g$vp <- viewport(y = 1, just = 'top', height = g$heights)
+        g
+      })
+    }
   } else {
     for (i in seq_len(nrow(gt))) {
       if (i >= rows[1]) {
@@ -319,6 +333,20 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     gt_new <- gtable_add_grob(gt_new, gt$grobs[right], p_rows, gt$layout$l[right] - r_mod,
                               p_rows, gt$layout$r[right] - r_mod, z = gt$layout$z[right],
                               clip = gt$layout$clip[right], name = gt$layout$name[right])
+    l_strips <- grepl('^strip-l-', gt_new$layout$name)
+    if (any(l_strips)) {
+      gt_new$grobs[l_strips] <- lapply(gt_new$grobs[l_strips], function(g) {
+        g$vp <- viewport(x = 1, just = 'right', width = g$widths)
+        g
+      })
+    }
+    r_strips <- grepl('^strip-r-', gt_new$layout$name)
+    if (any(r_strips)) {
+      gt_new$grobs[r_strips] <- lapply(gt_new$grobs[r_strips], function(g) {
+        g$vp <- viewport(x = 0, just = 'left', width = g$widths)
+        g
+      })
+    }
   } else {
     for (i in seq_len(ncol(gt))) {
       if (i >= cols[1]) {

@@ -17,6 +17,7 @@
 * Fix a bug where having negative margins around the legend would result in an
   unintelligeble error (#148)
 * Fix a bug when trying to combine faceted plots with fixed aspect ratio (#156)
+* Fix alignments of strips when only a single strip is present (#163)
 
 # patchwork 1.0.0
 
