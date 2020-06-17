@@ -18,6 +18,7 @@
   unintelligeble error (#148)
 * Fix a bug when trying to combine faceted plots with fixed aspect ratio (#156)
 * Fix alignments of strips when only a single strip is present (#163)
+* Fix a bug that caused theme void to result in errors (#180)
 
 # patchwork 1.0.0
 

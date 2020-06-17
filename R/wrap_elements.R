@@ -158,6 +158,8 @@ as_patch.formula <- function(x) {
 
 #' @importFrom ggplot2 ggplotGrob
 get_grob <- function(x, name) {
+  ind <- grep(paste0('^', name, '$'), x$layout$name)
+  if (length(ind) == 0) return(ggplot2::zeroGrob())
   x$grobs[[grep(paste0('^', name, '$'), x$layout$name)]]
 }
 offscreen_dev <- function() {
