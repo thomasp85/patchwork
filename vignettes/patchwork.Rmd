@@ -129,7 +129,7 @@ separate tags can be given for different nesting levels. See the *Annotation*
 vignette for more information.
 
 ## Want more?
-This is enoug to get you started, but we have only scratched the surface of what
+This is enough to get you started, but we have only scratched the surface of what
 patchwork is capable of. Look into the other guides to find out more about, e.g.
 how to 
 [collect all legends in one place and remove duplicates](https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides)
