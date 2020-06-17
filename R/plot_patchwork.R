@@ -644,8 +644,8 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
       panel_ind <- grep('panel', panels[[fixed_gt[i]]]$layout$name)[1]
       w <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$widths
       h <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$heights
-      can_set_width <- width_strings[fixed_areas[[i]]$cols] == '-1null'
-      can_set_height <- height_strings[fixed_areas[[i]]$rows] == '-1null'
+      can_set_width <- width_strings[fixed_areas[[i]]$cols] == '-1null' && length(w) == 1 && length(h) == 1
+      can_set_height <- height_strings[fixed_areas[[i]]$rows] == '-1null' && length(w) == 1 && length(h) == 1
       will_be_fixed <- TRUE
       if (can_set_width && can_set_height) {
         widths[fixed_areas[[i]]$cols] <- w
