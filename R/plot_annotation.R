@@ -59,7 +59,7 @@ has_tag <- function(x) {
 #'   plot_annotation(tag_levels = 'A')
 #'
 #' # Add multilevel tagging to nested layouts
-#' p1 / (p2 | p3 + plot_layout(tag_level = 'new')) +
+#' p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
 #'   plot_annotation(tag_levels = c('A', '1'))
 #'
 plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
