@@ -14,6 +14,8 @@
   captured (#138)
 * Fix a bug when combining plots having guides placed manually in combination 
   with faceting (#144)
+* Fix a bug where having negative margins around the legend would result in an
+  unintelligeble error (#148)
 
 # patchwork 1.0.0
 

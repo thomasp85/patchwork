@@ -444,7 +444,7 @@ table_dims <- function(widths, heights, areas, ncol, nrow) {
     if (length(tables) == 0) {
       0
     } else {
-      max(vapply(widths[tables], `[[`, numeric(1), col_loc))
+      max(vapply(widths[tables], `[[`, numeric(1), col_loc), 0)
     }
   }, numeric(1))
   heights <- lapply(heights, convertHeight, 'mm', valueOnly = TRUE)
@@ -457,7 +457,7 @@ table_dims <- function(widths, heights, areas, ncol, nrow) {
     if (length(tables) == 0) {
       0
     } else {
-      max(vapply(heights[tables], `[[`, numeric(1), row_loc))
+      max(vapply(heights[tables], `[[`, numeric(1), row_loc), 0)
     }
   }, numeric(1))
   list(widths = unit(widths, 'mm'), heights = unit(heights, 'mm'))
