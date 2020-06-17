@@ -150,7 +150,7 @@ as_patch.formula <- function(x) {
     old_gp <- graphics::par(no.readonly = TRUE)
     graphics::par(gp)
     on.exit(try(graphics::par(old_gp)))
-    res <- suppressMessages(eval(x[[2]], attr(t, '.Environment')))
+    res <- suppressMessages(eval(x[[2]], attr(x, '.Environment')))
     invisible(NULL)
   }
   gridGraphics::echoGrob(plot_call, name = 'patchwork_base', device = offscreen_dev())

@@ -8,6 +8,10 @@
   (#132)
 * Fix a bug in guide collection in R >= 4.0 due to the new unit implementation
   in grid (#170)
+* Collected guides now behave as ggplot2 guides when position is top or bottom
+  (#137)
+* Fix a bug in base graphic support where the environment of the plot was not
+  captured (#138)
 
 # patchwork 1.0.0
 
