@@ -664,11 +664,16 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
       )
     })
     can_fix <- vapply(fixed_areas, function(x) length(x$rows) == 1 && length(x$cols), logical(1))
-    can_fix_row <- vapply(fixed_areas, function(x) all(height_strings[x$rows] == '-1null'), logical(1))
-    can_fix_col <- vapply(fixed_areas, function(x) all(width_strings[x$cols] == '-1null'), logical(1))
+    can_fix_row <- vapply(fixed_areas, function(x) all(grepl('null$', height_strings[x$rows])), logical(1))
+    can_fix_col <- vapply(fixed_areas, function(x) all(grepl('null$', width_strings[x$cols])), logical(1))
     fixed_areas <- fixed_areas[can_fix & (can_fix_row & can_fix_col)]
     fixed_gt <- which(fixed_asp)[can_fix & (can_fix_row & can_fix_col)]
-    for (i in seq_along(fixed_areas)) {
+    all_fixed_rows <- table(unlist(lapply(fixed_areas, `[[`, 'rows')))
+    all_fixed_cols <- table(unlist(lapply(fixed_areas, `[[`, 'cols')))
+    controls_dim <- vapply(fixed_areas, function(a) {
+      all(all_fixed_rows[as.character(a$rows)] == 1) || all(all_fixed_rows[as.character(a$cols)] == 1)
+    }, logical(1))
+    for (i in order(controls_dim)) {
       panel_ind <- grep('panel', panels[[fixed_gt[i]]]$layout$name)[1]
       w <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$widths
       h <- panels[[fixed_gt[i]]]$grobs[[panel_ind]]$heights
