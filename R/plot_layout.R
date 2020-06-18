@@ -15,7 +15,10 @@
 #' `'collect'` will collect guides below to the given nesting level, removing
 #' duplicates. `'keep'` will stop collection at this level and let guides be
 #' placed alongside their plot. `auto` will allow guides to be collected if a
-#' upper level tries, but place them alongside the plot if not.
+#' upper level tries, but place them alongside the plot if not.  If you modify
+#' default guide "position" with [theme(legend.position=...)][ggplot2::theme]
+#' while also collecting guides you must apply that change to the overall
+#' patchwork (see example).
 #' @param tag_level A string (`'keep'` or `'new'`) to indicate how
 #' auto-tagging should behave. See [plot_annotation()].
 #' @param design Specification of the location of areas in the layout. Can either
@@ -63,6 +66,7 @@
 #'   area(2, 2)
 #' )
 #' p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
+#'
 #' \donttest{
 #' # The same can be specified as a character string:
 #' design <- "
@@ -81,7 +85,15 @@
 #' "
 #' p1 + p2 + p3 + plot_layout(design = design)
 #' }
+#' # Use guides="collect" to remove duplicate guides
+#' p6 <- ggplot(mtcars) + geom_point(aes(mpg, disp, color=cyl))
+#' p7 <- ggplot(mtcars) + geom_point(aes(mpg, hp, color=cyl))
+#' p6 + p7 + plot_layout(guides='collect')
 #'
+#' # Guide position must be applied to entire patchwork
+#' p6 + p7 + plot_layout(guides='collect') &
+#'   theme(legend.position='bottom')
+
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
                         design = NULL) {

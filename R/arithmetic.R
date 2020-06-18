@@ -14,7 +14,7 @@
 #' the right hand side in a patchwork. This might sound confusing, but in
 #' essence `-` ensures that the right and left side are put in the same nesting
 #' level (`+` puts the right side *into* the left side). Using `-` might seem
-#' unintuitive if you think of the operator as "subtrack", but look at it as a
+#' unintuitive if you think of the operator as "subtract", but look at it as a
 #' hyphen instead (the underlying reason is that `-` is the only operator in the
 #' same precedence group as `+`).
 #'
