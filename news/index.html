@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,8 +47,7 @@
 
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="https://patchwork.data-imaginist.com/logo.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="https://patchwork.data-imaginist.com/logo.svg" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -153,22 +156,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/thomasp85/patchwork/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="patchwork-development-version" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="development version">
 <a href="#patchwork-development-version" class="anchor"></a>patchwork (development version)<small> Unreleased </small>
 </h1>
 <ul>
 <li>Renaming of <code><a href="../reference/align_plots.html">align_plots()</a></code> to <code><a href="../reference/multipage_align.html">align_patches()</a></code> to avoid namespace clash with cowplot (<a href='https://github.com/thomasp85/patchwork/issues/130'>#130</a>)</li>
 <li>Renaming of <code>as_grob()</code> (unexported) to <code>as_patch()</code> to avoid potential future namespace clash with cowplot (<a href='https://github.com/thomasp85/patchwork/issues/131'>#131</a>)</li>
 <li>Fix bug in plot simplification with <code>theme(strip.placement = 'outside')</code> (<a href='https://github.com/thomasp85/patchwork/issues/132'>#132</a>)</li>
+<li>Fix a bug in guide collection in R &gt;= 4.0 due to the new unit implementation in grid (<a href='https://github.com/thomasp85/patchwork/issues/170'>#170</a>)</li>
+<li>Collected guides now behave as ggplot2 guides when position is top or bottom (<a href='https://github.com/thomasp85/patchwork/issues/137'>#137</a>)</li>
+<li>Fix a bug in base graphic support where the environment of the plot was not captured (<a href='https://github.com/thomasp85/patchwork/issues/138'>#138</a>)</li>
+<li>Fix a bug when combining plots having guides placed manually in combination with faceting (<a href='https://github.com/thomasp85/patchwork/issues/144'>#144</a>)</li>
+<li>Fix a bug where having negative margins around the legend would result in an unintelligeble error (<a href='https://github.com/thomasp85/patchwork/issues/148'>#148</a>)</li>
+<li>Fix a bug when trying to combine faceted plots with fixed aspect ratio (<a href='https://github.com/thomasp85/patchwork/issues/156'>#156</a>)</li>
+<li>Fix alignments of strips when only a single strip is present (<a href='https://github.com/thomasp85/patchwork/issues/163'>#163</a>)</li>
+<li>Fix a bug that caused theme void to result in errors (<a href='https://github.com/thomasp85/patchwork/issues/180'>#180</a>)</li>
+<li>Make aligning multiple fixed aspect plots more consistent (<a href='https://github.com/thomasp85/patchwork/issues/175'>#175</a>)</li>
 </ul>
 </div>
     <div id="patchwork-1-0-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="1.0.0">
 <a href="#patchwork-1-0-0" class="anchor"></a>patchwork 1.0.0<small> 2019-12-01 </small>
 </h1>
 <ul>
@@ -177,14 +189,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#patchwork-development-version">development version</a></li>
-        <li><a href="#patchwork-1-0-0">1.0.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -196,7 +204,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
