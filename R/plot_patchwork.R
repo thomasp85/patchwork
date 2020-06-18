@@ -420,32 +420,56 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
   for (i in seq_len(left - 1)) {
     table <- gt[p_rows, i]
     if (length(table$grobs) != 0) {
-      grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, rows[1], i, clip = 'off', name = grobname, z = max(table$layout$z))
+      if (length(table$grobs) == 1) {
+        grobname <- table$layout$name
+        grob <- table$grobs[[1]]
+      } else {
+        grobname <- paste(table$layout$name, collapse = ', ')
+        grob <- table
+      }
+      gt_new <- gtable_add_grob(gt_new, grob, rows[1], i, clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   right <- if (length(right) != 0) max(right) else cols[2]
   for (i in seq_len(ncol(gt) - right)) {
     table <- gt[p_rows, i + right]
     if (length(table$grobs) != 0) {
-      grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, rows[1], i + cols[1] + right - cols[2], clip = 'off', name = grobname, z = max(table$layout$z))
+      if (length(table$grobs) == 1) {
+        grobname <- table$layout$name
+        grob <- table$grobs[[1]]
+      } else {
+        grobname <- paste(table$layout$name, collapse = ', ')
+        grob <- table
+      }
+      gt_new <- gtable_add_grob(gt_new, grob, rows[1], i + cols[1] + right - cols[2], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   top <- if (length(top) != 0) min(top) else rows[1]
   for (i in seq_len(top - 1)) {
     table <- gt[i, p_cols]
     if (length(table$grobs) != 0) {
-      grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, i, cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
+      if (length(table$grobs) == 1) {
+        grobname <- table$layout$name
+        grob <- table$grobs[[1]]
+      } else {
+        grobname <- paste(table$layout$name, collapse = ', ')
+        grob <- table
+      }
+      gt_new <- gtable_add_grob(gt_new, grob, i, cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   bottom <- if (length(bottom) != 0) max(bottom) else rows[2]
   for (i in seq_len(nrow(gt) - bottom)) {
     table <- gt[i + bottom, p_cols]
     if (length(table$grobs) != 0) {
-      grobname <- paste(table$layout$name, collapse = ', ')
-      gt_new <- gtable_add_grob(gt_new, table, i + rows[1] + bottom - rows[2], cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
+      if (length(table$grobs) == 1) {
+        grobname <- table$layout$name
+        grob <- table$grobs[[1]]
+      } else {
+        grobname <- paste(table$layout$name, collapse = ', ')
+        grob <- table
+      }
+      gt_new <- gtable_add_grob(gt_new, grob, i + rows[1] + bottom - rows[2], cols[1], clip = 'off', name = grobname, z = max(table$layout$z))
     }
   }
   panel_name <- paste0('panel; ', paste(panels$layout$name, collapse = ', '))

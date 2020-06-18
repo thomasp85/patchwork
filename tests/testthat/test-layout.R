@@ -45,4 +45,11 @@ test_that("Fixed aspect plots behave", {
   expect_doppelganger('FAR dimensions can be set with units:...', {
     p1 + p2 + p_f + plot_layout(widths = unit(c(1, 3, -1), c('null', 'cm', 'null')))
   })
+
+  p_l1 <- ggplot(mtcars, aes(cyl, qsec, color=as.factor(vs))) +
+    geom_point()
+  p_l2 <- p_l1 + labs(color="a very looooooong legend title")
+  expect_doppelganger('FAR legend justification', {
+    p_l1 + p_l2 + plot_layout(ncol=1) & theme(legend.justification = "left", aspect.ratio=1)
+  })
 })
