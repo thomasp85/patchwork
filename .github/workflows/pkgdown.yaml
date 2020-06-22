@@ -44,6 +44,7 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("gifski")
           remotes::install_dev("pkgdown")
         shell: Rscript {0}
 

@@ -49,6 +49,7 @@ jobs:
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("r-lib/vdiffr")
           remotes::install_cran("covr")
         shell: Rscript {0}
 
