@@ -20,6 +20,8 @@
 * Fix alignments of strips when only a single strip is present (#163)
 * Fix a bug that caused theme void to result in errors (#180)
 * Make aligning multiple fixed aspect plots more consistent (#175)
+* Correct alignment of guides when ssembling fixed aspect plots (#140, 
+  @ilia-kats)
 
 # patchwork 1.0.0
 
