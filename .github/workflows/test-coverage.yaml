@@ -13,6 +13,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      VDIFFR_RUN_TESTS: true
     steps:
       - uses: actions/checkout@v2
 
@@ -33,6 +34,16 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install XQuartz
+        env:
+          XQUARTZ_VERSION: 2.7.11
+        run: |
+           curl -fLo /tmp/XQuartz.dmg "https://dl.bintray.com/xquartz/downloads/XQuartz-${XQUARTZ_VERSION}.dmg"
+           sudo hdiutil attach -noverify /tmp/XQuartz.dmg
+           sudo installer -pkg "/Volumes/XQuartz-${XQUARTZ_VERSION}/XQuartz.pkg" -target /
+           sudo hdiutil detach /Volumes/XQuartz-${XQUARTZ_VERSION}
+           rm /tmp/XQuartz.dmg
 
       - name: Install dependencies
         run: |
