@@ -170,15 +170,15 @@ layout specification. If you are nesting grids, the layout is scoped to the
 current nesting level.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_layout</span>(
-  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>guides</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+    <pre class="usage"><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(
+  ncol = <span class='kw'>NULL</span>,
+  nrow = <span class='kw'>NULL</span>,
+  byrow = <span class='kw'>NULL</span>,
+  widths = <span class='kw'>NULL</span>,
+  heights = <span class='kw'>NULL</span>,
+  guides = <span class='kw'>NULL</span>,
+  tag_level = <span class='kw'>NULL</span>,
+  design = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -211,12 +211,12 @@ upper level tries, but place them alongside the plot if not.</p></td>
     <tr>
       <th>tag_level</th>
       <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
-auto-tagging should behave. See <code><a href='plot_annotation.html'>plot_annotation()</a></code>.</p></td>
+auto-tagging should behave. See <code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation()</a></code>.</p></td>
     </tr>
     <tr>
       <th>design</th>
       <td><p>Specification of the location of areas in the layout. Can either
-be specified as a text string or by concatenating calls to <code><a href='area.html'>area()</a></code> together.
+be specified as a text string or by concatenating calls to <code><a href='https://patchwork.data-imaginist.com/reference/area.html'>area()</a></code> together.
 See the examples for further information on use.</p></td>
     </tr>
     </table>
@@ -226,54 +226,61 @@ See the examples for further information on use.</p></td>
     <p>A <code>plot_layout</code> object to be added to a <code>ggassmble</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
 
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>carb</span>))
-<span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>cyl</span>, <span class='no'>mpg</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>cyl</span>))
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>))
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>, <span class='kw'>disp</span>, group = <span class='kw'>gear</span>))
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>cyl</span>)
+<span class='kw'>p4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>carb</span>))
+<span class='kw'>p5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>cyl</span>, <span class='kw'>mpg</span>, group = <span class='kw'>cyl</span>))
 
 <span class='co'># The plots are layed out automatically by default</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span></div><div class='img'><img src='plot_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='kw'>p5</span></div><div class='img'><img src='plot_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Use byrow to change how the grid is filled out</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='kw'>p5</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(byrow = <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Change the grid dimensions</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))</div><div class='img'><img src='plot_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='kw'>p5</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>2</span>, widths = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))</div><div class='img'><img src='plot_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Define layout at different nesting levels</span>
-<span class='no'>p1</span> +
-  <span class='no'>p2</span> +
-  (<span class='no'>p3</span> +
-     <span class='no'>p4</span> +
-     <span class='fu'>plot_layout</span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-  ) +
-  <span class='no'>p5</span> +
-  <span class='fu'>plot_layout</span>(<span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>))</div><div class='img'><img src='plot_layout-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span>
+  <span class='kw'>p2</span> <span class='op'>+</span>
+  (<span class='kw'>p3</span> <span class='op'>+</span>
+     <span class='kw'>p4</span> <span class='op'>+</span>
+     <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>1</span>)
+  ) <span class='op'>+</span>
+  <span class='kw'>p5</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(widths = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>))</div><div class='img'><img src='plot_layout-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Complex layouts can be created with the `design` argument</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
-  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>3</span>),
-  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>),
-  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>),
-  <span class='fu'><a href='area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>)
+<span class='kw'>design</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/area.html'>area</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>3</span>),
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>),
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/area.html'>area</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>),
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/area.html'>area</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>)
 )
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='kw'>p5</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(design = <span class='kw'>design</span>)</div><div class='img'><img src='plot_layout-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># The same can be specified as a character string:</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
+<span class='kw'>design</span> <span class='op'>&lt;-</span> <span class='st'>"
   122
   153
   443
-"</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='no'>p4</span> + <span class='no'>p5</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
+"</span>esign <- "
+  122
+  153
+  443
+"
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='kw'>p5</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(design = <span class='kw'>design</span>)</div><div class='img'><img src='plot_layout-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># When using strings to define the design `#` can be used to denote empty</span>
 <span class='co'># areas</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"
+<span class='kw'>design</span> <span class='op'>&lt;-</span> <span class='st'>"
   1##
   123
   ##3
-"</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'>plot_layout</span>(<span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'># }
-
+"</span>esign <- "
+  1##
+  123
+  ##3
+"
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(design = <span class='kw'>design</span>)</div><div class='img'><img src='plot_layout-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -290,7 +297,7 @@ See the examples for further information on use.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

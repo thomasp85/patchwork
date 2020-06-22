@@ -176,13 +176,13 @@ to achieve that. Currently it is only possible to align ggplots, but aligning
 patchworks will be supported in the future.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_dim</span>(<span class='no'>plot</span>)
+    <pre class="usage"><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_dim</a></span>(<span class='kw'>plot</span>)
 
-<span class='fu'>set_dim</span>(<span class='no'>plot</span>, <span class='no'>dim</span>)
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>set_dim</a></span>(<span class='kw'>plot</span>, <span class='kw'>dim</span>)
 
-<span class='fu'>get_max_dim</span>(<span class='no'>...</span>)
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_max_dim</a></span>(<span class='kw'>...</span>)
 
-<span class='fu'>align_patches</span>(<span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>align_patches</a></span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,7 +193,7 @@ patchworks will be supported in the future.</p>
     </tr>
     <tr>
       <th>dim</th>
-      <td><p>A plot_dimension object as created by <code>get_dim()</code></p></td>
+      <td><p>A plot_dimension object as created by <code><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_dim()</a></code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -203,42 +203,41 @@ patchworks will be supported in the future.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>get_dim()</code> and <code>get_max_dim()</code> return a plot_dimension object.
-<code>set_dim()</code> returns a modified ggplot object with fixed outer dimensions and
-<code>align_patches()</code> return a list of such. The modified ggplots still behaves
+    <p><code><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_dim()</a></code> and <code><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_max_dim()</a></code> return a plot_dimension object.
+<code><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>set_dim()</a></code> returns a modified ggplot object with fixed outer dimensions and
+<code><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>align_patches()</a></code> return a list of such. The modified ggplots still behaves
 like a standard ggplot and new layers, scales, etc can be added to them.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>)) +
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Plot 1'</span>)
 
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>)) +
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>, <span class='kw'>disp</span>, group = <span class='kw'>gear</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Plot 2'</span>)
 
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>hp</span>, <span class='no'>wt</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>mpg</span>)) +
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>hp</span>, <span class='kw'>wt</span>, colour = <span class='kw'>mpg</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Plot 3'</span>)
 
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>) +
+<span class='kw'>p4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>cyl</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Plot 4'</span>)
 
 <span class='co'># Align a plot to p4</span>
-<span class='no'>p4_dim</span> <span class='kw'>&lt;-</span> <span class='fu'>get_dim</span>(<span class='no'>p4</span>)
-<span class='fu'>set_dim</span>(<span class='no'>p1</span>, <span class='no'>p4_dim</span>)</div><div class='img'><img src='multipage_align-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p4_dim</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_dim</a></span>(<span class='kw'>p4</span>)
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>set_dim</a></span>(<span class='kw'>p1</span>, <span class='kw'>p4_dim</span>)</div><div class='img'><img src='multipage_align-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Align a plot to the maximum dimensions of a list of plots</span>
-<span class='no'>max_dims</span> <span class='kw'>&lt;-</span> <span class='fu'>get_max_dim</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>)
-<span class='fu'>set_dim</span>(<span class='no'>p2</span>, <span class='no'>max_dims</span>)</div><div class='img'><img src='multipage_align-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>max_dims</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>get_max_dim</a></span>(<span class='kw'>p1</span>, <span class='kw'>p2</span>, <span class='kw'>p3</span>, <span class='kw'>p4</span>)
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>set_dim</a></span>(<span class='kw'>p2</span>, <span class='kw'>max_dims</span>)</div><div class='img'><img src='multipage_align-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Align a list of plots with each other</span>
-<span class='no'>aligned_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>align_patches</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>)
-<span class='no'>aligned_plots</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='multipage_align-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>aligned_plots</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/multipage_align.html'>align_patches</a></span>(<span class='kw'>p1</span>, <span class='kw'>p2</span>, <span class='kw'>p3</span>, <span class='kw'>p4</span>)
+<span class='kw'>aligned_plots</span>[[<span class='fl'>3</span>]]</div><div class='img'><img src='multipage_align-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Aligned plots still behave like regular ggplots</span>
-<span class='no'>aligned_plots</span><span class='kw'>[[</span><span class='fl'>3</span>]] + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='multipage_align-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='kw'>aligned_plots</span>[[<span class='fl'>3</span>]] <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='multipage_align-4.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -254,7 +253,7 @@ like a standard ggplot and new layers, scales, etc can be added to them.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -166,22 +166,22 @@ of plots and add them into one composition, along with layout specifications." /
     </div>
 
     <div class="ref-description">
-    <p>While the use of <code>+</code> is a natural way to add plots together, it can be
+    <p>While the use of <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> is a natural way to add plots together, it can be
 difficult to string together multiple plots programmatically if the number
 of plots is not known beforehand. <code>wrap_plots</code> makes it easy to take a list
 of plots and add them into one composition, along with layout specifications.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrap_plots</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>guides</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+    <pre class="usage"><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots</a></span>(
+  <span class='kw'>...</span>,
+  ncol = <span class='kw'>NULL</span>,
+  nrow = <span class='kw'>NULL</span>,
+  byrow = <span class='kw'>NULL</span>,
+  widths = <span class='kw'>NULL</span>,
+  heights = <span class='kw'>NULL</span>,
+  guides = <span class='kw'>NULL</span>,
+  tag_level = <span class='kw'>NULL</span>,
+  design = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -229,12 +229,12 @@ upper level tries, but place them alongside the plot if not.</p></td>
     <tr>
       <th>tag_level</th>
       <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
-auto-tagging should behave. See <code><a href='plot_annotation.html'>plot_annotation()</a></code>.</p></td>
+auto-tagging should behave. See <code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation()</a></code>.</p></td>
     </tr>
     <tr>
       <th>design</th>
       <td><p>Specification of the location of areas in the layout. Can either
-be specified as a text string or by concatenating calls to <code><a href='area.html'>area()</a></code> together.
+be specified as a text string or by concatenating calls to <code><a href='https://patchwork.data-imaginist.com/reference/area.html'>area()</a></code> together.
 See the examples for further information on use.</p></td>
     </tr>
     </table>
@@ -245,33 +245,33 @@ See the examples for further information on use.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>design</code> is specified as a text string <em>and</em> the plots are named (e.g.
-<code>wrap_plots(A = p1, ...)</code>) <em>and</em> all plot names are single characters
+<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots(A = p1, ...)</a></code>) <em>and</em> all plot names are single characters
 represented in the design layout string, the plots will be matched to their
 respective area by name. Otherwise the areas will be filled out
-sequentially in the same manner as using the <code>+</code> operator. See the examples
+sequentially in the same manner as using the <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> operator. See the examples
 for more.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
 
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>carb</span>))
-<span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>cyl</span>, <span class='no'>mpg</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>cyl</span>))
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>))
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>, <span class='kw'>disp</span>, group = <span class='kw'>gear</span>))
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>cyl</span>)
+<span class='kw'>p4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>carb</span>))
+<span class='kw'>p5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>cyl</span>, <span class='kw'>mpg</span>, group = <span class='kw'>cyl</span>))
 
 <span class='co'># Either add the plots as single arguments</span>
-<span class='fu'>wrap_plots</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>, <span class='no'>p5</span>)</div><div class='img'><img src='wrap_plots-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots</a></span>(<span class='kw'>p1</span>, <span class='kw'>p2</span>, <span class='kw'>p3</span>, <span class='kw'>p4</span>, <span class='kw'>p5</span>)</div><div class='img'><img src='wrap_plots-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or add them as a list...</span>
-<span class='no'>plots</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>, <span class='no'>p5</span>)
-<span class='fu'>wrap_plots</span>(<span class='no'>plots</span>)</div><div class='img'><img src='wrap_plots-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>plots</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>p1</span>, <span class='kw'>p2</span>, <span class='kw'>p3</span>, <span class='kw'>p4</span>, <span class='kw'>p5</span>)
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots</a></span>(<span class='kw'>plots</span>)</div><div class='img'><img src='wrap_plots-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Match plots to areas by name</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='st'>"#BB
+<span class='kw'>design</span> <span class='op'>&lt;-</span> <span class='st'>"#BB
            AA#"</span>
-<span class='fu'>wrap_plots</span>(<span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>p1</span>, <span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>p2</span>, <span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='wrap_plots-3.png' alt='' width='700' height='433' /></div><div class='input'>
+           AA#"
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots</a></span>(B = <span class='kw'>p1</span>, A = <span class='kw'>p2</span>, design = <span class='kw'>design</span>)</div><div class='img'><img src='wrap_plots-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Compare to not using named plot arguments</span>
-<span class='fu'>wrap_plots</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>design</span> <span class='kw'>=</span> <span class='no'>design</span>)</div><div class='img'><img src='wrap_plots-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>wrap_plots</a></span>(<span class='kw'>p1</span>, <span class='kw'>p2</span>, design = <span class='kw'>design</span>)</div><div class='img'><img src='wrap_plots-4.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -287,7 +287,7 @@ for more.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

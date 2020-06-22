@@ -112,7 +112,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="multipage_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Alignment Across Multiple Pages</h1>
@@ -125,54 +125,72 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">patchwork</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://patchwork.data-imaginist.com">patchwork</a></span>)
+</pre></div>
 <p>While patchwork is mainly a package for creating plot compositions, it also contains infrastructure for a related, but distinct task: Aligning plots across pages.</p>
 <p>Consider the task where you are preparing a slideshow containing a range of figures. Optimally you’d want plots that don’t <em>“jump around”</em> as you switch between slides, but different axis text, legends, strips, etc. can make that difficult. We’ll illustrate this with our standard plots:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">mpg</span>, <span class="no">disp</span>)) +
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<span class="kw">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">mpg</span>, <span class="kw">disp</span>)) <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 1'</span>)
 
-<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">gear</span>, <span class="no">disp</span>, <span class="kw">group</span> <span class="kw">=</span> <span class="no">gear</span>)) +
+<span class="kw">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">gear</span>, <span class="kw">disp</span>, group = <span class="kw">gear</span>)) <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 2'</span>)
 
-<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">hp</span>, <span class="no">wt</span>, <span class="kw">colour</span> <span class="kw">=</span> <span class="no">mpg</span>)) +
+<span class="kw">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">hp</span>, <span class="kw">wt</span>, colour = <span class="kw">mpg</span>)) <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 3'</span>)
 
-<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">gear</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">cyl</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 4'</span>)</pre></body></html></div>
+<span class="kw">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">gear</span>)) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span><span class="kw">cyl</span>) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 4'</span>)
+</pre></div>
 <p>Notice how <code>p1</code> and <code>p3</code> doesn’t align when rendered at the same size:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p1</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p1</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p3</span>)
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-3-.gif" width="700"></p>
 <p>We can make one of the plots align with the other by extracting the dimensions from one plot, and applying it to the other:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">p3_dims</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">get_dim</a></span>(<span class="no">p3</span>)
-<span class="no">p1_aligned</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="no">p1</span>, <span class="no">p3_dims</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p1_aligned</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">p3_dims</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">get_dim</a></span>(<span class="kw">p3</span>)
+<span class="kw">p1_aligned</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="kw">p1</span>, <span class="kw">p3_dims</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p1_aligned</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p3</span>)
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-4-.gif" width="700"></p>
 <p>A nice thing about the implementation is that aligned plots retain the ggplot nature after the dimensions have been applied, and can thus continue to be added to:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">p1_aligned</span> + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">p1_aligned</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>()
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>Often we don’t have a single plot that everything else should be aligned to. Notice the havoc we wreck when we try to align <code>p4</code> to <code>p3</code>:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="no">p4</span>, <span class="no">p3_dims</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="kw">p4</span>, <span class="kw">p3_dims</span>)
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Because <code>p3</code> doesn’t have any strips the title on <code>p4</code> will be placed too close to them in order to be aligned with the title of <code>p3</code>. What we want is to extract some dimensions that are large enough to accommodate all the different features in a set of plots. We can do just that with <code><a href="../../reference/multipage_align.html">get_max_dim()</a></code>:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">max_dims</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">get_max_dim</a></span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="no">p3</span>, <span class="no">p4</span>)
-<span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="no">p4</span>, <span class="no">max_dims</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">max_dims</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">get_max_dim</a></span>(<span class="kw">p1</span>, <span class="kw">p2</span>, <span class="kw">p3</span>, <span class="kw">p4</span>)
+<span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="kw">p4</span>, <span class="kw">max_dims</span>)
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>We can now see that the title in the other plots have been raised to make room for the strips present in <code>p4</code>:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="no">p2</span>, <span class="no">max_dims</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="../../reference/multipage_align.html">set_dim</a></span>(<span class="kw">p2</span>, <span class="kw">max_dims</span>)
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Usually you’ll have a list of plots and simply want to align all of these before rendering them to a file. All of the operations above have been wrapped in the <code><a href="../../reference/multipage_align.html">align_patches()</a></code> function:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">plots_aligned</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">align_patches</a></span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="no">p3</span>, <span class="no">p4</span>)
-<span class="kw">for</span> (<span class="no">p</span> <span class="kw">in</span> <span class="no">plots_aligned</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p</span>)
-}</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">plots_aligned</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/multipage_align.html">align_patches</a></span>(<span class="kw">p1</span>, <span class="kw">p2</span>, <span class="kw">p3</span>, <span class="kw">p4</span>)
+<span class="co">for</span> (<span class="kw">p</span> <span class="co">in</span> <span class="kw">plots_aligned</span>) {
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p</span>)
+}
+</pre></div>
 <p><img src="multipage_files/figure-html/unnamed-chunk-9-.gif" width="700"></p>
 <div id="want-more" class="section level2">
 <h2 class="hasAnchor">
@@ -196,7 +214,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -165,7 +165,7 @@ composition and reduce code-reuse." />
     </div>
 
     <div class="ref-description">
-    <p>In addition to the <code>+</code> operator known in <code>ggplot2</code>, <code>patchwork</code> defines logic
+    <p>In addition to the <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> operator known in <code>ggplot2</code>, <code>patchwork</code> defines logic
 for some of the other operators that aids in building up your plot
 composition and reduce code-reuse.</p>
     </div>
@@ -194,8 +194,8 @@ composition and reduce code-reuse.</p>
     </tr>
     <tr>
       <th>e2</th>
-      <td><p>A <code>ggplot</code> or <code>patchwork</code> object in case of <code>/</code>, or a <code>gg</code> object
-such as a geom or theme specification in case of <code>*</code> and <code>&amp;</code></p></td>
+      <td><p>A <code>ggplot</code> or <code>patchwork</code> object in case of <code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code>, or a <code>gg</code> object
+such as a geom or theme specification in case of <code><a href='https://rdrr.io/r/base/Arithmetic.html'>*</a></code> and <code>&amp;</code></p></td>
     </tr>
     </table>
 
@@ -204,44 +204,43 @@ such as a geom or theme specification in case of <code>*</code> and <code>&amp;<
     <p>A <code>patchwork</code> object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>patchwork</code> augment the <code>+</code> operator from <code>ggplot2</code> and allows the user to
+    <p><code>patchwork</code> augment the <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> operator from <code>ggplot2</code> and allows the user to
 add full <code>ggplot</code> objects together in order to compose them into the same
 view. The last added plot is always the active one where new geoms etc. are
-added to. Another operator that is much like it, but not quite, is <code>-</code>. It
+added to. Another operator that is much like it, but not quite, is <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>. It
 also adds plots together but instead of adding the right hand side to the
 patchwork defined in the left hand side, it puts the left hand side besides
 the right hand side in a patchwork. This might sound confusing, but in
-essence <code>-</code> ensures that the right and left side are put in the same nesting
-level (<code>+</code> puts the right side <em>into</em> the left side). Using <code>-</code> might seem
+essence <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code> ensures that the right and left side are put in the same nesting
+level (<code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> puts the right side <em>into</em> the left side). Using <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code> might seem
 unintuitive if you think of the operator as "subtrack", but look at it as a
-hyphen instead (the underlying reason is that <code>-</code> is the only operator in the
-same precedence group as <code>+</code>).</p>
+hyphen instead (the underlying reason is that <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code> is the only operator in the
+same precedence group as <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code>).</p>
 <p>Often you are interested in creating single column or single row layouts.
-<code>patchwork</code> provides <code>|</code> (besides) and <code>/</code> (over) operators to support
+<code>patchwork</code> provides <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> (besides) and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code> (over) operators to support
 stacking and packing of plots. See the exampels for their use.</p>
 <p>In order to reduce code repetition <code>patchwork</code> provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in
-a patchwork. <code>*</code> will add the element to all plots in the current nesting
+a patchwork. <code><a href='https://rdrr.io/r/base/Arithmetic.html'>*</a></code> will add the element to all plots in the current nesting
 level, while <code>&amp;</code> will recurse into nested patches.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
 
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>carb</span>))
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>))
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>, <span class='kw'>disp</span>, group = <span class='kw'>gear</span>))
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>cyl</span>)
+<span class='kw'>p4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>carb</span>))
 
 <span class='co'># Standard addition vs division</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='no'>p3</span> + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot_arithmetic-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p1</span> + <span class='no'>p2</span> - <span class='no'>p3</span> + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot_arithmetic-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>1</span>)</div><div class='img'><img src='plot_arithmetic-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>-</span> <span class='kw'>p3</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>1</span>)</div><div class='img'><img src='plot_arithmetic-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Stacking and packing</span>
-(<span class='no'>p1</span> <span class='kw'>|</span> <span class='no'>p2</span> <span class='kw'>|</span> <span class='no'>p3</span>) /
-      <span class='no'>p4</span></div><div class='img'><img src='plot_arithmetic-3.png' alt='' width='700' height='433' /></div><div class='input'>
+(<span class='kw'>p1</span> <span class='op'>|</span> <span class='kw'>p2</span> <span class='op'>|</span> <span class='kw'>p3</span>) <span class='op'>/</span>
+      <span class='kw'>p4</span></div><div class='img'><img src='plot_arithmetic-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Add elements to the same nesting level</span>
-(<span class='no'>p1</span> + (<span class='no'>p2</span> + <span class='no'>p3</span>) + <span class='no'>p4</span> + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)) * <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='plot_arithmetic-4.png' alt='' width='700' height='433' /></div><div class='input'>
+(<span class='kw'>p1</span> <span class='op'>+</span> (<span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span>) <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>1</span>)) <span class='op'>*</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='plot_arithmetic-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Recurse into nested plots as well</span>
-(<span class='no'>p1</span> + (<span class='no'>p2</span> + <span class='no'>p3</span>) + <span class='no'>p4</span> + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>1</span>)) <span class='kw'>&amp;</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='plot_arithmetic-5.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+(<span class='kw'>p1</span> <span class='op'>+</span> (<span class='kw'>p2</span> <span class='op'>+</span> <span class='kw'>p3</span>) <span class='op'>+</span> <span class='kw'>p4</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(ncol = <span class='fl'>1</span>)) <span class='op'>&amp;</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='plot_arithmetic-5.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -257,7 +256,7 @@ level, while <code>&amp;</code> will recurse into nested patches.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

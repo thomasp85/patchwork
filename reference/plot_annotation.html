@@ -166,21 +166,21 @@ aspects of the annotation of the final plot, such as titles and tags." />
     </div>
 
     <div class="ref-description">
-    <p>The result of this function can be added to a patchwork using <code>+</code> in the same
-way as <code><a href='plot_layout.html'>plot_layout()</a></code>, but unlike <code><a href='plot_layout.html'>plot_layout()</a></code> it will only have an
+    <p>The result of this function can be added to a patchwork using <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code> in the same
+way as <code><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout()</a></code>, but unlike <code><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout()</a></code> it will only have an
 effect on the top level plot. As the name suggests it controls different
 aspects of the annotation of the final plot, such as titles and tags.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_annotation</span>(
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag_sep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+    <pre class="usage"><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span>(
+  title = <span class='kw'>NULL</span>,
+  subtitle = <span class='kw'>NULL</span>,
+  caption = <span class='kw'>NULL</span>,
+  tag_levels = <span class='kw'>NULL</span>,
+  tag_prefix = <span class='kw'>NULL</span>,
+  tag_suffix = <span class='kw'>NULL</span>,
+  tag_sep = <span class='kw'>NULL</span>,
+  theme = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -221,33 +221,32 @@ related to the titles as well as plot margin and background is used.</p></td>
 
     <p>Tagging of subplots is done automatically and following the order of the
 plots as they are added. When the plot contains nested layouts the
-<code>tag_level</code> argument in the nested <a href='plot_layout.html'>plot_layout</a> will define whether
+<code>tag_level</code> argument in the nested <a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a> will define whether
 enumeration should continue as usual or add a new level. The format of the
 levels are defined with <code>tag_levels</code> argument in <code>plot_annotation</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
 
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>))
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>, <span class='no'>disp</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>gear</span>))
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>gear</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>cyl</span>)
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>))
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>, <span class='kw'>disp</span>, group = <span class='kw'>gear</span>))
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>gear</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>cyl</span>)
 
 <span class='co'># Add title, etc. to a patchwork</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> + <span class='fu'>plot_annotation</span>(<span class='st'>'This is a title'</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>'made with patchwork'</span>)</div><div class='img'><img src='plot_annotation-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span>(<span class='st'>'This is a title'</span>, caption = <span class='st'>'made with patchwork'</span>)</div><div class='img'><img src='plot_annotation-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Change styling of patchwork elements</span>
-<span class='no'>p1</span> + <span class='no'>p2</span> +
-  <span class='fu'>plot_annotation</span>(
-    <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>'This is a title'</span>,
-    <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>'made with patchwork'</span>,
-    <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>plot.title</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>16</span>))
+<span class='kw'>p1</span> <span class='op'>+</span> <span class='kw'>p2</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span>(
+    title = <span class='st'>'This is a title'</span>,
+    caption = <span class='st'>'made with patchwork'</span>,
+    theme = <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(plot.title = <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span>(size = <span class='fl'>16</span>))
   )</div><div class='img'><img src='plot_annotation-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Add tags to plots</span>
-<span class='no'>p1</span> / (<span class='no'>p2</span> <span class='kw'>|</span> <span class='no'>p3</span>) +
-  <span class='fu'>plot_annotation</span>(<span class='kw'>tag_levels</span> <span class='kw'>=</span> <span class='st'>'A'</span>)</div><div class='img'><img src='plot_annotation-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p1</span> <span class='op'>/</span> (<span class='kw'>p2</span> <span class='op'>|</span> <span class='kw'>p3</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span>(tag_levels = <span class='st'>'A'</span>)</div><div class='img'><img src='plot_annotation-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Add multilevel tagging to nested layouts</span>
-<span class='no'>p1</span> / ((<span class='no'>p2</span> <span class='kw'>|</span> <span class='no'>p3</span>) + <span class='fu'><a href='plot_layout.html'>plot_layout</a></span>(<span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='st'>'new'</span>)) +
-  <span class='fu'>plot_annotation</span>(<span class='kw'>tag_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'A'</span>, <span class='st'>'1'</span>))</div><div class='img'><img src='plot_annotation-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='kw'>p1</span> <span class='op'>/</span> ((<span class='kw'>p2</span> <span class='op'>|</span> <span class='kw'>p3</span>) <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span>(tag_level = <span class='st'>'new'</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span>(tag_levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'A'</span>, <span class='st'>'1'</span>))</div><div class='img'><img src='plot_annotation-4.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -263,7 +262,7 @@ levels are defined with <code>tag_levels</code> argument in <code>plot_annotatio
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
