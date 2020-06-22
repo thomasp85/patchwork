@@ -1,4 +1,4 @@
-# patchwork (development version)
+# patchwork 1.0.1
 
 * Renaming of `align_plots()` to `align_patches()` to avoid namespace clash
   with cowplot (#130)
