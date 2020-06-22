@@ -30,7 +30,10 @@ in the grid. Will get repeated to match the dimensions of the grid.}
 \code{'collect'} will collect guides below to the given nesting level, removing
 duplicates. \code{'keep'} will stop collection at this level and let guides be
 placed alongside their plot. \code{auto} will allow guides to be collected if a
-upper level tries, but place them alongside the plot if not.}
+upper level tries, but place them alongside the plot if not.  If you modify
+default guide "position" with \link[ggplot2:theme]{theme(legend.position=...)}
+while also collecting guides you must apply that change to the overall
+patchwork (see example).}
 
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate how
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
@@ -84,6 +87,7 @@ design <- c(
   area(2, 2)
 )
 p1 + p2 + p3 + p4 + p5 + plot_layout(design = design)
+
 \donttest{
 # The same can be specified as a character string:
 design <- "
@@ -102,5 +106,12 @@ design <- "
 "
 p1 + p2 + p3 + plot_layout(design = design)
 }
+# Use guides="collect" to remove duplicate guides
+p6 <- ggplot(mtcars) + geom_point(aes(mpg, disp, color=cyl))
+p7 <- ggplot(mtcars) + geom_point(aes(mpg, hp, color=cyl))
+p6 + p7 + plot_layout(guides='collect')
 
+# Guide position must be applied to entire patchwork
+p6 + p7 + plot_layout(guides='collect') &
+  theme(legend.position='bottom')
 }

@@ -43,7 +43,7 @@ patchwork defined in the left hand side, it puts the left hand side besides
 the right hand side in a patchwork. This might sound confusing, but in
 essence \code{-} ensures that the right and left side are put in the same nesting
 level (\code{+} puts the right side \emph{into} the left side). Using \code{-} might seem
-unintuitive if you think of the operator as "subtrack", but look at it as a
+unintuitive if you think of the operator as "subtract", but look at it as a
 hyphen instead (the underlying reason is that \code{-} is the only operator in the
 same precedence group as \code{+}).
 

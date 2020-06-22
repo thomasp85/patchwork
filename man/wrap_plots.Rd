@@ -40,7 +40,10 @@ in the grid. Will get repeated to match the dimensions of the grid.}
 \code{'collect'} will collect guides below to the given nesting level, removing
 duplicates. \code{'keep'} will stop collection at this level and let guides be
 placed alongside their plot. \code{auto} will allow guides to be collected if a
-upper level tries, but place them alongside the plot if not.}
+upper level tries, but place them alongside the plot if not.  If you modify
+default guide "position" with \link[ggplot2:theme]{theme(legend.position=...)}
+while also collecting guides you must apply that change to the overall
+patchwork (see example).}
 
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate how
 auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
