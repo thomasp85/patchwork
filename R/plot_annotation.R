@@ -91,15 +91,34 @@ ggplot_add.plot_annotation <- function(object, plot, object_name) {
 #' @importFrom utils as.roman
 recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   if (length(levels) == 0) return(list(patches = x, tab_ind = offset))
-  level <- switch(
-    as.character(levels[1]),
-    a = letters,
-    A = LETTERS,
-    "1" = 1:100,
-    i = tolower(as.roman(1:100)),
-    I = as.roman(1:100),
+
+  levels <- as.character(levels[1])
+  if (grepl("a", levels)) {
+    level <- letters
+  } else if (grepl("A", levels)) {
+    level <- LETTERS
+  } else if (grepl("1", levels)) {
+    level <- 1:100
+  } else if (grepl("i", levels)) {
+    level <- tolower(as.roman(1:100))
+  } else if (grepl("I", levels)) {
+    level <- as.roman(1:100)
+  } else {
     stop('Unknown tag type: ', levels[1], call. = FALSE)
-  )
+  }
+
+  if (prefix == "" && nchar(levels > 1)) {
+    index <- find_index_substr(levels, as.character(level[1]))
+    if (index > 1) {
+      prefix <- substr(levels, 1, index - 1)
+    }
+  }
+
+  if (suffix == "" && nchar(levels > 1)) {
+    index <- find_index_substr(levels, as.character(level[1]))
+    suffix <- substr(levels, index + 1, nchar(levels))
+  }
+
   patches <- x$patches$plots
   tag_ind <- offset
   for (i in seq_along(patches)) {
@@ -132,6 +151,22 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
     patches = x,
     tag_ind = tag_ind
   )
+}
+find_index_substr <- function(string, substring) {
+  index <- 1
+  match <- FALSE
+  while (index <= nchar(string) && !match) {
+    if (substr(string, index, index) == substring) {
+      match <- TRUE
+    } else {
+      index <- index + 1
+    }
+  }
+  if (match) {
+    return(index)
+  } else {
+    return(NA)
+  }
 }
 #' @importFrom ggplot2 ggplot labs ggplotGrob
 #' @importFrom gtable gtable_add_rows gtable_add_cols
