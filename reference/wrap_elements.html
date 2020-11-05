@@ -94,7 +94,7 @@ be converted to wrap_elements(full = x)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">patchwork</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -178,7 +178,7 @@ be converted to wrap_elements(full = x)." />
 
     <div class="ref-description">
     <p>In order to add non-ggplot2 element to a patchwork they can be
-converted to a compliant representation using the <code><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements()</a></code> function.
+converted to a compliant representation using the <code>wrap_elements()</code> function.
 This allows you to position either grobs, ggplot objects, patchwork
 objects, or even base graphics (if passed as a formula) in either the full
 area, the full plotting area (anything between and
@@ -191,16 +191,16 @@ targeting plot margins and background as well as title, subtitle, etc styling
 will have an effect. If a patchwork or ggplot object is wrapped, it will be
 fixated in its state and will no longer respond to addition of styling,
 geoms, etc.. When grobs and formulas are added directly, they will implicitly
-be converted to <code><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements(full = x)</a></code>.</p>
+be converted to <code>wrap_elements(full = x)</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(
-  panel = <span class='kw'>NULL</span>,
-  plot = <span class='kw'>NULL</span>,
-  full = <span class='kw'>NULL</span>,
-  clip = <span class='fl'>TRUE</span>,
-  ignore_tag = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>wrap_elements</span><span class='op'>(</span>
+  panel <span class='op'>=</span> <span class='cn'>NULL</span>,
+  plot <span class='op'>=</span> <span class='cn'>NULL</span>,
+  full <span class='op'>=</span> <span class='cn'>NULL</span>,
+  clip <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ignore_tag <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,30 +227,36 @@ qualify for a tag.</p></td>
     <p>A wrapped_patch object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>grid</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>
 
 <span class='co'># Combine grobs with each other</span>
-<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(panel = <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span>(<span class='st'>'Here are some text'</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(
-    panel = <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(gp = <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(fill = <span class='st'>'steelblue'</span>)),
-    full = <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(gp = <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(fill = <span class='st'>'goldenrod'</span>))
-  )</div><div class='img'><img src='wrap_elements-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>wrap_elements</span><span class='op'>(</span>panel <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span><span class='op'>(</span><span class='st'>'Here are some text'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>wrap_elements</span><span class='op'>(</span>
+    panel <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span><span class='op'>(</span>gp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>'steelblue'</span><span class='op'>)</span><span class='op'>)</span>,
+    full <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span><span class='op'>(</span>gp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>'goldenrod'</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</div><div class='img'><img src='wrap_elements-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># wrapped elements can still get titles etc like ggplots</span>
-<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(panel = <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span>(<span class='st'>'Here are some text'</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(
-    panel = <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(gp = <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(fill = <span class='st'>'steelblue'</span>)),
-    full = <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span>(gp = <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span>(fill = <span class='st'>'goldenrod'</span>))
-  ) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Title for the amazing rectangles'</span>)</div><div class='img'><img src='wrap_elements-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>wrap_elements</span><span class='op'>(</span>panel <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.text.html'>textGrob</a></span><span class='op'>(</span><span class='st'>'Here are some text'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>wrap_elements</span><span class='op'>(</span>
+    panel <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span><span class='op'>(</span>gp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>'steelblue'</span><span class='op'>)</span><span class='op'>)</span>,
+    full <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/grid.rect.html'>rectGrob</a></span><span class='op'>(</span>gp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/gpar.html'>gpar</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>'goldenrod'</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>'Title for the amazing rectangles'</span><span class='op'>)</span>
+</div><div class='img'><img src='wrap_elements-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># You can also pass in ggplots or patchworks to e.g. have it fill out the</span>
 <span class='co'># panel area</span>
-<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mtcars</span>) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>mpg</span>, <span class='kw'>disp</span>))
-<span class='kw'>p1</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(panel = <span class='kw'>p1</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span>(<span class='st'>'Look at me shrink'</span>))</div><div class='img'><img src='wrap_elements-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>mpg</span>, <span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>p1</span> <span class='op'>+</span> <span class='fu'>wrap_elements</span><span class='op'>(</span>panel <span class='op'>=</span> <span class='va'>p1</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>'Look at me shrink'</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='wrap_elements-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># You can even add base graphics if you pass it as a formula</span>
-<span class='kw'>p1</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/wrap_elements.html'>wrap_elements</a></span>(full = <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mtcars</span><span class='op'>$</span><span class='kw'>mpg</span>, <span class='kw'>mtcars</span><span class='op'>$</span><span class='kw'>disp</span>))</div><div class='img'><img src='wrap_elements-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>p1</span> <span class='op'>+</span> <span class='fu'>wrap_elements</span><span class='op'>(</span>full <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span>, <span class='va'>mtcars</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='wrap_elements-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Adding a grob or formula directly is equivalent to placing it in `full`</span>
-<span class='kw'>p1</span> <span class='op'>+</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mtcars</span><span class='op'>$</span><span class='kw'>mpg</span>, <span class='kw'>mtcars</span><span class='op'>$</span><span class='kw'>disp</span>)</div><div class='img'><img src='wrap_elements-5.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='va'>p1</span> <span class='op'>+</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span>, <span class='va'>mtcars</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span>
+</div><div class='img'><img src='wrap_elements-5.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -266,7 +272,7 @@ qualify for a tag.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

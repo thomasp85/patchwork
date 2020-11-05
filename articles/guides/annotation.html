@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">patchwork</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -125,42 +125,39 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://patchwork.data-imaginist.com">patchwork</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></code></pre></div>
 <p>Sometimes you simply want to put multiple plots side by side and call it a day, but often you want the end result to stand forth like a collective thing. To achieve that you would often add a title and other textual cues. This guide will teach you how to do that.</p>
 <p>As always, we start with some plots.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
-<span class="kw">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">mpg</span>, <span class="kw">disp</span>)) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 1'</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 1'</span><span class="op">)</span>
 
-<span class="kw">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">gear</span>, <span class="kw">disp</span>, group = <span class="kw">gear</span>)) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 2'</span>)
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span>, group <span class="op">=</span> <span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 2'</span><span class="op">)</span>
 
-<span class="kw">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">hp</span>, <span class="kw">wt</span>, colour = <span class="kw">mpg</span>)) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 3'</span>)
+<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">hp</span>, <span class="va">wt</span>, colour <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 3'</span><span class="op">)</span>
 
-<span class="kw">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mtcars</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">gear</span>)) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span><span class="kw">cyl</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">'Plot 4'</span>)
-</pre></div>
+<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cyl</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 4'</span><span class="op">)</span></code></pre></div>
 <div id="titles-subtitles-and-captions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#titles-subtitles-and-captions" class="anchor"></a>Titles, subtitles and captions</h2>
 <p>One of the most needed things is to add descriptive text to your plot ensemble. To achieve this, you simply add it to your patchwork using <code><a href="../../reference/plot_annotation.html">plot_annotation()</a></code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">&lt;-</span> (<span class="kw">p1</span> <span class="op">+</span> <span class="kw">p2</span>) <span class="op">/</span> <span class="kw">p3</span>
-<span class="kw">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(
-  title = <span class="st">'The surprising truth about mtcars'</span>,
-  subtitle = <span class="st">'These 3 plots will reveal yet-untold secrets about our beloved data-set'</span>,
-  caption = <span class="st">'Disclaimer: None of these plots are insightful'</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span>
+<span class="va">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>
+  title <span class="op">=</span> <span class="st">'The surprising truth about mtcars'</span>,
+  subtitle <span class="op">=</span> <span class="st">'These 3 plots will reveal yet-untold secrets about our beloved data-set'</span>,
+  caption <span class="op">=</span> <span class="st">'Disclaimer: None of these plots are insightful'</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>It is important to note that plot annotations only have an effect on the top-level patchwork. Any annotation added to nested patchworks are (currently) lost. If you need to have annotations for a nested patchwork you’ll need to wrap it in <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> with the side-effect that alignment no longer works.</p>
 </div>
@@ -168,56 +165,49 @@
 <h2 class="hasAnchor">
 <a href="#tagging" class="anchor"></a>Tagging</h2>
 <p>Often, especially in scientific literature, multiple plots are collected in a single figure and referred to by a tag. While such tags could be added manually, it is much simpler to let patchwork handle it for you, using the auto-tagging functionality. This is turned on by setting <code>tag_level</code> in <code><a href="../../reference/plot_annotation.html">plot_annotation()</a></code> to a value indicating the family of symbols to use for tagging: <code>'1'</code> for Arabic numerals, <code>'A'</code> for uppercase Latin letters, <code>'a'</code> for lowercase Latin letters, <code>'I'</code> for uppercase Roman numerals, and <code>'i'</code> for lowercase Roman numerals.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(tag_levels = <span class="st">'A'</span>)
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Tags uses the theming of the plot they are applied to, so make sure they match up, or modify the theming of all plots using <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> (see the <a href="assembly.html">Plot Assembly</a> guide).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> 
-  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(tag_levels = <span class="st">'A'</span>) <span class="op">&amp;</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(plot.tag = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(size = <span class="fl">8</span>))
-</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> 
+  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span> <span class="op">&amp;</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.tag <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>When the patchwork contains nested layouts the tagging will recurse into them by default, but you can tell it to define a new tagging level with the <code>tag_level</code> argument in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code>. You can then provide multiple tag-types to <code>tag_levels</code> to define how subtagging should be enumerated.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">patchwork</span>[[<span class="fl">1</span>]] <span class="op">&lt;-</span> <span class="kw">patchwork</span>[[<span class="fl">1</span>]] <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span>(tag_level = <span class="st">'new'</span>)
-<span class="kw">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(tag_levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'1'</span>))
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">'new'</span><span class="op">)</span>
+<span class="va">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'1'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>With <code><a href="../../reference/plot_annotation.html">plot_annotation()</a></code>it is also possible to define separator, prefix, and suffix for the tag, but don’t go overboard with it:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(tag_levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'1'</span>), tag_prefix = <span class="st">'Fig. '</span>,
-                            tag_sep = <span class="st">'.'</span>, tag_suffix = <span class="st">':'</span>)
-</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'1'</span><span class="op">)</span>, tag_prefix <span class="op">=</span> <span class="st">'Fig. '</span>,
+                            tag_sep <span class="op">=</span> <span class="st">'.'</span>, tag_suffix <span class="op">=</span> <span class="st">':'</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>The default ggplot2 theme puts the tag in its own row and column that will expand to fit. For longer tag text this will look weird, so it is better to place it on top of the plot region:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> 
-  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(tag_levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'1'</span>), tag_prefix = <span class="st">'Fig. '</span>, tag_sep = <span class="st">'.'</span>, 
-                  tag_suffix = <span class="st">':'</span>) <span class="op">&amp;</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(plot.tag.position = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>),
-        plot.tag = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(size = <span class="fl">8</span>, hjust = <span class="fl">0</span>, vjust = <span class="fl">0</span>))
-</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> 
+  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'1'</span><span class="op">)</span>, tag_prefix <span class="op">=</span> <span class="st">'Fig. '</span>, tag_sep <span class="op">=</span> <span class="st">'.'</span>, 
+                  tag_suffix <span class="op">=</span> <span class="st">':'</span><span class="op">)</span> <span class="op">&amp;</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.tag.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
+        plot.tag <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span>, hjust <span class="op">=</span> <span class="fl">0</span>, vjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div id="styling-the-patchwork" class="section level2">
 <h2 class="hasAnchor">
 <a href="#styling-the-patchwork" class="anchor"></a>Styling the patchwork</h2>
 <p>Most of the style of the patchwork is made up by the themes of the individual patches. For a coherent look, don’t mix videly different looks. Setting the background colour of a single plot to a different shade is an effective way to highlight it, but e.g. different fonts or line widths will just look like a mess. The patchwork itself has a few elements itself that is succeptible to theming: A background, a margin, and title, subtitle &amp; caption. The theme of the patchwork is by default the default ggplot2 theme. It can be changed though, in two different ways. The easiest is to simply use <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> with a theme element. This operator will add to the theme of all subplots as well as to the theme of the patchwork itself:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> 
-  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(title = <span class="st">'The surprising truth about mtcars'</span>) <span class="op">&amp;</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(text = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="st">'mono'</span>))
-</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> 
+  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'The surprising truth about mtcars'</span><span class="op">)</span> <span class="op">&amp;</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span><span class="st">'mono'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>If you need to address only the theme of the patchwork itself (e.g. for making the patchwork title larger than the plot titles), it can be done with the <code>theme</code> argument in <code><a href="../../reference/plot_annotation.html">plot_annotation()</a></code> (note that the use of one does not exclude the other):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">patchwork</span> <span class="op">+</span> 
-  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span>(title = <span class="st">'The surprising truth about mtcars'</span>,
-                  theme = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(plot.title = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(size = <span class="fl">18</span>))) <span class="op">&amp;</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(text = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="st">'mono'</span>))
-</pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">+</span> 
+  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'The surprising truth about mtcars'</span>,
+                  theme <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span><span class="st">'mono'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="annotation_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div id="want-more" class="section level2">
@@ -242,7 +232,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

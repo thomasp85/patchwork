@@ -1,8 +1,13 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1.9000
-pkgdown_sha: caf7cc74e008e8d0d6e53eeda93cd3cad3545bf2
-articles: []
-last_built: 2020-06-22T08:52Z
+pkgdown: 1.6.1.9000
+pkgdown_sha: aaf1509f3c9f4f3677ee01e11299dff4a0d696fb
+articles:
+  guides/annotation: annotation.html
+  guides/assembly: assembly.html
+  guides/layout: layout.html
+  guides/multipage: multipage.html
+  patchwork: patchwork.html
+last_built: 2020-11-05T21:15Z
 urls:
   reference: https://patchwork.data-imaginist.com/reference
   article: https://patchwork.data-imaginist.com/articles
