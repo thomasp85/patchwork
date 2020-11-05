@@ -1,5 +1,7 @@
 # patchwork (development version)
 
+* Add `inset_element()` to allow adding plots as insets
+
 # patchwork 1.0.1
 
 * Renaming of `align_plots()` to `align_patches()` to avoid namespace clash
