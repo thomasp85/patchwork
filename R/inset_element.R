@@ -21,6 +21,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
 #' p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
 #'

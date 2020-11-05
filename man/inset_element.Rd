@@ -43,6 +43,7 @@ or several plots or graphic elements freely on top or below another plot. The
 full control over placement.
 }
 \examples{
+library(ggplot2)
 p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
 p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
 
