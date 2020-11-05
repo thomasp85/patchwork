@@ -1,12 +1,18 @@
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.ggplot <- function(object, plot, object_name) {
+  if (is_inset_patch(plot)) {
+    stop("insets cannot be the first plot in a patchwork", call. = FALSE)
+  }
   patches <- get_patches(plot)
   add_patches(object, patches)
 }
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.grob <- function(object, plot, object_name) {
+  if (is_inset_patch(plot)) {
+    stop("insets cannot be the first plot in a patchwork", call. = FALSE)
+  }
   plot + wrap_elements(full = object)
 }
 #' @importFrom ggplot2 ggplot_add
@@ -68,4 +74,5 @@ plot_filler <- function() {
   p
 }
 is_empty <- function(x) inherits(x, 'plot_filler')
+#' @export
 has_tag.plot_filler <- function(x) FALSE

@@ -27,7 +27,7 @@ Imports:
     grDevices,
     utils,
     graphics
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues

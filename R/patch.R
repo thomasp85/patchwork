@@ -76,4 +76,5 @@ print.patch <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @export
 plot.patch <- print.patch
 
+#' @export
 has_tag.ggplot <- function(x) !is_empty(x)

@@ -107,6 +107,7 @@ build_patchwork <- function(x, guides = 'auto') {
   fixed_asp <- vapply(gt, function(x) isTRUE(x$respect), logical(1))
   guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
+  gt <- add_insets(gt)
   if (!is.null(x$layout$design)) {
     if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$design$r)
     if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$design$b)
@@ -117,7 +118,7 @@ build_patchwork <- function(x, guides = 'auto') {
   if (is.null(x$layout$nrow) && !is.null(x$layout$heights) && length(x$layout$heights) > 1) {
     x$layout$nrow <- length(x$layout$heights)
   }
-  dims <- wrap_dims(length(x$plots), nrow = x$layout$nrow, ncol = x$layout$ncol)
+  dims <- wrap_dims(length(gt), nrow = x$layout$nrow, ncol = x$layout$ncol)
   gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
                    unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
   if (is.null(x$layout$design)) {
@@ -223,6 +224,19 @@ plot_table.patchwork <- function(x, guides) {
 plot_table.patch <- function(x, guides) {
   patchGrob(x, guides)
 }
+#' @export
+plot_table.inset_patch <- function(x, guides) {
+  settings <- attr(x, 'settings')
+  class(x) <- setdiff(class(x), 'inset_patch')
+  table <- plot_table(x, guides)
+  table$vp <- viewport(x = settings$left, y = settings$bottom,
+                       width = settings$right - settings$left,
+                       height = settings$top - settings$bottom,
+                       just = c(0, 0))
+  attr(table, 'settings') <- settings
+  class(table) <- c('inset_table', class(table))
+  table
+}
 simplify_gt <- function(gt) {
   UseMethod('simplify_gt')
 }
@@ -269,6 +283,8 @@ simplify_gt.gtable_patchwork <- function(gt) {
 }
 #' @export
 simplify_gt.patchgrob <- function(gt) gt
+#' @export
+simplify_gt.inset_table <- function(gt) gt
 
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid viewport
@@ -730,4 +746,41 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
   gt$widths[width_ind] <- widths
   gt$heights[height_ind] <- heights
   gt
+}
+
+add_insets <- function(gt) {
+  is_inset <- vapply(gt, inherits, logical(1), 'inset_table')
+  if (!any(is_inset)) {
+    return(gt)
+  }
+  canvas <- rank(cumsum(!is_inset), ties.method = "min")[is_inset]
+  if (canvas[1] == 0) {
+    stop("insets cannot be the first plot in a patchwork", call. = FALSE)
+  }
+  insets <- which(is_inset)
+  for (i in seq_along(insets)) {
+    ins <- gt[[insets[i]]]
+    can <- gt[[canvas[i]]]
+    setting <- attr(ins, 'settings')
+    if (setting$on_top) {
+      z <- max(can$layout$z) + 1
+    } else {
+      bg <- which(can$layout$name == 'background')
+      if (length(bg) != 0) {
+        z <- can$layout$z[bg[1]]
+      } else {
+        z <- min(can$layout$z) - 1
+      }
+    }
+    gt[[canvas[i]]] <- switch(setting$align_to,
+           panel = gtable_add_grob(can, list(ins), PANEL_ROW, PANEL_COL, z = z,
+                                   clip = setting$clip, name = 'inset'),
+           plot = gtable_add_grob(can, list(ins), PLOT_TOP, PLOT_LEFT, PLOT_BOTTOM,
+                                  PLOT_RIGHT, z = z, clip =  setting$clip, name = 'inset'),
+           full = gtable_add_grob(can, list(ins), 1, 1, nrow(can), ncol(can), z = z,
+                                  clip = setting$clip, name = 'inset'),
+           stop('Unknown alignment setting: `', setting$align_to, '`', call. = FALSE)
+    )
+  }
+  gt[!is_inset]
 }

@@ -53,3 +53,21 @@ test_that("Fixed aspect plots behave", {
     p_l1 + p_l2 + plot_layout(ncol=1) & theme(legend.justification = "left", aspect.ratio=1)
   })
 })
+
+test_that("Insets looks as they should", {
+  expect_doppelganger('Basic inset works', {
+    p1 + inset_element(p2, 0.6, 0.6, 1, 1)
+  })
+  expect_doppelganger('Other alignments work', {
+    p1 + inset_element(p2, 0, 0.6, 0.4, 1, align_to = 'full')
+  })
+  expect_doppelganger('Patchworks can be inset', {
+    p1 + inset_element(p2 / p3, 0, 0.6, 0.4, 1)
+  })
+  expect_doppelganger('Grobs can be inset', {
+    p1 + inset_element(grid::circleGrob(), 0, 0.6, 0.4, 1)
+  })
+  expect_doppelganger('insets can be changed', {
+    p1 + inset_element(p2, 0, 0.6, 0.4, 1) + theme_void()
+  })
+})
