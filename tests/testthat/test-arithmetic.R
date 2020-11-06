@@ -18,7 +18,7 @@ test_that("`+` works", {
   expect_doppelganger('Add ggplot elements: p1 + p2 + theme_bw()', {
     p1 + p2 + theme_bw()
   })
-  skip_on_os('linux') # this fails on devel even with vdiffr turned off
+
   expect_doppelganger('Add base graphics: p1 + ~plot(1:10, 1:10)', {
     p1 + ~plot(1:10, 1:10)
   })
