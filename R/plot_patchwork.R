@@ -758,6 +758,7 @@ add_insets <- function(gt) {
     stop("insets cannot be the first plot in a patchwork", call. = FALSE)
   }
   insets <- which(is_inset)
+  name <- paste0('inset_', insets)
   for (i in seq_along(insets)) {
     ins <- gt[[insets[i]]]
     can <- gt[[canvas[i]]]
@@ -774,11 +775,11 @@ add_insets <- function(gt) {
     }
     gt[[canvas[i]]] <- switch(setting$align_to,
            panel = gtable_add_grob(can, list(ins), PANEL_ROW, PANEL_COL, z = z,
-                                   clip = setting$clip, name = 'inset'),
+                                   clip = setting$clip, name = name[i]),
            plot = gtable_add_grob(can, list(ins), PLOT_TOP, PLOT_LEFT, PLOT_BOTTOM,
-                                  PLOT_RIGHT, z = z, clip =  setting$clip, name = 'inset'),
+                                  PLOT_RIGHT, z = z, clip =  setting$clip, name = name[i]),
            full = gtable_add_grob(can, list(ins), 1, 1, nrow(can), ncol(can), z = z,
-                                  clip = setting$clip, name = 'inset'),
+                                  clip = setting$clip, name = name[i]),
            stop('Unknown alignment setting: `', setting$align_to, '`', call. = FALSE)
     )
   }
