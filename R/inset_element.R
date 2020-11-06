@@ -36,7 +36,7 @@
 #' p1 + inset_element(grid::circleGrob(), 0.4, 0.4, 0.6, 0.6)
 #'
 #' logo <- system.file('help', 'figures', 'logo.png', package = 'patchwork')
-#' logo <- png::readPNG(logo)
+#' logo <- png::readPNG(logo, native = TRUE)
 #' p1 + inset_element(logo, 0.8, 0.8, 1, 1, align_to = 'full')
 #'
 #' # Just as expected insets are still amenable to changes after the fact
