@@ -286,7 +286,7 @@ simplify_gt.patchgrob <- function(gt) gt
 #' @export
 simplify_gt.inset_table <- function(gt) gt
 
-#' @importFrom gtable gtable_add_grob
+#' @importFrom gtable gtable_add_grob is.gtable
 #' @importFrom grid viewport
 simplify_free <- function(gt, gt_new, panels, rows, cols) {
   p_cols <- seq(cols[1], cols[2])
@@ -303,14 +303,18 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     t_strips <- grepl('^strip-t-', gt_new$layout$name)
     if (any(t_strips)) {
       gt_new$grobs[t_strips] <- lapply(gt_new$grobs[t_strips], function(g) {
-        g$vp <- viewport(y = 0, just = 'bottom', height = g$heights)
+        if (is.gtable(g)) {
+          g$vp <- viewport(y = 0, just = 'bottom', height = g$heights)
+        }
         g
       })
     }
     b_strips <- grepl('^strip-b-', gt_new$layout$name)
     if (any(b_strips)) {
       gt_new$grobs[b_strips] <- lapply(gt_new$grobs[b_strips], function(g) {
-        g$vp <- viewport(y = 1, just = 'top', height = g$heights)
+        if (is.gtable(g)) {
+          g$vp <- viewport(y = 1, just = 'top', height = g$heights)
+        }
         g
       })
     }
@@ -352,14 +356,18 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     l_strips <- grepl('^strip-l-', gt_new$layout$name)
     if (any(l_strips)) {
       gt_new$grobs[l_strips] <- lapply(gt_new$grobs[l_strips], function(g) {
-        g$vp <- viewport(x = 1, just = 'right', width = g$widths)
+        if (is.gtable(g)) {
+          g$vp <- viewport(x = 1, just = 'right', width = g$widths)
+        }
         g
       })
     }
     r_strips <- grepl('^strip-r-', gt_new$layout$name)
     if (any(r_strips)) {
       gt_new$grobs[r_strips] <- lapply(gt_new$grobs[r_strips], function(g) {
-        g$vp <- viewport(x = 0, just = 'left', width = g$widths)
+        if (is.gtable(g)) {
+          g$vp <- viewport(x = 0, just = 'left', width = g$widths)
+        }
         g
       })
     }
