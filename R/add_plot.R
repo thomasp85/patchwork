@@ -32,24 +32,29 @@ is_patchwork <- function(x) inherits(x, 'patchwork')
 as_patchwork <- function(x) {
   UseMethod('as_patchwork')
 }
+#' @export
 as_patchwork.default <- function(x) {
   stop('Don\'t know how to convert an object of class <', paste(class(x), collapse = ', '),'> to a patchwork', call. = FALSE)
 }
+#' @export
 as_patchwork.ggplot <- function(x) {
   class(x) <- c('patchwork', class(x))
   x$patches <- new_patchwork()
   x
 }
+#' @export
 as_patchwork.patchwork <- function(x) x
 
 add_patches <- function(plot, patches) {
   UseMethod('add_patches')
 }
+#' @export
 add_patches.ggplot <- function(plot, patches) {
   plot <- as_patchwork(plot)
   plot$patches <- patches
   plot
 }
+#' @export
 add_patches.patchwork <- function(plot, patches) {
   patches$plots <- c(patches$plots, list(plot))
   add_patches(plot_filler(), patches)

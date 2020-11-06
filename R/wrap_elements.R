@@ -71,6 +71,7 @@ is_wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
 #' @importFrom ggplot2 ggplotGrob theme_get
 #' @importFrom gtable gtable_add_grob
 #' @importFrom grid grobHeight convertHeight
+#' @export
 patchGrob.wrapped_patch <- function(x, guides = 'auto') {
   gt <- ggplotGrob(x)
   table <- patch_table(x, gt)
@@ -127,21 +128,26 @@ patchGrob.wrapped_patch <- function(x, guides = 'auto') {
 as_patch <- function(x, ...) {
   UseMethod('as_patch')
 }
+#' @export
 as_patch.grob <- function(x, ...) {
   x
 }
 #' @importFrom grid gTree
+#' @export
 as_patch.gList <- function(x, ...) {
   gTree(children = x)
 }
 #' @importFrom ggplot2 ggplotGrob
+#' @export
 as_patch.ggplot <- function(x, ...) {
   ggplotGrob(x)
 }
+#' @export
 as_patch.patchwork <- function(x, ...) {
   patchworkGrob(x)
 }
-as_patch.formula <- function(x) {
+#' @export
+as_patch.formula <- function(x, ...) {
   if (!requireNamespace('gridGraphics', quietly = TRUE)) {
     stop('The gridGraphics package is required for this functionality', call. = FALSE)
   }
