@@ -103,23 +103,23 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   patches <- x$patches$plots
   tag_ind <- offset
   for (i in seq_along(patches)) {
-    if (!has_tag(patches[[i]])) {
-      next
-    }
     if (is_patchwork(patches[[i]])) {
+      if (is_inset_patch(patches[[i]]) && !has_tag(patches[[i]])) {
+        next
+      }
       tag_level <- patches[[i]]$patches$layout$tag_level
       tag_level <- if (is.null(tag_level)) default_layout$tag_level else tag_level
       if (tag_level == 'keep') {
         new_plots <- recurse_tags(patches[[i]], levels, prefix, suffix, sep, tag_ind)
         patches[[i]] <- new_plots$patches
         tag_ind <- new_plots$tag_ind
-      } else {
+      } else if (length(levels) > 1) {
         patches[[i]] <- recurse_tags(patches[[i]], levels[-1],
                                      prefix = paste0(prefix, level[tag_ind], sep),
                                      suffix, sep)$patches
         tag_ind <- tag_ind + 1
       }
-    } else {
+    } else if (has_tag(patches[[i]])) {
       patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
       tag_ind <- tag_ind + 1
     }
