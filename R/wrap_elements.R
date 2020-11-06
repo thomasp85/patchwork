@@ -16,8 +16,8 @@
 #' geoms, etc.. When grobs and formulas are added directly, they will implicitly
 #' be converted to `wrap_elements(full = x)`.
 #'
-#' @param panel,plot,full A grob, ggplot, patchwork, or formula object to add to
-#' the respective area.
+#' @param panel,plot,full A grob, ggplot, patchwork, formula, raster, or
+#' nativeRaster object to add to the respective area.
 #'
 #' @param clip Should the grobs be clipped if expanding outside its area
 #'
@@ -161,6 +161,13 @@ as_patch.formula <- function(x, ...) {
   }
   gridGraphics::echoGrob(plot_call, name = 'patchwork_base', device = offscreen_dev())
 }
+#' @export
+#' @importFrom grid rasterGrob
+as_patch.raster <- function(x, ...) {
+  as_patch(rasterGrob(x), ...)
+}
+#' @export
+as_patch.nativeRaster <- as_patch.raster
 
 #' @importFrom ggplot2 ggplotGrob
 get_grob <- function(x, name) {

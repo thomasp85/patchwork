@@ -17,7 +17,8 @@ inset_element(
 )
 }
 \arguments{
-\item{p}{A grob, ggplot, patchwork, or formula object to add as an inset}
+\item{p}{A grob, ggplot, patchwork, formula, raster, or nativeRaster object
+to add as an inset}
 
 \item{left, bottom, right, top}{numerics or units giving the location of the
 outer bounds. If given as numerics they will be converted to \code{npc} units.}
@@ -55,6 +56,9 @@ p1 + inset_element(p2, 0, 0.6, 0.4, 1, align_to = 'full')
 
 # Grobs and other objects can be added as insets as well
 p1 + inset_element(grid::circleGrob(), 0.4, 0.4, 0.6, 0.6)
+
+logo <- system.file('help', 'figures', 'logo.png', package = 'patchwork')
+p1 + inset_element(logo, 0.8, 0.8, 1, 1, align_to = 'full')
 
 # Just as expected insets are still amenable to changes after the fact
 p1 +

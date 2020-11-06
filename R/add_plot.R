@@ -12,6 +12,12 @@ ggplot_add.grob <- function(object, plot, object_name) {
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.formula <- ggplot_add.grob
+#' @importFrom ggplot2 ggplot_add
+#' @export
+ggplot_add.raster <- ggplot_add.grob
+#' @importFrom ggplot2 ggplot_add
+#' @export
+ggplot_add.nativeRaster <- ggplot_add.grob
 # Convert a plot with a (possible) list of patches into a selfcontained
 # patchwork to be attached to another plot
 get_patches <- function(plot) {
