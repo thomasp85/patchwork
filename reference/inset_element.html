@@ -191,7 +191,8 @@ full control over placement.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>p</th>
-      <td><p>A grob, ggplot, patchwork, or formula object to add as an inset</p></td>
+      <td><p>A grob, ggplot, patchwork, formula, raster, or nativeRaster object
+to add as an inset</p></td>
     </tr>
     <tr>
       <th>left, bottom, right, top</th>
@@ -236,6 +237,9 @@ below (but above the background)?</p></td>
 <span class='co'># Grobs and other objects can be added as insets as well</span>
 <span class='va'>p1</span> <span class='op'>+</span> <span class='fu'>inset_element</span><span class='op'>(</span><span class='fu'>grid</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/grid.circle.html'>circleGrob</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>0.4</span>, <span class='fl'>0.4</span>, <span class='fl'>0.6</span>, <span class='fl'>0.6</span><span class='op'>)</span>
 </div><div class='img'><img src='inset_element-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>logo</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'help'</span>, <span class='st'>'figures'</span>, <span class='st'>'logo.png'</span>, package <span class='op'>=</span> <span class='st'>'patchwork'</span><span class='op'>)</span>
+<span class='va'>p1</span> <span class='op'>+</span> <span class='fu'>inset_element</span><span class='op'>(</span><span class='va'>logo</span>, <span class='fl'>0.8</span>, <span class='fl'>0.8</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, align_to <span class='op'>=</span> <span class='st'>'full'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("as_patch"): no applicable method for 'as_patch' applied to an object of class "character"</span></div><div class='input'>
 <span class='co'># Just as expected insets are still amenable to changes after the fact</span>
 <span class='va'>p1</span> <span class='op'>+</span>
   <span class='fu'>inset_element</span><span class='op'>(</span><span class='va'>p2</span>, <span class='fl'>0.6</span>, <span class='fl'>0.6</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
