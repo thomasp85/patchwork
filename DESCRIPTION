@@ -39,5 +39,6 @@ Suggests:
     ragg,
     testthat (>= 2.1.0),
     vdiffr,
-    covr
+    covr,
+    png
 VignetteBuilder: knitr
