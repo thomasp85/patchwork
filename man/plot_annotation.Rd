@@ -22,7 +22,10 @@ annotations.}
 \item{tag_levels}{A character vector defining the enumeration format to use
 at each level. Possible values are \code{'a'} for lowercase letters, \code{'A'} for
 uppercase letters, \code{'1'} for numbers, \code{'i'} for lowercase Roman numerals, and
-\code{'I'} for uppercase Roman numerals.}
+\code{'I'} for uppercase Roman numerals. It can also be a list containing
+character vectors defining arbitrary tag sequences. If any element in the
+list is a scalar and one of \code{'a'}, \code{'A'}, \code{'1'}, \verb{'i}, or \code{'I'}, this level
+will be expanded to the expected sequence.}
 
 \item{tag_prefix, tag_suffix}{Strings that should appear before or after the
 tag.}
@@ -73,5 +76,9 @@ p1 / (p2 | p3) +
 # Add multilevel tagging to nested layouts
 p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
   plot_annotation(tag_levels = c('A', '1'))
+
+# Use a custom tag sequence (mixed with a standard one)
+p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
+  plot_annotation(tag_levels = list(c('&', '\%'), '1'))
 
 }

@@ -22,7 +22,10 @@ has_tag <- function(x) {
 #' @param tag_levels A character vector defining the enumeration format to use
 #' at each level. Possible values are `'a'` for lowercase letters, `'A'` for
 #' uppercase letters, `'1'` for numbers, `'i'` for lowercase Roman numerals, and
-#' `'I'` for uppercase Roman numerals.
+#' `'I'` for uppercase Roman numerals. It can also be a list containing
+#' character vectors defining arbitrary tag sequences. If any element in the
+#' list is a scalar and one of `'a'`, `'A'`, `'1'`, `'i`, or `'I'`, this level
+#' will be expanded to the expected sequence.
 #'
 #' @param tag_prefix,tag_suffix Strings that should appear before or after the
 #' tag.
@@ -62,6 +65,10 @@ has_tag <- function(x) {
 #' p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
 #'   plot_annotation(tag_levels = c('A', '1'))
 #'
+#' # Use a custom tag sequence (mixed with a standard one)
+#' p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
+#'   plot_annotation(tag_levels = list(c('&', '%'), '1'))
+#'
 plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
                             tag_levels = NULL, tag_prefix = NULL, tag_suffix = NULL,
                             tag_sep = NULL, theme = NULL) {
@@ -88,21 +95,13 @@ ggplot_add.plot_annotation <- function(object, plot, object_name) {
   plot
 }
 #' @importFrom ggplot2 is.ggplot labs
-#' @importFrom utils as.roman
 recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
   if (length(levels) == 0) return(list(patches = x, tab_ind = offset))
-  level <- switch(
-    as.character(levels[1]),
-    a = letters,
-    A = LETTERS,
-    "1" = 1:100,
-    i = tolower(as.roman(1:100)),
-    I = as.roman(1:100),
-    stop('Unknown tag type: ', levels[1], call. = FALSE)
-  )
+  level <- get_level(levels[1])
   patches <- x$patches$plots
   tag_ind <- offset
   for (i in seq_along(patches)) {
+    this_level <- if (length(level) < tag_ind) '' else level[tag_ind]
     if (is_patchwork(patches[[i]])) {
       if (is_inset_patch(patches[[i]]) && !has_tag(patches[[i]])) {
         next
@@ -115,18 +114,19 @@ recurse_tags <- function(x, levels, prefix, suffix, sep, offset = 1) {
         tag_ind <- new_plots$tag_ind
       } else if (length(levels) > 1) {
         patches[[i]] <- recurse_tags(patches[[i]], levels[-1],
-                                     prefix = paste0(prefix, level[tag_ind], sep),
+                                     prefix = paste0(prefix, this_level, sep),
                                      suffix, sep)$patches
         tag_ind <- tag_ind + 1
       }
     } else if (has_tag(patches[[i]])) {
-      patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, level[tag_ind], suffix))
+      patches[[i]] <- patches[[i]] + labs(tag = paste0(prefix, this_level, suffix))
       tag_ind <- tag_ind + 1
     }
   }
   x$patches$plots <- patches
   if (has_tag(x)) {
-    x <- x + labs(tag = paste0(prefix, level[tag_ind], suffix))
+    this_level <- if (length(level) < tag_ind) '' else level[tag_ind]
+    x <- x + labs(tag = paste0(prefix, this_level, suffix))
     tag_ind <- tag_ind + 1
   }
   list(
@@ -171,4 +171,24 @@ annotate_table <- function(table, annotation) {
   table <- gtable_add_grob(table, get_grob(p, 'background'), 1, 1, nrow(table), ncol(table),
                            z = -Inf, name = 'background')
   table
+}
+
+#' @importFrom utils as.roman
+get_level <- function(x) {
+  if (is.list(x)) {
+    if (length(x[[1]]) == 1 && x[[1]] %in% c('a', 'A', '1', 'i', 'I')) {
+      x <- x[[1]]
+    } else {
+      return(x[[1]])
+    }
+  }
+  switch(
+    as.character(x),
+    a = letters,
+    A = LETTERS,
+    "1" = 1:100,
+    i = tolower(as.roman(1:100)),
+    I = as.roman(1:100),
+    stop('Unknown tag type: ', x, call. = FALSE)
+  )
 }

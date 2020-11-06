@@ -6,6 +6,8 @@
   additional tags to use (#147)
 * Fix bug that prevented strips turned off with `element_blank()` from working 
   (#200)
+* Add option to supply a custom sequence of tags to use for auto-tagging (#211, 
+  #63)
 
 # patchwork 1.0.1
 
