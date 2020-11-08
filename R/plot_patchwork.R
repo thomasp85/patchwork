@@ -108,23 +108,23 @@ build_patchwork <- function(x, guides = 'auto') {
   guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
   gt <- add_insets(gt)
-  if (!is.null(x$layout$design)) {
-    if (is.null(x$layout$ncol)) x$layout$ncol <- max(x$layout$design$r)
-    if (is.null(x$layout$nrow)) x$layout$nrow <- max(x$layout$design$b)
-  }
-  if (is.null(x$layout$ncol) && !is.null(x$layout$widths) && length(x$layout$widths) > 1) {
-    x$layout$ncol <- length(x$layout$widths)
-  }
-  if (is.null(x$layout$nrow) && !is.null(x$layout$heights) && length(x$layout$heights) > 1) {
-    x$layout$nrow <- length(x$layout$heights)
-  }
-  dims <- wrap_dims(length(gt), nrow = x$layout$nrow, ncol = x$layout$ncol)
-  gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
-                   unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
   if (is.null(x$layout$design)) {
+    if (is.null(x$layout$ncol) && !is.null(x$layout$widths) && length(x$layout$widths) > 1) {
+      x$layout$ncol <- length(x$layout$widths)
+    }
+    if (is.null(x$layout$nrow) && !is.null(x$layout$heights) && length(x$layout$heights) > 1) {
+      x$layout$nrow <- length(x$layout$heights)
+    }
+    dims <- wrap_dims(length(gt), nrow = x$layout$nrow, ncol = x$layout$ncol)
     x$layout$design <- create_design(dims[2], dims[1], x$layout$byrow)
   } else {
+    dim <- c(
+      max(x$layout$design$b),
+      max(x$layout$design$r)
+    )
   }
+  gt_new <- gtable(unit(rep(0, TABLE_COLS * dims[2]), 'null'),
+                   unit(rep(0, TABLE_ROWS * dims[1]), 'null'))
   design <- as.data.frame(unclass(x$layout$design))
   if (nrow(design) < length(gt)) {
     warning('Too few patch areas to hold all plots. Dropping plots', call. = FALSE)
@@ -142,6 +142,7 @@ build_patchwork <- function(x, guides = 'auto') {
   gt_new$layout <- do.call(rbind, lapply(seq_along(gt), function(i) {
     loc <- design[i, ]
     lay <- gt[[i]]$layout
+    lay$name <- paste0(lay$name, '-', i)
     lay$t <- lay$t + ifelse(lay$t <= PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
     lay$l <- lay$l + ifelse(lay$l <= PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
     lay$b <- lay$b + ifelse(lay$b < PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
