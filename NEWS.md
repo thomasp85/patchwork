@@ -1,4 +1,4 @@
-# patchwork (development version)
+# patchwork 1.1.0
 
 * Add `inset_element()` to allow adding plots as insets
 * patchwork now supports `raster` and `nativeRaster` objects
