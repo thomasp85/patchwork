@@ -142,7 +142,7 @@ p_fixed + p1 + p2 + p3 + plot_layout(widths = 1)
 
 As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.
 
-There are some restrictions to the space optimization. The fixed aspect plot ¨ cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.
+There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.
 
 ## Insets
 
@@ -171,7 +171,8 @@ p1 + inset_element(
 Further, `inset_element()` allows you to place the inset below the previous plot, should you choose to, and controlling clipping and tagging in the same way as `wrap_elements()`.
 
 ```{r}
-p3 + inset_element(p1, left = 0.5, bottom = 0, right = 1, top = 0.5, on_top = FALSE)
+p3 + inset_element(p1, left = 0.5, bottom = 0, right = 1, top = 0.5, 
+                   on_top = FALSE, align_to = 'full')
 ```
 
 ## Controlling guides

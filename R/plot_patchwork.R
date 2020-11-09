@@ -118,7 +118,7 @@ build_patchwork <- function(x, guides = 'auto') {
     dims <- wrap_dims(length(gt), nrow = x$layout$nrow, ncol = x$layout$ncol)
     x$layout$design <- create_design(dims[2], dims[1], x$layout$byrow)
   } else {
-    dim <- c(
+    dims <- c(
       max(x$layout$design$b),
       max(x$layout$design$r)
     )
@@ -623,7 +623,7 @@ add_strips <- function(gt) {
 #' @importFrom grid unit
 add_guides <- function(gt, collect = FALSE) {
   panel_loc <- find_panel(gt)[, c('t', 'l', 'b', 'r')]
-  guide_ind <- which(gt$layout$name == 'guide-box')
+  guide_ind <- which(grepl('guide-box', gt$layout$name))
   guide_loc <- gt$layout[guide_ind, c('t', 'l', 'b', 'r')]
   guide_pos <- if (nrow(guide_loc) == 0) {
     'none'
@@ -667,7 +667,7 @@ add_guides <- function(gt, collect = FALSE) {
     }
     gt$grobs[guide_ind] <- NULL
     gt$layout <- gt$layout[-guide_ind, ]
-    gt$collected_guides <- guide_grob$grobs[guide_grob$layout$name == 'guides']
+    gt$collected_guides <- guide_grob$grobs[grepl('guides', guide_grob$layout$name)]
   }
   gt
 }
@@ -775,7 +775,7 @@ add_insets <- function(gt) {
     if (setting$on_top) {
       z <- max(can$layout$z) + 1
     } else {
-      bg <- which(can$layout$name == 'background')
+      bg <- which(grepl('background', can$layout$name))
       if (length(bg) != 0) {
         z <- can$layout$z[bg[1]]
       } else {

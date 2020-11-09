@@ -142,8 +142,9 @@ assemble_guides <- function(guides, theme) {
 #' @importFrom gtable gtable_width gtable_height
 #' @importFrom grid unit.c
 attach_guides <- function(table, guides, theme) {
-  if (any(table$layout$name == 'panel-guide_area')) {
-    area_ind <- which(table$layout$name == 'panel-guide_area')
+  guide_areas <- grepl('panel-guide_area', table$layout$name)
+  if (any(guide_areas)) {
+    area_ind <- which(guide_areas)
     if (length(area_ind) != 1) {
       warning("Only using the first guide area", call. = FALSE)
     }
