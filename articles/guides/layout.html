@@ -229,40 +229,66 @@ D#E
 <code class="sourceCode R"><span class="va">p_fixed</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>widths <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.</p>
-<p>There are some restrictions to the space optimization. The fixed aspect plot ¨ cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.</p>
+<p>There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.</p>
+</div>
+<div id="insets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#insets" class="anchor"></a>Insets</h2>
+<p>An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping <code><a href="../../reference/area.html">area()</a></code> specifications. However, this appraoch still uses an underlying grid, which may be constraining. Another approach is to use the <code><a href="../../reference/inset_element.html">inset_element()</a></code> function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. <code><a href="../../reference/inset_element.html">inset_element()</a></code> allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="../../reference/inset_element.html">inset_element</a></span><span class="op">(</span><span class="va">p2</span>, left <span class="op">=</span> <span class="fl">0.6</span>, bottom <span class="op">=</span> <span class="fl">0.6</span>, right <span class="op">=</span> <span class="fl">1</span>, top <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="../../reference/inset_element.html">inset_element</a></span><span class="op">(</span><span class="va">p2</span>, left <span class="op">=</span> <span class="fl">0</span>, bottom <span class="op">=</span> <span class="fl">0.6</span>, right <span class="op">=</span> <span class="fl">0.4</span>, top <span class="op">=</span> <span class="fl">1</span>, align_to <span class="op">=</span> <span class="st">'full'</span><span class="op">)</span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p>The location can be specified either as numerics like above or as grid units. If specified as numerics they will be converted to <code>'npc'</code> units which goes from 0 to 1 in the specified area. As an example of this we will place an inset exactly 1 cm from the panel border in the code below:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="../../reference/inset_element.html">inset_element</a></span><span class="op">(</span>
+  <span class="va">p2</span>, 
+  left <span class="op">=</span> <span class="fl">0.5</span>, 
+  bottom <span class="op">=</span> <span class="fl">0.5</span>, 
+  right <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'npc'</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'cm'</span><span class="op">)</span>, 
+  top <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'npc'</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'cm'</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p>Further, <code><a href="../../reference/inset_element.html">inset_element()</a></code> allows you to place the inset below the previous plot, should you choose to, and controlling clipping and tagging in the same way as <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="../../reference/inset_element.html">inset_element</a></span><span class="op">(</span><span class="va">p1</span>, left <span class="op">=</span> <span class="fl">0.5</span>, bottom <span class="op">=</span> <span class="fl">0</span>, right <span class="op">=</span> <span class="fl">1</span>, top <span class="op">=</span> <span class="fl">0.5</span>, 
+                   on_top <span class="op">=</span> <span class="cn">FALSE</span>, align_to <span class="op">=</span> <span class="st">'full'</span><span class="op">)</span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 <div id="controlling-guides" class="section level2">
 <h2 class="hasAnchor">
 <a href="#controlling-guides" class="anchor"></a>Controlling guides</h2>
 <p>Plots often have guides to help viewers deduce the aesthetic mapping. When composing plots we need to think about what to do about these. The default behavior is to leave these alone and simply let them follow the plot around. Examples of this can be seen above where the color guide is always positioned beside Plot 3. Such behavior is fine if the purpose is simply to position a bunch of otherwise unrelated plots next to each other. If the purpose of the composition is to create a new tightly coupled visualization, the presence of guides in between the plots can be jarring, though. The <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> function provides a <code>guides</code> argument that controls how guides should be treated. To show how it works, let’s see what happens if we set it to <code>'collect'</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span>
   <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'collect'</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="layout_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>We can see that the guide has been hoisted up and placed besides all the plots. The alternative to <code>'collect'</code> is <code>'keep'</code>, which makes sure that guides are kept next to their plot. The default value is <code>'auto'</code>, which is sort of in between. It will not collect guides, but if the patchwork is nested inside another patchwork and that patchwork collect guides, it is allowed to hoist them up. To see this in effect, compare the two plots</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'auto'</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="va">p1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'collect'</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p><img src="layout_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'keep'</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="va">p1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'collect'</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="layout_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>The guide collection has another trick up its sleeve. If multiple plots provide the same guide, you don’t want to have it show up multiple times. When collecting guides it will compare them with each other and remove duplicates.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span>, colour <span class="op">=</span> <span class="va">mpg</span>, size <span class="op">=</span> <span class="va">wt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 1a'</span><span class="op">)</span>
 
 <span class="va">p1a</span> <span class="op">|</span> <span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="layout_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">p1a</span> <span class="op">|</span> <span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'collect'</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="layout_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>Guides are compared by their graphical representation, not by their declarative specification. This means that different theming among plots may mean that two guides showing the same information is not merged.</p>
 <p>Now and then you end up with an empty area in you grid. Instead of leaving it empty, you can specify it as a place to put the collected guides, using the <code><a href="../../reference/guide_area.html">guide_area()</a></code> placeholder. It works much the same as <code><a href="../../reference/plot_spacer.html">plot_spacer()</a></code>, and if guides are not collected it will do exactly the same. But if guides are collected they will be placed there instead of where the theme tells it to.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="../../reference/guide_area.html">guide_area</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">'collect'</span><span class="op">)</span></code></pre></div>
-<p><img src="layout_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="layout_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>Guide areas are only accessible on the same nesting level. If a nested patchwork has a guide area it will not be possible to place guides collected at a higher level there.</p>
 </div>
 <div id="want-more" class="section level2">
