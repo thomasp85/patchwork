@@ -210,7 +210,7 @@ plot.patch_area <- function(x, y, ...) {
   ggplot(area) +
     geom_rect(aes(xmin = l, xmax = r, ymin = t, ymax = b, fill = name), alpha = 0.3) +
     scale_y_reverse(breaks = b_fun, expand = c(0, 0.04)) +
-    scale_x_continuous(breaks = b_fun, expand = c(0, 0.04)) +
+    scale_x_continuous(breaks = b_fun, expand = c(0, 0.04), position = 'top') +
     labs(fill = 'Patch') +
     theme_void() +
     theme(
