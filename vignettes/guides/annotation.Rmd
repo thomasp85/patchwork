@@ -120,6 +120,18 @@ patchwork +
         plot.tag = element_text(size = 8, hjust = 0, vjust = 0))
 ```
 
+Lastly it is also possible to provide you own tag sequence instead of relying on
+the build in ones. Passing a list of character vectors will do just that (note
+that this can be mixed with the standard sequences):
+
+```{r}
+patchwork + 
+  plot_annotation(tag_levels = list(c('#', '&'), '1'))
+```
+
+If you provide more plots than your custom sequence support the excess plots 
+will get empty tags so make sure that there's enough.
+
 ## Styling the patchwork
 Most of the style of the patchwork is made up by the themes of the individual 
 patches. For a coherent look, don't mix videly different looks. Setting the 

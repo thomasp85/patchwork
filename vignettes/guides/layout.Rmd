@@ -144,6 +144,36 @@ As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axi
 
 There are some restrictions to the space optimization. The fixed aspect plot ¨ cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.
 
+## Insets
+
+An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping `area()` specifications. However, this appraoch still uses an underlying grid, which may be constraining. Another approach is to use the `inset_element()` function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. `inset_element()` allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.
+
+```{r}
+p1 + inset_element(p2, left = 0.6, bottom = 0.6, right = 1, top = 1)
+```
+
+```{r}
+p1 + inset_element(p2, left = 0, bottom = 0.6, right = 0.4, top = 1, align_to = 'full')
+```
+
+The location can be specified either as numerics like above or as grid units. If specified as numerics they will be converted to `'npc'` units which goes from 0 to 1 in the specified area. As an example of this we will place an inset exactly 1 cm from the panel border in the code below:
+
+```{r}
+p1 + inset_element(
+  p2, 
+  left = 0.5, 
+  bottom = 0.5, 
+  right = unit(1, 'npc') - unit(1, 'cm'), 
+  top = unit(1, 'npc') - unit(1, 'cm')
+)
+```
+
+Further, `inset_element()` allows you to place the inset below the previous plot, should you choose to, and controlling clipping and tagging in the same way as `wrap_elements()`.
+
+```{r}
+p3 + inset_element(p1, left = 0.5, bottom = 0, right = 1, top = 0.5, on_top = FALSE)
+```
+
 ## Controlling guides
 
 Plots often have guides to help viewers deduce the aesthetic mapping. When composing plots we need to think about what to do about these. The default behavior is to leave these alone and simply let them follow the plot around. Examples of this can be seen above where the color guide is always positioned beside Plot 3. Such behavior is fine if the purpose is simply to position a bunch of otherwise unrelated plots next to each other. If the purpose of the composition is to create a new tightly coupled visualization, the presence of guides in between the plots can be jarring, though. The `plot_layout()` function provides a `guides` argument that controls how guides should be treated. To show how it works, let's see what happens if we set it to `'collect'`:
