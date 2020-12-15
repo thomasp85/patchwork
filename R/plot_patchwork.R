@@ -90,6 +90,30 @@ plot.patchwork <- print.patchwork
   }
   x
 }
+#' @importFrom utils str
+#' @export
+str.patchwork <- function(object, ...) {
+  n_patches <- length(object$patches$plots)
+  if (!is_empty(object)) n_patches <- n_patches + 1
+  cat('A patchwork composed of ', n_patches, ' patches\n', sep = '')
+  cat('- Autotagging is turned ', if (is.null(object$patches$annotation$tag_levels)) 'off' else 'on', '\n', sep = '')
+  cat('- Guides are ', if (isTRUE(object$patches$layout$guides == 'collect')) 'collected' else 'kept', '\n', sep = '')
+  cat('\n')
+  cat('Layout:\n')
+  if (is.null(object$layout$design)) {
+    l <- object$layout
+    if (is.null(l$ncol) && !is.null(l$widths) && length(l$widths) > 1) {
+      l$ncol <- length(l$widths)
+    }
+    if (is.null(l$nrow) && !is.null(l$heights) && length(l$heights) > 1) {
+      l$nrow <- length(l$heights)
+    }
+    dims <- wrap_dims(n_patches, nrow = l$nrow, ncol = l$ncol)
+    print(create_design(dims[2], dims[1], isTRUE(l$byrow)))
+  } else {
+    print(object$layout$design)
+  }
+}
 #' @importFrom ggplot2 ggplot_build ggplot_gtable panel_rows panel_cols wrap_dims
 #' @importFrom gtable gtable
 #' @importFrom grid unit unit.pmax is.unit
