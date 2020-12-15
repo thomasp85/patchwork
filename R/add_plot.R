@@ -19,6 +19,8 @@ ggplot_add.raster <- ggplot_add.grob
 #' @export
 ggplot_add.nativeRaster <- ggplot_add.grob
 
+#' @importFrom grid is.grob
+#' @importFrom grDevices is.raster
 should_autowrap <- function(x) {
   is.grob(x) || inherits(x, 'formula') || is.raster(x) || inherits(x, 'nativeRaster')
 }
