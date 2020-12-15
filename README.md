@@ -34,7 +34,7 @@ devtools::install_github("thomasp85/patchwork")
 
 ## Basic example
 
-The usage of `patchwork` is simple: just add plots together\!
+The usage of `patchwork` is simple: just add plots together!
 
 ``` r
 library(ggplot2)
@@ -67,15 +67,15 @@ p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 patchwork can do so much more. Check out the guides for learning
 everything there is to know about all the different features:
 
-  - [Getting
+-   [Getting
     Started](https://patchwork.data-imaginist.com/articles/patchwork.html)
-  - [Assembling
+-   [Assembling
     Plots](https://patchwork.data-imaginist.com/articles/guides/assembly.html)
-  - [Defining
+-   [Defining
     Layouts](https://patchwork.data-imaginist.com/articles/guides/layout.html)
-  - [Adding
+-   [Adding
     Annotation](https://patchwork.data-imaginist.com/articles/guides/annotation.html)
-  - [Aligning across
+-   [Aligning across
     pages](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
 
 ## Code of Conduct
