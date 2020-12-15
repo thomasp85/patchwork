@@ -128,10 +128,10 @@ build_patchwork <- function(x, guides = 'auto') {
     x$layout$guides
   }
   gt <- lapply(x$plots, plot_table, guides = guides)
-  fixed_asp <- vapply(gt, function(x) isTRUE(x$respect), logical(1))
   guide_grobs <- unlist(lapply(gt, `[[`, 'collected_guides'), recursive = FALSE)
   gt <- lapply(gt, simplify_gt)
   gt <- add_insets(gt)
+  fixed_asp <- vapply(gt, function(x) isTRUE(x$respect), logical(1))
   if (is.null(x$layout$design)) {
     if (is.null(x$layout$ncol) && !is.null(x$layout$widths) && length(x$layout$widths) > 1) {
       x$layout$ncol <- length(x$layout$widths)
@@ -140,7 +140,7 @@ build_patchwork <- function(x, guides = 'auto') {
       x$layout$nrow <- length(x$layout$heights)
     }
     dims <- wrap_dims(length(gt), nrow = x$layout$nrow, ncol = x$layout$ncol)
-    x$layout$design <- create_design(dims[2], dims[1], x$layout$byrow)
+    x$layout$design <- create_design(dims[2], dims[1], isTRUE(x$layout$byrow))
   } else {
     dims <- c(
       max(x$layout$design$b),

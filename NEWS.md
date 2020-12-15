@@ -2,6 +2,9 @@
 
 * Use vdiffr conditionally to pass test on M1 mac
 * Add `str()` method to patchwork objects
+* Fix a bug in `inset_element()` when insetting plots with fixed dimensions 
+  (#214)
+
 # patchwork 1.1.0
 
 * Add `inset_element()` to allow adding plots as insets
