@@ -1,5 +1,6 @@
 # patchwork (development version)
 
+* Use vdiffr conditionally to pass test on M1 mac
 # patchwork 1.1.0
 
 * Add `inset_element()` to allow adding plots as insets
