@@ -1,7 +1,7 @@
 # patchwork (development version)
 
 * Use vdiffr conditionally to pass test on M1 mac
-* Add `str()` method to patchwork objects
+* Add `str()` method to patchwork objects (#217)
 * Fix a bug in `inset_element()` when insetting plots with fixed dimensions 
   (#214)
 * Make sure that `-`, `/`, and `|` works with all supported object types (#221)
