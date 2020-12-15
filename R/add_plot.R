@@ -18,6 +18,11 @@ ggplot_add.raster <- ggplot_add.grob
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.nativeRaster <- ggplot_add.grob
+
+should_autowrap <- function(x) {
+  is.grob(x) || inherits(x, 'formula') || is.raster(x) || inherits(x, 'nativeRaster')
+}
+
 # Convert a plot with a (possible) list of patches into a selfcontained
 # patchwork to be attached to another plot
 get_patches <- function(plot) {

@@ -4,6 +4,7 @@
 * Add `str()` method to patchwork objects
 * Fix a bug in `inset_element()` when insetting plots with fixed dimensions 
   (#214)
+* Make sure that `-`, `/`, and `|` works with all supported object types (#221)
 
 # patchwork 1.1.0
 
