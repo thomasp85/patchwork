@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -142,7 +142,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/thomasp85/patchwork">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -167,10 +167,16 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#patchwork-development-version" class="anchor"></a>patchwork (development version)<small> Unreleased </small>
 </h1>
+<ul>
+<li>Use vdiffr conditionally to pass test on M1 mac</li>
+<li>Add <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> method to patchwork objects</li>
+<li>Fix a bug in <code><a href="../reference/inset_element.html">inset_element()</a></code> when insetting plots with fixed dimensions (<a href='https://github.com/thomasp85/patchwork/issues/214'>#214</a>)</li>
+<li>Make sure that <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>, and <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> works with all supported object types (<a href='https://github.com/thomasp85/patchwork/issues/221'>#221</a>)</li>
+</ul>
 </div>
     <div id="patchwork-110" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.0">
-<a href="#patchwork-110" class="anchor"></a>patchwork 1.1.0<small> Unreleased </small>
+<a href="#patchwork-110" class="anchor"></a>patchwork 1.1.0<small> 2020-11-09 </small>
 </h1>
 <ul>
 <li>Add <code><a href="../reference/inset_element.html">inset_element()</a></code> to allow adding plots as insets</li>
