@@ -1,6 +1,6 @@
 #' Add a completely blank area
 #'
-#' This simple wrapper creates an empty transparant patch that can be added to
+#' This simple wrapper creates an empty transparent patch that can be added to
 #' push your other plots apart. The patch responds to adding
 #' [theme()][ggplot2::theme] specifications, but only `plot.background` will
 #' have an effect.

@@ -20,7 +20,7 @@
 #'
 #' Often you are interested in creating single column or single row layouts.
 #' `patchwork` provides `|` (besides) and `/` (over) operators to support
-#' stacking and packing of plots. See the exampels for their use.
+#' stacking and packing of plots. See the examples for their use.
 #'
 #' In order to reduce code repetition `patchwork` provides two operators for
 #' adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in

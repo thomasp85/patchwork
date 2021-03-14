@@ -64,7 +64,7 @@ to allow adding plots together:
 p1 + p2
 ```
 
-when adding plots together, the last added plot will be the active one, and will
+When adding plots together, the last added plot will be the active one, and will
 receive any addition of new ggplot2 objects such as geoms, labels, etc:
 
 ```{r}
@@ -100,7 +100,7 @@ each other, while `/` will stack them:
 p1 / p2
 ```
 
-as patchworks can be nested, these two operators are often enough to create 
+As patchworks can be nested, these two operators are often enough to create 
 rather complex layouts:
 
 ```{r}
@@ -116,7 +116,7 @@ can be achieved by adding a `plot_annotation()` to the patchwork:
   plot_annotation(title = 'The surprising story about mtcars')
 ```
 
-patchwork also provides auto-tagging capabilities, in order to identify subplots
+Patchwork also provides auto-tagging capabilities, in order to identify subplots
 in text:
 
 ```{r}

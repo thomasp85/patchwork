@@ -22,7 +22,7 @@ library(patchwork)
 ```
 
 Before plots can be laid out, they have to be assembled. Arguably one of 
-patchwork's biggest selling point is that it expands on the use of `+` in 
+patchwork's biggest selling points is that it expands on the use of `+` in 
 ggplot2 to allow plots to be added together and composed, creating a natural 
 extension of the ggplot2 API. There is more to it than that though, and this 
 tutorial will teach you all about the different operators and functions 
@@ -60,7 +60,7 @@ through that. But, just to recap: you can add plots together, like so:
 p1 + p2
 ```
 
-using this approach, it is possible to assemble a number of plots, but that is
+Using this approach, it is possible to assemble a number of plots, but that is
 not the only thing that can be added. Other patchworks can be added, and will 
 create a new nested patchwork:
 
@@ -165,7 +165,7 @@ For up to 3 plots `|` will behave just as `+` but using `|` will communicate the
 intend of the layout better. Be aware that mixing operators will put you under 
 the control of the operator precedence rule (e.g. `/` will be evaluated before 
 `+`). Because of this it is always a good idea to put sub-assemblies within 
-braces to avoid any surprises
+braces to avoid any surprises:
 
 ```{r}
 p1 / (p2 | p3)
@@ -207,13 +207,13 @@ This behavior is necessary to allow patchworks to be build up gradually, but
 will get in the way if the left-hand side have to nested. patchwork provides the
 `-` operator for this exact situation. It should conceptually be understood as a 
 hyphen and not a minus, in that it keeps each side from each other (it puts both
-on the same nesting level)
+on the same nesting level):
 
 ```{r}
 patch - p3
 ```
 
-There are currently no version of `/` and `|` that has this behavior, so it is
+There are currently no versions of `/` and `|` that have this behavior, so it is
 necessary to specify `ncol = 1`/`nrow = 1` explicitly in `plot_layout()` to get
 this behavior with left-hand side nesting.
 
@@ -233,7 +233,7 @@ such as geoms, scales, etc. to it as you would a normal ggplot:
 p1 + p2 + geom_jitter(aes(gear, disp))
 ```
 
-if you need to modify another patch of the patchwork you can access and/or 
+If you need to modify another patch of the patchwork you can access and/or 
 modify it with double-bracket indexing. This is useful if you work with a 
 function that returns a patchwork and you want to modify one of the subplots:
 

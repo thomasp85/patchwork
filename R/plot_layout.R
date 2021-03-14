@@ -1,6 +1,6 @@
 #' Define the grid to compose plots in
 #'
-#' In order to control how different plots are layed out, you need to add a
+#' To control how different plots are laid out, you need to add a
 #' layout specification. If you are nesting grids, the layout is scoped to the
 #' current nesting level.
 #'
