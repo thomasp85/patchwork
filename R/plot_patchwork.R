@@ -28,7 +28,7 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
       if (Sys.getenv("RSTUDIO") == "1") {
         stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
       } else {
-        stop("The Viewport is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+        stop("The viewport is too small to show this patchwork.\n Please make it larger.", call. = FALSE)
       }
     }
   } else {
@@ -42,7 +42,7 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
       if (Sys.getenv("RSTUDIO") == "1") {
         stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
       } else {
-        stop("The Viewport is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+        stop("The viewport is too small to show this patchwork.\n Please make it larger.", call. = FALSE)
       }
     }
     upViewport()
