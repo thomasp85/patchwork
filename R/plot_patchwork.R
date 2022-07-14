@@ -23,14 +23,28 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
   set_last_plot(x)
 
   if (is.null(vp)) {
-    grid.draw(gtable)
+    grid_drawn <- tryCatch(grid.draw(gtable), error = function(e) e)
+    if (inherits(grid_drawn, "simpleError")) {
+      if (Sys.getenv("RSTUDIO") == "1") {
+        stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+      } else {
+        stop("The Viewport is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+      }
+    }
   } else {
     if (is.character(vp)) {
       seekViewport(vp)
     } else {
       pushViewport(vp)
     }
-    grid.draw(gtable)
+    grid_drawn <- tryCatch(grid.draw(gtable), error = function(e) e)
+    if (inherits(grid_drawn, "simpleError")) {
+      if (Sys.getenv("RSTUDIO") == "1") {
+        stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+      } else {
+        stop("The Viewport is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+      }
+    }
     upViewport()
   }
   invisible(x)
