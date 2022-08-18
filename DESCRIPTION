@@ -18,7 +18,6 @@ Description: The 'ggplot2' package provides a strong API for sequentially
     'cowplot'.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports: 
     ggplot2 (>= 3.0.0),
     gtable,
