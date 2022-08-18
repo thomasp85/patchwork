@@ -5,14 +5,13 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/thomasp85/patchwork/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/patchwork/actions)
-[![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
+[![R-CMD-check](https://github.com/thomasp85/patchwork/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thomasp85/patchwork/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/patchwork)](https://CRAN.R-project.org/package=patchwork)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/patchwork)](https://CRAN.R-project.org/package=patchwork)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Codecov test
-coverage](https://codecov.io/gh/thomasp85/patchwork/branch/master/graph/badge.svg)](https://codecov.io/gh/thomasp85/patchwork?branch=master)
+coverage](https://codecov.io/gh/thomasp85/patchwork/branch/main/graph/badge.svg)](https://codecov.io/gh/thomasp85/patchwork?branch=main)
 <!-- badges: end -->
 
 The goal of `patchwork` is to make it ridiculously simple to combine
