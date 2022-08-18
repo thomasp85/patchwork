@@ -1,6 +1,3 @@
-This is a small patch release with general upkeep and a few 
-bugfixes/improvements
-
 ## revdepcheck results
 
 We checked 166 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
