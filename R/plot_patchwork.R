@@ -22,31 +22,31 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 
   set_last_plot(x)
 
-  if (is.null(vp)) {
-    grid_drawn <- tryCatch(grid.draw(gtable), error = function(e) e)
-    if (inherits(grid_drawn, "simpleError")) {
-      if (Sys.getenv("RSTUDIO") == "1") {
-        stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
-      } else {
-        stop("The viewport is too small to show this patchwork.\n Please make it larger.", call. = FALSE)
-      }
-    }
-  } else {
+  if (!is.null(vp)) {
     if (is.character(vp)) {
       seekViewport(vp)
     } else {
       pushViewport(vp)
     }
-    grid_drawn <- tryCatch(grid.draw(gtable), error = function(e) e)
-    if (inherits(grid_drawn, "simpleError")) {
-      if (Sys.getenv("RSTUDIO") == "1") {
-        stop("The RStudio 'Plots' window is too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
-      } else {
-        stop("The viewport is too small to show this patchwork.\n Please make it larger.", call. = FALSE)
+  }
+
+  tryCatch(
+    grid.draw(gtable),
+    error = function(e) {
+      if (inherits(e, 'simpleError') && deparse(conditionCall(e)[[1]]) == 'grid.Call') {
+        if (Sys.getenv("RSTUDIO") == "1") {
+          stop("The RStudio 'Plots' window may be too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+        } else {
+          stop("The viewport may be too small to show this patchwork.\n Please make it larger.", call. = FALSE)
+        }
       }
     }
+  )
+
+  if (!is.null(vp)) {
     upViewport()
   }
+
   invisible(x)
 }
 #' @export
