@@ -1,4 +1,4 @@
-# patchwork (development version)
+# patchwork 1.1.2
 
 * Better error message if rendering fails due to too small plotting space
 
