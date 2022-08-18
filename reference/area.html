@@ -125,13 +125,13 @@ concatenated together with <code><a href="https://rdrr.io/r/base/c.html" class="
 to bottom, and coloumns from left to right. This means that <code>t</code> and <code>l</code>
 should always be less or equal to <code>b</code> and <code>r</code> respectively. Instead of
 specifying area placement with a combination of <code>area()</code> calls, it is
-possible to instead pass in a single string</p><div class="sourceCode"><pre><code><span><span class="va">areas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/area.html">area</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>           <span class="fu"><a href="../reference/area.html">area</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-
-<p>is equivalent to</p><div class="sourceCode"><pre><code><span><span class="va">areas</span> <span class="op">&lt;</span> <span class="op">-</span><span class="st">"A##</span></span>
-<span><span class="st">          A#B</span></span>
-<span><span class="st">          ##B"</span></span></code></pre></div>
-
+possible to instead pass in a single string</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">area</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">area</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span></code></pre><p></p></div>
+<p>is equivalent to</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>areas <span class="sc">&lt;</span> <span class="sc">-</span><span class="st">"A##</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">          A#B</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">          ##B"</span></span></code></pre><p></p></div>
 <p>For an example of this, see the <code><a href="plot_layout.html">plot_layout()</a></code> examples.</p>
     </div>
 

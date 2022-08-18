@@ -118,7 +118,7 @@
 
       
 
-      </header><script src="annotation_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Adding Annotation and Style</h1>
@@ -208,7 +208,7 @@
 <div class="section level2">
 <h2 id="styling-the-patchwork">Styling the patchwork<a class="anchor" aria-label="anchor" href="#styling-the-patchwork"></a>
 </h2>
-<p>Most of the style of the patchwork is made up by the themes of the individual patches. For a coherent look, don’t mix videly different looks. Setting the background colour of a single plot to a different shade is an effective way to highlight it, but e.g. different fonts or line widths will just look like a mess. The patchwork itself has a few elements itself that is succeptible to theming: A background, a margin, and title, subtitle &amp; caption. The theme of the patchwork is by default the default ggplot2 theme. It can be changed though, in two different ways. The easiest is to simply use <code>&amp;</code> with a theme element. This operator will add to the theme of all subplots as well as to the theme of the patchwork itself:</p>
+<p>Most of the style of the patchwork is made up by the themes of the individual patches. For a coherent look, don’t mix widely different looks. Setting the background colour of a single plot to a different shade is an effective way to highlight it, but e.g. different fonts or line widths will just look like a mess. The patchwork itself has a few elements itself that is susceptible to theming: A background, a margin, and title, subtitle &amp; caption. The theme of the patchwork is by default the default ggplot2 theme. It can be changed though, in two different ways. The easiest is to simply use <code>&amp;</code> with a theme element. This operator will add to the theme of all subplots as well as to the theme of the patchwork itself:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patchwork</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'The surprising truth about mtcars'</span><span class="op">)</span> <span class="op">&amp;</span> </span>

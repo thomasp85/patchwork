@@ -118,7 +118,7 @@
 
       
 
-      </header><script src="assembly_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Plot Assembly</h1>
@@ -133,7 +133,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-<p>Before plots can be laid out, they have to be assembled. Arguably one of patchwork’s biggest selling point is that it expands on the use of <code>+</code> in ggplot2 to allow plots to be added together and composed, creating a natural extension of the ggplot2 API. There is more to it than that though, and this tutorial will teach you all about the different operators and functions available for plot assembly.</p>
+<p>Before plots can be laid out, they have to be assembled. Arguably one of patchwork’s biggest selling points is that it expands on the use of <code>+</code> in ggplot2 to allow plots to be added together and composed, creating a natural extension of the ggplot2 API. There is more to it than that though, and this tutorial will teach you all about the different operators and functions available for plot assembly.</p>
 <p>As always, we’ll start with a few well-known example plots:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -160,7 +160,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>using this approach, it is possible to assemble a number of plots, but that is not the only thing that can be added. Other patchworks can be added, and will create a new nested patchwork:</p>
+<p>Using this approach, it is possible to assemble a number of plots, but that is not the only thing that can be added. Other patchworks can be added, and will create a new nested patchwork:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patch</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
 <span><span class="va">p3</span> <span class="op">+</span> <span class="va">patch</span></span></code></pre></div>
@@ -217,7 +217,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<p>For up to 3 plots <code>|</code> will behave just as <code>+</code> but using <code>|</code> will communicate the intend of the layout better. Be aware that mixing operators will put you under the control of the operator precedence rule (e.g. <code>/</code> will be evaluated before <code>+</code>). Because of this it is always a good idea to put sub-assemblies within braces to avoid any surprises</p>
+<p>For up to 3 plots <code>|</code> will behave just as <code>+</code> but using <code>|</code> will communicate the intend of the layout better. Be aware that mixing operators will put you under the control of the operator precedence rule (e.g. <code>/</code> will be evaluated before <code>+</code>). Because of this it is always a good idea to put sub-assemblies within braces to avoid any surprises:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">/</span> <span class="op">(</span><span class="va">p2</span> <span class="op">|</span> <span class="va">p3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
@@ -243,11 +243,11 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patch</span> <span class="op">+</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<p>This behavior is necessary to allow patchworks to be build up gradually, but will get in the way if the left-hand side have to nested. patchwork provides the <code>-</code> operator for this exact situation. It should conceptually be understood as a hyphen and not a minus, in that it keeps each side from each other (it puts both on the same nesting level)</p>
+<p>This behavior is necessary to allow patchworks to be build up gradually, but will get in the way if the left-hand side have to nested. patchwork provides the <code>-</code> operator for this exact situation. It should conceptually be understood as a hyphen and not a minus, in that it keeps each side from each other (it puts both on the same nesting level):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patch</span> <span class="op">-</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<p>There are currently no version of <code>/</code> and <code>|</code> that has this behavior, so it is necessary to specify <code>ncol = 1</code>/<code>nrow = 1</code> explicitly in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> to get this behavior with left-hand side nesting.</p>
+<p>There are currently no versions of <code>/</code> and <code>|</code> that have this behavior, so it is necessary to specify <code>ncol = 1</code>/<code>nrow = 1</code> explicitly in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> to get this behavior with left-hand side nesting.</p>
 <p>Another way to solve this is with <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code>, which will put all its input on the same nesting level, irrespective of order:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="va">patch</span>, <span class="va">p3</span><span class="op">)</span></span></code></pre></div>
@@ -260,7 +260,7 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
-<p>if you need to modify another patch of the patchwork you can access and/or modify it with double-bracket indexing. This is useful if you work with a function that returns a patchwork and you want to modify one of the subplots:</p>
+<p>If you need to modify another patch of the patchwork you can access and/or modify it with double-bracket indexing. This is useful if you work with a function that returns a patchwork and you want to modify one of the subplots:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
 <span><span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
