@@ -1,7 +1,7 @@
 Package: patchwork
 Type: Package
 Title: The Composer of Plots
-Version: 1.1.1
+Version: 1.1.1.9000
 Authors@R:
     person(given = "Thomas Lin",
            family = "Pedersen",
