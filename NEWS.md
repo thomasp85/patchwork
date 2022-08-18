@@ -1,5 +1,7 @@
 # patchwork (development version)
 
+* Better error message if rendering fails due to too small plotting space
+
 # patchwork 1.1.1
 
 * Use vdiffr conditionally to pass test on M1 mac
