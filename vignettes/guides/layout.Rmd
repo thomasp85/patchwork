@@ -84,7 +84,7 @@ It is important to remember that sizing only affects the plotting region (*panel
 
 ## Moving beyond the grid
 
-Earlier, when we've wanted to create non-grid compositions, we've used nesting. While this is often enough, you end up loosing the alignment between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:
+Earlier, when we've wanted to create non-grid compositions, we've used nesting. While this is often enough, you end up losing the alignment between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:
 
 ```{r}
 layout <- "
