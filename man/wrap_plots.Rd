@@ -19,21 +19,14 @@ wrap_plots(
 \arguments{
 \item{...}{multiple \code{ggplot}s or a list containing \code{ggplot} objects}
 
-\item{ncol}{The dimensions of the grid to create - if both are \code{NULL} it
-will use the same logic as \link[ggplot2:facet_wrap]{facet_wrap()} to set the
-dimensions}
-
-\item{nrow}{The dimensions of the grid to create - if both are \code{NULL} it
+\item{ncol, nrow}{The dimensions of the grid to create - if both are \code{NULL} it
 will use the same logic as \link[ggplot2:facet_wrap]{facet_wrap()} to set the
 dimensions}
 
 \item{byrow}{Analogous to \code{byrow} in \link[base:matrix]{matrix()}. If \code{FALSE} the
 plots will be filled in in column-major order}
 
-\item{widths}{The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.}
-
-\item{heights}{The relative widths and heights of each column and row
+\item{widths, heights}{The relative widths and heights of each column and row
 in the grid. Will get repeated to match the dimensions of the grid.}
 
 \item{guides}{A string specifying how guides should be treated in the layout.

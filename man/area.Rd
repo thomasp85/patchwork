@@ -24,14 +24,18 @@ The grid that the areas are specified in reference to enumerate rows from top
 to bottom, and coloumns from left to right. This means that \code{t} and \code{l}
 should always be less or equal to \code{b} and \code{r} respectively. Instead of
 specifying area placement with a combination of \code{area()} calls, it is
-possible to instead pass in a single string\preformatted{areas <- c(area(1, 1, 2, 1),
-           area(2, 3, 3, 3))
-}
+possible to instead pass in a single string
 
-is equivalent to\preformatted{areas < -"A##
+\if{html}{\out{<div class="sourceCode">}}\preformatted{areas <- c(area(1, 1, 2, 1),
+           area(2, 3, 3, 3))
+}\if{html}{\out{</div>}}
+
+is equivalent to
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{areas < -"A##
           A#B
           ##B"
-}
+}\if{html}{\out{</div>}}
 
 For an example of this, see the \code{\link[=plot_layout]{plot_layout()}} examples.
 }
