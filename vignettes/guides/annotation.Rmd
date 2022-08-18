@@ -134,10 +134,10 @@ will get empty tags so make sure that there's enough.
 
 ## Styling the patchwork
 Most of the style of the patchwork is made up by the themes of the individual 
-patches. For a coherent look, don't mix videly different looks. Setting the 
+patches. For a coherent look, don't mix widely different looks. Setting the 
 background colour of a single plot to a different shade is an effective way to
 highlight it, but e.g. different fonts or line widths will just look like a 
-mess. The patchwork itself has a few elements itself that is succeptible to 
+mess. The patchwork itself has a few elements itself that is susceptible to 
 theming: A background, a margin, and title, subtitle & caption. The theme of
 the patchwork is by default the default ggplot2 theme. It can be changed though,
 in two different ways. The easiest is to simply use `&` with a theme element. 

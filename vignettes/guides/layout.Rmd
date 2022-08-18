@@ -71,7 +71,7 @@ p1 + p2 + p3 + p4 +
   plot_layout(widths = c(2, 1))
 ```
 
-when grid sizes are given as a numeric, it will define the relative sizing of the panels. In the above, the panel area of the first column is twice that of the second column. It is also possible to supply a unit vector instead:
+When grid sizes are given as a numeric, it will define the relative sizing of the panels. In the above, the panel area of the first column is twice that of the second column. It is also possible to supply a unit vector instead:
 
 ```{r}
 p1 + p2 + p3 + p4 + 
@@ -80,11 +80,11 @@ p1 + p2 + p3 + p4 +
 
 In the last example the first row will always occupy 5cm, while the second will expand to fill the remaining area.
 
-It is important to remember that sizing only affects the plotting region (*panel area*). If a plot have e.g. very wide y-axis text it will *not* be penalized and get a smaller overall plotting region.
+It is important to remember that sizing only affects the plotting region (*panel area*). If a plot has, e.g., very wide y-axis text it will *not* be penalized and get a smaller overall plotting region.
 
 ## Moving beyond the grid
 
-Earlier, when we've wanted to create non-grid compositions, we've used nesting. While this is often enough, you end up loosing the alignment between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:
+Earlier, when we've wanted to create non-grid compositions, we've used nesting. While this is often enough, you end up losing the alignment between subplots from different nested areas. An alternative is to define a layout design to fill the plots into. Such a design can be defined in two different ways. The easiest is to use a textual representation:
 
 ```{r}
 layout <- "
@@ -124,7 +124,7 @@ wrap_plots(D = p1, C = p2, B = p3, design = layout)
 
 ## Fixed aspect plots
 
-A special case when it comes to assembling plots are when dealing with fixed aspect plots, such as those created with `coord_fixed()`, `coord_polar()`, and `coord_sf()`. It is not possible to simultaneously assign even dimensions and align fixed aspect plots. The default value for the `widths` and `heights` arguments in `plot_layout()` is `NA`, which is treated special. In general it will behave just as `1null` (i.e. expand to fill available space but share evenly with other `1null` panels), but if the row/column is occupied by a fixed aspect plot it will expand and contract in order to keep the aspect of the plot and may thus not have the same dimension as grid width/heights containing plots without fixed aspect plots.
+A special case when it comes to assembling plots are when dealing with fixed aspect plots, such as those created with `coord_fixed()`, `coord_polar()`, and `coord_sf()`. It is not possible to simultaneously assign even dimensions and align fixed aspect plots. The default value for the `widths` and `heights` arguments in `plot_layout()` is `NA`, which is treated specially. In general it will behave just as `1null` (i.e. expand to fill available space but share evenly with other `1null` panels), but if the row/column is occupied by a fixed aspect plot it will expand and contract in order to keep the aspect of the plot and may thus not have the same dimension as grid width/heights containing plots without fixed aspect plots.
 
 ```{r}
 p_fixed <- ggplot(mtcars) + 
@@ -140,13 +140,13 @@ Contrast this with setting the widths to a non-NA value:
 p_fixed + p1 + p2 + p3 + plot_layout(widths = 1)
 ```
 
-As you can see, the fixed aspect plot keeps its aspect ratio, but looses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.
+As you can see, the fixed aspect plot keeps its aspect ratio, but loses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.
 
 There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.
 
 ## Insets
 
-An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping `area()` specifications. However, this appraoch still uses an underlying grid, which may be constraining. Another approach is to use the `inset_element()` function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. `inset_element()` allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.
+An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping `area()` specifications. However, this approach still uses an underlying grid, which may be constraining. Another approach is to use the `inset_element()` function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. `inset_element()` allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.
 
 ```{r}
 p1 + inset_element(p2, left = 0.6, bottom = 0.6, right = 1, top = 1)
@@ -184,7 +184,7 @@ p1 + p2 + p3 + p4 +
   plot_layout(guides = 'collect')
 ```
 
-We can see that the guide has been hoisted up and placed besides all the plots. The alternative to `'collect'` is `'keep'`, which makes sure that guides are kept next to their plot. The default value is `'auto'`, which is sort of in between. It will not collect guides, but if the patchwork is nested inside another patchwork and that patchwork collect guides, it is allowed to hoist them up. To see this in effect, compare the two plots
+We can see that the guide has been hoisted up and placed beside all the plots. The alternative to `'collect'` is `'keep'`, which makes sure that guides are kept next to their plot. The default value is `'auto'`, which is sort of in between. It will not collect guides, but if the patchwork is nested inside another patchwork and that patchwork collect guides, it is allowed to hoist them up. To see this in effect, compare the two plots:
 
 ```{r}
 ((p2 / p3 + plot_layout(guides = 'auto')) | p1) + plot_layout(guides = 'collect')
