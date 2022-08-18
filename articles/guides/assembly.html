@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">patchwork</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1.9000</span>
       </span>
     </div>
 
@@ -46,7 +48,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -54,7 +56,7 @@
   <a href="../../articles/patchwork.html">Getting Started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Guides
      
     <span class="caret"></span>
@@ -78,7 +80,7 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -86,13 +88,14 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Release notes</li>
     <li>
-      <a href="https://www.data-imaginist.com/2020/insetting-a-new-patchwork-version/">Version 1.1.0</a>
+      <a href="https://www.data-imaginist.com/2020/insetting-a-new-patchwork-version/" class="external-link">Version 1.1.0</a>
     </li>
     <li>
-      <a href="https://www.data-imaginist.com/2019/patch-it-up-and-send-it-out/">Version 1.0.0</a>
+      <a href="https://www.data-imaginist.com/2019/patch-it-up-and-send-it-out/" class="external-link">Version 1.0.0</a>
     </li>
     <li class="divider">
-    <li>
+    </li>
+<li>
       <a href="../../news/index.html">Change log</a>
     </li>
   </ul>
@@ -100,8 +103,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/thomasp85/patchwork">
-    <span class="fas fa-github fa-lg"></span>
+  <a href="https://github.com/thomasp85/patchwork" class="external-link">
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +124,7 @@
       <h1 data-toc-skip>Plot Assembly</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/thomasp85/patchwork/blob/master/vignettes/guides/assembly.Rmd"><code>vignettes/guides/assembly.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/thomasp85/patchwork/blob/HEAD/vignettes/guides/assembly.Rmd" class="external-link"><code>vignettes/guides/assembly.Rmd</code></a></small>
       <div class="hidden name"><code>assembly.Rmd</code></div>
 
     </div>
@@ -129,156 +132,156 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></code></pre></div>
-<p>Before plots can be laid out, they have to be assembled. Arguably one of patchwork’s biggest selling point is that it expands on the use of <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> in ggplot2 to allow plots to be added together and composed, creating a natural extension of the ggplot2 API. There is more to it than that though, and this tutorial will teach you all about the different operators and functions available for plot assembly.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div>
+<p>Before plots can be laid out, they have to be assembled. Arguably one of patchwork’s biggest selling point is that it expands on the use of <code>+</code> in ggplot2 to allow plots to be added together and composed, creating a natural extension of the ggplot2 API. There is more to it than that though, and this tutorial will teach you all about the different operators and functions available for plot assembly.</p>
 <p>As always, we’ll start with a few well-known example plots:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 1'</span><span class="op">)</span>
-
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span>, group <span class="op">=</span> <span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 2'</span><span class="op">)</span>
-
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">hp</span>, <span class="va">wt</span>, colour <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 3'</span><span class="op">)</span>
-
-<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cyl</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 4'</span><span class="op">)</span></code></pre></div>
-<div id="adding-plots-to-the-patchwork" class="section level2">
-<h2 class="hasAnchor">
-<a href="#adding-plots-to-the-patchwork" class="anchor"></a>Adding plots to the patchwork</h2>
-<p>At this point, it shouldn’t come as a surprise that you can use <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> to add plots together to form a patchwork. If it does, I’d suggest you start out with the <a href="../patchwork.html">Getting Started</a> guide, and come back once you’ve gone through that. But, just to recap: you can add plots together, like so:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 1'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span>, group <span class="op">=</span> <span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 2'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">hp</span>, <span class="va">wt</span>, colour <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 3'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cyl</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 4'</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="adding-plots-to-the-patchwork">Adding plots to the patchwork<a class="anchor" aria-label="anchor" href="#adding-plots-to-the-patchwork"></a>
+</h2>
+<p>At this point, it shouldn’t come as a surprise that you can use <code>+</code> to add plots together to form a patchwork. If it does, I’d suggest you start out with the <a href="../patchwork.html">Getting Started</a> guide, and come back once you’ve gone through that. But, just to recap: you can add plots together, like so:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>using this approach, it is possible to assemble a number of plots, but that is not the only thing that can be added. Other patchworks can be added, and will create a new nested patchwork:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span>
-<span class="va">p3</span> <span class="op">+</span> <span class="va">patch</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patch</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
+<span><span class="va">p3</span> <span class="op">+</span> <span class="va">patch</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div id="adding-non-ggplot-content" class="section level3">
-<h3 class="hasAnchor">
-<a href="#adding-non-ggplot-content" class="anchor"></a>Adding non-ggplot content</h3>
+<div class="section level3">
+<h3 id="adding-non-ggplot-content">Adding non-ggplot content<a class="anchor" aria-label="anchor" href="#adding-non-ggplot-content"></a>
+</h3>
 <p>Sometimes you need to have other content than ggplot2 in your patchwork. Standard grid grobs can be added to your plot as well:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span><span class="st">'Some really important text'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="st">'Some really important text'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>Other packages provide even more complex grobs to add, e.g. <code>tableGrob</code> from gridExtra:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html">tableGrob</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'mpg'</span>, <span class="st">'disp'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">tableGrob</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'mpg'</span>, <span class="st">'disp'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Now and then, it is necessary to work with plots from the graphics package (<em>base graphics</em>). These can be added to patchwork by providing them as a one-sided formula:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span>, main <span class="op">=</span> <span class="st">'Plot 2'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span>, main <span class="op">=</span> <span class="st">'Plot 2'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>Notice that the standard alignment you’d expect when adding ggplots together no longer works. In general, there is no way to get consistent alignment between ggplots and base graphics, but experiment with the different <code><a href="https://rdrr.io/r/graphics/par.html">par()</a></code> settings until you get something that works for your particular use-case. The <a href="https://cran.r-project.org/package=ggplotify/vignettes/ggplotify.html">ggplotify</a> package provides even more functionality for converting different graphics to grobs so if the standard formula interface in patchwork doesn’t work for you, do check that out.</p>
+<p>Notice that the standard alignment you’d expect when adding ggplots together no longer works. In general, there is no way to get consistent alignment between ggplots and base graphics, but experiment with the different <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> settings until you get something that works for your particular use-case. The <a href="https://cran.r-project.org/package=ggplotify/vignettes/ggplotify.html" class="external-link">ggplotify</a> package provides even more functionality for converting different graphics to grobs so if the standard formula interface in patchwork doesn’t work for you, do check that out.</p>
 <p>The workhorse underneath the ability to add non-ggplot objects to a patchwork is <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> which is called implicitly when adding non-ggplot objects. To get a bit more control over how your object is added, wrap the object directly in <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code>. Here you can define if the object should be aligned to the full area, or to the plot area. Combining that with setting margins to zero and not clipping the grob, you can almost get a perfect alignment:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, bg <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, clip <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, bg <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, clip <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>An interesting side effect of this setup is that it is possible to add labels and styling to a wrapped element (though most theme settings will be ignored). All in all you can come pretty close to an aligned base plot, but this will always be a bit fiddly and ad hoc. In general it is simply recommended to use ggplot2 if at all possible.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, mgp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.25</span>, <span class="fl">0</span><span class="op">)</span>, 
-               bg <span class="op">=</span> <span class="cn">NA</span>, cex.axis <span class="op">=</span> <span class="fl">0.75</span>, las <span class="op">=</span> <span class="fl">1</span>, tcl <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">+</span> 
-  <span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, clip <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 2'</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">35</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, mgp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.25</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>               bg <span class="op">=</span> <span class="cn">NA</span>, cex.axis <span class="op">=</span> <span class="fl">0.75</span>, las <span class="op">=</span> <span class="fl">1</span>, tcl <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, clip <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 2'</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span><span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">35</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>Another use case for <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> is when you need the first plot to not be a ggplot. Patchwork is not able to change the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> behavior for miscellaneous objects, and so, if they appear as the first element they must be wrapped in an object patchwork understands:</p>
+<p>Another use case for <code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> is when you need the first plot to not be a ggplot. Patchwork is not able to change the <code>+</code> behavior for miscellaneous objects, and so, if they appear as the first element they must be wrapped in an object patchwork understands:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This won't do anything</span>
-<span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span><span class="st">'Text on left side'</span><span class="op">)</span> <span class="op">+</span> <span class="va">p1</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># This won't do anything</span></span>
+<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="st">'Text on left side'</span><span class="op">)</span> <span class="op">+</span> <span class="va">p1</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This will work</span>
-<span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span><span class="st">'Text on left side'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">p1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># This will work</span></span>
+<span><span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="st">'Text on left side'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">p1</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
-<div id="stacking-and-packing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#stacking-and-packing" class="anchor"></a>Stacking and packing</h3>
-<p>The <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator simply combines plots without telling patchwork anything about the desired layout. The layout, unless changed with <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> (See the <a href="layout.html">Controlling Layout</a> guide), will simply be a grid with enough rows and columns to contain the number of plots, while being as square as possible. For the special case of putting plots besides each other or on top of each other patchwork provides 2 shortcut operators. <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> will place plots next to each other while <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> will place them on top of each other.</p>
+<div class="section level3">
+<h3 id="stacking-and-packing">Stacking and packing<a class="anchor" aria-label="anchor" href="#stacking-and-packing"></a>
+</h3>
+<p>The <code>+</code> operator simply combines plots without telling patchwork anything about the desired layout. The layout, unless changed with <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> (See the <a href="layout.html">Controlling Layout</a> guide), will simply be a grid with enough rows and columns to contain the number of plots, while being as square as possible. For the special case of putting plots besides each other or on top of each other patchwork provides 2 shortcut operators. <code>|</code> will place plots next to each other while <code>/</code> will place them on top of each other.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<p>For up to 3 plots <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> will behave just as <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> but using <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> will communicate the intend of the layout better. Be aware that mixing operators will put you under the control of the operator precedence rule (e.g. <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> will be evaluated before <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>). Because of this it is always a good idea to put sub-assemblies within braces to avoid any surprises</p>
+<p>For up to 3 plots <code>|</code> will behave just as <code>+</code> but using <code>|</code> will communicate the intend of the layout better. Be aware that mixing operators will put you under the control of the operator precedence rule (e.g. <code>/</code> will be evaluated before <code>+</code>). Because of this it is always a good idea to put sub-assemblies within braces to avoid any surprises</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">/</span> <span class="op">(</span><span class="va">p2</span> <span class="op">|</span> <span class="va">p3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">/</span> <span class="op">(</span><span class="va">p2</span> <span class="op">|</span> <span class="va">p3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
-<div id="functional-assembly" class="section level3">
-<h3 class="hasAnchor">
-<a href="#functional-assembly" class="anchor"></a>Functional assembly</h3>
-<p>While using the different operators provides a clean API for assembly, it is less suited for situations where you are not in control of the plot-generation process. If you are handed a list of plot objects and want to assemble them to a patchwork it is a bit clumsy using the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator (but doable with a loop or <code><a href="https://rdrr.io/r/base/funprog.html">Reduce()</a></code>). patchwork provides <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code> for a more functional approach to assembly. It takes either separate plots or a list of them and adds them to a single patchwork. On top of that it also accepts the same arguments as <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> (see the <a href="layout.html">Controlling Layouts</a> guide) so it can be used as a single solution for most assembly needs:</p>
+<div class="section level3">
+<h3 id="functional-assembly">Functional assembly<a class="anchor" aria-label="anchor" href="#functional-assembly"></a>
+</h3>
+<p>While using the different operators provides a clean API for assembly, it is less suited for situations where you are not in control of the plot-generation process. If you are handed a list of plot objects and want to assemble them to a patchwork it is a bit clumsy using the <code>+</code> operator (but doable with a loop or <code><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Reduce()</a></code>). patchwork provides <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code> for a more functional approach to assembly. It takes either separate plots or a list of them and adds them to a single patchwork. On top of that it also accepts the same arguments as <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> (see the <a href="layout.html">Controlling Layouts</a> guide) so it can be used as a single solution for most assembly needs:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 </div>
-<div id="nesting-the-left-hand-side" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nesting-the-left-hand-side" class="anchor"></a>Nesting the left-hand side</h2>
+<div class="section level2">
+<h2 id="nesting-the-left-hand-side">Nesting the left-hand side<a class="anchor" aria-label="anchor" href="#nesting-the-left-hand-side"></a>
+</h2>
 <p>As plots will always be added to the patchwork on the left-hand side, it is not possible to nest the left-hand side beside the right-hand side with the standard operators shown above. This can lead to surprising behavior:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span>
-<span class="va">p3</span> <span class="op">+</span> <span class="va">patch</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patch</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
+<span><span class="va">p3</span> <span class="op">+</span> <span class="va">patch</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>will nest the right-hand side, while the same is not true for the left-hand side below</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch</span> <span class="op">+</span> <span class="va">p3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patch</span> <span class="op">+</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<p>This behavior is necessary to allow patchworks to be build up gradually, but will get in the way if the left-hand side have to nested. patchwork provides the <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> operator for this exact situation. It should conceptually be understood as a hyphen and not a minus, in that it keeps each side from each other (it puts both on the same nesting level)</p>
+<p>This behavior is necessary to allow patchworks to be build up gradually, but will get in the way if the left-hand side have to nested. patchwork provides the <code>-</code> operator for this exact situation. It should conceptually be understood as a hyphen and not a minus, in that it keeps each side from each other (it puts both on the same nesting level)</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch</span> <span class="op">-</span> <span class="va">p3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patch</span> <span class="op">-</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<p>There are currently no version of <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> and <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> that has this behavior, so it is necessary to specify <code>ncol = 1</code>/<code>nrow = 1</code> explicitly in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> to get this behavior with left-hand side nesting.</p>
+<p>There are currently no version of <code>/</code> and <code>|</code> that has this behavior, so it is necessary to specify <code>ncol = 1</code>/<code>nrow = 1</code> explicitly in <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> to get this behavior with left-hand side nesting.</p>
 <p>Another way to solve this is with <code><a href="../../reference/wrap_plots.html">wrap_plots()</a></code>, which will put all its input on the same nesting level, irrespective of order:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="va">patch</span>, <span class="va">p3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="va">patch</span>, <span class="va">p3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
-<div id="modifying-patches" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modifying-patches" class="anchor"></a>Modifying patches</h2>
+<div class="section level2">
+<h2 id="modifying-patches">Modifying patches<a class="anchor" aria-label="anchor" href="#modifying-patches"></a>
+</h2>
 <p>When creating a patchwork, the resulting object remain a ggplot object referencing the last added plot. This means that you can continue to add objects such as geoms, scales, etc. to it as you would a normal ggplot:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>if you need to modify another patch of the patchwork you can access and/or modify it with double-bracket indexing. This is useful if you work with a function that returns a patchwork and you want to modify one of the subplots:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span>
-<span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">patchwork</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
+<span><span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">patchwork</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">patchwork</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-<div id="modifying-everything" class="section level3">
-<h3 class="hasAnchor">
-<a href="#modifying-everything" class="anchor"></a>Modifying everything</h3>
-<p>Often, especially when it comes to theming, you want to modify everything at once. patchwork provides two additional operators that facilitates this. <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> will add the element to all subplots in the patchwork, and <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> will add the element to all the subplots in the current nesting level. As with <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>, be aware that operator precedence must be kept in mind.</p>
+<div class="section level3">
+<h3 id="modifying-everything">Modifying everything<a class="anchor" aria-label="anchor" href="#modifying-everything"></a>
+</h3>
+<p>Often, especially when it comes to theming, you want to modify everything at once. patchwork provides two additional operators that facilitates this. <code>&amp;</code> will add the element to all subplots in the patchwork, and <code>*</code> will add the element to all the subplots in the current nesting level. As with <code>|</code> and <code>/</code>, be aware that operator precedence must be kept in mind.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="va">p3</span> <span class="op">/</span> <span class="op">(</span><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span><span class="op">)</span>
-<span class="va">patchwork</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patchwork</span> <span class="op">&lt;-</span> <span class="va">p3</span> <span class="op">/</span> <span class="op">(</span><span class="va">p1</span> <span class="op">|</span> <span class="va">p2</span><span class="op">)</span></span>
+<span><span class="va">patchwork</span> <span class="op">&amp;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patchwork</span> <span class="op">*</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">patchwork</span> <span class="op">*</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assembly_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 </div>
-<div id="want-more" class="section level2">
-<h2 class="hasAnchor">
-<a href="#want-more" class="anchor"></a>Want more?</h2>
+<div class="section level2">
+<h2 id="want-more">Want more?<a class="anchor" aria-label="anchor" href="#want-more"></a>
+</h2>
 <p>This is everything there is to know about combining and modifying patches in a patchwork. Be sure to check out the other guides for more about controlling <a href="layout.html">layouts</a> and <a href="annotation.html">annotations</a>.</p>
 </div>
   </div>
@@ -294,11 +297,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://data-imaginist.com">Thomas Lin Pedersen</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://data-imaginist.com" class="external-link">Thomas Lin Pedersen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -306,6 +311,8 @@
 
   
 
+
+  
 
   </body>
 </html>

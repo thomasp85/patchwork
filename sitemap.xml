@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://patchwork.data-imaginist.com/404.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/guides/annotation.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/guides/assembly.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/guides/layout.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/guides/multipage.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/articles/patchwork.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/authors.html</loc>
+  </url>
+  <url>
     <loc>https://patchwork.data-imaginist.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/news/index.html</loc>
   </url>
   <url>
     <loc>https://patchwork.data-imaginist.com/reference/align_plots.html</loc>
@@ -11,6 +44,9 @@
   </url>
   <url>
     <loc>https://patchwork.data-imaginist.com/reference/guide_area.html</loc>
+  </url>
+  <url>
+    <loc>https://patchwork.data-imaginist.com/reference/index.html</loc>
   </url>
   <url>
     <loc>https://patchwork.data-imaginist.com/reference/inset_element.html</loc>
@@ -47,20 +83,5 @@
   </url>
   <url>
     <loc>https://patchwork.data-imaginist.com/reference/wrap_plots.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/annotation.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/assembly.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/layout.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/multipage.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/patchwork.html</loc>
   </url>
 </urlset>

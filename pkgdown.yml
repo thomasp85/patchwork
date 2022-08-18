@@ -1,13 +1,13 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  guides/annotation: annotation.html
-  guides/assembly: assembly.html
-  guides/layout: layout.html
-  guides/multipage: multipage.html
+  annotation: guides/annotation.html
+  assembly: guides/assembly.html
+  layout: guides/layout.html
+  multipage: guides/multipage.html
   patchwork: patchwork.html
-last_built: 2020-12-15T08:37Z
+last_built: 2022-08-18T13:03Z
 urls:
   reference: https://patchwork.data-imaginist.com/reference
   article: https://patchwork.data-imaginist.com/articles
