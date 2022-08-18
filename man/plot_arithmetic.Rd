@@ -49,7 +49,7 @@ same precedence group as \code{+}).
 
 Often you are interested in creating single column or single row layouts.
 \code{patchwork} provides \code{|} (besides) and \code{/} (over) operators to support
-stacking and packing of plots. See the exampels for their use.
+stacking and packing of plots. See the examples for their use.
 
 In order to reduce code repetition \code{patchwork} provides two operators for
 adding ggplot elements (geoms, themes, facets, etc.) to multiple/all plots in

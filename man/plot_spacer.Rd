@@ -10,7 +10,7 @@ plot_spacer()
 A \code{ggplot} object containing an empty plot
 }
 \description{
-This simple wrapper creates an empty transparant patch that can be added to
+This simple wrapper creates an empty transparent patch that can be added to
 push your other plots apart. The patch responds to adding
 \link[ggplot2:theme]{theme()} specifications, but only \code{plot.background} will
 have an effect.
