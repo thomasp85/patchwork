@@ -142,7 +142,7 @@ p_fixed + p1 + p2 + p3 + plot_layout(widths = 1)
 
 As you can see, the fixed aspect plot keeps its aspect ratio, but loses the axis alignment in one of the directions. Which solution is needed is probably dependent on the specific use case. The default optimizes the use of space.
 
-There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will and up not using the full space.
+There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will end up not using the full space.
 
 ## Insets
 
