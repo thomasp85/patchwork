@@ -133,12 +133,19 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-<p>Patchwork is a package designed to make plot composition in R extremely simple and powerful. It is mainly intended for users of ggplot2 and goes to great lengths to make sure ggplots are properly aligned no matter the complexity of your composition.</p>
-<p>In this tutorial we’ll work through the basics of using patchwork. In the end you’ll have a fairly good understanding of the API, and will be ready to dive into some of the more advanced topics covered in the other vignettes.</p>
+<p>Patchwork is a package designed to make plot composition in R
+extremely simple and powerful. It is mainly intended for users of
+ggplot2 and goes to great lengths to make sure ggplots are properly
+aligned no matter the complexity of your composition.</p>
+<p>In this tutorial we’ll work through the basics of using patchwork. In
+the end you’ll have a fairly good understanding of the API, and will be
+ready to dive into some of the more advanced topics covered in the other
+vignettes.</p>
 <div class="section level2">
 <h2 id="example-plots">Example plots<a class="anchor" aria-label="anchor" href="#example-plots"></a>
 </h2>
-<p>We’ll start by creating some example plots to use throughout this tutorial:</p>
+<p>We’ll start by creating some example plots to use throughout this
+tutorial:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -157,16 +164,20 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">gear</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cyl</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Plot 4'</span><span class="op">)</span></span></code></pre></div>
-<p>These plots are fairly meaningless and only serve to illustrate plot composition - don’t read anything into the resulting plots.</p>
+<p>These plots are fairly meaningless and only serve to illustrate plot
+composition - don’t read anything into the resulting plots.</p>
 </div>
 <div class="section level2">
 <h2 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a>
 </h2>
-<p>The absolute simplest use is the extension of the <code>+</code> operator used in ggplot2, to allow adding plots together:</p>
+<p>The absolute simplest use is the extension of the <code>+</code>
+operator used in ggplot2, to allow adding plots together:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>When adding plots together, the last added plot will be the active one, and will receive any addition of new ggplot2 objects such as geoms, labels, etc:</p>
+<p>When adding plots together, the last added plot will be the active
+one, and will receive any addition of new ggplot2 objects such as geoms,
+labels, etc:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">'This will appear in the last plot'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -174,24 +185,34 @@
 <div class="section level2">
 <h2 id="controlling-layout">Controlling layout<a class="anchor" aria-label="anchor" href="#controlling-layout"></a>
 </h2>
-<p>By default, patchwork will try to keep the grid square, and fill it out in row order</p>
+<p>By default, patchwork will try to keep the grid square, and fill it
+out in row order</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> <span class="va">p4</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>This can be controlled with the addition of a <code><a href="../reference/plot_layout.html">plot_layout()</a></code></p>
+<p>This can be controlled with the addition of a
+<code><a href="../reference/plot_layout.html">plot_layout()</a></code></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span> <span class="fu"><a href="../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p><code><a href="../reference/plot_layout.html">plot_layout()</a></code> have all sorts of amazing features for controlling the layout of your composition. See the <em>Layout</em> vignette for a full rundown of all its options.</p>
+<p><code><a href="../reference/plot_layout.html">plot_layout()</a></code> have all sorts of amazing features for
+controlling the layout of your composition. See the <em>Layout</em>
+vignette for a full rundown of all its options.</p>
 </div>
 <div class="section level2">
 <h2 id="stacking-and-packing-plots">Stacking and packing plots<a class="anchor" aria-label="anchor" href="#stacking-and-packing-plots"></a>
 </h2>
-<p>Often you want to place plots on top of each other, or beside each other, rather than fill out a grid. While this can be accomplished by adding a one-row or one-column layout, patchwork also provides two operators that does this directly and further provides visual cues to the layout. <code>|</code> will place the plots beside each other, while <code>/</code> will stack them:</p>
+<p>Often you want to place plots on top of each other, or beside each
+other, rather than fill out a grid. While this can be accomplished by
+adding a one-row or one-column layout, patchwork also provides two
+operators that does this directly and further provides visual cues to
+the layout. <code>|</code> will place the plots beside each other, while
+<code>/</code> will stack them:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>As patchworks can be nested, these two operators are often enough to create rather complex layouts:</p>
+<p>As patchworks can be nested, these two operators are often enough to
+create rather complex layouts:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">|</span> <span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
@@ -199,22 +220,31 @@
 <div class="section level2">
 <h2 id="annotating-the-composition">Annotating the composition<a class="anchor" aria-label="anchor" href="#annotating-the-composition"></a>
 </h2>
-<p>It is often necessary to add titles, captions, tags, etc. to a composition. This can be achieved by adding a <code><a href="../reference/plot_annotation.html">plot_annotation()</a></code> to the patchwork:</p>
+<p>It is often necessary to add titles, captions, tags, etc. to a
+composition. This can be achieved by adding a
+<code><a href="../reference/plot_annotation.html">plot_annotation()</a></code> to the patchwork:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">p1</span> <span class="op">|</span> <span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'The surprising story about mtcars'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>Patchwork also provides auto-tagging capabilities, in order to identify subplots in text:</p>
+<p>Patchwork also provides auto-tagging capabilities, in order to
+identify subplots in text:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'I'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="patchwork_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<p>The tagging can be either arabic or roman numbers, or latin letters, and separate tags can be given for different nesting levels. See the <em>Annotation</em> vignette for more information.</p>
+<p>The tagging can be either arabic or roman numbers, or latin letters,
+and separate tags can be given for different nesting levels. See the
+<em>Annotation</em> vignette for more information.</p>
 </div>
 <div class="section level2">
 <h2 id="want-more">Want more?<a class="anchor" aria-label="anchor" href="#want-more"></a>
 </h2>
-<p>This is enough to get you started, but we have only scratched the surface of what patchwork is capable of. Look into the other guides to find out more about, e.g. how to <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides">collect all legends in one place and remove duplicates</a> or <a href="https://patchwork.data-imaginist.com/articles/guides/multipage.html">aligning plots across multiple pages</a>.</p>
+<p>This is enough to get you started, but we have only scratched the
+surface of what patchwork is capable of. Look into the other guides to
+find out more about, e.g. how to <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides">collect
+all legends in one place and remove duplicates</a> or <a href="https://patchwork.data-imaginist.com/articles/guides/multipage.html">aligning
+plots across multiple pages</a>.</p>
 </div>
   </div>
 
@@ -235,7 +265,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
