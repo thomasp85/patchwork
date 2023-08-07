@@ -19,6 +19,7 @@ test_that("`+` works", {
     p1 + p2 + theme_bw()
   })
 
+  skip_if_not_installed("gridGraphics")
   expect_doppelganger('Add base graphics: p1 + ~plot(1:10, 1:10)', {
     p1 + ~plot(1:10, 1:10)
   })
