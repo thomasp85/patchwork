@@ -144,6 +144,45 @@ As you can see, the fixed aspect plot keeps its aspect ratio, but loses the axis
 
 There are some restrictions to the space optimization. The fixed aspect plot cannot take up multiple rows or columns, and if one fixed aspect plot conflicts with another one, one of them will end up not using the full space.
 
+## Avoiding alignment
+
+Patchwork is designed to do it's utmost to align the plotting areas, and while this is generally sensible in order to create a calm and good looking layout it sometimes gets in the way of creating what you want. Below we will see two such cases. In both situation the answer is the `wrap_elements()` function.
+
+### Huge axis text causing white space.
+
+Sometimes one of the plots has much longer axis text or axis labels than the other:
+
+```{r}
+p2mod <- p2 + labs(x = "This is such a long\nand important label that\nit has to span many lines")
+p1 | p2mod
+```
+
+Depending on what you prefer you might want the leftmost plot to fill out as much room as possible instead of being aligned to the rightmost panel. Putting a ggplot or a patchwork inside `wrap_elements()` removes any alignment from the plot.
+
+```{r}
+wrap_elements(full = p1) | p2mod
+```
+
+### Designs don't keep an even width
+
+When creating a complex layout using a design you may create setups where plots spans the edge of other plots and be surprised how that affects the width of the panels in the design:
+
+```{r}
+design <- "#AAAA#
+           #AAAA#
+           BBCCDD
+           EEFFGG"
+p3 + p2 + p1 + p4 + p4 + p1 + p2 +
+  plot_layout(design = design)
+```
+
+In the above we see that the 3 bottom columns all have different widths despite being given the same amount of space in the design matrix. The reason for this is that the top plot has a y-axis to the left and a guide to the right, and those fall in between the two columns that make up the 1st and 3rd column in the bottom. Subsequently those plots are expanded to fill out the space. Once again `wrap_elements()` will save us from this:
+
+```{r}
+wrap_elements(full = p3) + p2 + p1 + p4 + p4 + p1 + p2 +
+  plot_layout(design = design)
+```
+
 ## Insets
 
 An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping `area()` specifications. However, this approach still uses an underlying grid, which may be constraining. Another approach is to use the `inset_element()` function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. `inset_element()` allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.
