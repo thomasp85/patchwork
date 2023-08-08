@@ -134,7 +134,10 @@ plots will be filled in in column-major order</p></dd>
 
 <dt>widths, heights</dt>
 <dd><p>The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.</p></dd>
+in the grid. Will get repeated to match the dimensions of the grid. The
+special value of <code>NA</code>/<code>-1null</code> will behave as <code>1null</code> unless a fixed aspect
+plot is inserted in which case it will allow the dimension to expand or
+contract to match the aspect ratio of the content</p></dd>
 
 
 <dt>guides</dt>
