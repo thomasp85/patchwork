@@ -64,6 +64,8 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "-.ggplot" <- function(e1, e2) {
+  if (is.null(e2)) return(e1)
+  if (is.null(e1)) return(e2)
   if (should_autowrap(e2)) e2 <- wrap_elements(full = e2)
   if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
   patchwork <- new_patchwork()
@@ -80,6 +82,8 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "/.ggplot" <- function(e1, e2) {
+  if (is.null(e2)) return(e1)
+  if (is.null(e1)) return(e2)
   if (should_autowrap(e2)) e2 <- wrap_elements(full = e2)
   if (!is_patchwork(e1)) {
     e1 + e2 + plot_layout(ncol = 1)
@@ -93,6 +97,8 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "|.ggplot" <- function(e1, e2) {
+  if (is.null(e2)) return(e1)
+  if (is.null(e1)) return(e2)
   if (should_autowrap(e2)) e2 <- wrap_elements(full = e2)
   if (!is_patchwork(e1)) {
     e1 + e2 + plot_layout(nrow = 1)
@@ -105,6 +111,7 @@ NULL
 #' @rdname plot_arithmetic
 #' @export
 "*.gg" <- function(e1, e2) {
+  if (is.null(e2)) return(e1)
   if (is_patchwork(e1)) {
     e1$patches$plots <- lapply(e1$patches$plots, function(p) {
       if (!is_patchwork(p)) p <- p + e2
@@ -117,6 +124,7 @@ NULL
 #' @importFrom ggplot2 is.theme
 #' @export
 "&.gg" <- function(e1, e2) {
+  if (is.null(e2)) return(e1)
   if (is_patchwork(e1)) {
     if (is.theme(e2)) {
       e1$patches$annotation$theme <- e1$patches$annotation$theme + e2

@@ -1,5 +1,8 @@
 # patchwork (development version)
 
+* `NULL` can now be used with the different arithmetic operators and will result
+  in a non-operation (i.e. the non-null part will be returned unmodified) (#290)
+
 # patchwork 1.1.2
 
 * Better error message if rendering fails due to too small plotting space
