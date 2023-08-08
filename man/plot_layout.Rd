@@ -24,7 +24,10 @@ dimensions}
 plots will be filled in in column-major order}
 
 \item{widths, heights}{The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.}
+in the grid. Will get repeated to match the dimensions of the grid. The
+special value of \code{NA}/\verb{-1null} will behave as \verb{1null} unless a fixed aspect
+plot is inserted in which case it will allow the dimension to expand or
+contract to match the aspect ratio of the content}
 
 \item{guides}{A string specifying how guides should be treated in the layout.
 \code{'collect'} will collect guides below to the given nesting level, removing

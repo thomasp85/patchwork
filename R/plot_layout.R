@@ -10,7 +10,10 @@
 #' @param byrow Analogous to `byrow` in [matrix()][base::matrix]. If `FALSE` the
 #' plots will be filled in in column-major order
 #' @param widths,heights The relative widths and heights of each column and row
-#' in the grid. Will get repeated to match the dimensions of the grid.
+#' in the grid. Will get repeated to match the dimensions of the grid. The
+#' special value of `NA`/`-1null` will behave as `1null` unless a fixed aspect
+#' plot is inserted in which case it will allow the dimension to expand or
+#' contract to match the aspect ratio of the content
 #' @param guides A string specifying how guides should be treated in the layout.
 #' `'collect'` will collect guides below to the given nesting level, removing
 #' duplicates. `'keep'` will stop collection at this level and let guides be
