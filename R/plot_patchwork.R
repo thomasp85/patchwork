@@ -343,7 +343,7 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (any(t_strips)) {
       gt_new$grobs[t_strips] <- lapply(gt_new$grobs[t_strips], function(g) {
         if (is.gtable(g)) {
-          g$vp <- viewport(y = 0, just = 'bottom', height = g$heights)
+          g$vp <- viewport(y = 0, just = 'bottom', height = sum(g$heights))
         }
         g
       })
@@ -352,7 +352,7 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (any(b_strips)) {
       gt_new$grobs[b_strips] <- lapply(gt_new$grobs[b_strips], function(g) {
         if (is.gtable(g)) {
-          g$vp <- viewport(y = 1, just = 'top', height = g$heights)
+          g$vp <- viewport(y = 1, just = 'top', height = sum(g$heights))
         }
         g
       })
@@ -396,7 +396,7 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (any(l_strips)) {
       gt_new$grobs[l_strips] <- lapply(gt_new$grobs[l_strips], function(g) {
         if (is.gtable(g)) {
-          g$vp <- viewport(x = 1, just = 'right', width = g$widths)
+          g$vp <- viewport(x = 1, just = 'right', width = sum(g$widths))
         }
         g
       })
@@ -405,7 +405,7 @@ simplify_free <- function(gt, gt_new, panels, rows, cols) {
     if (any(r_strips)) {
       gt_new$grobs[r_strips] <- lapply(gt_new$grobs[r_strips], function(g) {
         if (is.gtable(g)) {
-          g$vp <- viewport(x = 0, just = 'left', width = g$widths)
+          g$vp <- viewport(x = 0, just = 'left', width = sum(g$widths))
         }
         g
       })

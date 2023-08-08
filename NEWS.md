@@ -2,6 +2,8 @@
 
 * `NULL` can now be used with the different arithmetic operators and will result
   in a non-operation (i.e. the non-null part will be returned unmodified) (#290)
+* Fix a bug that prevented plots with multi-level strips from being merged 
+  together (#277)
 
 # patchwork 1.1.2
 
