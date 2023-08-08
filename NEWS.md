@@ -4,6 +4,8 @@
   in a non-operation (i.e. the non-null part will be returned unmodified) (#290)
 * Fix a bug that prevented plots with multi-level strips from being merged 
   together (#277)
+* Patchworks will now render correctly when unserialised in a fresh session, 
+  providing the patchwork package is available (#242)
 
 # patchwork 1.1.2
 

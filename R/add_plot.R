@@ -53,6 +53,8 @@ as_patchwork.default <- function(x) {
 as_patchwork.ggplot <- function(x) {
   class(x) <- c('patchwork', class(x))
   x$patches <- new_patchwork()
+  # Will ensure serialisation includes a link to the patchwork namespace
+  attr(x, 'patchwork_link') <- patchwork_namespace_link
   x
 }
 #' @export
