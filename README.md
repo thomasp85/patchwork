@@ -64,16 +64,16 @@ p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 patchwork can do so much more. Check out the guides for learning
 everything there is to know about all the different features:
 
--   [Getting
-    Started](https://patchwork.data-imaginist.com/articles/patchwork.html)
--   [Assembling
-    Plots](https://patchwork.data-imaginist.com/articles/guides/assembly.html)
--   [Defining
-    Layouts](https://patchwork.data-imaginist.com/articles/guides/layout.html)
--   [Adding
-    Annotation](https://patchwork.data-imaginist.com/articles/guides/annotation.html)
--   [Aligning across
-    pages](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
+- [Getting
+  Started](https://patchwork.data-imaginist.com/articles/patchwork.html)
+- [Assembling
+  Plots](https://patchwork.data-imaginist.com/articles/guides/assembly.html)
+- [Defining
+  Layouts](https://patchwork.data-imaginist.com/articles/guides/layout.html)
+- [Adding
+  Annotation](https://patchwork.data-imaginist.com/articles/guides/annotation.html)
+- [Aligning across
+  pages](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
 
 ## Code of Conduct
 
