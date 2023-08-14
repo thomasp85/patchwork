@@ -10,6 +10,8 @@
   from being aligned (#325)
 * Fixed a bug that let to inconsistent results when combining fixed aspect plots
   in different order (#274)
+* Fixed a bug that prevented nested patchworks with empty columns or rows at the 
+  bottom or to the right to be inserted into a layout (#273)
 
 # patchwork 1.1.2
 

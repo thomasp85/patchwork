@@ -215,6 +215,16 @@ build_patchwork <- function(x, guides = 'auto') {
     gt_new$collected_guides <- guide_grobs
   }
 
+  gt_new <- gtable_add_grob(
+    gt_new, zeroGrob(),
+    t = PANEL_ROW,
+    l = PANEL_COL,
+    b = PANEL_ROW + TABLE_ROWS * (dims[1] - 1),
+    r = PANEL_COL + TABLE_COLS * (dims[2] - 1),
+    z = -1,
+    name = "panel-area"
+  )
+
   class(gt_new) <- c('gtable_patchwork', class(gt_new))
   gt_new
 }
