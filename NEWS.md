@@ -8,6 +8,8 @@
   providing the patchwork package is available (#242)
 * Fixed a bug preventing faceted plots with strip placement outside the axis 
   from being aligned (#325)
+* Fixed a bug that let to inconsistent results when combining fixed aspect plots
+  in different order (#274)
 
 # patchwork 1.1.2
 
