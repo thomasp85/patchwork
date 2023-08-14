@@ -52,6 +52,12 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
 #' @export
 plot.patchwork <- print.patchwork
 #' @export
+length.patchwork <- function(x) {
+  length(x$patches$plots) + !is_empty(x)
+}
+#' @export
+names.patchwork <- function(x) NULL
+#' @export
 `[[.patchwork` <- function(x, ..., exact = TRUE) {
   ind <- ..1
   if (!is.numeric(ind)) {

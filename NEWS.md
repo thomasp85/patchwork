@@ -12,6 +12,9 @@
   in different order (#274)
 * Fixed a bug that prevented nested patchworks with empty columns or rows at the 
   bottom or to the right to be inserted into a layout (#273)
+* Patchwork objects now behaves more correctly like an unnamed list of ggplots. 
+  This makes `View()` work on them (#317), and allow one to use `length()` to
+  determine the number of patches in a patchwork (#293)
 
 # patchwork 1.1.2
 
