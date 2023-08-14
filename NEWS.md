@@ -1,4 +1,4 @@
-# patchwork (development version)
+# patchwork 1.1.3
 
 * `NULL` can now be used with the different arithmetic operators and will result
   in a non-operation (i.e. the non-null part will be returned unmodified) (#290)
