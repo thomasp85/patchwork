@@ -370,6 +370,6 @@
 <text x='473.69' y='562.76' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.02px' lengthAdjust='spacingAndGlyphs'>gear</text>
 <text transform='translate(371.83,433.70) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='26.91px' lengthAdjust='spacingAndGlyphs'>count</text>
 <text x='398.91' y='302.89' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 4</text>
-<text x='171.53' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='297.59px' lengthAdjust='spacingAndGlyphs'>FAR optimise space by default: p1 + p_f + p_f + p4</text>
+<text x='171.53' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='190.06px' lengthAdjust='spacingAndGlyphs'>FAR optimise space by default 2</text>
 </g>
 </svg>

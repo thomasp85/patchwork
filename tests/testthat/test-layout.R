@@ -1,25 +1,25 @@
 test_that("The grid can be controlled", {
-  expect_doppelganger('Setting ncol: p1 + p2 + p3 + p4 + plot_layout(ncol = 3)', {
+  expect_doppelganger('Setting ncol', {
     p1 + p2 + p3 + p4 + plot_layout(ncol = 3)
   })
 
-  expect_doppelganger('Setting nrow: p1 + p2 + p3 + p4 + plot_layout(nrow = 3)', {
+  expect_doppelganger('Setting nrow', {
     p1 + p2 + p3 + p4 + plot_layout(nrow = 3)
   })
 
-  expect_doppelganger('Setting widths: p1 + p2 + p3 + p4 + plot_layout(widths = c(1, 2))', {
+  expect_doppelganger('Setting widths', {
     p1 + p2 + p3 + p4 + plot_layout(widths = c(1, 2))
   })
 
-  expect_doppelganger('Setting heights: p1 + p2 + p3 + p4 + plot_layout(heights = c(1, 2))', {
+  expect_doppelganger('Setting heights', {
     p1 + p2 + p3 + p4 + plot_layout(heights = c(1, 2))
   })
 
-  expect_doppelganger('Setting widths as units: p1 + p2 + p3 + p4 + plot_layout(widths = unit(3, "cm"))', {
+  expect_doppelganger('Setting widths as units', {
     p1 + p2 + p3 + p4 + plot_layout(widths = grid::unit(3, "cm"))
   })
 
-  expect_doppelganger('Setting heights as units: p1 + p2 + p3 + p4 + plot_layout(heights = unit(3, "cm"))', {
+  expect_doppelganger('Setting heights as units', {
     p1 + p2 + p3 + p4 + plot_layout(heights = grid::unit(3, "cm"))
   })
 })
@@ -30,16 +30,16 @@ test_that("Fixed aspect plots behave", {
     coord_fixed() +
     ggtitle('Fixed Aspect')
 
-  expect_doppelganger('FAR optimise space by default: p1 + p_f + p3 + p4', {
+  expect_doppelganger('FAR optimise space by default 1', {
     p1 + p_f + p3 + p4
   })
-  expect_doppelganger('FAR optimise space by default: p1 + p_f + p_f + p4', {
+  expect_doppelganger('FAR optimise space by default 2', {
     p1 + p_f + p_f + p4
   })
-  expect_doppelganger('FAR optimise space by default: p_f + p_f + p3 + p4', {
+  expect_doppelganger('FAR optimise space by default 3', {
     p_f + p_f + p3 + p4
   })
-  expect_doppelganger('FAR space optimisation can be turned off: p1 + p2 + p_f + p4 + plot_layout(widths = 1)', {
+  expect_doppelganger('FAR space optimisation can be turned off', {
     p1 + p2 + p_f + p4 + plot_layout(widths = 1)
   })
   expect_doppelganger('FAR dimensions can be set with units:...', {

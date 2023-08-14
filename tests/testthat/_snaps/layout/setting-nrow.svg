@@ -364,6 +364,6 @@
 <text x='564.85' y='421.51' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.02px' lengthAdjust='spacingAndGlyphs'>gear</text>
 <text transform='translate(393.58,327.76) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='26.91px' lengthAdjust='spacingAndGlyphs'>count</text>
 <text x='420.66' y='232.27' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 4</text>
-<text x='10.96' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='323.29px' lengthAdjust='spacingAndGlyphs'>Setting nrow: p1 + p2 + p3 + p4 + plot_layout(nrow = 3)</text>
+<text x='10.96' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='73.38px' lengthAdjust='spacingAndGlyphs'>Setting nrow</text>
 </g>
 </svg>
