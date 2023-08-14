@@ -15,6 +15,8 @@
 * Patchwork objects now behaves more correctly like an unnamed list of ggplots. 
   This makes `View()` work on them (#317), and allow one to use `length()` to
   determine the number of patches in a patchwork (#293)
+* Expressions and calls can now be used as plot annotations in the same way as
+  they can be used for titles in ggplot2 (#295)
 
 # patchwork 1.1.2
 

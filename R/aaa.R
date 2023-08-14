@@ -16,6 +16,4 @@ GUIDE_LEFT <- 3
 GUIDE_TOP <- 5
 GUIDE_BOTTOM <- 15
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
-
 patchwork_namespace_link <- function() NULL
