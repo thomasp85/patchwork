@@ -183,10 +183,10 @@ area <- function(t, l, b = t, r = l) {
       r = rep_len(as.integer(r), len)
     )
     if (any(t > b)) {
-      stop('`t` must be less than `b`', call. = FALSE)
+      cli_abort('{.arg t} must be less than {.arg b}')
     }
     if (any(l > r)) {
-      stop('`l` must be less than `r`', call. = FALSE)
+      cli_abort('{.arg l} must be less than {.arg r}')
     }
   }
   class(one_area) <- 'patch_area'
@@ -234,7 +234,7 @@ as_areas <- function(x) {
   if (is.null(x)) return(NULL)
   if (is_area(x)) return(x)
   if (!is.character(x)) {
-    stop("Don't know how to convert ", class(x)[1], " into area positions", call. = FALSE)
+    cli_abort("Don't know how to convert {.cls {class(x)}} into area positions")
   }
   x <- strsplit(x, split = '\n')[[1]]
   x <- lapply(x, trimws)
@@ -243,7 +243,7 @@ as_areas <- function(x) {
   x <- lapply(x, function(x) strsplit(x, '')[[1]])
   ncols <- vapply(x, length, integer(1))
   if (length(unique(ncols)) != 1) {
-    stop("character layout must be rectangular", call. = FALSE)
+    cli_abort("character layout must be rectangular")
   }
   row <- rep(seq_along(x), each = ncols[1])
   col <- rep(seq_len(ncols[1]), length(x))
@@ -251,12 +251,12 @@ as_areas <- function(x) {
   area_names <- unique(sort(x))
   area_names[area_names == '#'] <- NA
   x <- match(x, area_names)
-  do.call(c, lapply(split(seq_along(x), x), function(i) {
+  exec(c, !!!lapply(split(seq_along(x), x), function(i) {
     if (is.na(x[i[1]])) return(area())
     area_rows <- range(row[i])
     area_cols <- range(col[i])
     if (!all(x[row >= area_rows[1] & row <= area_rows[2] & col >= area_cols[1] & col <= area_cols[2]] == x[i[1]])) {
-      stop('Patch areas must be rectangular', call. = FALSE)
+      cli_abort('Patch areas must be rectangular')
     }
     area(area_rows[1], area_cols[1], area_rows[2], area_cols[2])
   }))
@@ -276,7 +276,7 @@ c.patch_area <- function(..., recursive = FALSE) {
   if (length(all_areas) == 0) return(area())
 
   if (any(!vapply(all_areas, is_area, logical(1)))) {
-    stop('Areas can only be combined with each other', call. = FALSE)
+    cli_abort('Areas can only be combined with each other')
   }
   area <- all_areas[[1]]
   area$t <- unlist(lapply(all_areas, `[[`, 't'))

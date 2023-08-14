@@ -55,8 +55,8 @@ guides_build <- function(guides, theme) {
   legend.spacing.x <- theme$legend.spacing.x  %||% legend.spacing
   legend.box.margin <- theme$legend.box.margin %||% margin()
 
-  widths <- do.call(unit.c, lapply(guides, gtable_width))
-  heights <- do.call(unit.c, lapply(guides, gtable_height))
+  widths <- exec(unit.c, !!!lapply(guides, gtable_width))
+  heights <- exec(unit.c, !!!lapply(guides, gtable_height))
 
   just <- valid.just(theme$legend.box.just)
   xjust <- just[1]

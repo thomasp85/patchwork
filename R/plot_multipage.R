@@ -83,14 +83,14 @@ get_dim.ggplot <- function(plot) {
 is_ggplot_dimension <- function(x) inherits(x, 'ggplot_dimension')
 #' @export
 get_dim.patchwork <- function(plot) {
-  stop('Getting dimensions on patchworks are currently unsupported', call. = FALSE)
+  cli_abort('Getting dimensions on patchworks are currently unsupported')
 }
 
 #' @rdname multipage_align
 #' @export
 set_dim <- function(plot, dim) {
   if (!is_plot_dimension(dim)) {
-    stop('`dim` must be a plot_dimension object created with `get_dim()`', call. = FALSE)
+    cli_abort('{.arg dim} must be a {.cls plot_dimension} object created with {.fun get_dim}')
   }
   UseMethod('set_dim')
 }
@@ -102,7 +102,7 @@ set_dim.ggplot <- function(plot, dim) {
 }
 #' @export
 set_dim.patchwork <- function(plot, dim) {
-  stop('Setting dimensions on patchworks are currently unsupported', call. = FALSE)
+  cli_abort('Setting dimensions on patchworks are currently unsupported')
 }
 #' @importFrom ggplot2 ggplot_build
 #' @export
@@ -133,14 +133,14 @@ get_max_dim <- function(...) {
   } else if (is.list(..1)) {
     plots <- ..1
   } else {
-    stop('Can only get dimensions from ggplot objects or a list of them', call. = FALSE)
+    cli_abort('Can only get dimensions from {.cls ggplot} objects or a list of them')
   }
   dims <- lapply(plots, get_dim)
   dims <- list(
-    l = do.call(pmax, lapply(dims, `[[`, 'l')),
-    r = do.call(pmax, lapply(dims, `[[`, 'r')),
-    t = do.call(pmax, lapply(dims, `[[`, 't')),
-    b = do.call(pmax, lapply(dims, `[[`, 'b'))
+    l = exec(pmax, !!!lapply(dims, `[[`, 'l')),
+    r = exec(pmax, !!!lapply(dims, `[[`, 'r')),
+    t = exec(pmax, !!!lapply(dims, `[[`, 't')),
+    b = exec(pmax, !!!lapply(dims, `[[`, 'b'))
   )
   class(dims) <- c('ggplot_dimension', 'plot_dimension')
   dims
@@ -153,7 +153,7 @@ align_patches <- function(...) {
   } else if (is.list(..1)) {
     plots <- ..1
   } else {
-    stop('Can only align ggplot objects or a list of them', call. = FALSE)
+    cli_abort('Can only align {.cls ggplot} objects or a list of them')
   }
   lapply(plots, set_dim, get_max_dim(plots))
 }

@@ -17,3 +17,30 @@ GUIDE_TOP <- 5
 GUIDE_BOTTOM <- 15
 
 patchwork_namespace_link <- function() NULL
+
+check_object <- function(x,
+                         check_fun,
+                         what,
+                         ...,
+                         allow_null = FALSE,
+                         arg = caller_arg(x),
+                         call = caller_env()) {
+
+  if (!missing(x)) {
+    if (check_fun(x)) {
+      return(invisible(NULL))
+    }
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+  }
+
+  stop_input_type(
+    x,
+    what,
+    ...,
+    allow_null = allow_null,
+    arg = arg,
+    call = call
+  )
+}

@@ -35,9 +35,13 @@ print.patchwork <- function(x, newpage = is.null(vp), vp = NULL, ...) {
     error = function(e) {
       if (inherits(e, 'simpleError') && deparse(conditionCall(e)[[1]]) == 'grid.Call') {
         if (Sys.getenv("RSTUDIO") == "1") {
-          stop("The RStudio 'Plots' window may be too small to show this patchwork.\n Please make the window larger.", call. = FALSE)
+          cli_abort(c("The RStudio {.field Plots} window may be too small to show this patchwork.",
+                    i = "Please make the window larger.")
+          )
         } else {
-          stop("The viewport may be too small to show this patchwork.\n Please make it larger.", call. = FALSE)
+          cli_abort(c("The viewport may be too small to show this patchwork.",
+                      i = "Please make the window larger.")
+          )
         }
       }
     }
@@ -61,7 +65,7 @@ names.patchwork <- function(x) NULL
 `[[.patchwork` <- function(x, ..., exact = TRUE) {
   ind <- ..1
   if (!is.numeric(ind)) {
-    stop('Patchworks can only be indexed with numeric indices', call. = FALSE)
+    cli_abort('Patchworks can only be indexed with numeric indices')
   }
 
   n_patches <- length(x$patches$plots)
@@ -71,13 +75,13 @@ names.patchwork <- function(x) NULL
     class(plot) <- setdiff(class(plot), 'patchwork')
   } else {
     if (ind > n_patches) {
-      stop('Index out of bounds', call. = FALSE)
+      cli_abort('Index out of bounds')
     }
     plot <- x$patches$plots[[ind[1]]]
   }
   if (length(ind) > 1) {
     if (!is_patchwork(plot)) {
-      stop('Can only do nested indexing into patchworks', call. = FALSE)
+      cli_abort('Can only do nested indexing into patchworks')
     }
     plot <- plot[[ind[-1]]]
   }
@@ -87,7 +91,7 @@ names.patchwork <- function(x) NULL
 `[[<-.patchwork` <- function(x, ..., value) {
   ind <- ..1
   if (!is.numeric(ind)) {
-    stop('Patchworks can only be indexed with numeric indices', call. = FALSE)
+    cli_abort('Patchworks can only be indexed with numeric indices')
   }
 
   if (!is.ggplot(value)) {
@@ -96,13 +100,13 @@ names.patchwork <- function(x) NULL
   n_patches <- length(x$patches$plots)
   if (!is_empty(x) && ind == n_patches + 1) {
     if (length(ind) != 1) {
-      stop('Can only do nested indexing into patchworks', call. = FALSE)
+      cli_abort('Can only do nested indexing into patchworks')
     }
     return(add_patches(value, x$patches))
   }
   if (length(ind) > 1) {
     if (!is_patchwork(x$patches$plots[[ind[1]]])) {
-      stop('Can only do nested indexing into patchworks', call. = FALSE)
+      cli_abort('Can only do nested indexing into patchworks')
     }
     x$patches$plots[[ind[1]]][[ind[-1]]] <- value
   } else {
@@ -183,7 +187,7 @@ build_patchwork <- function(x, guides = 'auto') {
   if (any(design$r > dims[2])) design$r[design$r > dims[2]] <- dims[2]
   max_z <- lapply(gt, function(x) max(x$layout$z))
   max_z <- c(0, cumsum(max_z))
-  gt_new$layout <- do.call(rbind, lapply(seq_along(gt), function(i) {
+  gt_new$layout <- exec(rbind, !!!lapply(seq_along(gt), function(i) {
     loc <- design[i, ]
     lay <- gt[[i]]$layout
     lay$name <- paste0(lay$name, '-', i)
@@ -820,7 +824,7 @@ add_insets <- function(gt) {
   }
   canvas <- rank(cumsum(!is_inset), ties.method = "min")[is_inset]
   if (canvas[1] == 0) {
-    stop("insets cannot be the first plot in a patchwork", call. = FALSE)
+    cli_abort("insets cannot be the first plot in a patchwork")
   }
   insets <- which(is_inset)
   name <- paste0('inset_', insets)
@@ -845,7 +849,7 @@ add_insets <- function(gt) {
                                   PLOT_RIGHT, z = z, clip =  setting$clip, name = name[i]),
            full = gtable_add_grob(can, list(ins), 1, 1, nrow(can), ncol(can), z = z,
                                   clip = setting$clip, name = name[i]),
-           stop('Unknown alignment setting: `', setting$align_to, '`', call. = FALSE)
+           cli_abort('Unknown alignment setting: {.arg {setting$align_to}}')
     )
   }
   gt[!is_inset]

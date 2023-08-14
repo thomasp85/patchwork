@@ -37,9 +37,10 @@
 #' p1 + wrap_ggplot_grob(p2_table)
 #'
 wrap_ggplot_grob <- function(x) {
-  stopifnot(inherits(x, 'gtable'))
-  stopifnot(length(x$widths) <= TABLE_COLS)
-  stopifnot(length(x$heights) <= TABLE_ROWS)
+  check_object(x, is.gtable, "a <gtable> object")
+  if (length(x$widths) > TABLE_COLS || length(x$heights) > TABLE_ROWS) {
+    cli_abort("{.arg x} does not appear to be a gtable created from a {.cls ggplot} object")
+  }
   patch <- make_patch()
   class(patch) <- c('table_patch', class(patch))
   attr(patch, 'table') <- x

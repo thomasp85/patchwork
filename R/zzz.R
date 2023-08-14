@@ -11,14 +11,14 @@ print_plot.patchwork <- function(p, title = '') {
 }
 
 register_s3_method <- function(pkg, generic, class, fun = NULL) {
-  stopifnot(is.character(pkg), length(pkg) == 1)
-  stopifnot(is.character(generic), length(generic) == 1)
-  stopifnot(is.character(class), length(class) == 1)
+  check_string(pkg)
+  check_string(generic)
+  check_string(class)
 
   if (is.null(fun)) {
     fun <- get(paste0(generic, ".", class), envir = parent.frame())
   } else {
-    stopifnot(is.function(fun))
+    check_function(fun)
   }
 
   if (pkg %in% loadedNamespaces()) {

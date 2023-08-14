@@ -67,7 +67,7 @@ NULL
   if (is.null(e2)) return(e1)
   if (is.null(e1)) return(e2)
   if (should_autowrap(e2)) e2 <- wrap_elements(full = e2)
-  if (!is.ggplot(e2)) stop("Only knows how to fold ggplot objects together", call. = FALSE)
+  if (!is.ggplot(e2)) cli_abort("Only knows how to fold ggplot objects together")
   patchwork <- new_patchwork()
   if (is_patchwork(e2)) {
     plot <- plot_filler()

@@ -148,9 +148,7 @@ as_patch.patchwork <- function(x, ...) {
 }
 #' @export
 as_patch.formula <- function(x, ...) {
-  if (!requireNamespace('gridGraphics', quietly = TRUE)) {
-    stop('The gridGraphics package is required for this functionality', call. = FALSE)
-  }
+  rlang::check_installed('gridGraphics', 'to add base plots to patchworks')
   gp <- graphics::par(no.readonly = TRUE)
   plot_call <- function() {
     old_gp <- graphics::par(no.readonly = TRUE)

@@ -47,7 +47,7 @@ as_patchwork <- function(x) {
 }
 #' @export
 as_patchwork.default <- function(x) {
-  stop('Don\'t know how to convert an object of class <', paste(class(x), collapse = ', '),'> to a patchwork', call. = FALSE)
+  cli_abort('Don\'t know how to convert an object of class {.cls {class(x)}} to a patchwork')
 }
 #' @export
 as_patchwork.ggplot <- function(x) {

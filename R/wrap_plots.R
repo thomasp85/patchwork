@@ -52,9 +52,9 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL,
   } else if (is.list(..1)) {
     plots <- ..1
   } else {
-    stop('Can only wrap ggplot and/or grob objects or a list of them', call. = FALSE)
+    cli_abort('Can only wrap {.cls ggplot} and/or {.cls grob} objects or a list of them')
   }
-  if (!all(vapply(plots, is_valid_plot, logical(1)))) stop('Only know how to add ggplots and/or grobs', call. = FALSE)
+  if (!all(vapply(plots, is_valid_plot, logical(1)))) cli_abort('Only know how to add {.cls ggplot} and/or {.cls grob} objects')
   if (!is.null(names(plots)) && !is.null(design) && is.character(design)) {
     area_names <- unique(trimws(strsplit(design, '')[[1]]))
     area_names <- sort(setdiff(area_names, c('', '#')))

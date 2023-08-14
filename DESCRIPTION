@@ -25,7 +25,9 @@ Imports:
     stats,
     grDevices,
     utils,
-    graphics
+    graphics,
+    rlang,
+    cli
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork

@@ -189,6 +189,6 @@ get_level <- function(x) {
     "1" = 1:100,
     i = tolower(as.roman(1:100)),
     I = as.roman(1:100),
-    stop('Unknown tag type: ', x, call. = FALSE)
+    cli_abort('Unknown tag type: {.val {x}}')
   )
 }
