@@ -1,4 +1,3 @@
-destination: docs
 url: https://patchwork.data-imaginist.com
 
 authors:
@@ -6,40 +5,24 @@ authors:
     href: https://data-imaginist.com
 
 template:
-  params:
-    bootswatch: flatly
+  bootstrap: 5
+  bootswatch: flatly
 
-navbar:
-  left:
-    - icon: fa-home fa-lg
-      href: index.html
-    - text: Getting Started
-      href: articles/patchwork.html
-    - text: Guides
-      menu:
-      - text: Plot Assembly
-        href: articles/guides/assembly.html
-      - text: Controlling Layout
-        href: articles/guides/layout.html
-      - text: Adding annotation to a patchwork
-        href: articles/guides/annotation.html
-      - text: Multipage Alignment
-        href: articles/guides/multipage.html
-    - text: Reference
-      href: reference/index.html
-    - text: News
-      menu:
-      - text: "Release notes"
-      - text: "Version 1.1.0"
-        href: https://www.data-imaginist.com/2020/insetting-a-new-patchwork-version/
-      - text: "Version 1.0.0"
-        href: https://www.data-imaginist.com/2019/patch-it-up-and-send-it-out/
-      - text: "------------------"
-      - text: "Change log"
-        href: news/index.html
-  right:
-    - icon: fa-github fa-lg
-      href: https://github.com/thomasp85/patchwork
+news:
+  releases:
+  - text: "Version 1.1.0"
+    href: https://www.data-imaginist.com/2020/insetting-a-new-patchwork-version/
+  - text: "Version 1.0.0"
+    href: https://www.data-imaginist.com/2019/patch-it-up-and-send-it-out/
+
+articles:
+- title: Guides
+  navbar: ~
+  contents:
+  - guides/assembly
+  - guides/layout
+  - guides/annotation
+  - guides/multipage
 
 reference:
 - title: Plot Composition
