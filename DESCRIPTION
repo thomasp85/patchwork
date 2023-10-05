@@ -1,45 +1,45 @@
-Package: patchwork
 Type: Package
+Package: patchwork
 Title: The Composer of Plots
 Version: 1.1.3.9000
 Authors@R:
-    person(given = "Thomas Lin",
-           family = "Pedersen",
-           role = c("cre", "aut"),
-           email = "thomasp85@gmail.com",
+    person("Thomas Lin", "Pedersen", , "thomasp85@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-5147-4711"))
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
-Description: The 'ggplot2' package provides a strong API for sequentially 
-    building up a plot, but does not concern itself with composition of multiple
-    plots. 'patchwork' is a package that expands the API to allow for 
-    arbitrarily complex composition of plots by, among others, providing 
-    mathematical operators for combining multiple plots. Other packages that try 
-    to address this need (but with a different approach) are 'gridExtra' and 
-    'cowplot'.
+Description: The 'ggplot2' package provides a strong API for sequentially
+    building up a plot, but does not concern itself with composition of
+    multiple plots. 'patchwork' is a package that expands the API to allow
+    for arbitrarily complex composition of plots by, among others,
+    providing mathematical operators for combining multiple plots. Other
+    packages that try to address this need (but with a different approach)
+    are 'gridExtra' and 'cowplot'.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Imports: 
-    ggplot2 (>= 3.0.0),
-    gtable,
-    grid,
-    stats,
-    grDevices,
-    utils,
-    graphics,
-    rlang,
-    cli
-RoxygenNote: 7.2.3
-Roxygen: list(markdown = TRUE)
-URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork
+URL: https://patchwork.data-imaginist.com,
+    https://github.com/thomasp85/patchwork
 BugReports: https://github.com/thomasp85/patchwork/issues
+Imports: 
+    cli,
+    ggplot2 (>= 3.0.0),
+    graphics,
+    grDevices,
+    grid,
+    gtable,
+    rlang,
+    stats,
+    utils
 Suggests: 
-    knitr,
-    rmarkdown,
-    gridGraphics,
-    gridExtra,
-    ragg,
-    testthat (>= 2.1.0),
-    vdiffr,
     covr,
-    png
-VignetteBuilder: knitr
+    gridExtra,
+    gridGraphics,
+    knitr,
+    png,
+    ragg,
+    rmarkdown,
+    testthat (>= 2.1.0),
+    vdiffr
+VignetteBuilder: 
+    knitr
+Config/Needs/website: gifski
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
