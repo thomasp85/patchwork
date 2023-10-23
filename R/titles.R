@@ -70,6 +70,62 @@ collect_titles <- function(gt, dir = "x", merge = TRUE) {
   delete_grobs(gt, delete)
 }
 
+deduplicate_axes <- function(gt, dir = "x") {
+
+  if (dir == "x") {
+    names <- c("axis-b", "axis-t")
+  } else {
+    names <- c("axis-l", "axis-r")
+  }
+
+  delete <- integer()
+
+  for (name in names) {
+
+    # Find titles
+    idx <- which(grepl(paste0("^", name), gt$layout$name))
+    if (length(idx) < 2) {
+      # No titles to collapse, leave as-is
+      next
+    }
+
+    zeroes <- vapply(gt$grobs[idx], inherits, logical(1), what = "zeroGrob")
+    if (all(zeroes)) {
+      # No need to bother with non-existing titles
+      next
+    }
+
+    # We want patches to be able to break title runs
+    patch_index <- grep("panel-nested-patchwork", gt$layout$name)
+
+    # Simplify layout of grobs to matrix
+    layout <- grob_layout(gt, c(idx, patch_index))
+    layout[layout %in% patch_index] <- NA # Remove patches
+
+    # Mark duplicated grobs
+    structure <- grob_id(gt$grobs, layout, byrow = dir == "x", merge = FALSE)
+
+    # If all grobs are unique, there is nothing to collapse
+    if (anyDuplicated(structure[!is.na(structure)]) == 0) {
+      next
+    }
+
+    # Identify 'run'-rectangles in the structure
+    runs <- rle_2d(structure, byrow = dir == "y")
+    runs <- runs[!is.na(runs$value), , drop = FALSE]
+
+    # Find first grob in run
+    start_runs <- c("row_start", "col_start")
+    if (name == "axis-b") start_runs[1] <- "row_end"
+    if (name == "axis-r") start_runs[2] <- "col_end"
+    start_idx <- layout[as.matrix(runs[, start_runs])]
+
+    # Mark every non-start grob for deletion
+    delete <- c(delete, setdiff(idx, start_idx))
+  }
+  delete_grobs(gt, delete)
+}
+
 # Delete grobs from the gtable while preserving dimensions.
 # If a row or column in the gtable becomes empty, optionally set size to 0.
 delete_grobs <- function(gt, idx, resize = TRUE) {

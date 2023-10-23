@@ -224,12 +224,17 @@ build_patchwork <- function(x, guides = 'auto') {
   } else {
     gt_new$collected_guides <- guide_grobs
   }
-
+  if (isTRUE(x$layout$dedup_axes$x)) {
+    gt_new <- deduplicate_axes(gt_new, "x")
+  }
+  if (isTRUE(x$layout$dedup_axes$y)) {
+    gt_new <- deduplicate_axes(gt_new, "y")
+  }
   if (isTRUE(x$layout$collect_titles$x)) {
-    gt_new <- collect_titles(gt_new, "x")
+    gt_new <- collect_titles(gt_new, "x", merge = TRUE)
   }
   if (isTRUE(x$layout$collect_titles$y)) {
-    gt_new <- collect_titles(gt_new, "y")
+    gt_new <- collect_titles(gt_new, "y", merge = TRUE)
   }
 
   gt_new <- gtable_add_grob(
