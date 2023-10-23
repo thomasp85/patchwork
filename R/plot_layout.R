@@ -99,9 +99,14 @@
 
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
-                        design = NULL) {
+                        design = NULL, collect_titles = "none") {
   if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
   if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
+  collect_titles <- arg_match0(collect_titles, c("x", "y", "both", "none"))
+  collect_titles <- list(
+    x = collect_titles %in% c("x", "both"),
+    y = collect_titles %in% c("y", "both")
+  )
   structure(list(
     ncol = ncol,
     nrow = nrow,
@@ -110,6 +115,7 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
     heights = heights,
     guides = guides,
     tag_level = tag_level,
+    collect_titles = collect_titles,
     design = as_areas(design)
   ), class = 'plot_layout')
 }

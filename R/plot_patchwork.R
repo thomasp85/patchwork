@@ -225,6 +225,13 @@ build_patchwork <- function(x, guides = 'auto') {
     gt_new$collected_guides <- guide_grobs
   }
 
+  if (isTRUE(x$layout$collect_titles$x)) {
+    gt_new <- collect_titles(gt_new, "x")
+  }
+  if (isTRUE(x$layout$collect_titles$y)) {
+    gt_new <- collect_titles(gt_new, "y")
+  }
+
   gt_new <- gtable_add_grob(
     gt_new, zeroGrob(),
     t = PANEL_ROW,
