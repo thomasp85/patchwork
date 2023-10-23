@@ -14,8 +14,7 @@ collect_titles <- function(gt, dir = "x", merge = TRUE) {
       next
     }
 
-    zeroes <- vapply(gt$grobs[idx], inherits, logical(1), what = "zeroGrob")
-    if (all(zeroes)) {
+    if (all(is_zero(gt$grobs[idx]))) {
       # No need to bother with non-existing titles
       next
     }
@@ -82,20 +81,19 @@ deduplicate_axes <- function(gt, dir = "x") {
 
   for (name in names) {
 
-    # Find titles
+    # Find axes
     idx <- which(grepl(paste0("^", name), gt$layout$name))
     if (length(idx) < 2) {
-      # No titles to collapse, leave as-is
+      # No axes to collapse, leave as-is
       next
     }
 
-    zeroes <- vapply(gt$grobs[idx], inherits, logical(1), what = "zeroGrob")
-    if (all(zeroes)) {
-      # No need to bother with non-existing titles
+    if (all(is_zero(gt$grobs[idx]))) {
+      # No need to bother with non-existing axes
       next
     }
 
-    # We want patches to be able to break title runs
+    # We want patches to be able to break axis runs
     patch_index <- grep("panel-nested-patchwork", gt$layout$name)
 
     # Simplify layout of grobs to matrix
@@ -143,11 +141,13 @@ delete_grobs <- function(gt, idx, resize = TRUE) {
     return(gt)
   }
 
-  # Only resize rows/columns that don't have any grobs associated with them.
+  # Only resize rows/columns that don't have any (non-zero) grobs associated
+  # with them.
   # Note that this ignores grobs that 'span' the rows/columns, but these are
   # typically background rectangles.
-  resize_rows <- setdiff(resize_rows, c(gt$layout$t, gt$layout$b))
-  resize_cols <- setdiff(resize_cols, c(gt$layout$l, gt$layout$r))
+  zero <- is_zero(gt$grobs)
+  resize_rows <- setdiff(resize_rows, unlist(gt$layout[!zero, c("t", "b")]))
+  resize_cols <- setdiff(resize_cols, unlist(gt$layout[!zero, c("l", "r")]))
 
   if (length(resize_rows) > 0) {
     gt$heights[resize_rows] <- unit(0, "pt")
@@ -156,6 +156,14 @@ delete_grobs <- function(gt, idx, resize = TRUE) {
     gt$widths[resize_cols] <- unit(0, "pt")
   }
   gt
+}
+
+is_zero <- function(x) {
+  if (is_bare_list(x)) {
+    vapply(x, inherits, logical(1), what = "zeroGrob") | lengths(x) == 0
+  } else {
+    is.null(x) || inherits(x, "zeroGrob")
+  }
 }
 
 # Determine uniqueness of grobs
