@@ -1,5 +1,5 @@
 
-collect_titles <- function(gt, dir = "x") {
+collect_titles <- function(gt, dir = "x", merge = TRUE) {
 
   names <- paste0(dir, "lab", switch(dir, x = c("-t", "-b"), y = c("-l", "-r")))
 
@@ -26,15 +26,12 @@ collect_titles <- function(gt, dir = "x") {
     # Simplify layout of grobs to matrix
     layout <- grob_layout(gt, c(idx, patch_index))
     layout[layout %in% patch_index] <- NA # Remove patches
-    valid <- as.vector(!is.na(layout))
 
     # Mark duplicated grobs
-    browser()
-    structure <- layout
-    structure[valid] <- grob_id(gt$grobs[layout[valid]])
+    structure <- grob_id(gt$grobs, layout, byrow = dir == "x", merge = merge)
 
     # If all title grobs are unique, there is nothing to collapse
-    if (anyDuplicated(structure[valid]) == 0) {
+    if (anyDuplicated(structure[!is.na(structure)]) == 0) {
       next
     }
 
@@ -106,9 +103,26 @@ delete_grobs <- function(gt, idx, resize = TRUE) {
 }
 
 # Determine uniqueness of grobs
-grob_id <- function(grobs) {
-  hash <- vapply(grobs, function(x) hash(unname_grob(x)), character(1))
-  match(hash, unique(hash))
+grob_id <- function(grobs, layout, byrow, merge = FALSE) {
+
+  # Hash the grobs to determine unique grobs
+  valid <- !is.na(layout)
+  idx  <- as.vector(layout)[valid]
+  hash <- vapply(grobs[idx], function(x) hash(unname_grob(x)), character(1))
+
+  # For multi-cell grobs, compute an extra identifier
+  index <- if (byrow) col(layout) else row(layout)
+  min <- ave(index, layout, FUN = min)
+  max <- ave(index, layout, FUN = max)
+  identifier <- paste0(min, ";", max)
+  if (merge) {
+    identifier[min == max] <- ""
+  }
+
+  # Include the multi-cell identifier in the hash
+  hash <- paste0(hash, identifier[valid])
+  layout[valid] <- match(hash, unique(hash))
+  layout
 }
 
 # Representing grob indices in a simplified layout matrix
@@ -121,14 +135,7 @@ grob_layout <- function(gt, idx) {
 
   new <- matrix(NA_integer_, length(top), length(left))
 
-  if (all(layout$t == layout$b) && all(layout$r == layout$l)) {
-    # Well-behaved grobs that occupy 1 cell
-    i <-  cbind(match(layout$t, top), match(layout$l, left))
-    new[i] <- idx
-    return(new)
-  }
-
-  # Naughty grobs that can occupy >1 cell
+  # Account for fact that grobs may span multiple cells
   right  <- match(layout$r, left)
   bottom <- match(layout$b, top)
   top    <- match(layout$t, top)
@@ -295,7 +302,3 @@ rle_2d <- function(m, byrow = FALSE) {
 
   rename(ans)
 }
-
-(m <- matrix(c(1, 1, 2, 1, 1, 2, 3, 3, 1), 3,  3))
-
-rle_2d(m)
