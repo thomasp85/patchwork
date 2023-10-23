@@ -90,7 +90,9 @@ delete_grobs <- function(gt, idx, resize = TRUE) {
     return(gt)
   }
 
-  # Only resize rows/cols that don't have any grobs associated with them
+  # Only resize rows/columns that don't have any grobs associated with them.
+  # Note that this ignores grobs that 'span' the rows/columns, but these are
+  # typically background rectangles.
   resize_rows <- setdiff(resize_rows, c(gt$layout$t, gt$layout$b))
   resize_cols <- setdiff(resize_cols, c(gt$layout$l, gt$layout$r))
 
@@ -141,6 +143,26 @@ grob_layout <- function(gt, idx) {
 # 2D equivalent of run-length encoding.
 # Essentially, it tries to look for rectangular arrangements of cells in a
 # matrix that have the same values, and reports back their positions.
+#
+# Worked example:
+#
+# # Let's say we have the following matrix
+# (m <- matrix(c(1, 1, 2, 1, 1, 2, 3, 3, 1), 3,  3))
+# #>      [,1] [,2] [,3]
+# #> [1,]    1    1    3
+# #> [2,]    1    1    3
+# #> [3,]    2    2    1
+#
+# # The `rle_2d()` function finds the `i` and `j` arguments that define the
+# # rectangular areas with the same values. For this example so this finds:
+# # m[1:2, 1:2], m[1:2, 3], m[3, 1:2] and m[3, 3] as runs.
+#
+# rle_2d(m)
+# #>   col_start col_end row_start row_end value
+# #> 1         1       2         1       2     1
+# #> 2         1       2         3       3     2
+# #> 5         3       3         1       2     3
+# #> 6         3       3         3       3     1
 #' @importFrom utils hashtab gethash sethash
 rle_2d <- function(m, byrow = FALSE) {
 
@@ -273,3 +295,7 @@ rle_2d <- function(m, byrow = FALSE) {
 
   rename(ans)
 }
+
+(m <- matrix(c(1, 1, 2, 1, 1, 2, 3, 3, 1), 3,  3))
+
+rle_2d(m)
