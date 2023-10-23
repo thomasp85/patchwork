@@ -69,6 +69,7 @@ collect_titles <- function(gt, dir = "x", merge = TRUE) {
   delete_grobs(gt, delete)
 }
 
+# Very similar to `collect_titles`, except there is no merging step involved
 deduplicate_axes <- function(gt, dir = "x") {
 
   if (dir == "x") {
@@ -255,10 +256,14 @@ rle_2d <- function(m, byrow = FALSE) {
     m <- t(m)
     rename <- function(x) {
       names(x) <- c("row_start", "row_end", "col_start", "col_end", "value")
+      rownames(x) <- NULL
       x
     }
   } else {
-    rename <- identity
+    rename <- function(x) {
+      rownames(x) <- NULL
+      x
+    }
   }
 
   dim <- dim(m)
