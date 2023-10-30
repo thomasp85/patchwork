@@ -53,11 +53,13 @@
 #' p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
 #' p1 + wrap_elements(panel = p1 + ggtitle('Look at me shrink'))
 #'
-#' # You can even add base graphics if you pass it as a formula
-#' p1 + wrap_elements(full = ~ plot(mtcars$mpg, mtcars$disp))
+#' # You can even add base graphics if you pass it as a formula (requires gridGraphics package)
+#' if (requireNamespace("gridGraphics", quietly = TRUE)) {
+#'   p1 + wrap_elements(full = ~ plot(mtcars$mpg, mtcars$disp))
 #'
-#' # Adding a grob or formula directly is equivalent to placing it in `full`
-#' p1 + ~ plot(mtcars$mpg, mtcars$disp)
+#'   # Adding a grob or formula directly is equivalent to placing it in `full`
+#'   p1 + ~ plot(mtcars$mpg, mtcars$disp)
+#' }
 #'
 wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, ignore_tag = FALSE) {
   clip <- if (clip) 'on' else 'off'
