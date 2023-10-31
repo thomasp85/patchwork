@@ -1,11 +1,9 @@
-Type: Package
 Package: patchwork
 Title: The Composer of Plots
 Version: 1.1.3.9000
 Authors@R:
     person("Thomas Lin", "Pedersen", , "thomasp85@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-5147-4711"))
-Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
 Description: The 'ggplot2' package provides a strong API for sequentially
     building up a plot, but does not concern itself with composition of
     multiple plots. 'patchwork' is a package that expands the API to allow
@@ -28,7 +26,6 @@ Imports:
     stats,
     utils
 Suggests: 
-    covr,
     gridExtra,
     gridGraphics,
     knitr,
