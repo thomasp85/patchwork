@@ -27,6 +27,16 @@
 #' @param design Specification of the location of areas in the layout. Can either
 #' be specified as a text string or by concatenating calls to [area()] together.
 #' See the examples for further information on use.
+#' @param axes A string specifying how axes should be treated. `'keep'` will
+#' retain all axes in individual plots. `'collect'` will remove duplicated
+#' axes when placed in the same run of rows or columns of the layout.
+#' `'collect_x'` and `'collect_y'` will remove duplicated x-axes in the columns
+#' or duplicated y-axes in the rows respectively.
+#' @param axis_titles A string specifying how axis titltes should be treated.
+#' `'keep'` will retain all axis titles in individual plots. `'collect'` will
+#' remove duplicated titles in one direction and merge titles in the opposite
+#' direction. `'collect_x'` and `'collect_y'` control this for x-axis titles
+#' and y-axis titles respectively.
 #'
 #' @return A `plot_layout` object to be added to a `ggassmble` object
 #'
@@ -99,18 +109,14 @@
 
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
-                        design = NULL, collect_titles = "none", dedup_axes = "none") {
+                        design = NULL, axes = NULL, axis_titles = NULL) {
   if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
   if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
-  collect_titles <- arg_match0(collect_titles, c("x", "y", "both", "none"))
-  collect_titles <- list(
-    x = collect_titles %in% c("x", "both"),
-    y = collect_titles %in% c("y", "both")
+  if (!is.null(axes)) axes <- match.arg(
+    axes, c('keep', 'collect', 'collect_x', 'collect_y')
   )
-  dedup_axes <- arg_match0(dedup_axes, c("x", "y", "both", "none"))
-  dedup_axes <- list(
-    x = dedup_axes %in% c("x", "both"),
-    y = dedup_axes %in% c("y", "both")
+  if (!is.null(axis_titles)) collect_titles <- match.arg(
+    axis_titles, c('keep', 'collect', 'collect_x', 'collect_y')
   )
   structure(list(
     ncol = ncol,
@@ -120,8 +126,8 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
     heights = heights,
     guides = guides,
     tag_level = tag_level,
-    collect_titles = collect_titles,
-    dedup_axes = dedup_axes,
+    axes = axes,
+    axis_titles = axis_titles,
     design = as_areas(design)
   ), class = 'plot_layout')
 }
@@ -297,7 +303,10 @@ c.patch_area <- function(..., recursive = FALSE) {
   area$r <- unlist(lapply(all_areas, `[[`, 'r'))
   area
 }
-default_layout <- plot_layout(byrow = TRUE, widths = NA, heights = NA, guides = 'auto', tag_level = 'keep')
+default_layout <- plot_layout(
+  byrow = TRUE, widths = NA, heights = NA, guides = 'auto', tag_level = 'keep',
+  axes = 'keep', axis_titles = 'keep'
+)
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_layout <- function(object, plot, object_name) {

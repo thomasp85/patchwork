@@ -1,5 +1,5 @@
 
-collect_titles <- function(gt, dir = "x", merge = TRUE) {
+collect_axis_titles <- function(gt, dir = "x", merge = TRUE) {
 
   names <- paste0(dir, "lab", switch(dir, x = c("-t", "-b"), y = c("-l", "-r")))
 
@@ -70,7 +70,7 @@ collect_titles <- function(gt, dir = "x", merge = TRUE) {
 }
 
 # Very similar to `collect_titles`, except there is no merging step involved
-deduplicate_axes <- function(gt, dir = "x") {
+collect_axes <- function(gt, dir = "x") {
 
   if (dir == "x") {
     names <- c("axis-b", "axis-t")
