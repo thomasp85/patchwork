@@ -70,6 +70,7 @@ collect_axis_titles <- function(gt, dir = "x", merge = TRUE) {
 }
 
 # Very similar to `collect_titles`, except there is no merging step involved
+# and rows/columns are resized afterwards.
 collect_axes <- function(gt, dir = "x") {
 
   if (dir == "x") {
@@ -122,12 +123,82 @@ collect_axes <- function(gt, dir = "x") {
     # Mark every non-start grob for deletion
     delete <- c(delete, setdiff(idx, start_idx))
   }
-  delete_grobs(gt, delete)
+
+  deleted_rows <- unique(c(gt$layout$t[delete], gt$layout$b[delete]))
+  deleted_cols <- unique(c(gt$layout$l[delete], gt$layout$r[delete]))
+
+  new <- delete_grobs(gt, delete)
+  new <- retrofit_rows(new, deleted_rows, pattern = "^axis")
+  new <- retrofit_cols(new, deleted_cols, pattern = "^axis")
+  new
+}
+
+# For every given row, check if all non-zero grobs occupying that row have a
+# name that has a pattern. If all these grobs in that row do, measure the
+# grob heights and put that into the gtable's heights.
+retrofit_rows <- function(gt, rows, pattern = NULL) {
+  if (is.null(pattern) || length(rows) == 0) {
+    return(gt)
+  }
+
+  # zeroGrobs are ignored for fitting
+  layout <- gt$layout[!is.zero(gt$grobs), , drop = FALSE]
+
+  # Grab grob index and their rows
+  grob_idx <- which(layout$t %in% rows | layout$b %in% rows)
+  row_idx  <- layout$t[grob_idx] # 'layout$b' is ignored, but that is probably fine
+
+  # Check if any grob in row does not have the pattern.
+  # If all grobs in a row have the pattern, include for resizing
+  is_pattern <- grepl(pattern, layout$name[grob_idx])
+  resize_row <- rowsum(as.integer(!is_pattern), group = row_idx) == 0
+  resize_row <- as.integer(rownames(resize_row)[resize_row[, 1]])
+
+  # Do resizing
+  for (row in resize_row) {
+    grobs <- gt$grobs[gt$layout$t == row | gt$layout$b == row]
+    size  <- max_height(grobs[!is.zero(grobs)])
+    gt$heights[row] <- size
+  }
+  gt
+}
+
+# For every given column, check if all non-zero grobs occupying that column
+# have a name that has a pattern. If all these grobs in that column do, measure
+# the grob widths and put that into the gtable's widths.
+retrofit_cols <- function(gt, cols, pattern = NULL) {
+  if (is.null(pattern) || length(cols) == 0) {
+    return(gt)
+  }
+
+  # zeroGrobs are ignored for fitting
+  layout <- gt$layout[!is.zero(gt$grobs), , drop = FALSE]
+
+  # Grab grob index and their columns
+  grob_idx <- which(layout$l %in% cols | layout$r %in% cols)
+  col_idx  <- layout$l[grob_idx] # 'layout$r' is ignored, but that is probably fine
+
+  # Check if any grob in column does not have the pattern.
+  # If all grobs in a column have the pattern, include for resizing
+  is_pattern <- grepl(pattern, layout$name[grob_idx])
+  resize_col <- rowsum(as.integer(!is_pattern), group = col_idx) == 0
+  resize_col <- as.integer(rownames(resize_col)[resize_col[, 1]])
+
+  # Do resizing
+  for (col in resize_col) {
+    grobs <- gt$grobs[gt$layout$l == col | gt$layout$r == col]
+    size  <- max_width(grobs[!is.zero(grobs)])
+    gt$widths[col] <- size
+  }
+  gt
 }
 
 # Delete grobs from the gtable while preserving dimensions.
 # If a row or column in the gtable becomes empty, optionally set size to 0.
 delete_grobs <- function(gt, idx, resize = TRUE) {
+  if (length(idx) == 0) {
+    return(gt)
+  }
 
   if (resize) {
     # Candidate rows/cols for resizing
@@ -159,6 +230,7 @@ delete_grobs <- function(gt, idx, resize = TRUE) {
   gt
 }
 
+# Check if 'x' is 'empty': a zeroGrob or NULL
 is_zero <- function(x) {
   if (is_bare_list(x)) {
     vapply(x, inherits, logical(1), what = "zeroGrob") | lengths(x) == 0
