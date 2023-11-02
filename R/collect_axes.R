@@ -142,7 +142,7 @@ retrofit_rows <- function(gt, rows, pattern = NULL) {
   }
 
   # zeroGrobs are ignored for fitting
-  layout <- gt$layout[!is.zero(gt$grobs), , drop = FALSE]
+  layout <- gt$layout[!is_zero(gt$grobs), , drop = FALSE]
 
   # Grab grob index and their rows
   grob_idx <- which(layout$t %in% rows | layout$b %in% rows)
@@ -157,7 +157,7 @@ retrofit_rows <- function(gt, rows, pattern = NULL) {
   # Do resizing
   for (row in resize_row) {
     grobs <- gt$grobs[gt$layout$t == row | gt$layout$b == row]
-    size  <- max_height(grobs[!is.zero(grobs)])
+    size  <- max_height(grobs[!is_zero(grobs)])
     gt$heights[row] <- size
   }
   gt
@@ -172,7 +172,7 @@ retrofit_cols <- function(gt, cols, pattern = NULL) {
   }
 
   # zeroGrobs are ignored for fitting
-  layout <- gt$layout[!is.zero(gt$grobs), , drop = FALSE]
+  layout <- gt$layout[!is_zero(gt$grobs), , drop = FALSE]
 
   # Grab grob index and their columns
   grob_idx <- which(layout$l %in% cols | layout$r %in% cols)
@@ -187,7 +187,7 @@ retrofit_cols <- function(gt, cols, pattern = NULL) {
   # Do resizing
   for (col in resize_col) {
     grobs <- gt$grobs[gt$layout$l == col | gt$layout$r == col]
-    size  <- max_width(grobs[!is.zero(grobs)])
+    size  <- max_width(grobs[!is_zero(grobs)])
     gt$widths[col] <- size
   }
   gt
