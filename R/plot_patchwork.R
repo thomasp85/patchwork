@@ -684,6 +684,39 @@ add_strips <- function(gt) {
 add_guides <- function(gt, collect = FALSE) {
   panel_loc <- find_panel(gt)[, c('t', 'l', 'b', 'r')]
   guide_ind <- which(grepl('guide-box', gt$layout$name))
+
+  if (length(guide_ind) == 5) {
+    # For ggplot2 >3.5.0, we don't need to add extra space for missing legends,
+    # as every position already has relevant cells in the gtable.
+    if (!collect) {
+      return(gt)
+    }
+    # We need to collect guides from multiple cells in the gtable instead.
+    guide_loc <- gt$layout[guide_ind, ]
+    guide_pos <- gsub("guide-box-", "", guide_loc$name)
+
+    # Set space for guides to zero
+    space_pos <- ifelse(guide_pos %in% c('left', 'top'), 1L, -1L)
+    lr  <- guide_pos %in% c('left', 'right')
+    col <- guide_loc$l[lr]
+    gt$widths[c(col, col + space_pos[lr])] <- unit(0, "mm")
+    tb  <- guide_pos %in% c('top', 'bottom')
+    row <- guide_loc$t[tb]
+    gt$heights[c(row, row + space_pos[tb])] <- unit(0, "mm")
+
+    # Collect guides
+    collection <- lapply(gt$grobs[guide_ind], function(box) {
+      box$grobs[grepl('guides', box$layout$name)] # NULL if legend is empty
+    })
+    collection <- unlist(collection, recursive = FALSE) # drops NULL
+    gt$collected_guides <- collection
+
+    # Remove guides from gtable
+    gt$grobs[guide_ind] <- NULL
+    gt$layout <- gt$layout[-guide_ind, ]
+    return(gt)
+  }
+
   guide_loc <- gt$layout[guide_ind, c('t', 'l', 'b', 'r')]
   guide_pos <- if (nrow(guide_loc) == 0) {
     'none'
