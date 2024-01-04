@@ -225,6 +225,22 @@ build_patchwork <- function(x, guides = 'auto') {
     gt_new$collected_guides <- guide_grobs
   }
 
+  axes <- x$layout$axes %||% default_layout$axes
+  if (axes %in% c('collect', 'collect_x')) {
+    gt_new <- collect_axes(gt_new, "x")
+  }
+  if (axes %in% c('collect', 'collect_y')) {
+    gt_new <- collect_axes(gt_new, "y")
+  }
+
+  titles <- x$layout$axis_titles %||% default_layout$axis_titles
+  if (titles %in% c('collect', 'collect_x')) {
+    gt_new <- collect_axis_titles(gt_new, "x", merge = TRUE)
+  }
+  if (titles %in% c('collect', 'collect_y')) {
+    gt_new <- collect_axis_titles(gt_new, "y", merge = TRUE)
+  }
+
   gt_new <- gtable_add_grob(
     gt_new, zeroGrob(),
     t = PANEL_ROW,

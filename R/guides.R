@@ -27,7 +27,7 @@ unname_grob <- function(x) {
   } else if (is.grob(x)) {
     x$name <- ''
     x$vp <- unname_vp(x$vp)
-    x$children <- lapply(x$children, unname_grob)
+    x$children <- unname(lapply(x$children, unname_grob))
     x$childrenOrder <- rep_len('', length(x$childrenOrder))
   }
   unit_elements <- vapply(x, is.unit, logical(1))
