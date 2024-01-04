@@ -61,6 +61,7 @@ reference:
   - plot_layout
   - plot_annotation
   - plot_spacer
+  - free
   - guide_area
   - area
 - title: Alternative plot objects

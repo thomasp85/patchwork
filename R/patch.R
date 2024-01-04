@@ -1,6 +1,6 @@
 #' @importFrom gtable gtable gtable_add_grob
 #' @importFrom grid unit
-#' @importFrom ggplot2 zeroGrob
+#' @importFrom ggplot2 zeroGrob ggplot
 make_patch <- function() {
   widths <- unit(rep(0, TABLE_COLS), 'mm')
   widths[PANEL_COL] <- unit(1, 'null')

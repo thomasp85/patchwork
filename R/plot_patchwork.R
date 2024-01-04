@@ -312,6 +312,18 @@ plot_table.inset_patch <- function(x, guides) {
   class(table) <- c('inset_table', class(table))
   table
 }
+#' @export
+plot_table.free_plot <- function(x, guides) {
+  gt <- NextMethod()
+  collected_guides <- gt$collected_guides
+  gt$collected_guides <- NULL
+  table <- patch_table(make_patch(), gt)
+  gt <- gt[seq_len(nrow(gt) - 2) + 1, seq_len(ncol(gt) - 2) + 1]
+  table <- gtable_add_grob(table, list(gt), PLOT_TOP, PLOT_LEFT, PLOT_BOTTOM,
+                           PLOT_RIGHT, clip = 'on', name = 'free_plot')
+  table$collected_guides <- collected_guides
+  table
+}
 simplify_gt <- function(gt) {
   UseMethod('simplify_gt')
 }
