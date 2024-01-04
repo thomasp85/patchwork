@@ -4,6 +4,8 @@
   Collecting axes will remove duplicated axes in the x- or y-direction. 
   Collecting axis titles will also remove duplicated titles in the x- or 
   y-direction, but also merge duplicated titles in the other direction (#150).
+* Fix a bug that prevented faceted plots with axes on the right from being
+  used (#340)
 
 # patchwork 1.1.3
 

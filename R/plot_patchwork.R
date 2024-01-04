@@ -689,7 +689,7 @@ add_strips <- function(gt) {
   }
   if (!any(grepl('strip-l', gt$layout$name))) {
     gt <- gtable_add_cols(gt, unit(0, 'mm'), panel_loc$l - 1 - strip_pos)
-  } else if (strip_pos == 2) {
+  } else if (strip_pos == 2 && !any(gt$layout$l == panel_loc$l - 2)) {
     gt$widths[panel_loc$l - 1] <- sum(gt$widths[panel_loc$l - c(1, 2)])
     gt <- gt[, -(panel_loc$l - 2)]
   }
