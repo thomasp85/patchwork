@@ -43,3 +43,4 @@ Suggests:
     covr,
     png
 VignetteBuilder: knitr
+Config/Needs/website: gifski
