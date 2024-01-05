@@ -109,7 +109,7 @@
 
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
-                        design = NULL, axes = NULL, axis_titles = NULL) {
+                        design = NULL, axes = NULL, axis_titles = axes) {
   if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
   if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
   if (!is.null(axes)) axes <- match.arg(
