@@ -6,6 +6,9 @@
   y-direction, but also merge duplicated titles in the other direction (#150).
 * Fix a bug that prevented faceted plots with axes on the right from being
   used (#340)
+* Added `free()` function to mark a plot to not be aligned with the rest. The
+  margin of the plot will still be aligned with the margins of the other plots 
+  but everything inside of that will by unaligned. 
 
 # patchwork 1.1.3
 
