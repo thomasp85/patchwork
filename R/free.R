@@ -23,6 +23,7 @@
 #' @examples
 #' # Sometimes you have a plot that defies good composition alginment, e.g. due
 #' # to long axis labels
+#' library(ggplot2)
 #' p1 <- ggplot(mtcars) +
 #'   geom_bar(aes(y = factor(gear), fill = factor(gear))) +
 #'   scale_y_discrete(
