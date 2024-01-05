@@ -319,10 +319,10 @@ than the other:</p>
 <p><img src="layout_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>Depending on what you prefer you might want the leftmost plot to fill
 out as much room as possible instead of being aligned to the rightmost
-panel. Putting a ggplot or a patchwork inside
-<code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> removes any alignment from the plot.</p>
+panel. Putting a ggplot or a patchwork inside <code><a href="../../reference/free.html">free()</a></code>
+removes any alignment from the plot.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>full <span class="op">=</span> <span class="va">p1</span><span class="op">)</span> <span class="op">|</span> <span class="va">p2mod</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/free.html">free</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span> <span class="op">|</span> <span class="va">p2mod</span></span></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -344,10 +344,10 @@ widths despite being given the same amount of space in the design
 matrix. The reason for this is that the top plot has a y-axis to the
 left and a guide to the right, and those fall in between the two columns
 that make up the 1st and 3rd column in the bottom. Subsequently those
-plots are expanded to fill out the space. Once again
-<code><a href="../../reference/wrap_elements.html">wrap_elements()</a></code> will save us from this:</p>
+plots are expanded to fill out the space. Once again <code><a href="../../reference/free.html">free()</a></code>
+will save us from this:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../../reference/wrap_elements.html">wrap_elements</a></span><span class="op">(</span>full <span class="op">=</span> <span class="va">p3</span><span class="op">)</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/free.html">free</a></span><span class="op">(</span><span class="va">p3</span><span class="op">)</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span> <span class="va">p4</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>design <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span></code></pre></div>
 <p><img src="layout_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
@@ -458,6 +458,39 @@ placed there instead of where the theme tells it to.</p>
 <p>Guide areas are only accessible on the same nesting level. If a
 nested patchwork has a guide area it will not be possible to place
 guides collected at a higher level there.</p>
+</div>
+<div class="section level2">
+<h2 id="controlling-axes">Controlling Axes<a class="anchor" aria-label="anchor" href="#controlling-axes"></a>
+</h2>
+<p>Much like the legends above, axes can sometimes be shared between
+plots. However, this only makes sense if the plots are positioned
+besides each other on top of having the exact same axis. patchwork
+provides two arguments to <code><a href="../../reference/plot_layout.html">plot_layout()</a></code> for controlling
+axes and they work much like the <code>guides</code> argument except
+they don’t allow recursing into nested patchworks (for obvious
+reasons).</p>
+<p>In the plot below the y-axis is redundant and could be kept to the
+side like we are used to from faceted plots:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p>This is easily fixed with the <code>axes</code> argument</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p>By default the axis title follows the collecting setting for the
+axis. We could also only collect the titles</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>axis_titles <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p>This makes a lot of sense if the axes doesn’t match exactly but still
+share the same title. Further, title collecting also work in the other
+direction:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="../../reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>axis_titles <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="layout_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p>In the above we see that the y-axis title now only appears once and
+is positioned centrally.</p>
 </div>
 <div class="section level2">
 <h2 id="want-more">Want more?<a class="anchor" aria-label="anchor" href="#want-more"></a>
