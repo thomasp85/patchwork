@@ -157,10 +157,10 @@ p2mod <- p2 + labs(x = "This is such a long\nand important label that\nit has to
 p1 | p2mod
 ```
 
-Depending on what you prefer you might want the leftmost plot to fill out as much room as possible instead of being aligned to the rightmost panel. Putting a ggplot or a patchwork inside `wrap_elements()` removes any alignment from the plot.
+Depending on what you prefer you might want the leftmost plot to fill out as much room as possible instead of being aligned to the rightmost panel. Putting a ggplot or a patchwork inside `free()` removes any alignment from the plot.
 
 ```{r}
-wrap_elements(full = p1) | p2mod
+free(p1) | p2mod
 ```
 
 ### Designs don't keep an even width
@@ -176,10 +176,10 @@ p3 + p2 + p1 + p4 + p4 + p1 + p2 +
   plot_layout(design = design)
 ```
 
-In the above we see that the 3 bottom columns all have different widths despite being given the same amount of space in the design matrix. The reason for this is that the top plot has a y-axis to the left and a guide to the right, and those fall in between the two columns that make up the 1st and 3rd column in the bottom. Subsequently those plots are expanded to fill out the space. Once again `wrap_elements()` will save us from this:
+In the above we see that the 3 bottom columns all have different widths despite being given the same amount of space in the design matrix. The reason for this is that the top plot has a y-axis to the left and a guide to the right, and those fall in between the two columns that make up the 1st and 3rd column in the bottom. Subsequently those plots are expanded to fill out the space. Once again `free()` will save us from this:
 
 ```{r}
-wrap_elements(full = p3) + p2 + p1 + p4 + p4 + p1 + p2 +
+free(p3) + p2 + p1 + p4 + p4 + p1 + p2 +
   plot_layout(design = design)
 ```
 
@@ -257,6 +257,36 @@ p1 + p2 + p3 + guide_area() +
 ```
 
 Guide areas are only accessible on the same nesting level. If a nested patchwork has a guide area it will not be possible to place guides collected at a higher level there.
+
+## Controlling Axes
+
+Much like the legends above, axes can sometimes be shared between plots. However, this only makes sense if the plots are positioned besides each other on top of having the exact same axis. patchwork provides two arguments to `plot_layout()` for controlling axes and they work much like the `guides` argument except they don't allow recursing into nested patchworks (for obvious reasons).
+
+In the plot below the y-axis is redundant and could be kept to the side like we are used to from faceted plots:
+
+```{r}
+p1 + p2
+```
+
+This is easily fixed with the `axes` argument
+
+```{r}
+p1 + p2 + plot_layout(axes = "collect")
+```
+
+By default the axis title follows the collecting setting for the axis. We could also only collect the titles
+
+```{r}
+p1 + p2 + plot_layout(axis_titles = "collect")
+```
+
+This makes a lot of sense if the axes doesn't match exactly but still share the same title. Further, title collecting also work in the other direction:
+
+```{r}
+p1 / p2 + plot_layout(axis_titles = "collect")
+```
+
+In the above we see that the y-axis title now only appears once and is positioned centrally.
 
 ## Want more?
 
