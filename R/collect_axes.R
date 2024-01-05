@@ -136,6 +136,7 @@ collect_axes <- function(gt, dir = "x") {
 # For every given row, check if all non-zero grobs occupying that row have a
 # name that has a pattern. If all these grobs in that row do, measure the
 # grob heights and put that into the gtable's heights.
+#' @importFrom ggplot2 max_height
 retrofit_rows <- function(gt, rows, pattern = NULL) {
   if (is.null(pattern) || length(rows) == 0) {
     return(gt)
@@ -166,6 +167,7 @@ retrofit_rows <- function(gt, rows, pattern = NULL) {
 # For every given column, check if all non-zero grobs occupying that column
 # have a name that has a pattern. If all these grobs in that column do, measure
 # the grob widths and put that into the gtable's widths.
+#' @importFrom ggplot2 max_width
 retrofit_cols <- function(gt, cols, pattern = NULL) {
   if (is.null(pattern) || length(cols) == 0) {
     return(gt)
@@ -240,6 +242,7 @@ is_zero <- function(x) {
 }
 
 # Determine uniqueness of grobs
+#' @importFrom stats ave
 grob_id <- function(grobs, layout, byrow, merge = FALSE) {
 
   # Hash the grobs to determine unique grobs

@@ -57,9 +57,11 @@ p1 + inset_element(p2, 0, 0.6, 0.4, 1, align_to = 'full')
 # Grobs and other objects can be added as insets as well
 p1 + inset_element(grid::circleGrob(), 0.4, 0.4, 0.6, 0.6)
 
-logo <- system.file('help', 'figures', 'logo.png', package = 'patchwork')
-logo <- png::readPNG(logo, native = TRUE)
-p1 + inset_element(logo, 0.8, 0.8, 1, 1, align_to = 'full')
+if (requireNamespace('png', quietly = TRUE)) {
+  logo <- system.file('help', 'figures', 'logo.png', package = 'patchwork')
+  logo <- png::readPNG(logo, native = TRUE)
+  p1 + inset_element(logo, 0.8, 0.8, 1, 1, align_to = 'full')
+}
 
 # Just as expected insets are still amenable to changes after the fact
 p1 +

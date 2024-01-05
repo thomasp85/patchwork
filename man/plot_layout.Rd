@@ -14,7 +14,7 @@ plot_layout(
   tag_level = NULL,
   design = NULL,
   axes = NULL,
-  axis_titles = NULL
+  axis_titles = axes
 )
 }
 \arguments{
