@@ -1,4 +1,4 @@
-# patchwork (development version)
+# patchwork 1.2.0
 
 * Axes and axis titles can now be collected using the `plot_layout()` function.
   Collecting axes will remove duplicated axes in the x- or y-direction. 
