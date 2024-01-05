@@ -318,7 +318,28 @@ plot_table.free_plot <- function(x, guides) {
   collected_guides <- gt$collected_guides
   gt$collected_guides <- NULL
   table <- patch_table(make_patch(), gt)
-  gt <- gt[seq_len(nrow(gt) - 2) + 1, seq_len(ncol(gt) - 2) + 1]
+
+  # Make sure tag remains aligned
+  table$widths[c(2, ncol(table)-1)] <- gt$widths[c(2, ncol(gt)-1)]
+  table$heights[c(2, nrow(table)-1)] <- gt$heights[c(2, nrow(gt)-1)]
+  tag <- get_grob(gt, 'tag')
+  tag_pos <- x$theme$plot.tag.position
+  if (is.null(tag_pos)) tag_pos <- theme_get()$plot.tag.position
+  if (!is_zero(tag) && is.character(tag_pos)) {
+    table <- switch(
+      tag_pos,
+      topleft = gtable_add_grob(table, tag, name = "tag", t = 2, l = 2, clip = "off"),
+      top = gtable_add_grob(table, tag, name = "tag", t = 2, l = 2, r = ncol(table)-1, clip = "off"),
+      topright = gtable_add_grob(table, tag, name = "tag", t = 2, l = ncol(table)-1, clip = "off"),
+      left = gtable_add_grob(table, tag, name = "tag", t = 2, b = nrow(table)-1, l = 2, clip = "off"),
+      right = gtable_add_grob(table, tag, name = "tag", t = 2, b = nrow(table)-1, l = ncol(table)-1, clip = "off"),
+      bottomleft = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = 2, clip = "off"),
+      bottom = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = 2, r = ncol(table)-1, clip = "off"),
+      bottomright = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = ncol(table)-1, clip = "off")
+    )
+  }
+
+  gt <- gt[seq_len(nrow(gt) - 4) + 2, seq_len(ncol(gt) - 4) + 2]
   table <- gtable_add_grob(table, list(gt), PLOT_TOP, PLOT_LEFT, PLOT_BOTTOM,
                            PLOT_RIGHT, clip = 'on', name = 'free_plot')
   table$collected_guides <- collected_guides
