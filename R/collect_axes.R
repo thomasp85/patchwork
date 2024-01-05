@@ -284,6 +284,28 @@ grob_layout <- function(gt, idx) {
   new
 }
 
+# Backports of hash table functionality
+hashtab <- function(type, size) {
+  new_environment()
+}
+gethash <- function(h, key, nomatch = NULL) {
+  get0(hash(key), envir = h, ifnotfound = nomatch)
+}
+sethash <- function(h, key, value) {
+  assign(hash(key), value, envir = h)
+}
+on_load({
+  if ("hashtab" %in% getNamespaceExports("utils")) {
+    hashtab <- utils::hashtab
+  }
+  if ("gethash" %in% getNamespaceExports("utils")) {
+    gethash <- utils::gethash
+  }
+  if ("sethash" %in% getNamespaceExports("utils")) {
+    sethash <- utils::sethash
+  }
+})
+
 # 2D equivalent of run-length encoding.
 # Essentially, it tries to look for rectangular arrangements of cells in a
 # matrix that have the same values, and reports back their positions.
@@ -307,7 +329,6 @@ grob_layout <- function(gt, idx) {
 # #> 2         1       2         3       3     2
 # #> 5         3       3         1       2     3
 # #> 6         3       3         3       3     1
-#' @importFrom utils hashtab gethash sethash
 rle_2d <- function(m, byrow = FALSE) {
 
   n <- length(m)
@@ -413,7 +434,7 @@ rle_2d <- function(m, byrow = FALSE) {
   # Initialise hash table no longer than number of runs
   # Inspiration for using hash tables for this problem taken from TimTaylor:
   # https://fosstodon.org/@_TimTaylor/111266682218212785
-  htab <- hashtab(size = length(values))
+  htab <- hashtab("identical", size = length(values))
 
   for (i in seq_along(values)) {
 

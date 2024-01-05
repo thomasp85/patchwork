@@ -1,13 +1,12 @@
+.onLoad <- function(...) {
+  run_on_load()
+}
+
 print_plot.patchwork <- function(p, title = '') {
   if (is.null(p$patches$annotation$title)) {
     p <- p + plot_annotation(title = title)
   }
   print(p)
-}
-
-.onLoad <- function(...) {
-  register_s3_method("vdiffr", "print_plot", "patchwork")
-  invisible()
 }
 
 register_s3_method <- function(pkg, generic, class, fun = NULL) {
@@ -33,3 +32,6 @@ register_s3_method <- function(pkg, generic, class, fun = NULL) {
     }
   )
 }
+on_load(
+  register_s3_method("vdiffr", "print_plot", "patchwork")
+)
