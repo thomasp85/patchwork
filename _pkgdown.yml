@@ -10,6 +10,8 @@ template:
 
 news:
   releases:
+  - text: "Version 1.2.0"
+    href: https://www.data-imaginist.com/posts/2024-01-05-patchwork-1-2-0/
   - text: "Version 1.1.0"
     href: https://www.data-imaginist.com/2020/insetting-a-new-patchwork-version/
   - text: "Version 1.0.0"
