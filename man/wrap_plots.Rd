@@ -13,7 +13,9 @@ wrap_plots(
   heights = NULL,
   guides = NULL,
   tag_level = NULL,
-  design = NULL
+  design = NULL,
+  axes = NULL,
+  axis_titles = axes
 )
 }
 \arguments{
@@ -47,6 +49,18 @@ auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}
 \item{design}{Specification of the location of areas in the layout. Can either
 be specified as a text string or by concatenating calls to \code{\link[=area]{area()}} together.
 See the examples for further information on use.}
+
+\item{axes}{A string specifying how axes should be treated. \code{'keep'} will
+retain all axes in individual plots. \code{'collect'} will remove duplicated
+axes when placed in the same run of rows or columns of the layout.
+\code{'collect_x'} and \code{'collect_y'} will remove duplicated x-axes in the columns
+or duplicated y-axes in the rows respectively.}
+
+\item{axis_titles}{A string specifying how axis titltes should be treated.
+\code{'keep'} will retain all axis titles in individual plots. \code{'collect'} will
+remove duplicated titles in one direction and merge titles in the opposite
+direction. \code{'collect_x'} and \code{'collect_y'} control this for x-axis titles
+and y-axis titles respectively.}
 }
 \value{
 A \code{patchwork} object
