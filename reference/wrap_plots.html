@@ -89,7 +89,9 @@ of plots and add them into one composition, along with layout specifications.</p
 <span>  heights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  guides <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tag_level <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  design <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  design <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis_titles <span class="op">=</span> <span class="va">axes</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -138,6 +140,22 @@ auto-tagging should behave. See <code><a href="plot_annotation.html">plot_annota
 <dd><p>Specification of the location of areas in the layout. Can either
 be specified as a text string or by concatenating calls to <code><a href="area.html">area()</a></code> together.
 See the examples for further information on use.</p></dd>
+
+
+<dt>axes</dt>
+<dd><p>A string specifying how axes should be treated. <code>'keep'</code> will
+retain all axes in individual plots. <code>'collect'</code> will remove duplicated
+axes when placed in the same run of rows or columns of the layout.
+<code>'collect_x'</code> and <code>'collect_y'</code> will remove duplicated x-axes in the columns
+or duplicated y-axes in the rows respectively.</p></dd>
+
+
+<dt>axis_titles</dt>
+<dd><p>A string specifying how axis titltes should be treated.
+<code>'keep'</code> will retain all axis titles in individual plots. <code>'collect'</code> will
+remove duplicated titles in one direction and merge titles in the opposite
+direction. <code>'collect_x'</code> and <code>'collect_y'</code> control this for x-axis titles
+and y-axis titles respectively.</p></dd>
 
 </dl></div>
     <div class="section level2">
