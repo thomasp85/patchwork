@@ -26,7 +26,7 @@ Imports:
     grDevices,
     utils,
     graphics,
-    rlang,
+    rlang (>= 1.0.0),
     cli
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
