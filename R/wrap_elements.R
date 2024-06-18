@@ -108,7 +108,7 @@ patchGrob.wrapped_patch <- function(x, guides = 'auto') {
     table$widths[c(2, ncol(table)-1)] <- gt$widths[c(2, ncol(gt)-1)]
     table$heights[c(2, nrow(table)-1)] <- gt$heights[c(2, nrow(gt)-1)]
     tag <- get_grob(gt, 'tag')
-    tag_pos <- x$theme$plot.tag.position
+    tag_pos <- calc_element("plot.tag.position", x$theme %||% theme_get())
     if (is.null(tag_pos)) tag_pos <- theme_get()$plot.tag.position
     if (!is.character(tag_pos)) tag_pos <- 'manual'
     table <- switch(
