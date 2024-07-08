@@ -1,90 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://patchwork.data-imaginist.com/404.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/annotation.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/assembly.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/layout.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/guides/multipage.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/articles/patchwork.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/index.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/align_plots.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/area.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/free.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/guide_area.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/inset_element.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/multipage_align.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/patchGrob.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/patchwork-package.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/patchworkGrob.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/plot_annotation.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/plot_arithmetic.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/plot_layout.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/plot_spacer.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/wrap_elements.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/wrap_ggplot_grob.html</loc>
-  </url>
-  <url>
-    <loc>https://patchwork.data-imaginist.com/reference/wrap_plots.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://patchwork.data-imaginist.com/404.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/LICENSE-text.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/guides/annotation.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/guides/assembly.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/guides/layout.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/guides/multipage.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/index.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/articles/patchwork.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/authors.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/index.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/news/index.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/align_plots.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/area.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/free.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/guide_area.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/index.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/inset_element.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/multipage_align.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/patchGrob.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/patchwork-package.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/patchworkGrob.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/plot_annotation.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/plot_arithmetic.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/plot_layout.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/plot_spacer.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/wrap_elements.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/wrap_ggplot_grob.html</loc></url>
+<url><loc>https://patchwork.data-imaginist.com/reference/wrap_plots.html</loc></url>
 </urlset>
+
