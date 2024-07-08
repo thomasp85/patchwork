@@ -48,20 +48,20 @@ collapse_guides <- function(guides) {
 }
 #' @importFrom gtable gtable_width gtable_height gtable gtable_add_grob
 #' @importFrom grid editGrob heightDetails widthDetails valid.just unit.c unit
-#' @importFrom ggplot2 margin element_grob element_blank
+#' @importFrom ggplot2 margin element_grob element_blank calc_element element_render
 guides_build <- function(guides, theme) {
-  legend.spacing <- theme$legend.spacing %||% unit(0.5, "lines")
-  legend.spacing.y <- theme$legend.spacing.y  %||% legend.spacing
-  legend.spacing.x <- theme$legend.spacing.x  %||% legend.spacing
-  legend.box.margin <- theme$legend.box.margin %||% margin()
+  theme$legend.spacing <- calc_element("legend.spacing", theme) %||% unit(0.5, "lines")
+  legend.spacing.y <- calc_element("legend.spacing.y", theme)
+  legend.spacing.x <- calc_element("legend.spacing.x", theme)
+  legend.box.margin <- calc_element("legend.box.margin", theme) %||% margin()
 
   widths <- exec(unit.c, !!!lapply(guides, gtable_width))
   heights <- exec(unit.c, !!!lapply(guides, gtable_height))
 
-  just <- valid.just(theme$legend.box.just)
+  just <- valid.just(calc_element("legend.box.just", theme))
   xjust <- just[1]
   yjust <- just[2]
-  vert <- identical(theme$legend.box, "horizontal")
+  vert <- identical(calc_element("legend.box", theme), "horizontal")
   guides <- lapply(guides, function(g) {
     editGrob(g, vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust),
                               height = if (vert) heightDetails(g) else 1,
@@ -98,7 +98,7 @@ guides_build <- function(guides, theme) {
 
   gtable_add_grob(
     guides,
-    element_grob(theme$legend.box.background %||% element_blank()),
+    element_render(theme, "legend.box.background"),
     t = 1, l = 1, b = -1, r = -1,
     z = -Inf, clip = "off", name = "legend.box.background"
   )
@@ -128,7 +128,7 @@ assemble_guides <- function(guides, theme) {
 
   # Set the justification of the legend box
   # First value is xjust, second value is yjust
-  just <- valid.just(theme$legend.justification)
+  just <- valid.just(calc_element("legend.justification", theme))
   xjust <- just[1]
   yjust <- just[2]
   guides <- grid::editGrob(guides, vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust)))
@@ -158,7 +158,7 @@ attach_guides <- function(table, guides, theme) {
     position <- "right"
   }
 
-  spacing <- theme$legend.box.spacing %||% unit(0.2, 'cm')
+  spacing <- calc_element("legend.box.spacing", theme) %||% unit(0.2, 'cm')
   legend_width  <- gtable_width(guides)
   legend_height <- gtable_height(guides)
   if (position == "left") {
