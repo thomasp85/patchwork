@@ -1,5 +1,7 @@
 # patchwork (development version)
 
+* `free()` now better aligns plots in horizontal direction
+
 # patchwork 1.2.0
 
 * Axes and axis titles can now be collected using the `plot_layout()` function.

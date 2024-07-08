@@ -340,8 +340,8 @@ plot_table.free_plot <- function(x, guides) {
   }
 
   gt <- gt[seq_len(nrow(gt) - 4) + 2, seq_len(ncol(gt) - 4) + 2]
-  table <- gtable_add_grob(table, list(gt), PLOT_TOP, PLOT_LEFT, PLOT_BOTTOM,
-                           PLOT_RIGHT, clip = 'on', name = 'free_plot')
+  table <- gtable_add_grob(table, list(gt), 3, 3, TABLE_ROWS - 2,
+                           TABLE_COLS - 2, clip = 'on', name = 'free_plot')
   table$collected_guides <- collected_guides
   table
 }
