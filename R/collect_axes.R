@@ -251,16 +251,15 @@ grob_id <- function(grobs, layout, byrow, merge = FALSE) {
   hash <- vapply(grobs[idx], function(x) hash(unname_grob(x)), character(1))
 
   # For multi-cell grobs, compute an extra identifier
-  index <- if (byrow) col(layout) else row(layout)
-  min <- ave(index, layout, FUN = min)
-  max <- ave(index, layout, FUN = max)
-  identifier <- paste0(min, ";", max)
-  if (merge) {
-    identifier[min == max] <- ""
+  if (!merge) {
+    index <- if (byrow) col(layout) else row(layout)
+    min <- ave(index, layout, FUN = min)
+    max <- ave(index, layout, FUN = max)
+    identifier <- paste0(min, ";", max)
+    # Include the multi-cell identifier in the hash
+    hash <- paste0(hash, identifier[valid])
   }
 
-  # Include the multi-cell identifier in the hash
-  hash <- paste0(hash, identifier[valid])
   layout[valid] <- match(hash, unique(hash))
   layout
 }
