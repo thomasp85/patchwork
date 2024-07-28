@@ -1,6 +1,8 @@
 # patchwork (development version)
 
 * `free()` now better aligns plots in horizontal direction
+* Plot backgrounds are now always placed beneath all other elements in the 
+  patchwork (#370)
 
 # patchwork 1.2.0
 

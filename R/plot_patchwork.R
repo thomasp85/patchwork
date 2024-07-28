@@ -190,12 +190,12 @@ build_patchwork <- function(x, guides = 'auto') {
   gt_new$layout <- exec(rbind, !!!lapply(seq_along(gt), function(i) {
     loc <- design[i, ]
     lay <- gt[[i]]$layout
-    lay$name <- paste0(lay$name, '-', i)
+    lay$z <- lay$z + ifelse(lay$name == "background", 0, max_z[i])
     lay$t <- lay$t + ifelse(lay$t <= PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
     lay$l <- lay$l + ifelse(lay$l <= PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
     lay$b <- lay$b + ifelse(lay$b < PANEL_ROW, (loc$t - 1) * TABLE_ROWS, (loc$b - 1) * TABLE_ROWS)
     lay$r <- lay$r + ifelse(lay$r < PANEL_COL, (loc$l - 1) * TABLE_COLS, (loc$r - 1) * TABLE_COLS)
-    lay$z <- lay$z + max_z[i]
+    lay$name <- paste0(lay$name, '-', i)
     lay
   }))
   table_dimensions <- table_dims(
