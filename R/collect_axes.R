@@ -27,7 +27,7 @@ collect_axis_titles <- function(gt, dir = "x", merge = TRUE) {
     layout[layout %in% patch_index] <- NA # Remove patches
 
     # Mark duplicated grobs
-    structure <- grob_id(gt$grobs, layout, byrow = dir == "x", merge = merge)
+    structure <- grob_id(gt$grobs, layout, byrow = dir == "x", merge = merge, unpack = TRUE)
 
     # If all title grobs are unique, there is nothing to collapse
     if (anyDuplicated(structure[!is.na(structure)]) == 0) {
@@ -243,12 +243,17 @@ is_zero <- function(x) {
 
 # Determine uniqueness of grobs
 #' @importFrom stats ave
-grob_id <- function(grobs, layout, byrow, merge = FALSE) {
+grob_id <- function(grobs, layout, byrow, merge = FALSE, unpack = FALSE) {
 
   # Hash the grobs to determine unique grobs
   valid <- !is.na(layout)
   idx  <- as.vector(layout)[valid]
-  hash <- vapply(grobs[idx], function(x) hash(unname_grob(x)), character(1))
+  hash <- vapply(grobs[idx], function(x) {
+    if (unpack && inherits(x, "gtable") && length(x$grobs) == 1) {
+      x <- x$grobs[[1]]
+    }
+    hash(unname_grob(x))
+  }, character(1))
 
   # For multi-cell grobs, compute an extra identifier
   if (!merge) {

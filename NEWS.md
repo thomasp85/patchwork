@@ -3,6 +3,8 @@
 * `free()` now better aligns plots in horizontal direction
 * Plot backgrounds are now always placed beneath all other elements in the 
   patchwork (#370)
+* Axis titles can now reliably be collected even with faceted plots (#367 and 
+  #369)
 
 # patchwork 1.2.0
 
