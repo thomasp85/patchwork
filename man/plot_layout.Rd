@@ -13,6 +13,7 @@ plot_layout(
   guides = NULL,
   tag_level = NULL,
   design = NULL,
+  align_axis_title = NULL,
   axes = NULL,
   axis_titles = axes
 )
@@ -46,6 +47,10 @@ auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}
 \item{design}{Specification of the location of areas in the layout. Can either
 be specified as a text string or by concatenating calls to \code{\link[=area]{area()}} together.
 See the examples for further information on use.}
+
+\item{align_axis_title}{A boolean value or a character of the axis position
+("t", "l", "b", "l") indicates how to align the axis title. By default, all
+axis title will be aligned.}
 
 \item{axes}{A string specifying how axes should be treated. \code{'keep'} will
 retain all axes in individual plots. \code{'collect'} will remove duplicated

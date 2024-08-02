@@ -27,6 +27,9 @@
 #' @param design Specification of the location of areas in the layout. Can either
 #' be specified as a text string or by concatenating calls to [area()] together.
 #' See the examples for further information on use.
+#' @param align_axis_title A boolean value or a character of the axis position
+#' ("t", "l", "b", "l") indicates how to align the axis title. By default, all
+#' axis title will be aligned.
 #' @param axes A string specifying how axes should be treated. `'keep'` will
 #' retain all axes in individual plots. `'collect'` will remove duplicated
 #' axes when placed in the same run of rows or columns of the layout.
@@ -109,7 +112,8 @@
 
 plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
                         heights = NULL, guides = NULL, tag_level = NULL,
-                        design = NULL, axes = NULL, axis_titles = axes) {
+                        design = NULL, align_axis_title = NULL,
+                        axes = NULL, axis_titles = axes) {
   if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
   if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
   if (!is.null(axes)) axes <- match.arg(
@@ -118,6 +122,16 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
   if (!is.null(axis_titles)) collect_titles <- match.arg(
     axis_titles, c('keep', 'collect', 'collect_x', 'collect_y')
   )
+  # By default, we always align the axis titles
+  if (isTRUE(align_axis_title) || is.null(align_axis_title)) {
+    align_axis_title <- c("t", "l", "b", "r")
+  } else if (isFALSE(align_axis_title)) {
+    align_axis_title <- character()
+  } else if (!all(align_axis_title %in% c("t", "l", "b", "r"))) {
+    cli_abort(
+      "only 't', 'l', 'b', and 'r' are allowed in {.arg align_axis_title}"
+    )
+  }
   structure(list(
     ncol = ncol,
     nrow = nrow,
@@ -126,6 +140,7 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
     heights = heights,
     guides = guides,
     tag_level = tag_level,
+    align_axis_title = unique(align_axis_title),
     axes = axes,
     axis_titles = axis_titles,
     design = as_areas(design)
@@ -305,7 +320,7 @@ c.patch_area <- function(..., recursive = FALSE) {
 }
 default_layout <- plot_layout(
   byrow = TRUE, widths = NA, heights = NA, guides = 'auto', tag_level = 'keep',
-  axes = 'keep', axis_titles = 'keep'
+  align_axis_title = c("t", "l", "b", "r"), axes = 'keep', axis_titles = 'keep'
 )
 #' @importFrom utils modifyList
 #' @export
