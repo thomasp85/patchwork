@@ -133,6 +133,9 @@ collect_axes <- function(gt, dir = "x") {
   new
 }
 
+#' @importFrom ggplot2 zeroGrob
+#' @importFrom gtable is.gtable gtable_height gtable_width gtable_filter gtable_add_grob
+#' @importFrom grid grobHeight grobWidth
 collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
   for (i in seq_len(n)) {
     for (position in collapsed_positions) {
@@ -150,7 +153,7 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
       )
 
       # this grob contain both axis labels and axis title
-      axis_and_title <- gtable::gtable_filter(
+      axis_and_title <- gtable_filter(
         gt, paste(lab_pattern, axis_pattern, sep = "|")
       )
 
@@ -161,9 +164,9 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
       skip <- any(vapply(grobs, function(grob) {
         # if no valid grobs, we skip it
         inherits(grob, "zeroGrob") ||
-        # if it is a gtable, this grob should contain multiple axis for multiple
-        # panels, we test if all of them are invalid
-          gtable::is.gtable(grob) &&
+          # if it is a gtable, this grob should contain multiple axis for multiple
+          # panels, we test if all of them are invalid
+          is.gtable(grob) &&
             all(vapply(.subset2(grob, "grobs"), inherits,
               logical(1L),
               what = "zeroGrob"
@@ -179,48 +182,55 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
       ## we reset the axis labels grob size -----------------------
       if (position == "t") {
         axis_and_title$heights <- do.call(
-          unit.c, lapply(grobs, grid::grobHeight)
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+          })
         )
-        axis_and_title$vp <- grid::viewport(
+        axis_and_title$vp <- viewport(
           y = unit(0, "npc"), just = "bottom",
           height = sum(axis_and_title$heights)
         )
       }
       if (position == "b") {
         axis_and_title$heights <- do.call(
-          unit.c, lapply(grobs, grid::grobHeight)
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+          })
         )
-        axis_and_title$vp <- grid::viewport(
+        axis_and_title$vp <- viewport(
           y = unit(1, "npc"), just = "top",
           height = sum(axis_and_title$heights)
         )
       }
       if (position == "l") {
         axis_and_title$widths <- do.call(
-          unit.c, lapply(grobs, grid::grobWidth)
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+          })
         )
-        axis_and_title$vp <- grid::viewport(
+        axis_and_title$vp <- viewport(
           x = unit(1, "npc"), just = "right",
           width = sum(axis_and_title$widths)
         )
       }
       if (position == "r") {
         axis_and_title$widths <- do.call(
-          unit.c, lapply(grobs, grid::grobWidth)
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+          })
         )
-        axis_and_title$vp <- grid::viewport(
+        axis_and_title$vp <- viewport(
           x = unit(0, "npc"), just = "left",
           width = sum(axis_and_title$widths)
         )
       }
-
       # remove the original grobs -----------------------------
-      gt$grobs[[axis_index]] <- ggplot2::zeroGrob()
-      gt$grobs[[lab_index]] <- ggplot2::zeroGrob()
+      gt$grobs[[axis_index]] <- zeroGrob()
+      gt$grobs[[lab_index]] <- zeroGrob()
 
       # insert the collapsed axis title and labs --------------
       new_area <- layout[axis_index, , drop = FALSE]
-      gt <- gtable::gtable_add_grob(
+      gt <- gtable_add_grob(
         gt,
         grobs = axis_and_title,
         .subset2(new_area, "t"),
@@ -235,6 +245,51 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
         ),
         clip = "off"
       )
+
+      # in the final, we reset the widths and heights of the axis or label
+      # columns / rows
+      layout <- .subset2(gt, "layout")
+      if (any(position == c("l", "r"))) {
+        lab_boader <- .subset2(layout, position)[lab_index]
+        grobs <- .subset(
+          .subset2(gt, "grobs"),
+          .subset2(layout, "l") == lab_boader &
+            .subset2(layout, "r") == lab_boader
+        )
+        gt$widths[lab_boader] <- do.call(max, lapply(grobs, function(grob) {
+          if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+        }))
+
+        axis_boader <- .subset2(layout, position)[axis_index]
+        grobs <- .subset(
+          .subset2(gt, "grobs"),
+          .subset2(layout, "l") == axis_boader &
+            .subset2(layout, "r") == axis_boader
+        )
+        gt$widths[axis_boader] <- do.call(max, lapply(grobs, function(grob) {
+          if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+        }))
+      } else {
+        lab_boader <- .subset2(layout, position)[lab_index]
+        grobs <- .subset(
+          .subset2(gt, "grobs"),
+          .subset2(layout, "t") == lab_boader &
+            .subset2(layout, "b") == lab_boader
+        )
+        gt$heights[lab_boader] <- do.call(max, lapply(grobs, function(grob) {
+          if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+        }))
+
+        axis_boader <- .subset2(layout, position)[axis_index]
+        grobs <- .subset(
+          .subset2(gt, "grobs"),
+          .subset2(layout, "t") == axis_boader &
+            .subset2(layout, "b") == axis_boader
+        )
+        gt$heights[axis_boader] <- do.call(max, lapply(grobs, function(grob) {
+          if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+        }))
+      }
     }
   }
   gt

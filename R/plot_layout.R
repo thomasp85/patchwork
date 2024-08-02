@@ -124,7 +124,7 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
   )
   # By default, we always align the axis titles
   if (isTRUE(align_axis_title) || is.null(align_axis_title)) {
-    align_axis_title <- c("t", "l", "b", "r")
+    align_axis_title <- NULL
   } else if (isFALSE(align_axis_title)) {
     align_axis_title <- character()
   } else if (!all(align_axis_title %in% c("t", "l", "b", "r"))) {
