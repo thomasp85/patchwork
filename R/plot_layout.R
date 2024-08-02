@@ -140,7 +140,7 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
     heights = heights,
     guides = guides,
     tag_level = tag_level,
-    align_axis_title = unique(align_axis_title),
+    align_axis_title = align_axis_title,
     axes = axes,
     axis_titles = axis_titles,
     design = as_areas(design)
