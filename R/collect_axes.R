@@ -161,10 +161,13 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
       skip <- any(vapply(grobs, function(grob) {
         # if no valid grobs, we skip it
         inherits(grob, "zeroGrob") ||
-          # it seems for plot with multiple facet panels,
-          # the axis title won't be aligned by default
-          # here we always skip it if there are multiple panels
-          gtable::is.gtable(grob)
+        # if it is a gtable, this grob should contain multiple axis for multiple
+        # panels, we test if all of them are invalid
+          gtable::is.gtable(grob) &&
+            all(vapply(.subset2(grob, "grobs"), inherits,
+              logical(1L),
+              what = "zeroGrob"
+            ))
       }, logical(1L)))
       if (skip) next
 
