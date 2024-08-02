@@ -142,19 +142,31 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
         l = ,
         r = paste("ylab", position, i, sep = "-")
       )
-      axis_pattern <- switch(position,
-        t = ,
-        b = paste("axis", position, i, sep = "-"),
-        l = ,
-        r = paste("axis", position, i, sep = "-")
+      lab_pattern <- paste0("^", lab_pattern, "$")
+      axis_pattern <- paste0(
+        "^axis-", position, "(-\\d+){0,2}",
+        "(, axis-", position, "(-\\d+){0,2})*", # recycle multiple panels
+        "-", i, "$"
       )
+
       # this grob contain both axis labels and axis title
       axis_and_title <- gtable::gtable_filter(
         gt, paste(lab_pattern, axis_pattern, sep = "|")
       )
+
+      # both axis labels and title must exist
+      if (length(axis_and_title) != 2L) next
+
       grobs <- .subset2(axis_and_title, "grobs")
-      no_grobs <- vapply(grobs, inherits, logical(1L), what = "zeroGrob")
-      if (all(no_grobs)) next
+      skip <- any(vapply(grobs, function(grob) {
+        # if no valid grobs, we skip it
+        inherits(grob, "zeroGrob") ||
+          # it seems for plot with multiple facet panels,
+          # the axis title won't be aligned by default
+          # here we always skip it if there are multiple panels
+          gtable::is.gtable(grob)
+      }, logical(1L)))
+      if (skip) next
 
       # integrate axis and lab grobs ------------------------------
       layout <- .subset2(gt, "layout")
