@@ -28,7 +28,7 @@
 #' be specified as a text string or by concatenating calls to [area()] together.
 #' See the examples for further information on use.
 #' @param align_axis_title A boolean value or a character of the axis position
-#' ("t", "l", "b", "l") indicates how to align the axis title. By default, all
+#' ("t", "l", "b", "r") indicates how to align the axis title. By default, all
 #' axis title will be aligned.
 #' @param axes A string specifying how axes should be treated. `'keep'` will
 #' retain all axes in individual plots. `'collect'` will remove duplicated
