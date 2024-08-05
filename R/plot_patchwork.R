@@ -241,6 +241,15 @@ build_patchwork <- function(x, guides = 'auto') {
     gt_new <- collect_axis_titles(gt_new, "y", merge = TRUE)
   }
 
+  # the default behaviour is aligning all axis, if we don't want to align an
+  # axis we collapsed it
+  collapsed_positions <- setdiff(
+    c("t", "l", "b", "r"),
+    x$layout$align_axis_title
+  )
+  if (length(collapsed_positions)) {
+    gt_new <- collapse_axes_and_titles(gt_new, length(gt), collapsed_positions)
+  }
   gt_new <- gtable_add_grob(
     gt_new, zeroGrob(),
     t = PANEL_ROW,

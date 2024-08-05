@@ -46,7 +46,8 @@
 #'
 wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL,
                        widths = NULL, heights = NULL, guides = NULL,
-                       tag_level = NULL, design = NULL, axes = NULL,
+                       tag_level = NULL, design = NULL, 
+                       align_axis_title = NULL, axes = NULL,
                        axis_titles = axes) {
   if (is_valid_plot(..1)) {
     plots <- list(...)
@@ -69,8 +70,8 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL,
   }
   Reduce(`+`, plots, init = plot_filler()) + plot_layout(
     ncol = ncol, nrow = nrow, byrow = byrow, widths = widths, heights = heights,
-    guides = guides, tag_level = tag_level, design = design, axes = axes,
-    axis_titles = axis_titles
+    guides = guides, tag_level = tag_level, design = design, 
+    align_axis_title = align_axis_title, axes = axes, axis_titles = axis_titles
   )
 }
 

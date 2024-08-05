@@ -133,6 +133,110 @@ collect_axes <- function(gt, dir = "x") {
   new
 }
 
+#' @importFrom ggplot2 zeroGrob
+#' @importFrom gtable is.gtable gtable_height gtable_width gtable_filter gtable_add_grob
+#' @importFrom grid grobHeight grobWidth
+collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
+  for (i in seq_len(n)) {
+    for (position in collapsed_positions) {
+      lab_pattern <- switch(position,
+        t = ,
+        b = paste("xlab", position, i, sep = "-"),
+        l = ,
+        r = paste("ylab", position, i, sep = "-")
+      )
+      lab_pattern <- paste0("^", lab_pattern, "$")
+      axis_pattern <- paste0(
+        "^axis-", position, "(-\\d+){0,2}",
+        "(, axis-", position, "(-\\d+){0,2})*", # recycle multiple panels
+        "-", i, "$"
+      )
+
+      # this grob contain both axis labels and axis title
+      axis_and_title <- gtable_filter(
+        gt, paste(lab_pattern, axis_pattern, sep = "|")
+      )
+
+      # both axis labels and title must exist
+      if (length(axis_and_title) != 2L) next
+
+      # integrate axis and lab grobs ------------------------------
+      grobs <- .subset2(axis_and_title, "grobs")
+      layout <- .subset2(gt, "layout")
+      lab_index <- which(grepl(lab_pattern, .subset2(layout, "name")))
+      axis_index <- which(grepl(axis_pattern, .subset2(layout, "name")))
+
+      ## we reset the axis labels grob size -----------------------
+      if (position == "t") {
+        axis_and_title$heights <- do.call(
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+          })
+        )
+        axis_and_title$vp <- viewport(
+          y = unit(0, "npc"), just = "bottom",
+          height = sum(axis_and_title$heights)
+        )
+      }
+      if (position == "b") {
+        axis_and_title$heights <- do.call(
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
+          })
+        )
+        axis_and_title$vp <- viewport(
+          y = unit(1, "npc"), just = "top",
+          height = sum(axis_and_title$heights)
+        )
+      }
+      if (position == "l") {
+        axis_and_title$widths <- do.call(
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+          })
+        )
+        axis_and_title$vp <- viewport(
+          x = unit(1, "npc"), just = "right",
+          width = sum(axis_and_title$widths)
+        )
+      }
+      if (position == "r") {
+        axis_and_title$widths <- do.call(
+          unit.c, lapply(grobs, function(grob) {
+            if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
+          })
+        )
+        axis_and_title$vp <- viewport(
+          x = unit(0, "npc"), just = "left",
+          width = sum(axis_and_title$widths)
+        )
+      }
+      # remove the original grobs -----------------------------
+      gt$grobs[[axis_index]] <- zeroGrob()
+      gt$grobs[[lab_index]] <- zeroGrob()
+
+      # insert the collapsed axis title and labs --------------
+      new_area <- layout[axis_index, , drop = FALSE]
+      gt <- gtable_add_grob(
+        gt,
+        grobs = axis_and_title,
+        .subset2(new_area, "t"),
+        .subset2(new_area, "l"),
+        .subset2(new_area, "b"),
+        .subset2(new_area, "r"),
+        name = switch(position,
+          t = ,
+          b = paste("xlab", "axis", position, i, sep = "-"),
+          l = ,
+          r = paste("ylab", "axis", position, i, sep = "-")
+        ),
+        clip = "off"
+      )
+    }
+  }
+  gt
+}
+
 # For every given row, check if all non-zero grobs occupying that row have a
 # name that has a pattern. If all these grobs in that row do, measure the
 # grob heights and put that into the gtable's heights.
