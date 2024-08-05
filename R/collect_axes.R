@@ -160,21 +160,8 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
       # both axis labels and title must exist
       if (length(axis_and_title) != 2L) next
 
-      grobs <- .subset2(axis_and_title, "grobs")
-      skip <- any(vapply(grobs, function(grob) {
-        # if no valid grobs, we skip it
-        inherits(grob, "zeroGrob") ||
-          # if it is a gtable, this grob should contain multiple axis for multiple
-          # panels, we test if all of them are invalid
-          is.gtable(grob) &&
-            all(vapply(.subset2(grob, "grobs"), inherits,
-              logical(1L),
-              what = "zeroGrob"
-            ))
-      }, logical(1L)))
-      if (skip) next
-
       # integrate axis and lab grobs ------------------------------
+      grobs <- .subset2(axis_and_title, "grobs")
       layout <- .subset2(gt, "layout")
       lab_index <- which(grepl(lab_pattern, .subset2(layout, "name")))
       axis_index <- which(grepl(axis_pattern, .subset2(layout, "name")))
@@ -245,33 +232,6 @@ collapse_axes_and_titles <- function(gt, n, collapsed_positions) {
         ),
         clip = "off"
       )
-
-      # in the final, we reset the widths and heights of the axis or label
-      # columns / rows
-      layout <- .subset2(gt, "layout")
-      lab_boader <- .subset2(layout, position)[lab_index]
-      axis_boader <- .subset2(layout, position)[axis_index]
-      if (any(position == c("l", "r"))) {
-        for (boader in c(lab_boader, axis_boader)) {
-          grobs <- .subset(
-            .subset2(gt, "grobs"),
-            .subset2(layout, "l") == boader & .subset2(layout, "r") == boader
-          )
-          gt$widths[boader] <- do.call(max, lapply(grobs, function(grob) {
-            if (is.gtable(grob)) gtable_width(grob) else grobWidth(grob)
-          }))
-        }
-      } else {
-        for (boader in c(lab_boader, axis_boader)) {
-          grobs <- .subset(
-            .subset2(gt, "grobs"),
-            .subset2(layout, "t") == boader & .subset2(layout, "b") == boader
-          )
-          gt$heights[boader] <- do.call(max, lapply(grobs, function(grob) {
-            if (is.gtable(grob)) gtable_height(grob) else grobHeight(grob)
-          }))
-        }
-      }
     }
   }
   gt
