@@ -40,6 +40,26 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
 <defs>
+  <clipPath id='cpNS40OHw3MTQuNTJ8MjA1LjM2fDM4Ny45NA=='>
+    <rect x='5.48' y='205.36' width='709.04' height='182.58' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNS40OHw3MTQuNTJ8MjA1LjM2fDM4Ny45NA==)'>
+<rect x='5.48' y='205.36' width='709.04' height='182.58' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpNS40OHw3MTQuNTJ8Mzg3Ljk0fDU3MC41Mg=='>
+    <rect x='5.48' y='387.94' width='709.04' height='182.58' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNS40OHw3MTQuNTJ8Mzg3Ljk0fDU3MC41Mg==)'>
+<rect x='5.48' y='387.94' width='709.04' height='182.58' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
   <clipPath id='cpNDMuMTd8NjY1LjUzfDQ1LjU3fDE3NC40Nw=='>
     <rect x='43.17' y='45.57' width='622.37' height='128.91' />
   </clipPath>
@@ -106,16 +126,6 @@
 <text x='43.17' y='37.35' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 1</text>
 </g>
 <defs>
-  <clipPath id='cpNS40OHw3MTQuNTJ8MjA1LjM2fDM4Ny45NA=='>
-    <rect x='5.48' y='205.36' width='709.04' height='182.58' />
-  </clipPath>
-</defs>
-<g clip-path='url(#cpNS40OHw3MTQuNTJ8MjA1LjM2fDM4Ny45NA==)'>
-<rect x='5.48' y='205.36' width='709.04' height='182.58' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-</g>
-<defs>
   <clipPath id='cpNDMuMTd8NjY1LjUzfDIyOC4xNXwzNTcuMDU='>
     <rect x='43.17' y='228.15' width='622.37' height='128.91' />
   </clipPath>
@@ -162,16 +172,6 @@
 <text x='354.35' y='380.18' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.02px' lengthAdjust='spacingAndGlyphs'>gear</text>
 <text transform='translate(18.53,292.60) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='20.18px' lengthAdjust='spacingAndGlyphs'>disp</text>
 <text x='43.17' y='219.93' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 2</text>
-</g>
-<defs>
-  <clipPath id='cpNS40OHw3MTQuNTJ8Mzg3Ljk0fDU3MC41Mg=='>
-    <rect x='5.48' y='387.94' width='709.04' height='182.58' />
-  </clipPath>
-</defs>
-<g clip-path='url(#cpNS40OHw3MTQuNTJ8Mzg3Ljk0fDU3MC41Mg==)'>
-<rect x='5.48' y='387.94' width='709.04' height='182.58' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
 <defs>
   <clipPath id='cpNDMuMTd8NjY1LjUzfDQxMC43Mnw1MzkuNjM='>
@@ -232,20 +232,20 @@
 <text x='354.35' y='562.76' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='12.24px' lengthAdjust='spacingAndGlyphs'>hp</text>
 <text transform='translate(18.53,475.18) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='11.00px' lengthAdjust='spacingAndGlyphs'>wt</text>
 <rect x='676.49' y='424.31' width='32.55' height='101.73' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='676.49' y='433.02' style='font-size: 11.00px; font-family: sans;' textLength='21.40px' lengthAdjust='spacingAndGlyphs'>mpg</text>
 <image width='17.28' height='86.40' x='676.49' y='439.65' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAYAAAACUNnVAAAAmElEQVQ4ja2UQRLDMAgDd3hk/tnX5agcknFaCoa0vnkMCEnGsL12GQhDYDpPwoDrpBFlRDWi/9Wu6AHC9FkLYLrzlhD3oJ3mDvRHRYy7IC8A7bCK8gpWKYDzeQVArDcDyD2YAnSofZvzaOA6Q7Oahp/dmRuVTQ0xU5TGP2o8Waool1obVuv1q8qP9xPvg633XlGLDtfIhNUBcBeA5ss0BXMAAAAASUVORK5CYII='/>
+<polyline points='690.32,509.05 693.77,509.05 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='690.32,490.72 693.77,490.72 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='690.32,472.40 693.77,472.40 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='690.32,454.08 693.77,454.08 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,509.05 676.49,509.05 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,490.72 676.49,490.72 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,472.40 676.49,472.40 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,454.08 676.49,454.08 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='699.25' y='512.07' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>15</text>
 <text x='699.25' y='493.75' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>20</text>
 <text x='699.25' y='475.43' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>25</text>
 <text x='699.25' y='457.11' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>30</text>
-<text x='676.49' y='433.02' style='font-size: 11.00px; font-family: sans;' textLength='21.40px' lengthAdjust='spacingAndGlyphs'>mpg</text>
-<line x1='676.49' y1='509.05' x2='679.95' y2='509.05' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='676.49' y1='490.72' x2='679.95' y2='490.72' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='676.49' y1='472.40' x2='679.95' y2='472.40' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='676.49' y1='454.08' x2='679.95' y2='454.08' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='509.05' x2='693.77' y2='509.05' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='490.72' x2='693.77' y2='490.72' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='472.40' x2='693.77' y2='472.40' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='454.08' x2='693.77' y2='454.08' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='43.17' y='402.51' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 3</text>
 <text x='10.96' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='148.98px' lengthAdjust='spacingAndGlyphs'>Stack 3 plots: p1 / p2 / p3</text>
 </g>

@@ -18,7 +18,7 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<rect x='-0.000000000000064' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+<rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <defs>
   <clipPath id='cpNDMuMTd8NzA5LjA0fDQ1LjU3fDUzOS42Mw=='>
@@ -36,6 +36,16 @@
 </defs>
 <g clip-path='url(#cpNS40OHwzNjAuMDB8MjIuNzh8NTcwLjUy)'>
 <rect x='5.48' y='22.78' width='354.52' height='547.74' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpMzYwLjAwfDcxNC41MnwyMi43OHw1NzAuNTI='>
+    <rect x='360.00' y='22.78' width='354.52' height='547.74' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMzYwLjAwfDcxNC41MnwyMi43OHw1NzAuNTI=)'>
+<rect x='360.00' y='22.78' width='354.52' height='547.74' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
@@ -104,16 +114,6 @@
 <text x='198.84' y='562.76' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='21.40px' lengthAdjust='spacingAndGlyphs'>mpg</text>
 <text transform='translate(18.53,292.60) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='20.18px' lengthAdjust='spacingAndGlyphs'>disp</text>
 <text x='43.17' y='37.35' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 1</text>
-</g>
-<defs>
-  <clipPath id='cpMzYwLjAwfDcxNC41MnwyMi43OHw1NzAuNTI='>
-    <rect x='360.00' y='22.78' width='354.52' height='547.74' />
-  </clipPath>
-</defs>
-<g clip-path='url(#cpMzYwLjAwfDcxNC41MnwyMi43OHw1NzAuNTI=)'>
-<rect x='360.00' y='22.78' width='354.52' height='547.74' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
 <defs>
   <clipPath id='cpMzk3LjY5fDcwOS4wNHw0NS41N3w1MzkuNjM='>
