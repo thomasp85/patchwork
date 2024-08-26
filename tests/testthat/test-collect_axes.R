@@ -32,3 +32,16 @@ test_that("axis columns are properly resized", {
     p5 + p5 + p5 + p6 + layout
   )
 })
+
+test_that("axis titles are collected across empty areas", {
+  plots <- wrap_plots(rep(list(p1), 6)) +
+    plot_layout(
+      axes = "collect",
+      axis_titles = "collect",
+      design = "#AB\nC#D\nEF#"
+    )
+    expect_doppelganger(
+      "Empty areas doesn't interfere with title collection",
+      plots
+    )
+})
