@@ -353,6 +353,8 @@ simplify_gt <- function(gt) {
 #' @importFrom grid unit convertWidth convertHeight
 #' @export
 simplify_gt.gtable <- function(gt) {
+  guides <- gt$collected_guides
+  gt$collected_guides <- NULL
   panel_pos <- find_panel(gt)
   rows <- c(panel_pos$t, panel_pos$b)
   cols <- c(panel_pos$l, panel_pos$r)
@@ -370,16 +372,20 @@ simplify_gt.gtable <- function(gt) {
   gt_new <- gtable_add_rows(gt_new, unit(1, 'null'), rows[1] - 1)
   gt_new <- gtable_add_cols(gt_new, unit(1, 'null'), cols[1] - 1)
   if (gt$respect) {
-    simplify_fixed(gt, gt_new, panels, rows, cols)
+    gt_new <- simplify_fixed(gt, gt_new, panels, rows, cols)
   } else {
-    simplify_free(gt, gt_new, panels, rows, cols)
+    gt_new <- simplify_free(gt, gt_new, panels, rows, cols)
   }
+  gt_new$collected_guides <- guides
+  gt_new
 }
 #' @importFrom grid unit.c unit
 #' @importFrom ggplot2 find_panel
 #' @importFrom gtable gtable gtable_add_grob
 #' @export
 simplify_gt.gtable_patchwork <- function(gt) {
+  guides <- gt$collected_guides
+  gt$collected_guides <- NULL
   panel_pos <- find_panel(gt)
   widths <- unit.c(gt$widths[seq_len(panel_pos$l - 1)], unit(1, 'null'), gt$widths[seq(panel_pos$r + 1, ncol(gt))])
   heights <- unit.c(gt$heights[seq_len(panel_pos$t - 1)], unit(1, 'null'), gt$heights[seq(panel_pos$b + 1, nrow(gt))])
@@ -387,6 +393,7 @@ simplify_gt.gtable_patchwork <- function(gt) {
   gt_new <- gtable_add_grob(gt_new, zeroGrob(), PANEL_ROW, PANEL_COL, name = 'panel-nested-patchwork')
   gt_new <- gtable_add_grob(gt_new, gt, 1, 1, nrow(gt_new), ncol(gt_new), clip = 'off', name = 'patchwork-table')
   class(gt_new) <- c('gtable_patchwork_simple', class(gt_new))
+  gt_new$collected_guides <- guides
   gt_new
 }
 #' @export
