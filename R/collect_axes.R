@@ -47,7 +47,7 @@ collect_axis_titles <- function(gt, dir = "x", merge = TRUE) {
       cols <- runs$col_start[i]:runs$col_end[i]
       first <- switch(name,
         "xlab-t" = layout[runs$row_start[i], cols],
-        "xlab-b" = layout[runs$row_end[i]],
+        "xlab-b" = layout[runs$row_end[i], cols],
         "ylab-l" = layout[rows, runs$col_start[i]],
         "ylab-r" = layout[rows, runs$col_end[i]]
       )
