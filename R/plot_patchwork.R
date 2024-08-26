@@ -862,7 +862,7 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
     all_fixed_rows <- table(unlist(lapply(fixed_areas, `[[`, 'rows')))
     all_fixed_cols <- table(unlist(lapply(fixed_areas, `[[`, 'cols')))
     controls_dim <- vapply(fixed_areas, function(a) {
-      all(all_fixed_rows[as.character(a$rows)] == 1) || all(all_fixed_rows[as.character(a$cols)] == 1)
+      all(all_fixed_rows[as.character(a$rows)] == 1) || all(all_fixed_cols[as.character(a$cols)] == 1)
     }, logical(1))
     for (i in order(controls_dim)) {
       panel_ind <- grep('panel', panels[[fixed_gt[i]]]$layout$name)[1]
