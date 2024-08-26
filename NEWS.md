@@ -7,6 +7,7 @@
   #369)
 * Native support for gt objects
 * Empty patches no longer breaks up axis title collection (#375)
+* `wrap_ggplot_grob()` now respects auto-tagging (#363)
 
 # patchwork 1.2.0
 

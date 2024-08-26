@@ -50,5 +50,21 @@ wrap_ggplot_grob <- function(x) {
 patchGrob.table_patch <- function(x, guides = 'auto') {
   gt <- attr(x, 'table')
   gt <- add_strips(gt)
-  add_guides(gt, guides == 'collect')
+  gt <- add_guides(gt, guides == 'collect')
+  if ("tag" %in% names(x$labels)) {
+    plot <- add_guides(add_strips(ggplotGrob(x)))
+    tag_idx <- which(plot$layout$name == "tag")
+    gt <- gtable_add_grob(
+      gt,
+      grobs = plot$grobs[[tag_idx]],
+      t = plot$layout$t[tag_idx],
+      l = plot$layout$l[tag_idx],
+      b = plot$layout$b[tag_idx],
+      r = plot$layout$r[tag_idx],
+      z = max(gt$layout$z) + 1,
+      clip = plot$layout$clip[tag_idx],
+      name = "tag"
+    )
+  }
+  gt
 }
