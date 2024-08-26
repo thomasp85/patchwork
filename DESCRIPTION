@@ -41,6 +41,7 @@ Suggests:
     testthat (>= 2.1.0),
     vdiffr,
     covr,
-    png
+    png,
+    gt (>= 0.11.0)
 VignetteBuilder: knitr
 Config/Needs/website: gifski

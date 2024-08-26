@@ -13,8 +13,8 @@ wrap_elements(
 )
 }
 \arguments{
-\item{panel, plot, full}{A grob, ggplot, patchwork, formula, raster, or
-nativeRaster object to add to the respective area.}
+\item{panel, plot, full}{A grob, ggplot, patchwork, formula, raster,
+nativeRaster, or gt object to add to the respective area.}
 
 \item{clip}{Should the grobs be clipped if expanding outside its area}
 

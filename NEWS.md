@@ -5,6 +5,7 @@
   patchwork (#370)
 * Axis titles can now reliably be collected even with faceted plots (#367 and 
   #369)
+* Native support for gt objects
 
 # patchwork 1.2.0
 

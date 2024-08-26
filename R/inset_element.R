@@ -6,7 +6,7 @@
 #' `inset_element()` function provides a way to create such insets and gives you
 #' full control over placement.
 #'
-#' @param p A grob, ggplot, patchwork, formula, raster, or nativeRaster object
+#' @param p A grob, ggplot, patchwork, formula, raster, nativeRaster, or gt object
 #' to add as an inset
 #' @param left,bottom,right,top numerics or units giving the location of the
 #' outer bounds. If given as numerics they will be converted to `npc` units.

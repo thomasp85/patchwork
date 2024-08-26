@@ -17,7 +17,7 @@ inset_element(
 )
 }
 \arguments{
-\item{p}{A grob, ggplot, patchwork, formula, raster, or nativeRaster object
+\item{p}{A grob, ggplot, patchwork, formula, raster, nativeRaster, or gt object
 to add as an inset}
 
 \item{left, bottom, right, top}{numerics or units giving the location of the
