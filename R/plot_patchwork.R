@@ -339,9 +339,25 @@ plot_table.free_plot <- function(x, guides) {
     )
   }
 
-  gt <- gt[seq_len(nrow(gt) - 4) + 2, seq_len(ncol(gt) - 4) + 2]
-  table <- gtable_add_grob(table, list(gt), 3, 3, TABLE_ROWS - 2,
+  gt_central <- gt[seq_len(nrow(gt) - 4) + 2, seq_len(ncol(gt) - 4) + 2]
+  table <- gtable_add_grob(table, list(gt_central), 3, 3, TABLE_ROWS - 2,
                            TABLE_COLS - 2, clip = 'on', name = 'free_plot')
+
+  # Add tag if it was free floating and removed during the above indexing
+  if (!is_zero(tag) && !is.character(tag_pos) && !"tag" %in% gt_central$layout$name) {
+    tag_idx <- which(gt$layout$name == "tag")
+    table <- gtable_add_grob(
+      table,
+      tag,
+      name = "tag",
+      t = gt$layout$t[tag_idx],
+      l = gt$layout$l[tag_idx],
+      b = gt$layout$b[tag_idx],
+      r = gt$layout$r[tag_idx],
+      z <- max(table$layout$z) + 1,
+      clip = "off"
+    )
+  }
   table$collected_guides <- collected_guides
   table
 }

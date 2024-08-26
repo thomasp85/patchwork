@@ -9,6 +9,8 @@
 * Empty patches no longer breaks up axis title collection (#375)
 * `wrap_ggplot_grob()` now respects auto-tagging (#363)
 * Fix a bug where guide collecting would prevent proper axes collecting (#359)
+* Fix a bug in `free()` where tags placed on top of the plot region would become
+  missing (#350)
 
 # patchwork 1.2.0
 
