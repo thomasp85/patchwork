@@ -75,4 +75,11 @@ free(p1) / p2 + plot_layout(guides = "collect")
 # We could use "label" to fix the layout in a different way
 p1 / free(p2, "label")
 
+# Another issue is that long labels are not using already available free
+# space.
+plot_spacer() + p1 + p2 + p2
+
+# This can be fixed with the "space" type
+plot_spacer() + free(p1, "space", "l") + p2 + p2
+
 }

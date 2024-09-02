@@ -14,6 +14,9 @@
 * `free()` gains `type` and `side` argument. The first to control whether to
   free the panel, the label, or the space occupied outside the panel, the second
   to control which sides it applies to (#345 and #379)
+* `as.list()` is now provided for patchwork objects to get the plots in a
+  patchwork as a list. This also allows the use of `lapply()` and friends on
+  patchwork objects (#381)
 
 # patchwork 1.2.0
 

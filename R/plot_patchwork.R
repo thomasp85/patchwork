@@ -114,6 +114,10 @@ names.patchwork <- function(x) NULL
   }
   x
 }
+#' @export
+as.list.patchwork <- function(x, ...) {
+  get_patches(x)$plots
+}
 #' @importFrom utils str
 #' @export
 str.patchwork <- function(object, ...) {
