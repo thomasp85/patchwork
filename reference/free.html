@@ -87,7 +87,7 @@ other plots in the composition.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">free</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">free</span><span class="op">(</span><span class="va">x</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"panel"</span>, <span class="st">"label"</span>, <span class="st">"space"</span><span class="op">)</span>, side <span class="op">=</span> <span class="st">"trbl"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,10 +97,30 @@ other plots in the composition.</p>
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A ggplot or patchwork object</p></dd>
 
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>Which type of freeing should be applied. See the Details section</p></dd>
+
+
+<dt id="arg-side">side<a class="anchor" aria-label="anchor" href="#arg-side"></a></dt>
+<dd><p>Which side should the freeing be applied to. A string containing
+one or more of "t", "r", "b", and "l"</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A modified version of <code>x</code> with a <code>free_plot</code> class</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>free()</code> has multiple modes depending on what you are needing:</p>
+<p>The default <code>"panel"</code> will allow the panel area to ignore alginment with the
+remaining plots and expand as much as needed to fill any empty space.</p>
+<p>The <code>"label"</code> type will instead free the axis label to keep its proximity to
+the axis, even if a longer axis text from another plot would push them apart.</p>
+<p>The <code>"space"</code> type also keeps axis and title together, but will instead not
+reserve any space for it. This allows the axis to occupy space in an
+otherwise empty area without making additional space available for itself.</p>
     </div>
 
     <div class="section level2">
@@ -123,13 +143,22 @@ other plots in the composition.</p>
 <span class="r-in"><span><span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></span></span>
 <span class="r-plt img"><img src="free-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># We can fix this be using free</span></span></span>
+<span class="r-in"><span><span class="co"># We can fix this be using free (here, with the default "panel" type)</span></span></span>
 <span class="r-in"><span><span class="fu">free</span><span class="op">(</span><span class="va">p1</span><span class="op">)</span> <span class="op">/</span> <span class="va">p2</span></span></span>
 <span class="r-plt img"><img src="free-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If we still want the panels to be aligned to the right, we can choose to</span></span></span>
+<span class="r-in"><span><span class="co"># free only the left side</span></span></span>
+<span class="r-in"><span><span class="fu">free</span><span class="op">(</span><span class="va">p1</span>, side <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span> <span class="op">/</span> <span class="va">p2</span></span></span>
+<span class="r-plt img"><img src="free-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># We can still collect guides like before</span></span></span>
 <span class="r-in"><span><span class="fu">free</span><span class="op">(</span><span class="va">p1</span><span class="op">)</span> <span class="op">/</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="free-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="free-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># We could use "label" to fix the layout in a different way</span></span></span>
+<span class="r-in"><span><span class="va">p1</span> <span class="op">/</span> <span class="fu">free</span><span class="op">(</span><span class="va">p2</span>, <span class="st">"label"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="free-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
