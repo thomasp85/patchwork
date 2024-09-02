@@ -65,7 +65,7 @@ wrap_elements <- function(panel = NULL, plot = NULL, full = NULL, clip = TRUE, i
   clip <- if (clip) 'on' else 'off'
   table <- make_patch()
   attr(table, 'grobs') <- list(panel = panel, plot = plot, full = full)
-  attr(table, 'settings') <- list(clip = clip, ignore_tag = ignore_tag)
+  attr(table, 'patch_settings') <- list(clip = clip, ignore_tag = ignore_tag)
   class(table) <- c('wrapped_patch', class(table))
   table
 }
@@ -77,7 +77,7 @@ is_wrapped_patch <- function(x) inherits(x, 'wrapped_patch')
 patchGrob.wrapped_patch <- function(x, guides = 'auto') {
   gt <- ggplotGrob(x)
   table <- patch_table(x, gt)
-  settings <- attr(x, 'settings')
+  settings <- attr(x, 'patch_settings')
   grobs <- attr(x, 'grobs')
   if (!is.null(grobs$full)) {
     table <- gtable_add_grob(table, list(as_patch(grobs$full)), 1, 1, nrow(table),
@@ -204,4 +204,4 @@ offscreen_dev <- function() {
   }
 }
 #' @export
-has_tag.wrapped_patch <- function(x) !attr(x, 'settings')$ignore_tag
+has_tag.wrapped_patch <- function(x) !attr(x, 'patch_settings')$ignore_tag

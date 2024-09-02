@@ -71,3 +71,30 @@ test_that("Insets looks as they should", {
     p1 + inset_element(p2, 0, 0.6, 0.4, 1) + theme_void()
   })
 })
+
+test_that("various flavours of free() works", {
+  p5 <- ggplot(mtcars) +
+    geom_bar(aes(y = factor(gear), fill = factor(gear))) +
+    scale_y_discrete(
+      "",
+      labels = c("3 gears are often enough",
+                 "But, you know, 4 is a nice number",
+                 "I would def go with 5 gears in a modern car")
+    )
+
+  expect_doppelganger('Free panel works', {
+    p1 / free(p5, "panel")
+  })
+  expect_doppelganger('Free panel works on one side', {
+    p1 / free(p5, "panel", "l")
+  })
+  expect_doppelganger('Free label works', {
+    free(p1, "label") / p5
+  })
+  expect_doppelganger('Free space works', {
+    plot_spacer() + free(p5, "space", "l") + p1 + p1
+  })
+  expect_doppelganger('Free can be nested', {
+    p1 / free(p5 / free(p2, "label"), side = "l")
+  })
+})

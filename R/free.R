@@ -14,8 +14,24 @@
 #' other plots in the composition.
 #'
 #' @param x A ggplot or patchwork object
+#' @param type Which type of freeing should be applied. See the Details section
+#' @param side Which side should the freeing be applied to. A string containing
+#' one or more of "t", "r", "b", and "l"
 #'
 #' @return A modified version of `x` with a `free_plot` class
+#'
+#' @details
+#' `free()` has multiple modes depending on what you are needing:
+#'
+#' The default `"panel"` will allow the panel area to ignore alginment with the
+#' remaining plots and expand as much as needed to fill any empty space.
+#'
+#' The `"label"` type will instead free the axis label to keep its proximity to
+#' the axis, even if a longer axis text from another plot would push them apart.
+#'
+#' The `"space"` type also keeps axis and title together, but will instead not
+#' reserve any space for it. This allows the axis to occupy space in an
+#' otherwise empty area without making additional space available for itself.
 #'
 #' @importFrom ggplot2 is.ggplot
 #' @export
@@ -38,15 +54,40 @@
 #'
 #' p1 / p2
 #'
-#' # We can fix this be using free
+#' # We can fix this be using free (here, with the default "panel" type)
 #' free(p1) / p2
+#'
+#' # If we still want the panels to be aligned to the right, we can choose to
+#' # free only the left side
+#' free(p1, side = "l") / p2
 #'
 #' # We can still collect guides like before
 #' free(p1) / p2 + plot_layout(guides = "collect")
 #'
-free <- function(x) {
+#' # We could use "label" to fix the layout in a different way
+#' p1 / free(p2, "label")
+#'
+#' # Another issue is that long labels are not using already available free
+#' # space.
+#' plot_spacer() + p1 + p2 + p2
+#'
+#' # This can be fixed with the "space" type
+#' plot_spacer() + free(p1, "space", "l") + p2 + p2
+#'
+free <- function(x, type = c("panel", "label", "space"), side = "trbl") {
   check_object(x, function(x) is.ggplot(x) || is_patchwork(x), "a <ggplot> or <patchwork> object")
-  class(x) <- c("free_plot", class(x))
+  type <- arg_match(type)
+  side <- tolower(side)
+  if (grepl("[^trbl]", side)) {
+    abort("{.arg side} can only contain the t, r, b, and l characters: ")
+  }
+  settings <- list(type = type, sides = side)
+  if (is_patchwork(x)) {
+    attr(x, "patchwork_free_settings") <- settings
+  } else {
+    attr(x, "free_settings") <- settings
+  }
+  class(x) <- unique(c("free_plot", class(x)))
   x
 }
 is_free_plot <- function(x) inherits(x, "free_plot")

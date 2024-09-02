@@ -11,6 +11,9 @@
 * Fix a bug where guide collecting would prevent proper axes collecting (#359)
 * Fix a bug in `free()` where tags placed on top of the plot region would become
   missing (#350)
+* `free()` gains `type` and `side` argument. The first to control whether to
+  free the panel, the label, or the space occupied outside the panel, the second
+  to control which sides it applies to (#345 and #379)
 
 # patchwork 1.2.0
 

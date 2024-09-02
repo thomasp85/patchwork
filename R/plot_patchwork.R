@@ -293,7 +293,11 @@ plot_table.ggplot <- function(x, guides) {
 }
 #' @export
 plot_table.patchwork <- function(x, guides) {
-  build_patchwork(get_patches(x), guides)
+  if (is_free_plot(x)) {
+    plot_table.free_plot(x, guides)
+  } else {
+    build_patchwork(get_patches(x), guides)
+  }
 }
 #' @export
 plot_table.patch <- function(x, guides) {
@@ -301,64 +305,31 @@ plot_table.patch <- function(x, guides) {
 }
 #' @export
 plot_table.inset_patch <- function(x, guides) {
-  settings <- attr(x, 'settings')
+  settings <- attr(x, 'inset_settings')
   class(x) <- setdiff(class(x), 'inset_patch')
   table <- plot_table(x, guides)
   table$vp <- viewport(x = settings$left, y = settings$bottom,
                        width = settings$right - settings$left,
                        height = settings$top - settings$bottom,
                        just = c(0, 0))
-  attr(table, 'settings') <- settings
+  attr(table, 'inset_settings') <- settings
   class(table) <- c('inset_table', class(table))
   table
 }
 #' @export
 plot_table.free_plot <- function(x, guides) {
-  gt <- NextMethod()
-  collected_guides <- gt$collected_guides
-  gt$collected_guides <- NULL
-  table <- patch_table(make_patch(), gt)
-
-  # Make sure tag remains aligned
-  table$widths[c(2, ncol(table)-1)] <- gt$widths[c(2, ncol(gt)-1)]
-  table$heights[c(2, nrow(table)-1)] <- gt$heights[c(2, nrow(gt)-1)]
-  tag <- get_grob(gt, 'tag')
-  tag_pos <- calc_element("plot.tag.position", x$theme %||% theme_get())
-  if (is.null(tag_pos)) tag_pos <- theme_get()$plot.tag.position
-  if (!is_zero(tag) && is.character(tag_pos)) {
-    table <- switch(
-      tag_pos,
-      topleft = gtable_add_grob(table, tag, name = "tag", t = 2, l = 2, clip = "off"),
-      top = gtable_add_grob(table, tag, name = "tag", t = 2, l = 2, r = ncol(table)-1, clip = "off"),
-      topright = gtable_add_grob(table, tag, name = "tag", t = 2, l = ncol(table)-1, clip = "off"),
-      left = gtable_add_grob(table, tag, name = "tag", t = 2, b = nrow(table)-1, l = 2, clip = "off"),
-      right = gtable_add_grob(table, tag, name = "tag", t = 2, b = nrow(table)-1, l = ncol(table)-1, clip = "off"),
-      bottomleft = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = 2, clip = "off"),
-      bottom = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = 2, r = ncol(table)-1, clip = "off"),
-      bottomright = gtable_add_grob(table, tag, name = "tag", t = nrow(table)-1, l = ncol(table)-1, clip = "off")
-    )
+  if (is_patchwork(x)) {
+    settings <- attr(x, 'patchwork_free_settings')
+    # We do this directly because the last plot in the patchwork might be free
+    # so we don't want to remove the free class and dispatch
+    table <- build_patchwork(get_patches(x), guides)
+  } else {
+    settings <- attr(x, 'free_settings')
+    class(x) <- setdiff(class(x), 'free_plot')
+    table <- plot_table(x, guides)
   }
-
-  gt_central <- gt[seq_len(nrow(gt) - 4) + 2, seq_len(ncol(gt) - 4) + 2]
-  table <- gtable_add_grob(table, list(gt_central), 3, 3, TABLE_ROWS - 2,
-                           TABLE_COLS - 2, clip = 'on', name = 'free_plot')
-
-  # Add tag if it was free floating and removed during the above indexing
-  if (!is_zero(tag) && !is.character(tag_pos) && !"tag" %in% gt_central$layout$name) {
-    tag_idx <- which(gt$layout$name == "tag")
-    table <- gtable_add_grob(
-      table,
-      tag,
-      name = "tag",
-      t = gt$layout$t[tag_idx],
-      l = gt$layout$l[tag_idx],
-      b = gt$layout$b[tag_idx],
-      r = gt$layout$r[tag_idx],
-      z <- max(table$layout$z) + 1,
-      clip = "off"
-    )
-  }
-  table$collected_guides <- collected_guides
+  attr(table, 'free_settings') <- settings
+  class(table) <- c('free_table', class(table))
   table
 }
 simplify_gt <- function(gt) {
@@ -416,6 +387,18 @@ simplify_gt.gtable_patchwork <- function(gt) {
 simplify_gt.patchgrob <- function(gt) gt
 #' @export
 simplify_gt.inset_table <- function(gt) gt
+#' @export
+simplify_gt.free_table <- function(gt) {
+  settings <- attr(gt, "free_settings")
+  gt_new <- NextMethod()
+  sides <- vapply(c("t", "r", "b", "l"), grepl, logical(1), settings$sides)
+  switch(
+    settings$type,
+    panel = free_panel(gt_new, sides),
+    label = free_label(gt_new, sides),
+    space = free_space(gt_new, sides),
+  )
+}
 
 #' @importFrom gtable gtable_add_grob is.gtable
 #' @importFrom grid viewport
@@ -630,6 +613,167 @@ simplify_fixed <- function(gt, gt_new, panels, rows, cols) {
   panel_name <- paste0('panel; ', paste(panels$layout$name, collapse = ', '))
   gtable_add_grob(gt_new, panels, rows[1], cols[1], clip = 'off', name = panel_name, z = 1)
 }
+
+free_panel <- function(gt, has_side) {
+  nested <- grep("patchwork-table", gt$layout$name)
+  for (i in nested) {
+    loc <- gt$layout[i, ]
+    loc <- c(loc$t, loc$r, loc$b, loc$l) == c(1, ncol(gt), nrow(gt), 1) & has_side
+    if (!any(loc)) next
+    gt$grobs[[i]] <- free_panel(gt$grobs[[i]], loc)
+  }
+  top <- if (has_side[1]) 3 else PANEL_ROW
+  right <- ncol(gt) - if (has_side[2]) 2 else TABLE_COLS - PANEL_COL
+  bottom <- nrow(gt) - if (has_side[3]) 2 else TABLE_ROWS - PANEL_ROW
+  left <- if (has_side[4]) 3 else PANEL_COL
+
+  panel_col_pos <- seq(0, by = TABLE_COLS, length.out = floor(ncol(gt) / TABLE_COLS)) + PANEL_COL
+  panel_row_pos <- seq(0, by = TABLE_ROWS, length.out = floor(nrow(gt) / TABLE_ROWS)) + PANEL_ROW
+  panel_width <- gt$widths[panel_col_pos]
+  panel_height <- gt$heights[panel_row_pos]
+
+  gt$widths[panel_col_pos][as.numeric(panel_width) == 0] <- unit(1, "null")
+  gt$heights[panel_row_pos][as.numeric(panel_height) == 0] <- unit(1, "null")
+
+  gt <- liberate_area(gt, top, right, bottom, left, "free_panel")
+
+  if (!has_side[1] && (has_side[2] || has_side[4])) {
+    gt <- liberate_rows(gt, 3, right, top - 1, left)
+  }
+  if (!has_side[2] && (has_side[1] || has_side[3])) {
+    gt <- liberate_cols(gt, top, ncol(gt) - 2, bottom, right + 1)
+  }
+  if (!has_side[3] && (has_side[2] || has_side[4])) {
+    gt <- liberate_rows(gt, bottom + 1, right, nrow(gt) - 2, left)
+  }
+  if (!has_side[4] && (has_side[1] || has_side[3])) {
+    gt <- liberate_cols(gt, top, left - 1, bottom, 3)
+  }
+
+  gt$widths[left:right] <- unit(0, "mm")
+  gt$widths[panel_col_pos] <- panel_width
+  gt$heights[top:bottom] <- unit(0, "mm")
+  gt$heights[panel_row_pos] <- panel_height
+
+  gt
+}
+grob_in_rect <- function(gt, top, right, bottom, left) {
+  gt$layout$l >= left & gt$layout$t >= top & gt$layout$r <= right & gt$layout$b <= bottom
+}
+liberate_area <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) {
+  liberated <- gt[top:bottom, left:right]
+  remove <- grob_in_rect(gt, top, right, bottom, left)
+  if (any(remove)) {
+    if (!is.null(vp)) liberated$vp <- vp
+    name <- name %||% paste(liberated$layout$name, collapse ="; ")
+    gt$grobs <- gt$grobs[!remove]
+    gt$layout <- gt$layout[!remove,]
+    gt  <- gtable_add_grob(gt, liberated, top, left, bottom, right, max(liberated$layout$z), "inherit", name)
+  }
+  gt
+}
+liberate_rows <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) {
+  liberate <- which(grob_in_rect(gt, top, right, bottom, left))
+  unique_rows <- unique(gt$layout[liberate, c("t", "b")])
+  for (i in seq_len(nrow(unique_rows))) {
+    gt <- liberate_area(gt, unique_rows$t[i], right, unique_rows$b[i], left, name, vp)
+  }
+  gt
+}
+liberate_cols <- function(gt, top, right, bottom ,left) {
+  liberate <- which(grob_in_rect(gt, top, right, bottom, left))
+  unique_cols <- unique(gt$layout[liberate, c("l", "r")])
+  for (i in seq_len(nrow(unique_rows))) {
+    gt <- liberate_area(gt, top, unique_rows$r[i], bottom, unique_rows$l[i], name, vp)
+  }
+  gt
+}
+free_label <- function(gt, has_side) {
+  nested <- grep("patchwork-table", gt$layout$name)
+  for (i in nested) {
+    loc <- gt$layout[i, ]
+    loc <- c(loc$t, loc$r, loc$b, loc$l) == c(1, ncol(gt), nrow(gt), 1) & has_side
+    if (!any(loc)) next
+    gt$grobs[[i]] <- free_label(gt$grobs[[i]], loc)
+  }
+
+  panel_col_pos <- seq(0, by = TABLE_COLS, length.out = floor(ncol(gt) / TABLE_COLS)) + PANEL_COL
+  panel_row_pos <- seq(0, by = TABLE_ROWS, length.out = floor(nrow(gt) / TABLE_ROWS)) + PANEL_ROW
+  panel_width <- gt$widths[panel_col_pos]
+  panel_height <- gt$heights[panel_row_pos]
+
+  gt$widths[panel_col_pos][as.numeric(panel_width) == 0] <- unit(1, "null")
+  gt$heights[panel_row_pos][as.numeric(panel_height) == 0] <- unit(1, "null")
+
+  top <- PANEL_ROW
+  right <- ncol(gt) - (TABLE_COLS - PANEL_COL)
+  bottom <- nrow(gt) - (TABLE_ROWS - PANEL_ROW)
+  left <- PANEL_COL
+
+  if (has_side[1]) {
+    gt <- liberate_area(gt, top - 3, right, top - 1, left, vp = viewport(y = 1, height = sum(gt$heights[(top - 3):(top - 1)]), just = c(0.5, 1)))
+  }
+  if (has_side[2]) {
+    gt <- liberate_area(gt, top, right + 3, bottom, right + 1, vp = viewport(x = 0, width = sum(gt$widths[(right + 1):(right + 3)]), just = c(0, 0.5)))
+  }
+  if (has_side[3]) {
+    gt <- liberate_area(gt, bottom + 1, right, bottom + 3, left, vp = viewport(y = 0, height = sum(gt$heights[(bottom + 1):(bottom + 3)]), just = c(0.5, 0)))
+  }
+  if (has_side[4]) {
+    gt <- liberate_area(gt, top, left - 1, bottom, left - 3, vp = viewport(x = 1, width = sum(gt$widths[(left - 3):(left - 1)]), just = c(1, 0.5)))
+  }
+
+  gt$widths[panel_col_pos] <- panel_width
+  gt$heights[panel_row_pos] <- panel_height
+
+  gt
+}
+free_space <- function(gt, has_side) {
+  nested <- grep("patchwork-table", gt$layout$name)
+  for (i in nested) {
+    loc <- gt$layout[i, ]
+    loc <- c(loc$t, loc$r, loc$b, loc$l) == c(1, ncol(gt), nrow(gt), 1) & has_side
+    if (!any(loc)) next
+    gt$grobs[[i]] <- free_space(gt$grobs[[i]], loc)
+  }
+
+  panel_col_pos <- seq(0, by = TABLE_COLS, length.out = floor(ncol(gt) / TABLE_COLS)) + PANEL_COL
+  panel_row_pos <- seq(0, by = TABLE_ROWS, length.out = floor(nrow(gt) / TABLE_ROWS)) + PANEL_ROW
+  panel_width <- gt$widths[panel_col_pos]
+  panel_height <- gt$heights[panel_row_pos]
+
+  gt$widths[panel_col_pos][as.numeric(panel_width) == 0] <- unit(1, "null")
+  gt$heights[panel_row_pos][as.numeric(panel_height) == 0] <- unit(1, "null")
+
+  top <- PANEL_ROW
+  right <- ncol(gt) - (TABLE_COLS - PANEL_COL)
+  bottom <- nrow(gt) - (TABLE_ROWS - PANEL_ROW)
+  left <- PANEL_COL
+
+  if (has_side[1]) {
+    gt <- liberate_area(gt, 3, right, top - 1, left, vp = viewport(y = 1, height = sum(gt$heights[3:(top - 1)]), just = c(0.5, 1)))
+    gt$heights[3:(top - 1)] <- unit(0, "mm")
+  }
+  if (has_side[2]) {
+    gt <- liberate_area(gt, top, ncol(gt) - 2, bottom, right + 1, vp = viewport(x = 0, width = sum(gt$widths[(right + 1):(ncol(gt) - 2)]), just = c(0, 0.5)))
+    gt$widths[(right + 1):(ncol(gt) - 2)] <- unit(0, "mm")
+  }
+  if (has_side[3]) {
+    gt <- liberate_area(gt, bottom + 1, right, nrow(gt) - 2, left, vp = viewport(y = 0, height = sum(gt$heights[(bottom + 1):(nrow(gt) - 2)]), just = c(0.5, 0)))
+    gt$heights[(bottom + 1):(nrow(gt) - 2)] <- unit(0, "mm")
+  }
+  if (has_side[4]) {
+    gt <- liberate_area(gt, top, left - 1, bottom, 3, vp = viewport(x = 1, width = sum(gt$widths[3:(left - 1)]), just = c(1, 0.5)))
+    gt$widths[3:(left - 1)] <- unit(0, "mm")
+  }
+
+  gt$widths[panel_col_pos] <- panel_width
+  gt$heights[panel_row_pos] <- panel_height
+
+  gt
+}
+
+
 create_design <- function(width, height, byrow) {
   mat <- matrix(seq_len(width * height), nrow = height, ncol = width, byrow = byrow)
   ind <- as.vector(mat)
@@ -936,7 +1080,7 @@ add_insets <- function(gt) {
   for (i in seq_along(insets)) {
     ins <- gt[[insets[i]]]
     can <- gt[[canvas[i]]]
-    setting <- attr(ins, 'settings')
+    setting <- attr(ins, 'inset_settings')
     if (setting$on_top) {
       z <- max(can$layout$z) + 1
     } else {

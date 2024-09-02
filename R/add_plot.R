@@ -36,6 +36,12 @@ get_patches <- function(plot) {
     patches <- plot$patches
     plot$patches <- NULL
     class(plot) <- setdiff(class(plot), 'patchwork')
+    if (is_free_plot(plot)) {
+      attr(plot, "patchwork_free_settings") <- NULL
+      if (is.null(attr(plot, "free_settings"))) {
+        class(plot) <- setdiff(class(plot), 'free_plot')
+      }
+    }
   } else {
     patches <- new_patchwork()
   }
