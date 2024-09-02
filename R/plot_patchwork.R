@@ -684,7 +684,7 @@ liberate_rows <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) 
   }
   gt
 }
-liberate_cols <- function(gt, top, right, bottom ,left) {
+liberate_cols <- function(gt, top, right, bottom ,left, name = NULL, vp = NULL) {
   liberate <- which(grob_in_rect(gt, top, right, bottom, left))
   unique_cols <- unique(gt$layout[liberate, c("l", "r")])
   for (i in seq_len(nrow(unique_rows))) {
