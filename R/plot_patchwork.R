@@ -715,13 +715,13 @@ free_label <- function(gt, has_side) {
   left <- PANEL_COL
 
   if (has_side[1]) {
-    gt <- liberate_area(gt, top - 3, right, top - 1, left, vp = viewport(y = 1, height = sum(gt$heights[(top - 3):(top - 1)]), just = c(0.5, 1)))
+    gt <- liberate_area(gt, top - 3, right, top - 1, left, vp = viewport(y = 0, height = sum(gt$heights[(top - 3):(top - 1)]), just = c(0.5, 0)))
   }
   if (has_side[2]) {
     gt <- liberate_area(gt, top, right + 3, bottom, right + 1, vp = viewport(x = 0, width = sum(gt$widths[(right + 1):(right + 3)]), just = c(0, 0.5)))
   }
   if (has_side[3]) {
-    gt <- liberate_area(gt, bottom + 1, right, bottom + 3, left, vp = viewport(y = 0, height = sum(gt$heights[(bottom + 1):(bottom + 3)]), just = c(0.5, 0)))
+    gt <- liberate_area(gt, bottom + 1, right, bottom + 3, left, vp = viewport(y = 1, height = sum(gt$heights[(bottom + 1):(bottom + 3)]), just = c(0.5, 1)))
   }
   if (has_side[4]) {
     gt <- liberate_area(gt, top, left - 1, bottom, left - 3, vp = viewport(x = 1, width = sum(gt$widths[(left - 3):(left - 1)]), just = c(1, 0.5)))
@@ -755,7 +755,7 @@ free_space <- function(gt, has_side) {
   left <- PANEL_COL
 
   if (has_side[1]) {
-    gt <- liberate_area(gt, 3, right, top - 1, left, vp = viewport(y = 1, height = sum(gt$heights[3:(top - 1)]), just = c(0.5, 1)))
+    gt <- liberate_area(gt, 3, right, top - 1, left, vp = viewport(y = 0, height = sum(gt$heights[3:(top - 1)]), just = c(0.5, 0)))
     gt$heights[3:(top - 1)] <- unit(0, "mm")
   }
   if (has_side[2]) {
@@ -763,7 +763,7 @@ free_space <- function(gt, has_side) {
     gt$widths[(right + 1):(ncol(gt) - 2)] <- unit(0, "mm")
   }
   if (has_side[3]) {
-    gt <- liberate_area(gt, bottom + 1, right, nrow(gt) - 2, left, vp = viewport(y = 0, height = sum(gt$heights[(bottom + 1):(nrow(gt) - 2)]), just = c(0.5, 0)))
+    gt <- liberate_area(gt, bottom + 1, right, nrow(gt) - 2, left, vp = viewport(y = 1, height = sum(gt$heights[(bottom + 1):(nrow(gt) - 2)]), just = c(0.5, 1)))
     gt$heights[(bottom + 1):(nrow(gt) - 2)] <- unit(0, "mm")
   }
   if (has_side[4]) {
