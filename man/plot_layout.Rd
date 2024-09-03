@@ -5,15 +5,15 @@
 \title{Define the grid to compose plots in}
 \usage{
 plot_layout(
-  ncol = NULL,
-  nrow = NULL,
-  byrow = NULL,
-  widths = NULL,
-  heights = NULL,
-  guides = NULL,
-  tag_level = NULL,
-  design = NULL,
-  axes = NULL,
+  ncol = waiver(),
+  nrow = waiver(),
+  byrow = waiver(),
+  widths = waiver(),
+  heights = waiver(),
+  guides = waiver(),
+  tag_level = waiver(),
+  design = waiver(),
+  axes = waiver(),
   axis_titles = axes
 )
 }
@@ -65,7 +65,8 @@ A \code{plot_layout} object to be added to a \code{ggassmble} object
 \description{
 To control how different plots are laid out, you need to add a
 layout specification. If you are nesting grids, the layout is scoped to the
-current nesting level.
+current nesting level. An already set value can be removed by setting it to
+\code{NULL}.
 }
 \examples{
 library(ggplot2)

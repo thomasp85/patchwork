@@ -17,6 +17,7 @@ unname_vp <- function(x) {
 }
 #' @importFrom grid is.grob is.unit absolute.size
 #' @importFrom gtable is.gtable
+#' @importFrom farver set_channel get_channel
 unname_grob <- function(x) {
   if (is.gtable(x)) {
     x$name <- ''
@@ -32,6 +33,18 @@ unname_grob <- function(x) {
   }
   unit_elements <- vapply(x, is.unit, logical(1))
   x[unit_elements] <- lapply(.subset(x, unit_elements), absolute.size)
+  if (!is.null(x$gp)) {
+    if (is.character(x$gp$col)) x$gp$col <- set_channel(x$gp$col, "r", get_channel(x$gp$col, "r"))
+    if (is.character(x$gp$fill)) x$gp$fill <- set_channel(x$gp$fill, "r", get_channel(x$gp$fill, "r"))
+    if (is.numeric(x$gp$lty)) x$gp$lty <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[x$gp$lty + 1]
+    if (is.character(x$gp$lty)) {
+      rename <- match(x$gp$lty, c("44", "13", "1343", "73", "2262"))
+      matched <- !is.na(rename)
+      x$gp$lty[matched] <- c("dashed", "dotted", "dotdash", "longdash", "twodash")[rename[matched]]
+    }
+    if (is.numeric(x$gp$lineend)) x$gp$lineend <- c("round", "butt", "square")[x$gp$lineend]
+    if (is.numeric(x$gp$linejoin)) x$gp$linejoin <- c("round", "mitre", "bevel")[x$gp$linejoin]
+  }
   x
 }
 collapse_guides <- function(guides) {

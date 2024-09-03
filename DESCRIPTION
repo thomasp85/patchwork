@@ -27,7 +27,8 @@ Imports:
     utils,
     graphics,
     rlang (>= 1.0.0),
-    cli
+    cli,
+    farver
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 URL: https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork

@@ -3,8 +3,7 @@
 * `free()` now better aligns plots in horizontal direction
 * Plot backgrounds are now always placed beneath all other elements in the
   patchwork (#370)
-* Axis titles can now reliably be collected even with faceted plots (#367 and
-  #369)
+* Axis titles can now reliably be collected even with faceted plots (#367)
 * Native support for gt objects
 * Empty patches no longer breaks up axis title collection (#375)
 * `wrap_ggplot_grob()` now respects auto-tagging (#363)
@@ -19,6 +18,9 @@
   patchwork objects (#381)
 * The default arguments in `plot_annotation()` and `plot_layout()` are now
   `waiver()` allowing the use of `NULL` to remove an already set value (#198)
+* Guide and axis merging is slightly more robust when it comes to merging if
+  different graphical parameters that means the same are used (e.g. "black" and
+  "#000000") (#369)
 
 # patchwork 1.2.0
 
