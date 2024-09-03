@@ -52,7 +52,7 @@
 <ul><li>
 <code><a href="../reference/free.html">free()</a></code> now better aligns plots in horizontal direction</li>
 <li>Plot backgrounds are now always placed beneath all other elements in the patchwork (<a href="https://github.com/thomasp85/patchwork/issues/370" class="external-link">#370</a>)</li>
-<li>Axis titles can now reliably be collected even with faceted plots (<a href="https://github.com/thomasp85/patchwork/issues/367" class="external-link">#367</a> and <a href="https://github.com/thomasp85/patchwork/issues/369" class="external-link">#369</a>)</li>
+<li>Axis titles can now reliably be collected even with faceted plots (<a href="https://github.com/thomasp85/patchwork/issues/367" class="external-link">#367</a>)</li>
 <li>Native support for gt objects</li>
 <li>Empty patches no longer breaks up axis title collection (<a href="https://github.com/thomasp85/patchwork/issues/375" class="external-link">#375</a>)</li>
 <li>
@@ -64,6 +64,7 @@
 <li>
 <code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> is now provided for patchwork objects to get the plots in a patchwork as a list. This also allows the use of <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> and friends on patchwork objects (<a href="https://github.com/thomasp85/patchwork/issues/381" class="external-link">#381</a>)</li>
 <li>The default arguments in <code><a href="../reference/plot_annotation.html">plot_annotation()</a></code> and <code><a href="../reference/plot_layout.html">plot_layout()</a></code> are now <code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code> allowing the use of <code>NULL</code> to remove an already set value (<a href="https://github.com/thomasp85/patchwork/issues/198" class="external-link">#198</a>)</li>
+<li>Guide and axis merging is slightly more robust when it comes to merging if different graphical parameters that means the same are used (e.g. “black” and “#000000”) (<a href="https://github.com/thomasp85/patchwork/issues/369" class="external-link">#369</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="patchwork-120">patchwork 1.2.0<a class="anchor" aria-label="anchor" href="#patchwork-120"></a></h2><p class="text-muted">CRAN release: 2024-01-08</p>
