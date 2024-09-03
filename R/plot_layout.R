@@ -2,7 +2,8 @@
 #'
 #' To control how different plots are laid out, you need to add a
 #' layout specification. If you are nesting grids, the layout is scoped to the
-#' current nesting level.
+#' current nesting level. An already set value can be removed by setting it to
+#' `NULL`.
 #'
 #' @param ncol,nrow The dimensions of the grid to create - if both are `NULL` it
 #' will use the same logic as [facet_wrap()][ggplot2::facet_wrap] to set the
@@ -106,18 +107,22 @@
 #' # Guide position must be applied to entire patchwork
 #' p6 + p7 + plot_layout(guides='collect') &
 #'   theme(legend.position='bottom')
-
-plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
-                        heights = NULL, guides = NULL, tag_level = NULL,
-                        design = NULL, axes = NULL, axis_titles = axes) {
-  if (!is.null(guides)) guides <- match.arg(guides, c('auto', 'collect', 'keep'))
-  if (!is.null(tag_level)) tag_level <- match.arg(tag_level, c('keep', 'new'))
-  if (!is.null(axes)) axes <- match.arg(
-    axes, c('keep', 'collect', 'collect_x', 'collect_y')
-  )
-  if (!is.null(axis_titles)) collect_titles <- match.arg(
-    axis_titles, c('keep', 'collect', 'collect_x', 'collect_y')
-  )
+plot_layout <- function(ncol = waiver(), nrow = waiver(), byrow = waiver(),
+                        widths = waiver(), heights = waiver(), guides = waiver(),
+                        tag_level = waiver(), design = waiver(), axes = waiver(),
+                        axis_titles = axes) {
+  if (!is.null(guides) && !is_waiver(guides)) {
+    guides <- arg_match0(guides, c('auto', 'collect', 'keep'))
+  }
+  if (!is.null(tag_level) && !is_waiver(tag_level)) {
+    tag_level <- arg_match0(tag_level, c('keep', 'new'))
+  }
+  if (!is.null(axes) && !is_waiver(axes)) {
+    axes <- arg_match0(axes, c('keep', 'collect', 'collect_x', 'collect_y'))
+  }
+  if (!is.null(axis_titles) && !is_waiver(axis_titles)) {
+    collect_titles <- arg_match0(axis_titles, c('keep', 'collect', 'collect_x', 'collect_y'))
+  }
   structure(list(
     ncol = ncol,
     nrow = nrow,
@@ -128,7 +133,7 @@ plot_layout <- function(ncol = NULL, nrow = NULL, byrow = NULL, widths = NULL,
     tag_level = tag_level,
     axes = axes,
     axis_titles = axis_titles,
-    design = as_areas(design)
+    design = if (is_waiver(design)) design else as_areas(design)
   ), class = 'plot_layout')
 }
 #' Specify a plotting area in a layout
@@ -304,13 +309,15 @@ c.patch_area <- function(..., recursive = FALSE) {
   area
 }
 default_layout <- plot_layout(
-  byrow = TRUE, widths = NA, heights = NA, guides = 'auto', tag_level = 'keep',
+  ncol = NULL, nrow = NULL, byrow = TRUE, widths = NA, heights = NA,
+  guides = 'auto', tag_level = 'keep', design = NULL,
   axes = 'keep', axis_titles = 'keep'
 )
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_layout <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
-  plot$patches$layout <- modifyList(plot$patches$layout, object[!vapply(object, is.null, logical(1))])
+  do_change <- object[!vapply(object, is_waiver, logical(1))]
+  plot$patches$layout[names(do_change)] <- do_change
   plot
 }

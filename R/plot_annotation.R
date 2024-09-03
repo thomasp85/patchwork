@@ -7,7 +7,8 @@ has_tag <- function(x) {
 #' The result of this function can be added to a patchwork using `+` in the same
 #' way as [plot_layout()], but unlike [plot_layout()] it will only have an
 #' effect on the top level plot. As the name suggests it controls different
-#' aspects of the annotation of the final plot, such as titles and tags.
+#' aspects of the annotation of the final plot, such as titles and tags. Already
+#' added annotations can be removed by setting the relevant argument to `NULL`.
 #'
 #' @details
 #' Tagging of subplots is done automatically and following the order of the
@@ -38,6 +39,7 @@ has_tag <- function(x) {
 #' @return A `plot_annotation` object
 #'
 #' @export
+#' @importFrom ggplot2 waiver
 #'
 #' @examples
 #' library(ggplot2)
@@ -69,9 +71,9 @@ has_tag <- function(x) {
 #' p1 / ((p2 | p3) + plot_layout(tag_level = 'new')) +
 #'   plot_annotation(tag_levels = list(c('&', '%'), '1'))
 #'
-plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
-                            tag_levels = NULL, tag_prefix = NULL, tag_suffix = NULL,
-                            tag_sep = NULL, theme = NULL) {
+plot_annotation <- function(title = waiver(), subtitle = waiver(), caption = waiver(),
+                            tag_levels = waiver(), tag_prefix = waiver(), tag_suffix = waiver(),
+                            tag_sep = waiver(), theme = waiver()) {
   th <- if (is.null(theme)) ggplot2::theme() else theme
   structure(list(
     title = title,
@@ -84,14 +86,28 @@ plot_annotation <- function(title = NULL, subtitle = NULL, caption = NULL,
     theme = th
   ), class = 'plot_annotation')
 }
-default_annotation <- plot_annotation(tag_levels = character(), tag_prefix = '', tag_suffix = '', tag_sep = '')
+default_annotation <- plot_annotation(
+  title = NULL,
+  subtitle = NULL,
+  caption = NULL,
+  tag_levels = character(),
+  tag_prefix = '',
+  tag_suffix = '',
+  tag_sep = '',
+  theme = NULL
+)
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_annotation <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
-  plot$patches$annotation$theme <- plot$patches$annotation$theme + object$theme
+  if (is.null(object$theme)) {
+    plot$patches$annotation$theme <- NULL
+  } else if (!is_waiver(object$theme)) {
+    plot$patches$annotation$theme <- plot$patches$annotation$theme + object$theme
+  }
   object$theme <- NULL
-  plot$patches$annotation <- modifyList(plot$patches$annotation, object[!vapply(object, is.null, logical(1))])
+  do_change <- object[!vapply(object, is_waiver, logical(1))]
+  plot$patches$annotation[names(do_change)] <- do_change
   plot
 }
 #' @importFrom ggplot2 is.ggplot labs

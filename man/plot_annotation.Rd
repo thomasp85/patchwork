@@ -5,14 +5,14 @@
 \title{Annotate the final patchwork}
 \usage{
 plot_annotation(
-  title = NULL,
-  subtitle = NULL,
-  caption = NULL,
-  tag_levels = NULL,
-  tag_prefix = NULL,
-  tag_suffix = NULL,
-  tag_sep = NULL,
-  theme = NULL
+  title = waiver(),
+  subtitle = waiver(),
+  caption = waiver(),
+  tag_levels = waiver(),
+  tag_prefix = waiver(),
+  tag_suffix = waiver(),
+  tag_sep = waiver(),
+  theme = waiver()
 )
 }
 \arguments{
@@ -42,7 +42,8 @@ A \code{plot_annotation} object
 The result of this function can be added to a patchwork using \code{+} in the same
 way as \code{\link[=plot_layout]{plot_layout()}}, but unlike \code{\link[=plot_layout]{plot_layout()}} it will only have an
 effect on the top level plot. As the name suggests it controls different
-aspects of the annotation of the final plot, such as titles and tags.
+aspects of the annotation of the final plot, such as titles and tags. Already
+added annotations can be removed by setting the relevant argument to \code{NULL}.
 }
 \details{
 Tagging of subplots is done automatically and following the order of the

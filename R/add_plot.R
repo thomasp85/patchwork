@@ -86,8 +86,29 @@ add_patches.patchwork <- function(plot, patches) {
 new_patchwork <- function() {
   list(
     plots = list(),
-    layout = plot_layout(),
-    annotation = plot_annotation()
+    # We need to initialise layout and annotation with NULL values rather than waivers
+    layout = plot_layout(
+      ncol = NULL,
+      nrow = NULL,
+      byrow = NULL,
+      widths = NULL,
+      heights = NULL,
+      guides = NULL,
+      tag_level = NULL,
+      design = NULL,
+      axes = NULL,
+      axis_titles = NULL
+    ),
+    annotation = plot_annotation(
+      title = NULL,
+      subtitle = NULL,
+      caption = NULL,
+      tag_levels = NULL,
+      tag_prefix = NULL,
+      tag_suffix = NULL,
+      tag_sep = NULL,
+      theme = NULL
+    )
   )
 }
 #' @importFrom ggplot2 ggplot

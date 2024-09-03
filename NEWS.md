@@ -17,6 +17,8 @@
 * `as.list()` is now provided for patchwork objects to get the plots in a
   patchwork as a list. This also allows the use of `lapply()` and friends on
   patchwork objects (#381)
+* The default arguments in `plot_annotation()` and `plot_layout()` are now
+  `waiver()` allowing the use of `NULL` to remove an already set value (#198)
 
 # patchwork 1.2.0
 
