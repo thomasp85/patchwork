@@ -97,4 +97,7 @@ test_that("various flavours of free() works", {
   expect_doppelganger('Free can be nested', {
     p1 / free(p5 / free(p2, "label"), side = "l")
   })
+  expect_doppelganger('Free can be stacked and nested', {
+    free(free(p1 + p2 + p3 + p4, "label", "l"), "panel", "t") - p4 + p5 + plot_spacer()
+  })
 })

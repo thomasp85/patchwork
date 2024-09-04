@@ -394,14 +394,18 @@ simplify_gt.inset_table <- function(gt) gt
 #' @export
 simplify_gt.free_table <- function(gt) {
   settings <- attr(gt, "free_settings")
+  settings <- split(names(settings), settings)
   gt_new <- NextMethod()
-  sides <- vapply(c("t", "r", "b", "l"), grepl, logical(1), settings$sides)
-  switch(
-    settings$type,
-    panel = free_panel(gt_new, sides),
-    label = free_label(gt_new, sides),
-    space = free_space(gt_new, sides),
-  )
+  if (!is.null(settings$label)) {
+    gt_new <- free_label(gt_new, c("t", "r", "b", "l") %in% settings$label)
+  }
+  if (!is.null(settings$space)) {
+    gt_new <- free_space(gt_new, c("t", "r", "b", "l") %in% settings$space)
+  }
+  if (!is.null(settings$panel)) {
+    gt_new <- free_panel(gt_new, c("t", "r", "b", "l") %in% settings$panel)
+  }
+  gt_new
 }
 
 #' @importFrom gtable gtable_add_grob is.gtable
@@ -642,21 +646,21 @@ free_panel <- function(gt, has_side) {
   gt <- liberate_area(gt, top, right, bottom, left, "free_panel")
 
   if (!has_side[1] && (has_side[2] || has_side[4])) {
-    gt <- liberate_rows(gt, 3, right, top - 1, left)
+    gt <- liberate_rows(gt, 3, right, top - 1, left, align = 0)
   }
   if (!has_side[2] && (has_side[1] || has_side[3])) {
-    gt <- liberate_cols(gt, top, ncol(gt) - 2, bottom, right + 1)
+    gt <- liberate_cols(gt, top, ncol(gt) - 2, bottom, right + 1, align = 0)
   }
   if (!has_side[3] && (has_side[2] || has_side[4])) {
-    gt <- liberate_rows(gt, bottom + 1, right, nrow(gt) - 2, left)
+    gt <- liberate_rows(gt, bottom + 1, right, nrow(gt) - 2, left, align = 1)
   }
   if (!has_side[4] && (has_side[1] || has_side[3])) {
-    gt <- liberate_cols(gt, top, left - 1, bottom, 3)
+    gt <- liberate_cols(gt, top, left - 1, bottom, 3, align = 1)
   }
 
-  gt$widths[left:right] <- unit(0, "mm")
+  gt$widths[setdiff(left:right, min(panel_col_pos):max(panel_col_pos))] <- unit(0, "mm")
   gt$widths[panel_col_pos] <- panel_width
-  gt$heights[top:bottom] <- unit(0, "mm")
+  gt$heights[setdiff(top:bottom, min(panel_row_pos):max(panel_row_pos))] <- unit(0, "mm")
   gt$heights[panel_row_pos] <- panel_height
 
   gt
@@ -676,19 +680,19 @@ liberate_area <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) 
   }
   gt
 }
-liberate_rows <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) {
+liberate_rows <- function(gt, top, right, bottom, left, align = 0.5) {
   liberate <- which(grob_in_rect(gt, top, right, bottom, left))
   unique_rows <- unique(gt$layout[liberate, c("t", "b")])
   for (i in seq_len(nrow(unique_rows))) {
-    gt <- liberate_area(gt, unique_rows$t[i], right, unique_rows$b[i], left, name, vp)
+    gt <- liberate_area(gt, unique_rows$t[i], right, unique_rows$b[i], left, vp = viewport(y = align, height = sum(gt$heights[unique_rows$t[i]:unique_rows$b[i]]), just = c(0.5, align)))
   }
   gt
 }
-liberate_cols <- function(gt, top, right, bottom ,left, name = NULL, vp = NULL) {
+liberate_cols <- function(gt, top, right, bottom ,left, align = 0.5) {
   liberate <- which(grob_in_rect(gt, top, right, bottom, left))
   unique_cols <- unique(gt$layout[liberate, c("l", "r")])
   for (i in seq_len(nrow(unique_cols))) {
-    gt <- liberate_area(gt, top, unique_cols$r[i], bottom, unique_cols$l[i], name, vp)
+    gt <- liberate_area(gt, top, unique_cols$r[i], bottom, unique_cols$l[i], vp = viewport(x = align, width = sum(gt$widths[unique_cols$l[i]:unique_cols$r[i]]), just = c(align, 0.5)))
   }
   gt
 }
@@ -833,7 +837,8 @@ set_grob_sizes <- function(tables, widths, heights, design) {
     t_heights <- heights[seq(t + 1, t + PANEL_ROW - 1)]
     b <- (table_loc$b - 1) * TABLE_ROWS
     b_heights <- heights[seq(b + PANEL_ROW + 1, b + TABLE_ROWS)]
-    gt$grobs[[2]] <- set_border_sizes(gt$grobs[[2]], l_widths, r_widths, t_heights, b_heights)
+    nested <- grep("patchwork-table", gt$layout$name)
+    gt$grobs[[nested]] <- set_border_sizes(gt$grobs[[nested]], l_widths, r_widths, t_heights, b_heights)
     gt$grobs
   }), recursive = FALSE)
 }

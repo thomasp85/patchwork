@@ -1,17 +1,14 @@
-#' Free a plot from alignment
+#' Free a plot from various alignments
 #'
-#' While the purpose of patchwork is often to align plots by their panels,
+#' While the purpose of patchwork is often to align plots by their various parts,
 #' sometimes this doesn't cut it and we want to compose plots without alignment.
 #' The `free()` function tells patchwork to treat the content (which can either
 #' be a ggplot or a patchwork) specially and not align it with the remaining
-#' panels in the composition. It works much like using [wrap_elements()] but has
-#' a few niceties. For starter, it is less verbose, both with a shorter name,
-#' but also without the need to use the `full` argument rather than the first.
-#' Second, A plot wrapped with `free()` retains all of it's behavior from
-#' before. You can still add stuff to it, change it's theme, etc., but more
-#' importantly you can still collect guides and recurse tags as usual. A further
-#' nicety is that margins of the plot behave as expected and is aligned with the
-#' other plots in the composition.
+#' plots in the composition. `free()` has various modes to control what type of
+#' "non-alignment" is applied (see Details). Further you can control which side
+#' of the plot the non-alignment is applied to. You can stack `free()` calls if
+#' you e.g. want the top part to not align to the panel and the left part to not
+#' align to the labels.
 #'
 #' @param x A ggplot or patchwork object
 #' @param type Which type of freeing should be applied. See the Details section
@@ -81,12 +78,19 @@ free <- function(x, type = c("panel", "label", "space"), side = "trbl") {
   if (grepl("[^trbl]", side)) {
     abort("{.arg side} can only contain the t, r, b, and l characters: ")
   }
-  settings <- list(type = type, sides = side)
-  if (is_patchwork(x)) {
-    attr(x, "patchwork_free_settings") <- settings
-  } else {
-    attr(x, "free_settings") <- settings
+  side <- strsplit(side, "")[[1]]
+  settings <- rep_along(side, type)
+  names(settings) <- side
+  attr_name <- if (is_patchwork(x)) "patchwork_free_settings" else "free_settings"
+
+  old_settings <- attr(x, attr_name) %||% character()
+  overlap <- names(old_settings) %in% names(settings)
+  if (any(overlap)) {
+    cli::cli_warn("Overwriting free settings for {names(old_settings)[overlap]}")
+    old_settings <- old_settings[!overlap]
   }
+  attr(x, attr_name) <- c(settings, old_settings)
+
   class(x) <- unique(c("free_plot", class(x)))
   x
 }

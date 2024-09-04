@@ -2,7 +2,7 @@
 % Please edit documentation in R/free.R
 \name{free}
 \alias{free}
-\title{Free a plot from alignment}
+\title{Free a plot from various alignments}
 \usage{
 free(x, type = c("panel", "label", "space"), side = "trbl")
 }
@@ -18,18 +18,15 @@ one or more of "t", "r", "b", and "l"}
 A modified version of \code{x} with a \code{free_plot} class
 }
 \description{
-While the purpose of patchwork is often to align plots by their panels,
+While the purpose of patchwork is often to align plots by their various parts,
 sometimes this doesn't cut it and we want to compose plots without alignment.
 The \code{free()} function tells patchwork to treat the content (which can either
 be a ggplot or a patchwork) specially and not align it with the remaining
-panels in the composition. It works much like using \code{\link[=wrap_elements]{wrap_elements()}} but has
-a few niceties. For starter, it is less verbose, both with a shorter name,
-but also without the need to use the \code{full} argument rather than the first.
-Second, A plot wrapped with \code{free()} retains all of it's behavior from
-before. You can still add stuff to it, change it's theme, etc., but more
-importantly you can still collect guides and recurse tags as usual. A further
-nicety is that margins of the plot behave as expected and is aligned with the
-other plots in the composition.
+plots in the composition. \code{free()} has various modes to control what type of
+"non-alignment" is applied (see Details). Further you can control which side
+of the plot the non-alignment is applied to. You can stack \code{free()} calls if
+you e.g. want the top part to not align to the panel and the left part to not
+align to the labels.
 }
 \details{
 \code{free()} has multiple modes depending on what you are needing:
