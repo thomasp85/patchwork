@@ -59,99 +59,23 @@ collapse_guides <- function(guides) {
   }
   guides
 }
-#' @importFrom gtable gtable_width gtable_height gtable gtable_add_grob
-#' @importFrom grid editGrob heightDetails widthDetails valid.just unit.c unit
-#' @importFrom ggplot2 margin element_grob element_blank calc_element element_render
-guides_build <- function(guides, theme) {
-  theme$legend.spacing <- calc_element("legend.spacing", theme) %||% unit(0.5, "lines")
-  legend.spacing.y <- calc_element("legend.spacing.y", theme)
-  legend.spacing.x <- calc_element("legend.spacing.x", theme)
-  legend.box.margin <- calc_element("legend.box.margin", theme) %||% margin()
 
-  widths <- exec(unit.c, !!!lapply(guides, gtable_width))
-  heights <- exec(unit.c, !!!lapply(guides, gtable_height))
-
-  just <- valid.just(calc_element("legend.box.just", theme))
-  xjust <- just[1]
-  yjust <- just[2]
-  vert <- identical(calc_element("legend.box", theme), "horizontal")
-  guides <- lapply(guides, function(g) {
-    editGrob(g, vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust),
-                              height = if (vert) heightDetails(g) else 1,
-                              width = if (!vert) widthDetails(g) else 1))
-  })
-  guide_ind <- seq(by = 2, length.out = length(guides))
-  sep_ind <- seq(2, by = 2, length.out = length(guides) - 1)
-  if (vert) {
-    heights <- max(heights)
-    if (length(widths) != 1) {
-      w <- unit(rep_len(0, length(widths) * 2 - 1), 'mm')
-      w[guide_ind] <- widths
-      w[sep_ind] <- legend.spacing.x
-      widths <- w
-    }
-  } else {
-    widths <- max(widths)
-    if (length(heights) != 1) {
-      h <- unit(rep_len(0, length(heights) * 2 - 1), 'mm')
-      h[guide_ind] <- heights
-      h[sep_ind] <- legend.spacing.y
-      heights <- h
-    }
-  }
-  widths <- unit.c(legend.box.margin[4], widths, legend.box.margin[2])
-  heights <- unit.c(legend.box.margin[1], heights, legend.box.margin[3])
-  guides <- gtable_add_grob(
-    gtable(widths, heights, name = 'guide-box'),
-    guides,
-    t = 1 + if (!vert) guide_ind else 1,
-    l = 1 + if (vert) guide_ind else 1,
-    name = 'guides'
-  )
-
-  gtable_add_grob(
-    guides,
-    element_render(theme, "legend.box.background"),
-    t = 1, l = 1, b = -1, r = -1,
-    z = -Inf, clip = "off", name = "legend.box.background"
-  )
-}
-complete_guide_theme <- function(theme) {
+assemble_guides <- function(guides,  theme) {
   position <- theme$legend.position %||% "right"
   if (length(position) == 2) {
     warning("Manual legend position not possible for collected guides. Defaulting to 'right'", call. = FALSE)
     position <- "right"
   }
-  theme$legend.position <- position
-  if (position %in% c("top", "bottom")) {
-    theme$legend.box <- theme$legend.box %||% "horizontal"
-    theme$legend.direction <- theme$legend.direction %||% "horizontal"
-    theme$legend.box.just <- theme$legend.box.just %||% c("center", "top")
-  } else {
-    theme$legend.box <- theme$legend.box %||% "vertical"
-    theme$legend.direction <- theme$legend.direction %||% "vertical"
-    theme$legend.box.just <- theme$legend.box.just %||% c("left", "top")
-  }
-  theme
+  # https://github.com/tidyverse/ggplot2/blob/57ba97fa04dadc6fd73db1904e39a09d57a4fcbe/R/guides-.R#L512
+  theme$legend.spacing <- theme$legend.spacing %||% unit(0.5, "lines")
+  theme$legend.spacing.y <- calc_element("legend.spacing.y", theme)
+  theme$legend.spacing.x <- calc_element("legend.spacing.x", theme)
+  # for every position, collect all individual guides and arrange them
+  # into a guide box which will be inserted into the main gtable
+  Guides <- utils::getFromNamespace("Guides", "ggplot2")
+  Guides$package_box(guides, position, theme)
 }
-#' @importFrom grid valid.just
-assemble_guides <- function(guides, theme) {
-  theme <- complete_guide_theme(theme)
-  guides <- guides_build(guides, theme)
 
-  # Set the justification of the legend box
-  # First value is xjust, second value is yjust
-  just <- valid.just(calc_element("legend.justification", theme))
-  xjust <- just[1]
-  yjust <- just[2]
-  guides <- grid::editGrob(guides, vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust)))
-  guides <- gtable_add_rows(guides, unit(yjust, 'null'))
-  guides <- gtable_add_rows(guides, unit(1 - yjust, 'null'), 0)
-  guides <- gtable_add_cols(guides, unit(xjust, 'null'), 0)
-  guides <- gtable_add_cols(guides, unit(1 - xjust, 'null'))
-
-  guides
-}
 #' @importFrom gtable gtable_width gtable_height
 #' @importFrom grid unit.c
 attach_guides <- function(table, guides, theme) {

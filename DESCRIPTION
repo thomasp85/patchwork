@@ -19,7 +19,7 @@ Description: The 'ggplot2' package provides a strong API for sequentially
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports: 
-    ggplot2 (>= 3.0.0),
+    ggplot2 (>= 3.5.0),
     gtable,
     grid,
     stats,
