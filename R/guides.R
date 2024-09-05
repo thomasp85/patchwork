@@ -60,6 +60,7 @@ collapse_guides <- function(guides) {
   guides
 }
 
+#' @importFrom ggplot2 calc_element
 assemble_guides <- function(guides,  theme) {
   position <- theme$legend.position %||% "right"
   if (length(position) == 2) {
@@ -76,6 +77,7 @@ assemble_guides <- function(guides,  theme) {
   Guides$package_box(guides, position, theme)
 }
 
+#' @importFrom ggplot2 calc_element find_panel
 #' @importFrom gtable gtable_width gtable_height
 #' @importFrom grid unit.c
 attach_guides <- function(table, guides, theme) {
