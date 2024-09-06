@@ -112,10 +112,16 @@ patchGrob.wrapped_table <- function(x, guides = 'auto') {
     table_width <- table_width[-(1:row_head)]
   }
   if (!space[1]) {
-    x$widths[PANEL_COL] <- if (inherits(table_width, "simpleUnit")) sum(table_width) else Reduce(`+`, table_width)
+    # Something wonky is going on with unit addition sometimes where it looses
+    # it's unit type. So we make a dance to make sure
+    w <- if (inherits(table_width, "simpleUnit")) sum(table_width) else Reduce(`+`, table_width)
+    if (!is.unit(w)) w <- unit(w, unitType(table_width)[1])
+    x$widths[PANEL_COL] <- w
   }
   if (!space[2]) {
-    x$heights[PANEL_ROW] <- if (inherits(table_height, "simpleUnit")) sum(table_height) else Reduce(`+`, table_height)
+    h <- if (inherits(table_height, "simpleUnit")) sum(table_height) else Reduce(`+`, table_height)
+    if (!is.unit(h)) h <- unit(h, unitType(table_height)[1])
+    x$heights[PANEL_ROW] <- h
   }
   x
 }
