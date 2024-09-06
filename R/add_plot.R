@@ -7,6 +7,7 @@ ggplot_add.ggplot <- function(object, plot, object_name) {
 #' @importFrom ggplot2 ggplot_add
 #' @export
 ggplot_add.grob <- function(object, plot, object_name) {
+  table <- as_patch(object)
   plot + wrap_elements(full = object)
 }
 #' @importFrom ggplot2 ggplot_add
@@ -20,12 +21,14 @@ ggplot_add.raster <- ggplot_add.grob
 ggplot_add.nativeRaster <- ggplot_add.grob
 #' @importFrom ggplot2 ggplot_add
 #' @export
-ggplot_add.gt_tbl <- ggplot_add.grob
+ggplot_add.gt_tbl <- function(object, plot, object_name) {
+  plot + wrap_table(object)
+}
 
 #' @importFrom grid is.grob
 #' @importFrom grDevices is.raster
 should_autowrap <- function(x) {
-  is.grob(x) || inherits(x, 'formula') || is.raster(x) || inherits(x, 'nativeRaster') || inherits(x, 'gt_tbl')
+  is.grob(x) || inherits(x, 'formula') || is.raster(x) || inherits(x, 'nativeRaster')
 }
 
 # Convert a plot with a (possible) list of patches into a self-contained

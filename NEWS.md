@@ -4,7 +4,8 @@
 * Plot backgrounds are now always placed beneath all other elements in the
   patchwork (#370)
 * Axis titles can now reliably be collected even with faceted plots (#367)
-* Native support for gt objects
+* Native support for gt objects, either adding them directly or controlling
+  their layout with `wrap_table()`
 * Empty patches no longer breaks up axis title collection (#375)
 * `wrap_ggplot_grob()` now respects auto-tagging (#363)
 * Fix a bug where guide collecting would prevent proper axes collecting (#359)

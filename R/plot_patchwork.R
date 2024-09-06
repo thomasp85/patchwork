@@ -1009,6 +1009,7 @@ find_strip_pos <- function(gt) {
   }
   'inside'
 }
+#' @importFrom grid unitType
 set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
   width_ind <- seq(PANEL_COL, by = TABLE_COLS, length.out = length(widths))
   height_ind <- seq(PANEL_ROW, by = TABLE_ROWS, length.out = length(heights))
@@ -1022,6 +1023,24 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
     heights <- unit(heights, 'null')
   }
   height_strings <- as.character(heights)
+
+  panel_widths <- do.call(unit.c, lapply(panels, function(x) x$widths[PANEL_COL]))
+  absolute_col <- unitType(panel_widths) == "points"
+  if (any(absolute_col)) {
+    pos <- ifelse(absolute_col & design$l == design$r & width_strings[design$l] == "-1null", design$l, NA)
+    fixed_widths <- lapply(split(panel_widths, pos), "sum")
+    widths[as.numeric(names(fixed_widths))] <- do.call(unit.c, fixed_widths)
+    width_strings <- as.character(widths)
+  }
+  panel_heights <- do.call(unit.c, lapply(panels, function(x) x$heights[PANEL_ROW]))
+  absolute_row <- unitType(panel_heights) == "points"
+  if (any(absolute_row)) {
+    pos <- ifelse(absolute_row & design$t == design$b & height_strings[design$t] == "-1null", design$t, NA)
+    fixed_heights <- lapply(split(panel_heights, pos), "sum")
+    heights[as.numeric(names(fixed_heights))] <- do.call(unit.c, fixed_heights)
+    height_strings <- as.character(heights)
+  }
+
   if (any(width_strings == '-1null') && any(height_strings == '-1null')) {
     respect <- matrix(0, nrow = length(gt$heights), ncol = length(gt$widths))
     fixed_areas <- lapply(which(fixed_asp), function(i) {

@@ -168,21 +168,6 @@ as_patch.raster <- function(x, ...) {
 }
 #' @export
 as_patch.nativeRaster <- as_patch.raster
-#' @export
-#' @importFrom grid viewport grobWidth grobHeight grobTree
-as_patch.gt_tbl <- function(x, ...) {
-  check_installed("gt", version = "0.11.0")
-  grob <- gt::as_gtable(x)
-  grob$vp <- viewport(
-    x = 0,
-    y = 1,
-    width = grobWidth(grob),
-    height = grobHeight(grob),
-    default.units = "npc",
-    just = c(0, 1)
-  )
-  grob
-}
 
 #' @importFrom ggplot2 ggplotGrob
 get_grob <- function(x, name) {
