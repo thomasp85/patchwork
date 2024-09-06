@@ -59,6 +59,8 @@ test_that("collect guides works well", {
   )
   expect_doppelganger(
     "collect guides with multiple plots with null unit",
-    wrap_plots(p1 + p_guides + p_guides, guides = "collect")
+    wrap_plots(p1 + p_guides + p_guides + labs(color = "another"),
+      guides = "collect"
+    )
   )
 })
