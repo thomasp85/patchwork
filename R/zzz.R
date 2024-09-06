@@ -32,6 +32,24 @@ register_s3_method <- function(pkg, generic, class, fun = NULL) {
     }
   )
 }
-on_load(
+
+unitType <- function(x) {
+  unit <- attr(x, "unit")
+  if (!is.null(unit)) {
+    return(unit)
+  }
+  if (is.list(x) && is.unit(x[[1]])) {
+    unit <- vapply(x, unitType, character(1))
+    return(unit)
+  } else if ("fname" %in% names(x)) {
+    return(x$fname)
+  }
+  rep("", length(x)) # we're only interested in simple units for now
+}
+
+on_load({
   register_s3_method("vdiffr", "print_plot", "patchwork")
-)
+  if ("unitType" %in% getNamespaceExports("grid")) {
+    unitType <- grid::unitType
+  }
+})

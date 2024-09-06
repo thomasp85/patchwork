@@ -58,7 +58,7 @@
 #' # the size of the area they occupy
 #' p2 <- ggplot(airquality) +
 #'   geom_boxplot(aes(y = month.name[Month], x = Temp)) +
-#'   scale_y_discrete(name = NULL, limits = month.name[5:9], guide = "none")
+#'   scale_y_discrete(name = NULL, limits = month.name[9:5], guide = "none")
 #'
 #' wrap_table(gt_tab, space = "fixed") + p2
 #'

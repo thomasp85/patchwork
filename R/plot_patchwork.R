@@ -1036,7 +1036,7 @@ find_strip_pos <- function(gt) {
   }
   'inside'
 }
-#' @importFrom grid unitType
+
 set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
   width_ind <- seq(PANEL_COL, by = TABLE_COLS, length.out = length(widths))
   height_ind <- seq(PANEL_ROW, by = TABLE_ROWS, length.out = length(heights))
