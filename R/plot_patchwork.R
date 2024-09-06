@@ -222,8 +222,13 @@ build_patchwork <- function(x, guides = 'auto') {
       if (!attr(theme, 'complete')) {
         theme <- theme_get() + theme
       }
-      guide_grobs <- assemble_guides(guide_grobs, theme)
-      gt_new <- attach_guides(gt_new, guide_grobs, theme)
+      position <- theme$legend.position %||% "right"
+      if (length(position) == 2) {
+        warning("Manual legend position not possible for collected guides. Defaulting to 'right'", call. = FALSE)
+        position <- "right"
+      }
+      guide_grobs <- assemble_guides(guide_grobs, position, theme)
+      gt_new <- attach_guides(gt_new, guide_grobs, position, theme)
     }
   } else {
     gt_new$collected_guides <- guide_grobs

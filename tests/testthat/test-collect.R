@@ -50,13 +50,15 @@ test_that("collect guides works well", {
     "collect normal guides",
     wrap_plots(p1 + p3, guides = "collect")
   )
+  p_guides <- p3 + scale_color_continuous(guide = guide_colorbar(
+    theme = theme(legend.key.height = unit(1, "null"))
+  ))
   expect_doppelganger(
     "collect guides with null unit",
-    wrap_plots(
-      p1 + p3 + scale_color_continuous(guide = guide_colorbar(
-        theme = theme(legend.key.height = unit(1, "null"))
-      )),
-      guides = "collect"
-    )
+    wrap_plots(p1 + p_guides, guides = "collect")
+  )
+  expect_doppelganger(
+    "collect guides with multiple plots with null unit",
+    wrap_plots(p1 + p_guides + p_guides, guides = "collect")
   )
 })
