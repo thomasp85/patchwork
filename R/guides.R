@@ -139,7 +139,7 @@ assemble_guides <- function(guides, position, theme) {
 
   # for every position, collect all individual guides and arrange them
   # into a guide box which will be inserted into the main gtable
-  package_box <- tryCatch(
+  package_box <- try_fetch(
     .subset2(getFromNamespace("Guides", "ggplot2"), "package_box"),
     error = function(cnd) package_box
   )
