@@ -37,6 +37,7 @@ reference:
   - /.ggplot
   - wrap_plots
   - inset_element
+  - nest
 - title: Layout Specifications
   desc: >
     While patchwork will automatically lay out the plots in a grid, additional

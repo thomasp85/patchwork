@@ -92,6 +92,6 @@ free <- function(x, type = c("panel", "label", "space"), side = "trbl") {
   attr(x, attr_name) <- c(settings, old_settings)
 
   class(x) <- unique(c("free_plot", class(x)))
-  x
+  nest(x)
 }
 is_free_plot <- function(x) inherits(x, "free_plot")

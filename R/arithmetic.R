@@ -16,7 +16,8 @@
 #' level (`+` puts the right side *into* the left side). Using `-` might seem
 #' unintuitive if you think of the operator as "subtract", but look at it as a
 #' hyphen instead (the underlying reason is that `-` is the only operator in the
-#' same precedence group as `+`).
+#' same precedence group as `+`). An alternative and more explicit way to get
+#' the same effect as `-` is to use [nest()].
 #'
 #' Often you are interested in creating single column or single row layouts.
 #' `patchwork` provides `|` (besides) and `/` (over) operators to support
