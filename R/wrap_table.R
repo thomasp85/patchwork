@@ -94,7 +94,7 @@ patchGrob.wrapped_table <- function(x, guides = 'auto') {
   table_width <- x$grobs[[table_loc]]$widths
   table_height <- x$grobs[[table_loc]]$heights
 
-  if (panel %in% c("body", "rows")) {
+  if (panel %in% c("body", "cols")) {
     col_head <- x$grobs[[table_loc]]$layout$t[x$grobs[[table_loc]]$layout$name == "table_body"] - 1
     if (col_head > 0) {
       height <- sum(x$grobs[[table_loc]]$heights[1:col_head])
@@ -104,7 +104,7 @@ patchGrob.wrapped_table <- function(x, guides = 'auto') {
       table_height <- table_height[-(1:col_head)]
     }
   }
-  if (panel %in% c("body", "cols") && row_head > 0) {
+  if (panel %in% c("body", "rows") && row_head > 0) {
     width <- sum(x$grobs[[table_loc]]$widths[1:row_head])
     x$grobs[[table_loc]]$vp$x <- x$grobs[[table_loc]]$vp$x - width
     x$widths[PANEL_COL - 2] <- width
