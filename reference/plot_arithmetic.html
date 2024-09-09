@@ -106,7 +106,8 @@ essence <code>-</code> ensures that the right and left side are put in the same 
 level (<code>+</code> puts the right side <em>into</em> the left side). Using <code>-</code> might seem
 unintuitive if you think of the operator as "subtract", but look at it as a
 hyphen instead (the underlying reason is that <code>-</code> is the only operator in the
-same precedence group as <code>+</code>).</p>
+same precedence group as <code>+</code>). An alternative and more explicit way to get
+the same effect as <code>-</code> is to use <code><a href="nest.html">nest()</a></code>.</p>
 <p>Often you are interested in creating single column or single row layouts.
 <code>patchwork</code> provides <code>|</code> (besides) and <code>/</code> (over) operators to support
 stacking and packing of plots. See the examples for their use.</p>
