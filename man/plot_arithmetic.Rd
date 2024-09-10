@@ -46,7 +46,7 @@ level (\code{+} puts the right side \emph{into} the left side). Using \code{-} m
 unintuitive if you think of the operator as "subtract", but look at it as a
 hyphen instead (the underlying reason is that \code{-} is the only operator in the
 same precedence group as \code{+}). An alternative and more explicit way to get
-the same effect as \code{-} is to use \code{\link[=nest]{nest()}}.
+the same effect as \code{-} is to use \code{merge()} on the left hand side.
 
 Often you are interested in creating single column or single row layouts.
 \code{patchwork} provides \code{|} (besides) and \code{/} (over) operators to support
