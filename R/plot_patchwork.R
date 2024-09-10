@@ -671,16 +671,29 @@ free_panel <- function(gt, has_side) {
   }
 
   if (!has_side[1] && (has_side[2] || has_side[4])) {
-    gt <- liberate_rows(gt, 3, right, top - 1, left, align = 0)
+    gt <- liberate_rows(gt, 3, right, top - 1, left, align = 0, "free_row")
   }
   if (!has_side[2] && (has_side[1] || has_side[3])) {
-    gt <- liberate_cols(gt, top, ncol(gt) - 2, bottom, right + 1, align = 0)
+    gt <- liberate_cols(gt, top, ncol(gt) - 2, bottom, right + 1, align = 0, "free_col")
   }
   if (!has_side[3] && (has_side[2] || has_side[4])) {
-    gt <- liberate_rows(gt, bottom + 1, right, nrow(gt) - 2, left, align = 1)
+    gt <- liberate_rows(gt, bottom + 1, right, nrow(gt) - 2, left, align = 1, "free_row")
   }
   if (!has_side[4] && (has_side[1] || has_side[3])) {
-    gt <- liberate_cols(gt, top, left - 1, bottom, 3, align = 1)
+    gt <- liberate_cols(gt, top, left - 1, bottom, 3, align = 1, "free_col")
+  }
+
+  old_free <- grepl("free_panel-", gt$layout$name) | grepl("free_row-", gt$layout$name) | grepl("free_col-", gt$layout$name)
+  if (any(old_free)) {
+    for (i in which(old_free)) {
+      loc <- unlist(gt$layout[i, c("t", "r", "b", "l")])
+      loc[has_side] <- c(top, right, bottom, left)[has_side]
+      gt_old <- gt
+      gt_old$grobs <- gt_old$grobs[i]
+      gt_old$layout <- gt_old$layout[i, ]
+      gt$grobs[[i]] <- gt_old[loc[1]:loc[3], loc[4]:loc[2]]
+      gt$layout[i, c("t", "r", "b", "l")] <- loc
+    }
   }
 
   gt$widths[setdiff(left:right, min(panel_col_pos):max(panel_col_pos))] <- unit(0, "mm")
@@ -705,19 +718,19 @@ liberate_area <- function(gt, top, right, bottom, left, name = NULL, vp = NULL) 
   }
   gt
 }
-liberate_rows <- function(gt, top, right, bottom, left, align = 0.5) {
+liberate_rows <- function(gt, top, right, bottom, left, align = 0.5, name = NULL) {
   liberate <- which(grob_in_rect(gt, top, right, bottom, left))
   unique_rows <- unique(gt$layout[liberate, c("t", "b")])
   for (i in seq_len(nrow(unique_rows))) {
-    gt <- liberate_area(gt, unique_rows$t[i], right, unique_rows$b[i], left, vp = viewport(y = align, height = sum(gt$heights[unique_rows$t[i]:unique_rows$b[i]]), just = c(0.5, align)))
+    gt <- liberate_area(gt, unique_rows$t[i], right, unique_rows$b[i], left, name, vp = viewport(y = align, height = sum(gt$heights[unique_rows$t[i]:unique_rows$b[i]]), just = c(0.5, align)))
   }
   gt
 }
-liberate_cols <- function(gt, top, right, bottom ,left, align = 0.5) {
+liberate_cols <- function(gt, top, right, bottom ,left, align = 0.5, name = NULL) {
   liberate <- which(grob_in_rect(gt, top, right, bottom, left))
   unique_cols <- unique(gt$layout[liberate, c("l", "r")])
   for (i in seq_len(nrow(unique_cols))) {
-    gt <- liberate_area(gt, top, unique_cols$r[i], bottom, unique_cols$l[i], vp = viewport(x = align, width = sum(gt$widths[unique_cols$l[i]:unique_cols$r[i]]), just = c(align, 0.5)))
+    gt <- liberate_area(gt, top, unique_cols$r[i], bottom, unique_cols$l[i], name, vp = viewport(x = align, width = sum(gt$widths[unique_cols$l[i]:unique_cols$r[i]]), just = c(align, 0.5)))
   }
   gt
 }
