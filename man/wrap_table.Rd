@@ -21,7 +21,10 @@ with the topleft data cell. \code{"full"} means that the whole table will be
 placed inside the panel region. \code{"rows"} means that all rows (including column
 headers) will be placed inside the panel region but row headers will be
 placed to the left. \code{"cols"} is the opposite, placing all columns within the
-panel region but keeping the column header on top of it.}
+panel region but keeping the column header on top of it. If this is set to
+\code{"body"} or \code{"cols"} and \code{space} is set to \code{"fixed"} or \code{"free_x"} then any
+footnotes or source notes in the table will be placed outside the bottom of
+the panel region.}
 
 \item{space}{How should the dimension of the table influence the final
 composition? \code{"fixed"} means that the table width will set the width of the

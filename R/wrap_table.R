@@ -14,7 +14,10 @@
 #' placed inside the panel region. `"rows"` means that all rows (including column
 #' headers) will be placed inside the panel region but row headers will be
 #' placed to the left. `"cols"` is the opposite, placing all columns within the
-#' panel region but keeping the column header on top of it.
+#' panel region but keeping the column header on top of it. If this is set to
+#' `"body"` or `"cols"` and `space` is set to `"fixed"` or `"free_x"` then any
+#' footnotes or source notes in the table will be placed outside the bottom of
+#' the panel region.
 #' @param space How should the dimension of the table influence the final
 #' composition? `"fixed"` means that the table width will set the width of the
 #' column it occupies and the table height will set the height of the row it
@@ -95,7 +98,15 @@ patchGrob.wrapped_table <- function(x, guides = 'auto') {
   table_height <- x$grobs[[table_loc]]$heights
 
   if (panel %in% c("body", "cols")) {
-    col_head <- x$grobs[[table_loc]]$layout$t[x$grobs[[table_loc]]$layout$name == "table_body"] - 1
+    table_body <- x$grobs[[table_loc]]$layout$name == "table_body"
+    col_head <- x$grobs[[table_loc]]$layout$t[table_body] - 1
+    col_tail <- x$grobs[[table_loc]]$layout$b[table_body] + 1
+    if (!space[2] && col_tail <= nrow(x$grobs[[table_loc]])) {
+      height <- sum(x$grobs[[table_loc]]$heights[col_tail:nrow(x$grobs[[table_loc]])])
+      x$heights[PANEL_ROW + 2] <- height
+
+      table_height <- table_height[-(col_tail:nrow(x$grobs[[table_loc]]))]
+    }
     if (col_head > 0) {
       height <- sum(x$grobs[[table_loc]]$heights[1:col_head])
       x$grobs[[table_loc]]$vp$y <- x$grobs[[table_loc]]$vp$y + height
