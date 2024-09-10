@@ -47,6 +47,10 @@ unitType <- function(x) {
   rep("", length(x)) # we're only interested in simple units for now
 }
 
+is_abs_unit <- function(x) {
+  unitType(x) %in% c("cm", "inches", "mm", "points", "picas", "bigpts", "dida", "cicero", "scaledpts")
+}
+
 on_load({
   register_s3_method("vdiffr", "print_plot", "patchwork")
   if ("unitType" %in% getNamespaceExports("grid")) {

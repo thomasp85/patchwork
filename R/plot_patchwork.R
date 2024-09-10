@@ -358,10 +358,20 @@ simplify_gt.gtable <- function(gt) {
   p_cols <- seq(cols[1], cols[2])
   panels <- gt[p_rows, p_cols]
   gt_new <- gt[-p_rows, -p_cols]
-  gt_new$widths <- convertWidth(gt$widths, 'mm')[-p_cols]
-  gt_new$heights <- convertHeight(gt$heights, 'mm')[-p_rows]
-  gt_new <- gtable_add_rows(gt_new, unit(1, 'null'), rows[1] - 1)
-  gt_new <- gtable_add_cols(gt_new, unit(1, 'null'), cols[1] - 1)
+  gt_new$widths <- convertWidth(gt$widths[-p_cols], 'mm')
+  if (all(is_abs_unit(gt$widths[p_cols]))) {
+    new_width <- sum(convertWidth(gt$widths[p_cols], 'mm'))
+  } else {
+    new_width <- unit(1, 'null')
+  }
+  gt_new$heights <- convertHeight(gt$heights[-p_rows], 'mm')
+  if (all(is_abs_unit(gt$heights[p_rows]))) {
+    new_height <- sum(convertHeight(gt$heights[p_rows], 'mm'))
+  } else {
+    new_height <- unit(1, 'null')
+  }
+  gt_new <- gtable_add_rows(gt_new, new_height, rows[1] - 1)
+  gt_new <- gtable_add_cols(gt_new, new_width, cols[1] - 1)
   if (gt$respect) {
     gt_new <- simplify_fixed(gt, gt_new, panels, rows, cols)
   } else {
@@ -378,8 +388,18 @@ simplify_gt.gtable_patchwork <- function(gt) {
   guides <- gt$collected_guides
   gt$collected_guides <- NULL
   panel_pos <- find_panel(gt)
-  widths <- unit.c(gt$widths[seq_len(panel_pos$l - 1)], unit(1, 'null'), gt$widths[seq(panel_pos$r + 1, ncol(gt))])
-  heights <- unit.c(gt$heights[seq_len(panel_pos$t - 1)], unit(1, 'null'), gt$heights[seq(panel_pos$b + 1, nrow(gt))])
+  if (all(is_abs_unit(gt$widths[panel_pos$l:panel_pos$r]))) {
+    new_width <- sum(convertWidth(gt$widths[panel_pos$l:panel_pos$r], 'mm'))
+  } else {
+    new_width <- unit(1, 'null')
+  }
+  if (all(is_abs_unit(gt$heights[panel_pos$t:panel_pos$b]))) {
+    new_height <- sum(convertHeight(gt$widths[panel_pos$t:panel_pos$b], 'mm'))
+  } else {
+    new_height <- unit(1, 'null')
+  }
+  widths <- unit.c(gt$widths[seq_len(panel_pos$l - 1)], new_width, gt$widths[seq(panel_pos$r + 1, ncol(gt))])
+  heights <- unit.c(gt$heights[seq_len(panel_pos$t - 1)], new_height, gt$heights[seq(panel_pos$b + 1, nrow(gt))])
   gt_new <- gtable(widths = widths, heights = heights)
   gt_new <- gtable_add_grob(gt_new, zeroGrob(), PANEL_ROW, PANEL_COL, name = 'panel-nested-patchwork')
   gt_new <- gtable_add_grob(gt_new, gt, 1, 1, nrow(gt_new), ncol(gt_new), clip = 'off', name = 'patchwork-table')
@@ -1065,18 +1085,18 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
   height_strings <- as.character(heights)
 
   panel_widths <- do.call(unit.c, lapply(panels, function(x) x$widths[PANEL_COL]))
-  absolute_col <- unitType(panel_widths) == "points"
+  absolute_col <- is_abs_unit(panel_widths) & as.numeric(panel_widths) != 0
   if (any(absolute_col)) {
     pos <- ifelse(absolute_col & design$l == design$r & width_strings[design$l] == "-1null", design$l, NA)
-    fixed_widths <- lapply(split(panel_widths, pos), "sum")
+    fixed_widths <- lapply(split(panel_widths, pos), "max")
     widths[as.numeric(names(fixed_widths))] <- do.call(unit.c, fixed_widths)
     width_strings <- as.character(widths)
   }
   panel_heights <- do.call(unit.c, lapply(panels, function(x) x$heights[PANEL_ROW]))
-  absolute_row <- unitType(panel_heights) == "points"
+  absolute_row <- is_abs_unit(panel_heights) & as.numeric(panel_heights) != 0
   if (any(absolute_row)) {
     pos <- ifelse(absolute_row & design$t == design$b & height_strings[design$t] == "-1null", design$t, NA)
-    fixed_heights <- lapply(split(panel_heights, pos), "sum")
+    fixed_heights <- lapply(split(panel_heights, pos), "max")
     heights[as.numeric(names(fixed_heights))] <- do.call(unit.c, fixed_heights)
     height_strings <- as.character(heights)
   }

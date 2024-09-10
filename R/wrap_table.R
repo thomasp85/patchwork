@@ -95,7 +95,9 @@ patchGrob.wrapped_table <- function(x, guides = 'auto') {
 
   table_loc <- which(x$layout$name == "panel")
   table_width <- x$grobs[[table_loc]]$widths
+  if (all(is_abs_unit(table_width))) table_width <- convertWidth(table_width, "mm")
   table_height <- x$grobs[[table_loc]]$heights
+  if (all(is_abs_unit(table_height))) table_height <- convertHeight(table_height, "mm")
 
   if (panel %in% c("body", "cols")) {
     table_body <- x$grobs[[table_loc]]$layout$name == "table_body"
