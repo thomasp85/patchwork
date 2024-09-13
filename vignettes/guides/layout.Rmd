@@ -1,6 +1,6 @@
 ---
 title: "Controlling Layouts"
-output: 
+output:
   rmarkdown::html_vignette:
     fig_width: 6
     fig_height: 4
@@ -25,21 +25,21 @@ While quite complex compositions can be achieved using `+`, `|`, and `/`, it may
 
 ```{r}
 library(ggplot2)
-p1 <- ggplot(mtcars) + 
-  geom_point(aes(mpg, disp)) + 
+p1 <- ggplot(mtcars) +
+  geom_point(aes(mpg, disp)) +
   ggtitle('Plot 1')
 
-p2 <- ggplot(mtcars) + 
-  geom_boxplot(aes(gear, disp, group = gear)) + 
+p2 <- ggplot(mtcars) +
+  geom_boxplot(aes(gear, disp, group = gear)) +
   ggtitle('Plot 2')
 
-p3 <- ggplot(mtcars) + 
-  geom_point(aes(hp, wt, colour = mpg)) + 
+p3 <- ggplot(mtcars) +
+  geom_point(aes(hp, wt, colour = mpg)) +
   ggtitle('Plot 3')
 
-p4 <- ggplot(mtcars) + 
-  geom_bar(aes(gear)) + 
-  facet_wrap(~cyl) + 
+p4 <- ggplot(mtcars) +
+  geom_bar(aes(gear)) +
+  facet_wrap(~cyl) +
   ggtitle('Plot 4')
 ```
 
@@ -62,19 +62,19 @@ It is important to understand that the added area only corresponds to the size o
 If nothing is given, patchwork will try to make a grid as square as possible, erring to the side of a horizontal grid if a square is not possible (it uses the same heuristic as `facet_wrap()` in ggplot2). Further, each column and row in the grid will take up the same space. Both of these can be controlled with `plot_layout()`
 
 ```{r}
-p1 + p2 + p3 + p4 + 
+p1 + p2 + p3 + p4 +
   plot_layout(ncol = 3)
 ```
 
 ```{r}
-p1 + p2 + p3 + p4 + 
+p1 + p2 + p3 + p4 +
   plot_layout(widths = c(2, 1))
 ```
 
 When grid sizes are given as a numeric, it will define the relative sizing of the panels. In the above, the panel area of the first column is twice that of the second column. It is also possible to supply a unit vector instead:
 
 ```{r}
-p1 + p2 + p3 + p4 + 
+p1 + p2 + p3 + p4 +
   plot_layout(widths = c(2, 1), heights = unit(c(5, 1), c('cm', 'null')))
 ```
 
@@ -92,7 +92,7 @@ layout <- "
 AACCDD
 ##CCDD
 "
-p1 + p2 + p3 + p4 + 
+p1 + p2 + p3 + p4 +
   plot_layout(design = layout)
 ```
 
@@ -105,7 +105,7 @@ layout <- c(
   area(t = 2, l = 1, b = 5, r = 4),
   area(t = 1, l = 3, b = 3, r = 5)
 )
-p1 + p2 + 
+p1 + p2 +
   plot_layout(design = layout)
 ```
 
@@ -127,9 +127,9 @@ wrap_plots(D = p1, C = p2, B = p3, design = layout)
 A special case when it comes to assembling plots are when dealing with fixed aspect plots, such as those created with `coord_fixed()`, `coord_polar()`, and `coord_sf()`. It is not possible to simultaneously assign even dimensions and align fixed aspect plots. The default value for the `widths` and `heights` arguments in `plot_layout()` is `NA`, which is treated specially. In general it will behave just as `1null` (i.e. expand to fill available space but share evenly with other `1null` panels), but if the row/column is occupied by a fixed aspect plot it will expand and contract in order to keep the aspect of the plot and may thus not have the same dimension as grid width/heights containing plots without fixed aspect plots. If you need to mix this behavior with fixed dimensions you can use the special value of `-1null` which behaves the same as `NA` (unit vectors doesn't allow `NA` values). `width = unit(c(1, 3, -1), c("null", "cm", "null")` would specify one column that fills out available space, one column fixed to 3 cm, and one column that expands to match a fixed aspect ratio if needed or otherwise takes the same size as the first column.
 
 ```{r}
-p_fixed <- ggplot(mtcars) + 
-  geom_point(aes(hp, disp)) + 
-  ggtitle('Plot F') + 
+p_fixed <- ggplot(mtcars) +
+  geom_point(aes(hp, disp)) +
+  ggtitle('Plot F') +
   coord_fixed()
 p_fixed + p1 + p2 + p3
 ```
@@ -183,6 +183,44 @@ free(p3) + p2 + p1 + p4 + p4 + p1 + p2 +
   plot_layout(design = design)
 ```
 
+### More freeing
+
+`free()` does more than just un-align the whole panel. You can use the `side`
+argument to control which sides to not align. Below we instruct patchwork to
+free the left side with the ridiculous amount of significant digits, but keep
+the remaining sides aligned
+
+```{r}
+p3_very_precise <- p3 +
+  scale_y_continuous(labels = \(x) format(as.numeric(x), nsmall = 10))
+
+p1 / free(p3_very_precise, side = "l")
+```
+
+`free()` also has two other modes besides the default. One is to free the
+alignment of axis labels so they stick to their axis:
+
+```{r}
+free(p1, type = "label") /
+  p3_very_precise
+```
+
+The other is to free content outside of the panel from claiming space. For
+instance, in the below plot, there is no need for the top plot to claim space
+for it's wide y-axis as it has a lot of empty space to the left:
+
+```{r}
+plot_spacer() + p3_very_precise +
+  p1 + p2
+```
+
+Using `type = "space"` will fix this:
+
+```{r}
+plot_spacer() + free(p3_very_precise, type = "space", side = "l") +
+  p1 + p2
+```
+
 ## Insets
 
 An alternative to placing plots in a grid is to place a plot as an inset in another plot. As we saw above, this is achievable with a setting up a layout with multiple overlapping `area()` specifications. However, this approach still uses an underlying grid, which may be constraining. Another approach is to use the `inset_element()` function which marks a plot or graphic object to be placed as an inset on the previous plot. It will thus not take up a slot in the provided layout, but share the slot with the previous plot. `inset_element()` allows you to freely position your inset relative to either the panel, plot, or full area of the previous plot, by specifying the location of the left, bottom, right, and top edge of the inset.
@@ -199,10 +237,10 @@ The location can be specified either as numerics like above or as grid units. If
 
 ```{r}
 p1 + inset_element(
-  p2, 
-  left = 0.5, 
-  bottom = 0.5, 
-  right = unit(1, 'npc') - unit(1, 'cm'), 
+  p2,
+  left = 0.5,
+  bottom = 0.5,
+  right = unit(1, 'npc') - unit(1, 'cm'),
   top = unit(1, 'npc') - unit(1, 'cm')
 )
 ```
@@ -210,7 +248,7 @@ p1 + inset_element(
 Further, `inset_element()` allows you to place the inset below the previous plot, should you choose to, and controlling clipping and tagging in the same way as `wrap_elements()`.
 
 ```{r}
-p3 + inset_element(p1, left = 0.5, bottom = 0, right = 1, top = 0.5, 
+p3 + inset_element(p1, left = 0.5, bottom = 0, right = 1, top = 0.5,
                    on_top = FALSE, align_to = 'full')
 ```
 
@@ -236,8 +274,8 @@ We can see that the guide has been hoisted up and placed beside all the plots. T
 The guide collection has another trick up its sleeve. If multiple plots provide the same guide, you don't want to have it show up multiple times. When collecting guides it will compare them with each other and remove duplicates.
 
 ```{r}
-p1a <- ggplot(mtcars) + 
-  geom_point(aes(mpg, disp, colour = mpg, size = wt)) + 
+p1a <- ggplot(mtcars) +
+  geom_point(aes(mpg, disp, colour = mpg, size = wt)) +
   ggtitle('Plot 1a')
 
 p1a | (p2 / p3)
@@ -252,7 +290,7 @@ Guides are compared by their graphical representation, not by their declarative 
 Now and then you end up with an empty area in you grid. Instead of leaving it empty, you can specify it as a place to put the collected guides, using the `guide_area()` placeholder. It works much the same as `plot_spacer()`, and if guides are not collected it will do exactly the same. But if guides are collected they will be placed there instead of where the theme tells it to.
 
 ```{r}
-p1 + p2 + p3 + guide_area() + 
+p1 + p2 + p3 + guide_area() +
   plot_layout(guides = 'collect')
 ```
 

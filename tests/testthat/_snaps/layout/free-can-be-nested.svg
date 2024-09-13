@@ -106,6 +106,19 @@
 <text x='43.17' y='37.35' style='font-size: 13.20px; font-family: sans;' textLength='33.76px' lengthAdjust='spacingAndGlyphs'>Plot 1</text>
 </g>
 <defs>
+  <clipPath id='cpNDMuMTd8NjQxLjIyfDMxMC43OHw1MzkuNjM='>
+    <rect x='43.17' y='310.78' width='598.06' height='228.85' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDMuMTd8NjQxLjIyfDMxMC43OHw1MzkuNjM=)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<g clip-path='url(#cpNDMuMTd8NjQxLjIyfDMxMC43OHw1MzkuNjM=)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
   <clipPath id='cpMTk2Ljc3fDY0MS4yMnwzMTAuNzh8NTM5LjYz'>
     <rect x='196.77' y='310.78' width='444.46' height='228.85' />
   </clipPath>

@@ -55,6 +55,7 @@ reference:
     included. Further, it is possible to define empty areas if needed.
   contents:
   - wrap_elements
+  - wrap_table
   - wrap_ggplot_grob
 - title: Align across pages
   desc: >
