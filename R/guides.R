@@ -59,13 +59,13 @@ collapse_guides <- function(guides) {
   }
   guides
 }
+
 #' @importFrom gtable gtable_width gtable_height gtable gtable_add_grob
 #' @importFrom grid editGrob heightDetails widthDetails valid.just unit.c unit
 #' @importFrom ggplot2 margin element_grob element_blank calc_element element_render
 guides_build <- function(guides, theme) {
-  theme$legend.spacing <- calc_element("legend.spacing", theme) %||% unit(0.5, "lines")
-  legend.spacing.y <- calc_element("legend.spacing.y", theme)
-  legend.spacing.x <- calc_element("legend.spacing.x", theme)
+  legend.spacing.y <- calc_element(theme, "legend.spacing.y")
+  legend.spacing.x <- calc_element(theme, "legend.spacing.x")
   legend.box.margin <- calc_element("legend.box.margin", theme) %||% margin()
 
   widths <- exec(unit.c, !!!lapply(guides, gtable_width))
@@ -116,14 +116,9 @@ guides_build <- function(guides, theme) {
     z = -Inf, clip = "off", name = "legend.box.background"
   )
 }
-complete_guide_theme <- function(theme) {
-  position <- theme$legend.position %||% "right"
-  if (length(position) == 2) {
-    warning("Manual legend position not possible for collected guides. Defaulting to 'right'", call. = FALSE)
-    position <- "right"
-  }
-  theme$legend.position <- position
-  if (position %in% c("top", "bottom")) {
+#' @importFrom ggplot2 calc_element
+complete_guide_theme <- function(guide_pos, theme) {
+  if (guide_pos %in% c("top", "bottom")) {
     theme$legend.box <- theme$legend.box %||% "horizontal"
     theme$legend.direction <- theme$legend.direction %||% "horizontal"
     theme$legend.box.just <- theme$legend.box.just %||% c("center", "top")
@@ -134,9 +129,26 @@ complete_guide_theme <- function(theme) {
   }
   theme
 }
-#' @importFrom grid valid.just
-assemble_guides <- function(guides, theme) {
-  theme <- complete_guide_theme(theme)
+#' @importFrom utils getFromNamespace
+#' @importFrom ggplot2 calc_element
+assemble_guides <- function(guides, position, theme) {
+  # https://github.com/tidyverse/ggplot2/blob/57ba97fa04dadc6fd73db1904e39a09d57a4fcbe/R/guides-.R#L512
+  theme$legend.spacing <- theme$legend.spacing %||% unit(0.5, "lines")
+  theme$legend.spacing.y <- calc_element("legend.spacing.y", theme)
+  theme$legend.spacing.x <- calc_element("legend.spacing.x", theme)
+
+  # for every position, collect all individual guides and arrange them
+  # into a guide box which will be inserted into the main gtable
+  package_box <- try_fetch(
+    .subset2(getFromNamespace("Guides", "ggplot2"), "package_box"),
+    error = function(cnd) package_box
+  )
+  package_box(guides, position, theme)
+}
+
+#' @importFrom grid valid.just editGrob
+package_box <- function(guides, guide_pos, theme) {
+  theme <- complete_guide_theme(guide_pos, theme)
   guides <- guides_build(guides, theme)
 
   # Set the justification of the legend box
@@ -144,18 +156,21 @@ assemble_guides <- function(guides, theme) {
   just <- valid.just(calc_element("legend.justification", theme))
   xjust <- just[1]
   yjust <- just[2]
-  guides <- grid::editGrob(guides, vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust)))
+  guides <- editGrob(guides,
+    vp = viewport(x = xjust, y = yjust, just = c(xjust, yjust))
+  )
   guides <- gtable_add_rows(guides, unit(yjust, 'null'))
   guides <- gtable_add_rows(guides, unit(1 - yjust, 'null'), 0)
   guides <- gtable_add_cols(guides, unit(xjust, 'null'), 0)
   guides <- gtable_add_cols(guides, unit(1 - xjust, 'null'))
-
   guides
 }
+
+#' @importFrom ggplot2 calc_element find_panel
 #' @importFrom gtable gtable_width gtable_height
 #' @importFrom grid unit.c
-attach_guides <- function(table, guides, theme) {
-  guide_areas <- grepl('panel-guide_area', table$layout$name)
+attach_guides <- function(table, guides, position, theme) {
+  guide_areas <- grepl("panel-guide_area", table$layout$name)
   if (any(guide_areas)) {
     area_ind <- which(guide_areas)
     if (length(area_ind) != 1) {
@@ -165,14 +180,8 @@ attach_guides <- function(table, guides, theme) {
     return(table)
   }
   p_loc <- find_panel(table)
-  position <- theme$legend.position %||% "right"
-  if (length(position) == 2) {
-    warning('Manual position of collected guides not supported', call. = FALSE)
-    position <- "right"
-  }
-
   spacing <- calc_element("legend.box.spacing", theme) %||% unit(0.2, 'cm')
-  legend_width  <- gtable_width(guides)
+  legend_width <- gtable_width(guides)
   legend_height <- gtable_height(guides)
   if (position == "left") {
     table <- gtable_add_grob(table, guides, clip = "off", t = p_loc$t,

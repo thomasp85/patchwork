@@ -22,6 +22,7 @@
 * Guide and axis merging is slightly more robust when it comes to merging if
   different graphical parameters that means the same are used (e.g. "black" and
   "#000000") (#369)
+* fix a bug when collecting guides with null unit key size (#390)
 * Added `nest()` to explicitly nest a patchwork on the LHS of an operator
 
 # patchwork 1.2.0
