@@ -10,6 +10,8 @@ template:
 
 news:
   releases:
+  - text: "Version 1.3.0"
+    href: https://www.tidyverse.org/blog/2024/09/patchwork-1-3-0/
   - text: "Version 1.2.0"
     href: https://www.data-imaginist.com/posts/2024-01-05-patchwork-1-2-0/
   - text: "Version 1.1.0"
