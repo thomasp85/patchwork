@@ -64,8 +64,8 @@ collapse_guides <- function(guides) {
 #' @importFrom grid editGrob heightDetails widthDetails valid.just unit.c unit
 #' @importFrom ggplot2 margin element_grob element_blank calc_element element_render
 guides_build <- function(guides, theme) {
-  legend.spacing.y <- calc_element(theme, "legend.spacing.y")
-  legend.spacing.x <- calc_element(theme, "legend.spacing.x")
+  legend.spacing.y <- calc_element("legend.spacing.y", theme)
+  legend.spacing.x <- calc_element("legend.spacing.x", theme)
   legend.box.margin <- calc_element("legend.box.margin", theme) %||% margin()
 
   widths <- exec(unit.c, !!!lapply(guides, gtable_width))
