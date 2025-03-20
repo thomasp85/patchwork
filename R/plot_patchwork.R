@@ -290,6 +290,11 @@ patchworkGrob <- function(x) {
   class(gtable) <- setdiff(class(gtable), 'gtable_patchwork')
   gtable
 }
+
+#' @importFrom gtable as.gtable
+#' @export
+as.gtable.patchwork <- function(x, ...) patchworkGrob(x)
+
 plot_table <- function(x, guides) {
   UseMethod('plot_table')
 }
