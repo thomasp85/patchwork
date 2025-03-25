@@ -20,7 +20,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports: 
     ggplot2 (>= 3.0.0),
-    gtable,
+    gtable (>= 0.3.6),
     grid,
     stats,
     grDevices,
