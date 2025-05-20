@@ -315,7 +315,7 @@ default_layout <- plot_layout(
 )
 #' @importFrom utils modifyList
 #' @export
-ggplot_add.plot_layout <- function(object, plot, object_name) {
+add_plot_layout <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
   do_change <- object[!vapply(object, is_waiver, logical(1))]
   plot$patches$layout[names(do_change)] <- do_change
