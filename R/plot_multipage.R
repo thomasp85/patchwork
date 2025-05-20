@@ -106,14 +106,14 @@ set_dim.patchwork <- function(plot, dim) {
 }
 #' @importFrom ggplot2 ggplot_build
 #' @export
-ggplot_build.fixed_dim_ggplot <- function(plot) {
+build_fixed_dim_ggplot <- function(plot) {
   plot <- NextMethod()
   class(plot) <- c('fixed_dim_build', class(plot))
   plot
 }
 #' @importFrom ggplot2 ggplot_gtable
 #' @export
-ggplot_gtable.fixed_dim_build <- function(data) {
+gtable_fixed_dim_build <- function(data) {
   dim <- data$plot$fixed_dimensions
   table <- NextMethod()
   table <- add_strips(table)

@@ -72,6 +72,12 @@ on_load({
       add_plot_layout
     S7::method(ggplot_add, list(S7::new_S3_class("plot_annotation"), class_ggplot)) <-
       add_plot_annotation
+
+    # Build/gtable methods
+    S7::method(ggplot_build, S7::new_S3_class("fixed_dim_ggplot")) <-
+      build_fixed_dim_ggplot
+    S7::method(ggplot_gtable, S7::new_S3_class("fixed_dim_build")) <-
+      gtable_fixed_dim_build
   } else {
     #TODO
   }
