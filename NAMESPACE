@@ -2,7 +2,9 @@
 
 S3method("$",patchwork)
 S3method("$<-",patchwork)
+S3method("&","ggplot2::gg")
 S3method("&",gg)
+S3method("*","ggplot2::gg")
 S3method("*",gg)
 S3method("-",ggplot)
 S3method("/",ggplot)
