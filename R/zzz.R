@@ -56,4 +56,24 @@ on_load({
   if ("unitType" %in% getNamespaceExports("grid")) {
     unitType <- grid::unitType
   }
+  if ("class_ggplot" %in% getNamespaceExports("ggplot2")) {
+    class_ggplot <- get("class_ggplot", envir = asNamespace("ggplot2"))
+    S7::method(ggplot_add, list(class_ggplot, class_ggplot)) <- add_ggplot
+
+    grobbish <- S7::new_union(
+      S7::new_S3_class("grob"),
+      S7::new_S3_class("formula"),
+      S7::new_S3_class("nativeRaster")
+    )
+    S7::method(ggplot_add, list(grobbish, class_ggplot)) <- add_grob
+    S7::method(ggplot_add, list(S7::new_S3_class("gt_tbl"), class_ggplot)) <-
+      add_gt_tbl
+    S7::method(ggplot_add, list(S7::new_S3_class("plot_layout"), class_ggplot)) <-
+      add_plot_layout
+    S7::method(ggplot_add, list(S7::new_S3_class("plot_annotation"), class_ggplot)) <-
+      add_plot_annotation
+  } else {
+    #TODO
+  }
+
 })
