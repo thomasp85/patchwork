@@ -82,7 +82,18 @@ on_load({
     S7::method(ggplot_gtable, S7::new_S3_class("fixed_dim_build")) <-
       gtable_fixed_dim_build
   } else {
-    #TODO
+    # Add methods
+    register_s3_method("ggplot2", "ggplot_add", "ggplot", add_ggplot)
+    register_s3_method("ggplot2", "ggplot_add", "grob", add_grob)
+    register_s3_method("ggplot2", "ggplot_add", "formula", add_grob)
+    register_s3_method("ggplot2", "ggplot_add", "nativeRaster", add_grob)
+    register_s3_method("ggplot2", "ggplot_add", "gt_tbl", add_gt_tbl)
+    register_s3_method("ggplot2", "ggplot_add", "plot_layout", add_plot_layout)
+    register_s3_method("ggplot2", "ggplot_add", "plot_annotation", add_plot_annotation)
+
+    # Build/gtable methods
+    register_s3_method("ggplot2", "ggplot_build", "fixed_dim_ggplot", build_fixed_dim_ggplot)
+    register_s3_method("ggplot2", "ggplot_gtable", "fxied_dim_build", gtable_fixed_dim_build)
   }
 
 })
