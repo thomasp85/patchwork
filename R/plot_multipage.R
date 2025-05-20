@@ -105,14 +105,12 @@ set_dim.patchwork <- function(plot, dim) {
   cli_abort('Setting dimensions on patchworks are currently unsupported')
 }
 #' @importFrom ggplot2 ggplot_build
-#' @export
 build_fixed_dim_ggplot <- function(plot) {
   plot <- NextMethod()
   class(plot) <- c('fixed_dim_build', class(plot))
   plot
 }
 #' @importFrom ggplot2 ggplot_gtable
-#' @export
 gtable_fixed_dim_build <- function(data) {
   dim <- data$plot$fixed_dimensions
   table <- NextMethod()

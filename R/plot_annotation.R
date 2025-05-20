@@ -97,7 +97,6 @@ default_annotation <- plot_annotation(
   theme = NULL
 )
 #' @importFrom utils modifyList
-#' @export
 add_plot_annotation <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
   if (is.null(object$theme)) {

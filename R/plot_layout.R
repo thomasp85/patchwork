@@ -314,7 +314,6 @@ default_layout <- plot_layout(
   axes = 'keep', axis_titles = 'keep'
 )
 #' @importFrom utils modifyList
-#' @export
 add_plot_layout <- function(object, plot, object_name) {
   plot <- as_patchwork(plot)
   do_change <- object[!vapply(object, is_waiver, logical(1))]

@@ -1,17 +1,14 @@
 #' @importFrom ggplot2 ggplot_add
-#' @export
 add_ggplot <- function(object, plot, object_name) {
   patches <- get_patches(plot)
   add_patches(object, patches)
 }
 #' @importFrom ggplot2 ggplot_add
-#' @export
 add_grob <- function(object, plot, object_name) {
   table <- as_patch(object)
   plot + wrap_elements(full = object)
 }
 #' @importFrom ggplot2 ggplot_add
-#' @export
 add_gt_tbl <- function(object, plot, object_name) {
   plot + wrap_table(object)
 }
