@@ -115,23 +115,6 @@ names.patchwork <- function(x) NULL
   x
 }
 #' @export
-`$.patchwork` <- function(x, i) {
-  if (i == "patches") {
-    attr(x, "patches")
-  } else {
-    NextMethod()
-  }
-}
-#' @export
-`$<-.patchwork` <- function(x, i, value) {
-  if (i == "patches") {
-    attr(x, "patches") <- value
-    x
-  } else {
-    NextMethod()
-  }
-}
-#' @export
 as.list.patchwork <- function(x, ...) {
   get_patches(x)$plots
 }
