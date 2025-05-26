@@ -141,3 +141,9 @@ NULL
   }
   e1 + e2
 }
+
+#' @export
+"*.ggplot2::gg" <- `*.gg`
+
+#' @export
+"&.ggplot2::gg" <- `&.gg`
