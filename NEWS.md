@@ -1,5 +1,7 @@
 # patchwork (development version)
 
+* Prepare for next ggplot2 release
+
 # patchwork 1.3.0
 
 * `free()` now better aligns plots in horizontal direction

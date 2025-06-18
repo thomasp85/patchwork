@@ -1,24 +1,18 @@
 ## revdepcheck results
 
-We checked 305 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 379 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 0 new problems
- * We failed to check 13 packages
+ * We saw 1 new problems
+ * We failed to check 1 packages
 
 Issues with CRAN packages are summarised below.
 
+### New problems
+(This reports the first line of each new failure)
+
+* manynet
+  checking installed package size ... NOTE
+
 ### Failed to check
 
-* bbknnR            (NA)
-* iNZightRegression (NA)
-* pcvr              (NA)
-* PoweREST          (NA)
-* powerly           (NA)
-* RNAseqQC          (NA)
-* scCustomize       (NA)
-* scGate            (NA)
-* scRNAstat         (NA)
-* Seurat            (NA)
-* sigminer          (NA)
-* Signac            (NA)
-* SimplyAgree       (NA)
+* metabolic (NA)
