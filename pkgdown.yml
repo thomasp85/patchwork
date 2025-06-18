@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   guides/annotation: guides/annotation.html
@@ -7,7 +7,7 @@ articles:
   guides/layout: guides/layout.html
   guides/multipage: guides/multipage.html
   patchwork: patchwork.html
-last_built: 2025-03-25T06:50Z
+last_built: 2025-06-18T07:47Z
 urls:
   reference: https://patchwork.data-imaginist.com/reference
   article: https://patchwork.data-imaginist.com/articles
