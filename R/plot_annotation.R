@@ -86,16 +86,21 @@ plot_annotation <- function(title = waiver(), subtitle = waiver(), caption = wai
     theme = th
   ), class = 'plot_annotation')
 }
-default_annotation <- plot_annotation(
-  title = NULL,
-  subtitle = NULL,
-  caption = NULL,
-  tag_levels = character(),
-  tag_prefix = '',
-  tag_suffix = '',
-  tag_sep = '',
-  theme = NULL
-)
+
+default_annotation <- NULL
+on_load({
+  default_annotation <- plot_annotation(
+    title = NULL,
+    subtitle = NULL,
+    caption = NULL,
+    tag_levels = character(),
+    tag_prefix = '',
+    tag_suffix = '',
+    tag_sep = '',
+    theme = NULL
+  )
+})
+
 #' @importFrom utils modifyList
 #' @export
 ggplot_add.plot_annotation <- function(object, plot, object_name) {
