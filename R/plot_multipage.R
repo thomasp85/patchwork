@@ -116,7 +116,7 @@ ggplot_build.fixed_dim_ggplot <- function(plot, ...) {
 ggplot_gtable.fixed_dim_build <- function(data) {
   dim <- data$plot$fixed_dimensions
   table <- NextMethod()
-  table <- add_strips(table)
+  table <- add_strips(table, data$plot$theme)
   table <- add_guides(table, FALSE)
   panel_pos <- find_panel(table)
   table$widths[seq_len(panel_pos$l - 1)] <- unit(dim$l, 'mm')

@@ -46,13 +46,19 @@ wrap_ggplot_grob <- function(x) {
   attr(patch, 'table') <- x
   patch
 }
+
+#' @importFrom ggplot2 ggplot_build ggplot_gtable
+#' @importFrom gtable gtable_add_grob
 #' @export
 patchGrob.table_patch <- function(x, guides = 'auto') {
+  data <- ggplot_build(x)
   gt <- attr(x, 'table')
-  gt <- add_strips(gt)
+  # use the completed theme when adding strips
+  gt <- add_strips(gt, data$plot$theme)
   gt <- add_guides(gt, guides == 'collect')
   if ("tag" %in% names(x$labels)) {
-    plot <- add_guides(add_strips(ggplotGrob(x)))
+    # use the completed theme when adding strips
+    plot <- add_guides(add_strips(ggplot_gtable(data), data$plot$theme))
     tag_idx <- which(plot$layout$name == "tag")
     gt <- gtable_add_grob(
       gt,

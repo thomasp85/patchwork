@@ -301,8 +301,10 @@ plot_table <- function(x, guides) {
 #' @importFrom ggplot2 ggplotGrob
 #' @export
 plot_table.ggplot <- function(x, guides) {
-  gt <- ggplotGrob(x)
-  gt <- add_strips(gt)
+  data <- ggplot_build(x)
+  gt <- ggplot_gtable(data)
+  # use the completed theme when adding strips
+  gt <- add_strips(gt, data$plot$theme)
   add_guides(gt, guides == 'collect')
 }
 #' @export
@@ -939,10 +941,10 @@ set_border_sizes <- function(gt, l = NULL, r = NULL, t = NULL, b = NULL) {
 #' @importFrom gtable gtable_add_rows gtable_add_cols
 #' @importFrom grid unit
 #' @importFrom ggplot2 find_panel
-add_strips <- function(gt) {
+add_strips <- function(gt, theme = NULL) {
   panel_loc <- find_panel(gt)
   strip_pos <- switch(
-    find_strip_pos(gt),
+    find_strip_pos(gt, theme),
     inside = 0,
     outside = 2
   )
@@ -1059,7 +1061,7 @@ add_guides <- function(gt, collect = FALSE) {
   }
   gt
 }
-find_strip_pos <- function(gt) {
+find_strip_pos <- function(gt, theme) {
   panel_loc <- find_panel(gt)
   ind <- grep('strip-t', gt$layout$name)
   if (length(ind) != 0 && panel_loc$t - min(gt$layout$t[ind]) != 1) {
@@ -1077,7 +1079,11 @@ find_strip_pos <- function(gt) {
   if (length(ind) != 0 && panel_loc$l - min(gt$layout$l[ind]) != 1) {
     return('outside')
   }
-  'inside'
+  if (is.null(theme)) {
+    'inside'
+  } else {
+    calc_element("strip.placement", theme) %||% "inside"
+  }
 }
 
 set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design) {
