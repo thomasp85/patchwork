@@ -240,7 +240,7 @@ plot.patch_area <- function(x, y, ...) {
     labs(fill = 'Patch') +
     theme_void() +
     theme(
-      panel.grid.minor = element_line(size = 0.5, colour = 'grey'),
+      panel.grid.minor = element_line(linewidth = 0.5, colour = 'grey'),
       axis.text = element_text(),
       axis.ticks.length = unit(3, 'mm'),
       plot.margin = margin(10, 10, 10, 10)
@@ -321,3 +321,4 @@ ggplot_add.plot_layout <- function(object, plot, ...) {
   plot$patches$layout[names(do_change)] <- do_change
   plot
 }
+
