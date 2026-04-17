@@ -21,7 +21,7 @@
 #' @return A ggplot object suitable for use in a patchwork composition.
 #'
 #' @examples
-#' ggplot2::theme_set(theme_bw2())
+#' ggplot2::theme_set(theme_bw())
 #'
 #' # Create sample plots
 #' p1 <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +

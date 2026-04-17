@@ -56,7 +56,7 @@ title in a multi-row patchwork composition. The plot has a minimal theme
 with a customizable background and bold text.
 }
 \examples{
-ggplot2::theme_set(theme_bw2())
+ggplot2::theme_set(theme_bw())
 
 # Create sample plots
 p1 <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
