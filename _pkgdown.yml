@@ -32,9 +32,9 @@ reference:
 - title: Plot Composition
   desc: >
     At the heart of patchwork lies a range of powerful functions for combining
-    plots into an assembly of plots that can be layed out in a grid. Patchwork
+    plots into an assembly of plots that can be laid out in a grid. Patchwork
     provides both an extension of ggplot2's `+` based API, along with a
-    functinal interface.
+    functional interface.
   contents:
   - /.ggplot
   - wrap_plots
@@ -53,7 +53,7 @@ reference:
   - area
 - title: Alternative plot objects
   desc: >
-    patchwork is build to work with ggplot2 but standard grobs can also be
+    patchwork is built to work with ggplot2 but standard grobs can also be
     included. Further, it is possible to define empty areas if needed.
   contents:
   - wrap_elements
