@@ -77,7 +77,7 @@ p3 <- ggplot(mtcars) + geom_bar(aes(gear)) + facet_wrap(~cyl)
 p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 p5 <- ggplot(mtcars) + geom_violin(aes(cyl, mpg, group = cyl))
 
-# The plots are layed out automatically by default
+# The plots are laid out automatically by default
 p1 + p2 + p3 + p4 + p5
 
 # Use byrow to change how the grid is filled out
