@@ -101,3 +101,22 @@ test_that("various flavours of free() works", {
     free(free(p1 + p2 + p3 + p4, "label", "l"), "panel", "t") - p4 + p5 + plot_spacer()
   })
 })
+
+test_that("Nested patchworks with all-absolute-unit heights don't error", {
+  # simplify_gt.gtable_patchwork() used to index gt$widths instead of
+  # gt$heights when computing new_height, which threw "index out of bounds"
+  # as soon as a nested block's row count exceeded its column count - which
+  # happens whenever every height in the nested layout is an absolute unit
+  # (grid::unit(..., "cm")/"pt"/"in") rather than a relative one.
+  make_block <- function(n) {
+    wrap_elements(grid::textGrob(strrep("x\n", n))) + p1 +
+      plot_layout(
+        ncol = 1,
+        heights = grid::unit.c(grid::unit(n, "cm"), grid::unit(5, "cm"))
+      )
+  }
+
+  nested <- wrap_plots(list(make_block(1), make_block(3)), ncol = 1)
+
+  expect_no_error(patchworkGrob(nested))
+})

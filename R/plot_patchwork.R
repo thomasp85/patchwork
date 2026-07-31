@@ -404,7 +404,7 @@ simplify_gt.gtable_patchwork <- function(gt) {
     new_width <- unit(1, 'null')
   }
   if (all(is_abs_unit(gt$heights[panel_pos$t:panel_pos$b]))) {
-    new_height <- sum(convertHeight(gt$widths[panel_pos$t:panel_pos$b], 'mm'))
+    new_height <- sum(convertHeight(gt$heights[panel_pos$t:panel_pos$b], 'mm'))
   } else {
     new_height <- unit(1, 'null')
   }
