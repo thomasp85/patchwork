@@ -1,5 +1,10 @@
 # patchwork (development version)
 
+* Fixed `simplify_gt.gtable_patchwork()` indexing `widths` instead of
+  `heights` when computing the height of a nested patchwork, which threw
+  "index out of bounds" whenever every height in the nested layout was an
+  absolute unit
+
 # patchwork 1.3.2
 
 * Fixed a load-time bug that could throw spurious warnings
