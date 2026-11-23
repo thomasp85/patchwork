@@ -49,7 +49,7 @@ wrap_plots <- function(..., ncol = NULL, nrow = NULL, byrow = NULL,
                        tag_level = NULL, design = NULL, axes = NULL,
                        axis_titles = axes) {
   if (is_valid_plot(..1)) {
-    plots <- list(...)
+    plots <- list2(...)
   } else if (is.list(..1)) {
     plots <- ..1
   } else {

@@ -1,5 +1,7 @@
 # patchwork (development version)
 
+* `wrap_plots()` now accepts a trailing comma after the last plot (#465).
+
 # patchwork 1.3.2
 
 * Fixed a load-time bug that could throw spurious warnings
