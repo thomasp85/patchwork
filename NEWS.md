@@ -1,5 +1,8 @@
 # patchwork (development version)
 
+* Require ggplot2 3.5.2 or later for `is_ggplot()` and `is_theme()`
+  (#448, #454).
+
 # patchwork 1.3.2
 
 * Fixed a load-time bug that could throw spurious warnings
