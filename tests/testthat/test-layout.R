@@ -24,6 +24,26 @@ test_that("The grid can be controlled", {
   })
 })
 
+test_that("Fixed tables respect explicit layout dimensions", {
+  skip_if_not_installed("gt", "0.11.0")
+  fixed <- wrap_table(gt::gt(head(mtcars)), space = "fixed")
+  panels <- c('panel_patch-1', 'panel_patch-2')
+
+  across <- patchworkGrob(fixed + plot_spacer() + plot_layout(widths = c(2, 1)))
+  cols <- across$layout$l[match(panels, across$layout$name)]
+  expect_identical(as.character(across$widths[cols]), c('2null', '1null'))
+
+  down <- patchworkGrob(fixed / plot_spacer() + plot_layout(heights = c(2, 1)))
+  rows <- down$layout$t[match(panels, down$layout$name)]
+  expect_identical(as.character(down$heights[rows]), c('2null', '1null'))
+
+  automatic <- patchworkGrob(fixed + plot_spacer() + plot_layout(widths = c(NA, 1)))
+  cols <- automatic$layout$l[match(panels, automatic$layout$name)]
+  table_width <- grid::convertWidth(automatic$widths[cols[1]], 'mm', valueOnly = TRUE)
+  expect_gt(table_width, 0)
+  expect_identical(as.character(automatic$widths[cols[2]]), '1null')
+})
+
 test_that("Fixed aspect plots behave", {
   p_f <- ggplot(mtcars) +
     geom_point(aes(hp, disp)) +

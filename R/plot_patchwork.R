@@ -1096,17 +1096,17 @@ set_panel_dimensions <- function(gt, panels, widths, heights, fixed_asp, design)
 
   panel_widths <- do.call(unit.c, lapply(panels, function(x) x$widths[PANEL_COL]))
   absolute_col <- is_abs_unit(panel_widths) & as.numeric(panel_widths) != 0
-  if (any(absolute_col)) {
-    pos <- ifelse(absolute_col & design$l == design$r & width_strings[design$l] == "-1null", design$l, NA)
-    fixed_widths <- lapply(split(panel_widths, pos), "max")
+  fixed_col <- ifelse(absolute_col & design$l == design$r & width_strings[design$l] == "-1null", design$l, NA)
+  if (any(!is.na(fixed_col))) {
+    fixed_widths <- lapply(split(panel_widths, fixed_col), "max")
     widths[as.numeric(names(fixed_widths))] <- do.call(unit.c, fixed_widths)
     width_strings <- as.character(widths)
   }
   panel_heights <- do.call(unit.c, lapply(panels, function(x) x$heights[PANEL_ROW]))
   absolute_row <- is_abs_unit(panel_heights) & as.numeric(panel_heights) != 0
-  if (any(absolute_row)) {
-    pos <- ifelse(absolute_row & design$t == design$b & height_strings[design$t] == "-1null", design$t, NA)
-    fixed_heights <- lapply(split(panel_heights, pos), "max")
+  fixed_row <- ifelse(absolute_row & design$t == design$b & height_strings[design$t] == "-1null", design$t, NA)
+  if (any(!is.na(fixed_row))) {
+    fixed_heights <- lapply(split(panel_heights, fixed_row), "max")
     heights[as.numeric(names(fixed_heights))] <- do.call(unit.c, fixed_heights)
     height_strings <- as.character(heights)
   }

@@ -1,5 +1,8 @@
 # patchwork (development version)
 
+* Fixed a layout error when combining fixed `gt` tables with explicit widths or
+  heights (#461).
+
 # patchwork 1.3.2
 
 * Fixed a load-time bug that could throw spurious warnings
