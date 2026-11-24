@@ -101,3 +101,11 @@ test_that("various flavours of free() works", {
     free(free(p1 + p2 + p3 + p4, "label", "l"), "panel", "t") - p4 + p5 + plot_spacer()
   })
 })
+
+test_that("a nested patchwork can end with a free plot", {
+  nested <- p1 + free(p2)
+
+  expect_s3_class(patchworkGrob(nested / p3), "gtable")
+  expect_s3_class(patchworkGrob(nested | p3), "gtable")
+  expect_s3_class(patchworkGrob(nested - p3), "gtable")
+})

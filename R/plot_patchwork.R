@@ -342,8 +342,11 @@ plot_table.free_plot <- function(x, guides) {
     class(x) <- setdiff(class(x), 'free_plot')
     table <- plot_table(x, guides)
   }
-  attr(table, 'free_settings') <- settings
-  class(table) <- c('free_table', class(table))
+  # A patchwork can inherit the free_plot class from its final plot.
+  if (!is.null(settings)) {
+    attr(table, 'free_settings') <- settings
+    class(table) <- c('free_table', class(table))
+  }
   table
 }
 simplify_gt <- function(gt) {
