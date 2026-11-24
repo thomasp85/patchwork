@@ -1,5 +1,8 @@
 # patchwork (development version)
 
+* Fixed rendering errors when the last plot of a nested patchwork uses
+  `free()` (#431).
+
 # patchwork 1.3.2
 
 * Fixed a load-time bug that could throw spurious warnings
